@@ -1,0 +1,69 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.yiyou.repast</groupId>
+	<artifactId>repast-parent</artifactId>
+	<version>0.0.1-SNAPSHOT</version>
+	<packaging>pom</packaging>
+	<name>Repast Merchant Platform</name>
+	<description>Repast Merchant Platform</description>
+
+	<parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.4.RELEASE</version>
+		<relativePath />
+	</parent>
+
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+		<jdk.version>1.8</jdk.version>
+		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+		<dubbo.version>2.5.3</dubbo.version>
+		<zookeeper.version>3.4.5</zookeeper.version>
+		<zkclient.version>0.1</zkclient.version>
+		<com.alibaba.druid.version>0.2.6</com.alibaba.druid.version>
+	</properties>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>${jdk.version}</source>
+					<target>${jdk.version}</target>
+					<encoding>UTF-8</encoding>
+				</configuration>
+
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-resources-plugin</artifactId>
+				<configuration>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+	<modules>
+		<module>repast-weixin-web</module>
+		<module>repast-merchant-web</module>
+		<module>repast-platform-web</module>
+		<module>repast-merchant-service</module>
+		<module>repast-merchant-api</module>
+		<module>repast-platform-service</module>
+		<module>repast-platform-api</module>
+		<module>repast-common-service</module>
+		<module>repast-common-api</module>
+		<module>repast-order-service</module>
+		<module>repast-order-api</module>
+		<module>repast-pay</module>
+		<module>repast-elasticsearch-service</module>
+		<module>repast-elasticsearch-api</module>
+		<module>repast-scheduled-service</module>
+	</modules>
+
+</project>
