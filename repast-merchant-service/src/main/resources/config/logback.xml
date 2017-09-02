@@ -1,30 +1,30 @@
-<included>
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration debug="true" scan="true" scanPeriod="4 seconds">
+	<contextName>repast-merchant</contextName>
+	<property name="LOG_HOME" value="D:/repast/logs" />
+	
 	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
 		<encoder class="ch.qos.logback.core.encoder.LayoutWrappingEncoder">
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%-5level] %logger{36}
-				- %msg%n</pattern>
+			<pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%-5level] %logger{36}- %msg%n</pattern>
 			<charset>UTF-8</charset>
 		</encoder>
 	</appender>
 
 	<appender name="FILE"
 		class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>logs/kaopume.log</file>
+		<file>${LOG_HOME}/merchantService.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-			<fileNamePattern>cplatform.%i.log.zip</fileNamePattern>
+			<fileNamePattern>merchantService.%i.log.zip</fileNamePattern>
 			<minIndex>1</minIndex>
 			<maxIndex>3</maxIndex>
 		</rollingPolicy>
-
 		<triggeringPolicy
 			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
 			<maxFileSize>50MB</maxFileSize>
 		</triggeringPolicy>
 		<encoder>
-			<pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%-5level] %logger{36}
-				- %msg%n
-			</pattern>
-			<charset>UTF-8</charset>  
+			<pattern>%date{yyyy-MM-dd HH:mm:ss.SSS} [%thread] [%-5level] %logger{36}- %msg%n</pattern>
+			<charset>UTF-8</charset>
 		</encoder>
 	</appender>
 
@@ -32,8 +32,8 @@
 		<appender-ref ref="FILE" />
 	</appender>
 
-	<root level="info">
+	<root level="INFO">
 		<appender-ref ref="STDOUT" />
 		<appender-ref ref="ASYNC" />
 	</root>
-</included>
+</configuration>  
