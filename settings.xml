@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings xmlns="http://maven.apache.org/SETTINGS/1.0.0" 
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+          xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
+  <!-- localRepository
+   | The path to the local repository maven will use to store artifacts.
+   |
+   | Default: ${user.home}/.m2/repository
+  <localRepository>/path/to/local/repo</localRepository>
+  -->
+  <localRepository>d:/Repositories/Maven</localRepository>
+  
+  <pluginGroups>
+    <!-- pluginGroup
+     | Specifies a further group identifier to use for plugin lookup.
+    <pluginGroup>com.your.plugins</pluginGroup>
+    -->
+  </pluginGroups>
+
+  <!-- proxies
+   | This is a list of proxies which can be used on this machine to connect to the network.
+   | Unless otherwise specified (by system property or command-line switch), the first proxy
+   | specification in this list marked as active will be used.
+   |-->
+  <proxies>
+    <!-- proxy
+     | Specification for one proxy, to be used in connecting to the network.
+     |
+    <proxy>
+      <id>optional</id>
+      <active>true</active>
+      <protocol>http</protocol>
+      <username>proxyuser</username>
+      <password>proxypass</password>
+      <host>proxy.host.net</host>
+      <port>80</port>
+      <nonProxyHosts>local.net|some.host.com</nonProxyHosts>
+    </proxy>
+    -->
+  </proxies>
+
+ 
+  <servers>
+     <server>  
+       <id>tomcat</id>  
+       <username>admin</username>  
+       <password>admin</password>  
+     </server>  
+	 <server>    
+      <id>nexus-releases</id>    
+      <username>admin</username>    
+      <password>admin123</password>    
+    </server>    
+    <server>    
+      <id>nexus-snapshots</id>    
+      <username>admin</username>    
+      <password>admin123</password>    
+    </server>    
+
+  </servers>
+
+   <mirrors>     
+    <mirror>     
+      <id>nexus-releases</id>     
+      <mirrorOf>*</mirrorOf>     
+      <url>http://42.121.81.149:8081/nexus/content/groups/public</url>     
+    </mirror>    
+    <mirror>     
+      <id>nexus-snapshots</id>     
+      <mirrorOf>*</mirrorOf>     
+      <url>http://42.121.81.149:8081/nexus/content/groups/public-snapshots</url>     
+    </mirror>     
+  </mirrors>     
+     
+  <profiles>    
+	   <profile>    
+		  <id>nexus</id>    
+		  <repositories>    
+			<repository>    
+			  <id>nexus-releases</id>    
+			  <url>http://nexus-releases</url>    
+			  <releases><enabled>true</enabled></releases>    
+			  <snapshots><enabled>true</enabled></snapshots>    
+			</repository>    
+			<repository>    
+			  <id>nexus-snapshots</id>    
+			  <url>http://nexus-snapshots</url>    
+			  <releases><enabled>true</enabled></releases>    
+			  <snapshots><enabled>true</enabled></snapshots>    
+			</repository>    
+		  </repositories>    
+		  <pluginRepositories>    
+			 <pluginRepository>    
+					<id>nexus-releases</id>    
+					 <url>http://nexus-releases</url>    
+					 <releases><enabled>true</enabled></releases>    
+					 <snapshots><enabled>true</enabled></snapshots>    
+				   </pluginRepository>    
+				   <pluginRepository>    
+					 <id>nexus-snapshots</id>    
+					  <url>http://nexus-snapshots</url>    
+					<releases><enabled>true</enabled></releases>    
+					 <snapshots><enabled>true</enabled></snapshots>    
+				 </pluginRepository>    
+			 </pluginRepositories>    
+		</profile> 
+		<profile>
+			<id>jdk18</id>  
+			<activation>  
+				<activeByDefault>true</activeByDefault>  
+				<jdk>1.8</jdk>  
+			</activation>  
+			<properties>  
+				<maven.compiler.source>1.8</maven.compiler.source>  
+				<maven.compiler.target>1.8</maven.compiler.target>  
+				<maven.compiler.compilerVersion>1.8</maven.compiler.compilerVersion>  
+			</properties>   
+		</profile>	
+	</profiles>   
+   
+ 
+    
+  <activeProfiles>    
+      <activeProfile>nexus</activeProfile>    
+  </activeProfiles>      
+
+</settings>
