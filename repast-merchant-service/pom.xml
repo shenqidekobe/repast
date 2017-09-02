@@ -12,6 +12,17 @@
 	<dependencies>
 		<dependency>
 			<groupId>com.yiyou.repast</groupId>
+			<artifactId>repast-merchant-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.hibernate.javax.persistence</groupId>
+					<artifactId>hibernate-jpa-2.0-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>com.yiyou.repast</groupId>
 			<artifactId>repast-common-util</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<exclusions>
@@ -21,9 +32,10 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-web</artifactId>
+			<artifactId>spring-boot-starter</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -32,6 +44,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>io.dubbo.springboot</groupId>
+			<artifactId>spring-boot-starter-dubbo</artifactId>
+			<version>${dubbo-spring-boot}</version>
 		</dependency>
 		<dependency>
 			<groupId>mysql</groupId>
@@ -43,7 +60,7 @@
 			<artifactId>druid</artifactId>
 			<version>${com.alibaba.druid.version}</version>
 		</dependency>
-		
+
 		<!--添加对tomcat的支持 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -51,7 +68,7 @@
 			<scope>provided</scope>
 		</dependency>
 	</dependencies>
-	
+
 	<build>
 		<plugins>
 			<plugin>
