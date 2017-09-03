@@ -1,4 +1,4 @@
-package com.yiyou.repast.platform.dubbo;
+package com.yiyou.repast.platform.service.impl;
 
 import java.util.List;
 

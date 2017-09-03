@@ -1,4 +1,4 @@
-package com.yiyou.repast.platform.dubbo;
+package com.yiyou.repast.platform.service.impl;
 
 import java.util.List;
 
@@ -6,7 +6,12 @@ import javax.annotation.Resource;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.ExampleMatcher.GenericPropertyMatchers;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.platform.dao.CatalogRepository;
@@ -52,12 +57,20 @@ public class CatalogService implements ICatalogService{
 
 	@Override
 	public List<Catalog> getRootCatalogList() {
-		return null;
+		return catalogRepository.findRootList();
 	}
 
 	@Override
 	public Page<Catalog> getCatalogList(Integer pid, String name, Integer type,int page,int size) {
-		return null;
+		Catalog catalog=new Catalog();
+		if(!StringUtils.isEmpty(name))catalog.setName(name);
+		if(pid!=null)catalog.setPid(pid);
+		if(type!=null)catalog.setType(type);
+	    ExampleMatcher matcher = ExampleMatcher.matching().
+	    		withMatcher("name", GenericPropertyMatchers.contains()); //名称采用模糊匹配，withStringMatcher(StringMatcher.CONTAINING)
+	    Example<Catalog> example = Example.of(catalog, matcher); 
+	    Pageable pageable = new PageRequest(page, size, Sort.Direction.ASC, "id");  
+		return catalogRepository.findAll(example, pageable);
 	}
 
 }
