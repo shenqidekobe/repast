@@ -98,6 +98,8 @@ public class IndexController extends BaseController {
 	@ResponseBody
 	@RequestMapping("startLogin")
 	public String startLogin(String loginName,String password, HttpServletRequest request) {
+		Page<GroupAccess> gaPagin1=groupAccessService.findGroupAccessListByGroupIds("1",1,555);
+		System.out.println(gaPagin1+"------------------");
 		Admin obj=this.adminService.find(loginName, password);
 		if(obj==null)return GlobalDefine.JS_DEFINED.JS_RESULT.FAIL;
 		//判断是否有权限登录
