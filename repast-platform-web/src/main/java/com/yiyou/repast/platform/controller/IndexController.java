@@ -11,7 +11,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -29,6 +28,7 @@ import com.yiyou.repast.platform.service.IAdminService;
 import com.yiyou.repast.platform.service.ICatalogService;
 import com.yiyou.repast.platform.service.IGroupAccessService;
 
+import repast.yiyou.common.util.DataGrid;
 import repast.yiyou.common.util.EncryptUtil;
 
 /**
@@ -101,8 +101,8 @@ public class IndexController extends BaseController {
 		Admin obj=this.adminService.find(loginName, password);
 		if(obj==null)return GlobalDefine.JS_DEFINED.JS_RESULT.FAIL;
 		//判断是否有权限登录
-		Page<GroupAccess> gaPagin=groupAccessService.findGroupAccessList(Integer.valueOf(obj.getGroupId()),0,555);
-		if(gaPagin.getContent().isEmpty())return GlobalDefine.JS_DEFINED.JS_RESULT.ERROR;
+		DataGrid<GroupAccess> data=groupAccessService.findGroupAccessList(Integer.valueOf(obj.getGroupId()),0,555);
+		if(data.getRecords().isEmpty())return GlobalDefine.JS_DEFINED.JS_RESULT.ERROR;
 		
 		request.getSession(true).setAttribute(GlobalDefine.SESSION_LOGIN_ADMIN, obj);
 		return GlobalDefine.JS_DEFINED.JS_RESULT.SUCCESS;
@@ -119,9 +119,9 @@ public class IndexController extends BaseController {
 			return null;
 		}
 		//查询属于当前用户的角色对应的菜单列表，并对其seq进行排序
-	    Page<GroupAccess> gaPagin=groupAccessService.findGroupAccessList(Integer.valueOf(obj.getGroupId()), 1,555);
+	    DataGrid<GroupAccess> gaPagin=groupAccessService.findGroupAccessList(Integer.valueOf(obj.getGroupId()), 1,555);
 	    List<Catalog> catalogList=new ArrayList<Catalog>();
-	    for(GroupAccess ga:gaPagin.getContent()){
+	    for(GroupAccess ga:gaPagin.getRecords()){
 	    	Integer catalogId=ga.getCatalogId();
 	    	Catalog catalog=this.catalogService.getById(catalogId);
 	    	if(Catalog.TYPE_MENU==catalog.getType()){

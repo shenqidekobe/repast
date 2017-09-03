@@ -25,6 +25,8 @@ import com.yiyou.repast.platform.service.ICatalogService;
 import com.yiyou.repast.platform.service.IGroupAccessService;
 import com.yiyou.repast.platform.service.IGroupService;
 
+import repast.yiyou.common.util.DataGrid;
+
 /**
  * 后台分组管理
  * 
@@ -160,10 +162,10 @@ public class AdminGroupController extends BaseController {
 	public String distribute(Model model,Integer id,HttpServletRequest request) {
 		Group group = groupService.getById(id);
 		Page<Catalog> catalogPage = catalogService.getCatalogList(null, null, Integer.valueOf(GlobalDefine.STATUS_YES), 1,55);
-		Page<GroupAccess> groupAccessPage = groupAccessService.findGroupAccessList(id, 1,555);
+		DataGrid<GroupAccess> groupAccessPage = groupAccessService.findGroupAccessList(id, 1,555);
 
 		for (Catalog catalog : catalogPage.getContent()) {
-			for (GroupAccess groupAccess : groupAccessPage.getContent()) {
+			for (GroupAccess groupAccess : groupAccessPage.getRecords()) {
 				if (groupAccess.getCatalogId().intValue() == catalog.getId()
 						.intValue()) {
 					catalog.setDistributed(true);
@@ -191,9 +193,9 @@ public class AdminGroupController extends BaseController {
 			Model model, HttpServletRequest request) {
 		String[] catalogIds = request.getParameterValues("catalogIds[]");
 		// 删掉原来该用户组的权限
-		Page<GroupAccess> groupAccessPage = groupAccessService
+		DataGrid<GroupAccess> groupAccessPage = groupAccessService
 				.findGroupAccessList(id, 1,555);
-		for (GroupAccess ga : groupAccessPage.getContent()) {
+		for (GroupAccess ga : groupAccessPage.getRecords()) {
 			groupAccessService.remove(ga);
 		}
 		// 保存该用户组新的权限
