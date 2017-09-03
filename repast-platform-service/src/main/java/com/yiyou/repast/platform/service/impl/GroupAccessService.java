@@ -17,6 +17,8 @@ import com.yiyou.repast.platform.dao.GroupAccessRepository;
 import com.yiyou.repast.platform.model.GroupAccess;
 import com.yiyou.repast.platform.service.IGroupAccessService;
 
+import repast.yiyou.common.util.DataGrid;
+
 @Service
 public class GroupAccessService implements IGroupAccessService {
 
@@ -35,7 +37,7 @@ public class GroupAccessService implements IGroupAccessService {
 	}
 
 	@Override
-	public Page<GroupAccess> findGroupAccessList(Integer groupId, int page, int size) {
+	public DataGrid<GroupAccess> findGroupAccessList(Integer groupId, int page, int size) {
 		GroupAccess ga = new GroupAccess();
 		if (groupId != null)
 			ga.setGroupId(groupId);
@@ -43,7 +45,11 @@ public class GroupAccessService implements IGroupAccessService {
 		Example<GroupAccess> example = Example.of(ga, matcher);
 		Pageable pageable = new PageRequest(page, size, Sort.Direction.ASC, "id");
 		Page<GroupAccess> pages = groupAccessRepository.findAll(example, pageable);
-		return pages;
+		DataGrid<GroupAccess> data=new DataGrid<GroupAccess>();
+		data.setRecords(pages.getContent());
+		data.setPageCount(pages.getTotalPages());
+		data.setRowCount(pages.getTotalElements());
+		return data;
 	}
 
 	@Override
