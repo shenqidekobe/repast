@@ -21,6 +21,7 @@
 		<jdk.version>1.8</jdk.version>
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
 		<dubbo.version>2.5.3</dubbo.version>
+		<dubbo-spring-boot>1.0.0</dubbo-spring-boot>
 		<zookeeper.version>3.4.6</zookeeper.version>
 		<zkclient.version>0.1</zkclient.version>
 		<com.alibaba.druid.version>1.0.5</com.alibaba.druid.version>
