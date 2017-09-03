@@ -98,12 +98,10 @@ public class IndexController extends BaseController {
 	@ResponseBody
 	@RequestMapping("startLogin")
 	public String startLogin(String loginName,String password, HttpServletRequest request) {
-		Page<GroupAccess> gaPagin1=groupAccessService.findGroupAccessListByGroupIds("1",1,555);
-		System.out.println(gaPagin1+"------------------");
 		Admin obj=this.adminService.find(loginName, password);
 		if(obj==null)return GlobalDefine.JS_DEFINED.JS_RESULT.FAIL;
 		//判断是否有权限登录
-		Page<GroupAccess> gaPagin=groupAccessService.findGroupAccessList(Integer.valueOf(obj.getGroupId()),1,555);
+		Page<GroupAccess> gaPagin=groupAccessService.findGroupAccessList(Integer.valueOf(obj.getGroupId()),0,555);
 		if(gaPagin.getContent().isEmpty())return GlobalDefine.JS_DEFINED.JS_RESULT.ERROR;
 		
 		request.getSession(true).setAttribute(GlobalDefine.SESSION_LOGIN_ADMIN, obj);
