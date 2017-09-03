@@ -10,7 +10,7 @@ import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import com.yiyou.repast.platform.filter.AdminInterceptor;
 
 @EnableAutoConfiguration
-public class WebConfig extends WebMvcAutoConfiguration {
+public class WebMvcConfig extends WebMvcAutoConfiguration {
 
 	@Resource
 	private AdminInterceptor adminInterceptor;
