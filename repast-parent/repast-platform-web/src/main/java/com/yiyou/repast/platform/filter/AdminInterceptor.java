@@ -10,7 +10,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.yiyou.repast.platform.controller.base.GlobalDefine;
+import com.yiyou.repast.platform.base.GlobalDefine;
 import com.yiyou.repast.platform.model.Admin;
 import com.yiyou.repast.platform.model.Catalog;
 import com.yiyou.repast.platform.model.GroupAccess;
