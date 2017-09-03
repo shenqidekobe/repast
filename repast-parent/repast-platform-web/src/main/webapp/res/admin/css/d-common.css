@@ -1,0 +1,20 @@
+/*清浮动*/
+.f-cb:after,.m-c2:after{content:".";display:block;clear:both;visibility:hidden;height:0;overflow:hidden}
+.f-cb,.m-c2{zoom:1}
+.m-tit{display:block}
+.m-c2>.u-img,.m-c2>.m-hd,.m-c2 .mt-hd{float:left}
+.m-c2-lr .m-bd,.m-c2-r>.u-img{float:right}
+.m-c2 .u-txt,.m-c2-r .u-txt,.m-c2 .m-bd,.m-c2 .mt-bd{overflow:hidden}
+.m-c2-r .u-txt{text-align:right}
+.m-c2-r>.u-img{margin-left:10px}
+.f-tar{text-align:right !important}
+.f-fr{float: right;}
+.m-c2-01 .m-txt{border-bottom: 1px solid #ccc;    padding-bottom: 10px;color:#333;line-height: 1.8em;}
+.m-c2-01 .m-tit{font-weight: bolder;font-size: 16px;    margin-bottom: 5px;}
+.m-c2-01 .m-time{color: #999;font-size: 12px;font-weight: normal;    line-height: 21px;}
+.m-c2-01 .m-txt{}
+.m-c2-01 .m-huifu {margin-top: 15px;border-bottom: 1px solid #ccc;/*margin: 15px 0 0 50px;不需要头像时用这个*/}
+.m-c2-01 .m-hd{min-width:40px;margin-right: 10px;}
+.m-c2-01 .m-hd>.a-img{width: 40px;height: 40px;border-radius:50%;}
+.m-add-box .m-form-btn[data-id="add"]{display: none;} 
+.m-add-box:last-child .m-form-btn[data-id="add"]{display:inline-block;} 
