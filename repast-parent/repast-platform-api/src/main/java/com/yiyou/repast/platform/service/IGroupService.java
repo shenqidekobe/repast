@@ -2,9 +2,9 @@ package com.yiyou.repast.platform.service;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-
 import com.yiyou.repast.platform.model.Group;
+
+import repast.yiyou.common.util.DataGrid;
 
 public interface IGroupService {
 	
@@ -20,7 +20,7 @@ public interface IGroupService {
 
 	List<Group> getGroupList();
 	
-	Page<Group> findGroupList(String name, int page,int size);
+	DataGrid<Group> findGroupList(String name, int page,int size);
 	
 
 }

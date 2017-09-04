@@ -2,9 +2,9 @@ package com.yiyou.repast.platform.service;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-
 import com.yiyou.repast.platform.model.Catalog;
+
+import repast.yiyou.common.util.DataGrid;
 
 public interface ICatalogService {
 	
@@ -20,5 +20,5 @@ public interface ICatalogService {
 	
 	List<Catalog> getRootCatalogList();
 
-	Page<Catalog> getCatalogList(Integer pid, String name, Integer type, int page,int size);
+	DataGrid<Catalog> getCatalogList(Integer pid, String name, Integer type, int page,int size);
 }
