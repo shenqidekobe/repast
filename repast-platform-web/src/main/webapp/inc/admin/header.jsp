@@ -3,7 +3,7 @@
 	<div class="layui-main">
 		<div class="admin-login-box">
 			<a class="logo" style="left: 0;" href="#"> <span
-				style="font-size: 22px;">一妇婴运营平台</span>
+				style="font-size: 22px;">平台管理中心</span>
 			</a>
 			<div class="admin-side-toggle">
 				<i class="fa fa-bars" aria-hidden="true"></i>
