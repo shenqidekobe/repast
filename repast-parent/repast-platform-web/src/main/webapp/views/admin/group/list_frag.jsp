@@ -14,7 +14,7 @@
 				</tr>
 			</thead>
 			<tbody>
-			    <c:forEach items="${dataPagination.records}" var="it">
+			    <c:forEach items="${dataPage.records}" var="it">
 			    <tr>
 						<td><input type="checkbox"></td>
 						<td>${it.name}</td>
@@ -31,4 +31,4 @@
 		</table>
 	</div>
 </fieldset>
-<input type="hidden" id="pageCount" value="${dataPagination.pager.pageCount}">
+<input type="hidden" id="pageCount" value="${dataPage.pageCount}">
