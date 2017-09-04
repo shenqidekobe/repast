@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.BeanUtils;
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +19,8 @@ import com.yiyou.repast.platform.model.Catalog;
 import com.yiyou.repast.platform.model.GroupAccess;
 import com.yiyou.repast.platform.service.ICatalogService;
 import com.yiyou.repast.platform.service.IGroupAccessService;
+
+import repast.yiyou.common.util.DataGrid;
 
 /**
  * 后台功能菜单管理
@@ -54,7 +55,8 @@ public class AdminCatalogController extends BaseController {
 	public String list(Model model, Integer page,String name,Integer pid,
 			Integer pageSize, HttpServletRequest request) {
 		// 下级菜单列表
-		Page<Catalog> catalogPage = catalogService.getCatalogList(pid, name, null, page,pageSize);
+		page=page==null?page=0:page-1;
+		DataGrid<Catalog> catalogPage = catalogService.getCatalogList(pid, name, null, page,pageSize);
 		model.addAttribute("dataPage", catalogPage);
 		return "/admin/catalog/list_frag";
 	}
@@ -73,8 +75,8 @@ public class AdminCatalogController extends BaseController {
 			model.addAttribute("obj", catalog);
 		}
 		// 一级菜单列表
-		Page<Catalog> root = catalogService.getCatalogList(null, null,Catalog.TYPE_MENU, 1,555);
-		List<Catalog> rootList=root.getContent();
+		DataGrid<Catalog> root = catalogService.getCatalogList(null, null,Catalog.TYPE_MENU, 0,555);
+		List<Catalog> rootList=root.getRecords();
 		model.addAttribute("catalogList", rootList);
 		return "/admin/catalog/edit";
 	}
@@ -133,8 +135,8 @@ public class AdminCatalogController extends BaseController {
 	@RequestMapping(value = "/remove", method = RequestMethod.POST)
 	@ResponseBody
 	public String remove(Integer id) {
-		Page<Catalog> data=this.catalogService.getCatalogList(id, null, null, 1,55);
-		if(data!=null&&!data.getContent().isEmpty()){
+		DataGrid<Catalog> data=this.catalogService.getCatalogList(id, null, null,0,55);
+		if(data!=null&&!data.getRecords().isEmpty()){
 			return GlobalDefine.JS_DEFINED.JS_RESULT.ERROR;
 		}
 		List<GroupAccess> list=this.groupAccessService.findGroupAccessByCatalogId(id);

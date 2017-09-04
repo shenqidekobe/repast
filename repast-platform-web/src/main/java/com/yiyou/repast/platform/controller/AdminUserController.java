@@ -7,7 +7,6 @@ import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -23,6 +22,7 @@ import com.yiyou.repast.platform.model.Group;
 import com.yiyou.repast.platform.service.IAdminService;
 import com.yiyou.repast.platform.service.IGroupService;
 
+import repast.yiyou.common.util.DataGrid;
 import repast.yiyou.common.util.EncryptUtil;
 
 /**
@@ -58,15 +58,16 @@ public class AdminUserController extends BaseController{
 	public String listData(Model model, String loginName, String status,Integer page, Integer pageSize) {
 		if (StringUtils.isEmpty(status))
 			status = null;
-		Page<Admin> adminPage = adminService.getAdminList(null,
+		page=page==null?page=0:page-1;
+		DataGrid<Admin> adminPage = adminService.getAdminList(null,
 				loginName, status,  page,pageSize);
 		
-		Page<Group> groupPage = groupService.findGroupList(null, 1,555);
+		DataGrid<Group> groupPage = groupService.findGroupList(null, 0,555);
 		Map<String,Group> groupMap = new HashMap<String,Group>();
-		for(Group group : groupPage.getContent()){
+		for(Group group : groupPage.getRecords()){
 			groupMap.put(group.getId().toString(), group);
 		}
-		for(Admin admin: adminPage.getContent()){
+		for(Admin admin: adminPage.getRecords()){
 			Group group = groupMap.get(admin.getGroupId());
 			if(group != null){
 				admin.setGroupName(group.getName());
