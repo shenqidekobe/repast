@@ -9,8 +9,9 @@ import repast.yiyou.common.util.LoggerUtil;
 public class Application {
 	
 	public static void main(String[] args) {
+		LoggerUtil.info("********************PLATFORM repast platform service starting run*********************");
 		SpringApplication.run(Application.class, args);
-		LoggerUtil.info("----------------------platform dubbo service run .........");
+		LoggerUtil.info("********************PLATFORM repast platform service run end*********************");
 	}
 }
 
