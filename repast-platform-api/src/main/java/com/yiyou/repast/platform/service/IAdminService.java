@@ -2,9 +2,9 @@ package com.yiyou.repast.platform.service;
 
 import java.util.List;
 
-import org.springframework.data.domain.Page;
-
 import com.yiyou.repast.platform.model.Admin;
+
+import repast.yiyou.common.util.DataGrid;
 
 public interface IAdminService {
 	
@@ -24,5 +24,5 @@ public interface IAdminService {
 	
 	List<Admin> getByGroupId(Integer groupId);
 
-	Page<Admin> getAdminList(String loginName, String nickName, String status,int page,int size);
+	DataGrid<Admin> getAdminList(String loginName, String nickName, String status,int page,int size);
 }
