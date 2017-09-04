@@ -3,7 +3,6 @@ package com.yiyou.repast.platform.filter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.servlet.HandlerInterceptor;
@@ -16,6 +15,8 @@ import com.yiyou.repast.platform.model.Catalog;
 import com.yiyou.repast.platform.model.GroupAccess;
 import com.yiyou.repast.platform.service.ICatalogService;
 import com.yiyou.repast.platform.service.IGroupAccessService;
+
+import repast.yiyou.common.util.DataGrid;
 
 @Component
 public class AdminInterceptor implements HandlerInterceptor {
@@ -55,14 +56,14 @@ public class AdminInterceptor implements HandlerInterceptor {
 				response.sendRedirect(request.getContextPath()+"/admin");
 				return false;
 			}
-			Page<Catalog> catalogPagination = catalogService.getCatalogList(null, reqURI, null, 1,555);
+			DataGrid<Catalog> catalogPagination = catalogService.getCatalogList(null, reqURI, null, 1,555);
 
 			// 该请求不在权限控制列表内，则直接忽略
-			if (catalogPagination.getContent() == null || catalogPagination.getContent().size() == 0) {
+			if (catalogPagination.getRecords() == null || catalogPagination.getRecords().size() == 0) {
 				return true;
 			} else {
 				//该请求在权限控制列表内，则判断用户所在组的权限点
-				Catalog ctl = catalogPagination.getContent().get(0);
+				Catalog ctl = catalogPagination.getRecords().get(0);
 
 				String groupIds = adminPreferences.getGroupId();
 				// 当前用户尚未分组，不允许访问
@@ -70,8 +71,8 @@ public class AdminInterceptor implements HandlerInterceptor {
 					return false;
 				} else {
 					// 当前用户已分组，取出其拥用的操作权限�?
-					Page<GroupAccess> groupAccessPagination = groupAccessService.findGroupAccessListByGroupIds(groupIds, 1,5555);
-					for (GroupAccess groupAccess : groupAccessPagination.getContent()) {
+					DataGrid<GroupAccess> groupAccessPagination = groupAccessService.findGroupAccessListByGroupIds(groupIds, 1,5555);
+					for (GroupAccess groupAccess : groupAccessPagination.getRecords()) {
 						if (groupAccess.getCatalogId().intValue() == ctl.getId().intValue()) {
 							return true;
 						}

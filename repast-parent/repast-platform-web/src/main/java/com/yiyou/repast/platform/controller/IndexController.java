@@ -119,7 +119,7 @@ public class IndexController extends BaseController {
 			return null;
 		}
 		//查询属于当前用户的角色对应的菜单列表，并对其seq进行排序
-	    DataGrid<GroupAccess> gaPagin=groupAccessService.findGroupAccessList(Integer.valueOf(obj.getGroupId()), 1,555);
+	    DataGrid<GroupAccess> gaPagin=groupAccessService.findGroupAccessList(Integer.valueOf(obj.getGroupId()), 0,555);
 	    List<Catalog> catalogList=new ArrayList<Catalog>();
 	    for(GroupAccess ga:gaPagin.getRecords()){
 	    	Integer catalogId=ga.getCatalogId();

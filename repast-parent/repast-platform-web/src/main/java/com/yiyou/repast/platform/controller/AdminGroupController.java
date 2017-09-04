@@ -6,7 +6,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -64,7 +63,8 @@ public class AdminGroupController extends BaseController {
 	 * */
 	@RequestMapping(value = "listData", method = RequestMethod.POST)
 	public String list(Model model,String name,Integer page,Integer pageSize) {
-		Page<Group> groupPage = groupService.findGroupList(name,page,pageSize);
+		page=page==null?page=0:page-1;
+		DataGrid<Group> groupPage = groupService.findGroupList(name,page,pageSize);
 		model.addAttribute("dataPage", groupPage);
 		return "/admin/group/list_frag";
 	}
@@ -161,10 +161,10 @@ public class AdminGroupController extends BaseController {
 	@RequestMapping(value = "/distribute")
 	public String distribute(Model model,Integer id,HttpServletRequest request) {
 		Group group = groupService.getById(id);
-		Page<Catalog> catalogPage = catalogService.getCatalogList(null, null, Integer.valueOf(GlobalDefine.STATUS_YES), 1,55);
-		DataGrid<GroupAccess> groupAccessPage = groupAccessService.findGroupAccessList(id, 1,555);
+		DataGrid<Catalog> catalogPage = catalogService.getCatalogList(null, null, Integer.valueOf(GlobalDefine.STATUS_YES), 1,55);
+		DataGrid<GroupAccess> groupAccessPage = groupAccessService.findGroupAccessList(id, 0,555);
 
-		for (Catalog catalog : catalogPage.getContent()) {
+		for (Catalog catalog : catalogPage.getRecords()) {
 			for (GroupAccess groupAccess : groupAccessPage.getRecords()) {
 				if (groupAccess.getCatalogId().intValue() == catalog.getId()
 						.intValue()) {
@@ -194,7 +194,7 @@ public class AdminGroupController extends BaseController {
 		String[] catalogIds = request.getParameterValues("catalogIds[]");
 		// 删掉原来该用户组的权限
 		DataGrid<GroupAccess> groupAccessPage = groupAccessService
-				.findGroupAccessList(id, 1,555);
+				.findGroupAccessList(id, 0,555);
 		for (GroupAccess ga : groupAccessPage.getRecords()) {
 			groupAccessService.remove(ga);
 		}
