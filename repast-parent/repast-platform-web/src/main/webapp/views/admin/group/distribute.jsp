@@ -3,7 +3,7 @@
 <div style="margin: 15px;">
 	<form class="layui-form" action="">
 		<div class="layui-form-item">
-		    <c:forEach items="${dataPagination.records}" var="it">
+		    <c:forEach items="${dataPage.records}" var="it">
 			    <div class="layui-input-inline">
 			        <input type="checkbox" name="catalogIds" value="${it.id}" title="${it.name}" <c:if test="${it.distributed}">checked</c:if> >
 			    </div>
