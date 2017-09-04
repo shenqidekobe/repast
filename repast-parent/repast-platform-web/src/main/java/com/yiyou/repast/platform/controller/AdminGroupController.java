@@ -161,7 +161,7 @@ public class AdminGroupController extends BaseController {
 	@RequestMapping(value = "/distribute")
 	public String distribute(Model model,Integer id,HttpServletRequest request) {
 		Group group = groupService.getById(id);
-		DataGrid<Catalog> catalogPage = catalogService.getCatalogList(null, null, Integer.valueOf(GlobalDefine.STATUS_YES), 1,55);
+		DataGrid<Catalog> catalogPage = catalogService.getCatalogList(null, null, Integer.valueOf(GlobalDefine.STATUS_YES), 0,555);
 		DataGrid<GroupAccess> groupAccessPage = groupAccessService.findGroupAccessList(id, 0,555);
 
 		for (Catalog catalog : catalogPage.getRecords()) {
