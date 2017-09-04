@@ -17,6 +17,9 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.platform.dao.CatalogRepository;
 import com.yiyou.repast.platform.model.Catalog;
 import com.yiyou.repast.platform.service.ICatalogService;
+import com.yiyou.repast.platform.tools.PageConvertDataGrid;
+
+import repast.yiyou.common.util.DataGrid;
 
 @Service
 public class CatalogService implements ICatalogService{
@@ -61,7 +64,7 @@ public class CatalogService implements ICatalogService{
 	}
 
 	@Override
-	public Page<Catalog> getCatalogList(Integer pid, String name, Integer type,int page,int size) {
+	public DataGrid<Catalog> getCatalogList(Integer pid, String name, Integer type,int page,int size) {
 		Catalog catalog=new Catalog();
 		if(!StringUtils.isEmpty(name))catalog.setName(name);
 		if(pid!=null)catalog.setPid(pid);
@@ -70,7 +73,8 @@ public class CatalogService implements ICatalogService{
 	    		withMatcher("name", GenericPropertyMatchers.contains()); //名称采用模糊匹配，withStringMatcher(StringMatcher.CONTAINING)
 	    Example<Catalog> example = Example.of(catalog, matcher); 
 	    Pageable pageable = new PageRequest(page, size, Sort.Direction.ASC, "id");  
-		return catalogRepository.findAll(example, pageable);
+		Page<Catalog> pages=catalogRepository.findAll(example, pageable);
+		return new PageConvertDataGrid.Bulid<Catalog>().page(pages).build().getData();
 	}
 
 }

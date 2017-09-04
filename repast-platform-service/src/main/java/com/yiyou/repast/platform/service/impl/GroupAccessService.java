@@ -16,6 +16,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.platform.dao.GroupAccessRepository;
 import com.yiyou.repast.platform.model.GroupAccess;
 import com.yiyou.repast.platform.service.IGroupAccessService;
+import com.yiyou.repast.platform.tools.PageConvertDataGrid;
 
 import repast.yiyou.common.util.DataGrid;
 
@@ -45,21 +46,18 @@ public class GroupAccessService implements IGroupAccessService {
 		Example<GroupAccess> example = Example.of(ga, matcher);
 		Pageable pageable = new PageRequest(page, size, Sort.Direction.ASC, "id");
 		Page<GroupAccess> pages = groupAccessRepository.findAll(example, pageable);
-		DataGrid<GroupAccess> data=new DataGrid<GroupAccess>();
-		data.setRecords(pages.getContent());
-		data.setPageCount(pages.getTotalPages());
-		data.setRowCount(pages.getTotalElements());
-		return data;
+		return new PageConvertDataGrid.Bulid<GroupAccess>().page(pages).build().getData();
 	}
 
 	@Override
-	public Page<GroupAccess> findGroupAccessListByGroupIds(String groupIds, int page, int size) {
+	public DataGrid<GroupAccess> findGroupAccessListByGroupIds(String groupIds, int page, int size) {
 		Pageable pageable = new PageRequest(page, size, Sort.Direction.ASC, "id");
 		String[] pps = groupIds.split(",");
 		List<Integer> ids = new ArrayList<>();
 		for (String id : pps)
 			ids.add(Integer.parseInt(id));
-		return groupAccessRepository.findGroupAccessListByGroupIds(ids, pageable);
+		Page<GroupAccess> pages = groupAccessRepository.findGroupAccessListByGroupIds(ids, pageable);
+		return new PageConvertDataGrid.Bulid<GroupAccess>().page(pages).build().getData();
 	}
 
 	@Override
