@@ -16,6 +16,9 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.platform.dao.GroupRepository;
 import com.yiyou.repast.platform.model.Group;
 import com.yiyou.repast.platform.service.IGroupService;
+import com.yiyou.repast.platform.tools.PageConvertDataGrid;
+
+import repast.yiyou.common.util.DataGrid;
 
 @Service
 public class GroupService implements IGroupService{
@@ -60,13 +63,14 @@ public class GroupService implements IGroupService{
 	}
 
 	@Override
-	public Page<Group> findGroupList(String name,int page,int size) {
+	public DataGrid<Group> findGroupList(String name,int page,int size) {
 		Group group=new Group();
 		if(!StringUtils.isEmpty(name))group.setName(name);
 	    ExampleMatcher matcher = ExampleMatcher.matching();
 	    Example<Group> example = Example.of(group, matcher); 
 	    Pageable pageable = new PageRequest(page, size, Sort.Direction.ASC, "id");  
-		return groupRepository.findAll(example, pageable);
+	    Page<Group> pages=groupRepository.findAll(example, pageable);
+		return new PageConvertDataGrid.Bulid<Group>().page(pages).build().getData();
 	}
 
 }

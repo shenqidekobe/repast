@@ -16,7 +16,9 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.platform.dao.AdminRepository;
 import com.yiyou.repast.platform.model.Admin;
 import com.yiyou.repast.platform.service.IAdminService;
+import com.yiyou.repast.platform.tools.PageConvertDataGrid;
 
+import repast.yiyou.common.util.DataGrid;
 import repast.yiyou.common.util.EncryptUtil;
 
 @Service
@@ -70,7 +72,7 @@ public class AdminService implements IAdminService{
 	}
 
 	@Override
-	public Page<Admin> getAdminList(String loginName, String nickName, String status, int page,int size) {
+	public DataGrid<Admin> getAdminList(String loginName, String nickName, String status, int page,int size) {
 		Admin admin=new Admin();
 		if(!StringUtils.isEmpty(loginName))admin.setLoginName(loginName);
 		if(!StringUtils.isEmpty(nickName))admin.setNickName(nickName);
@@ -78,7 +80,8 @@ public class AdminService implements IAdminService{
 	    ExampleMatcher matcher = ExampleMatcher.matching();
 	    Example<Admin> example = Example.of(admin, matcher); 
 	    Pageable pageable = new PageRequest(page, size, Sort.Direction.ASC, "id");  
-		return adminRepository.findAll(example, pageable);
+		Page<Admin> pages=adminRepository.findAll(example, pageable);
+		return new PageConvertDataGrid.Bulid<Admin>().page(pages).build().getData();
 	}
 
 
