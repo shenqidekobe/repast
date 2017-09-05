@@ -1,4 +1,4 @@
-package com.yiyou.repast.merchant.dubbo;
+package com.yiyou.repast.merchant.service.impl;
 
 import javax.annotation.Resource;
 
