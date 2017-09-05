@@ -1,13 +1,19 @@
 package com.yiyou.repast.order.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import repast.yiyou.common.base.EnumDefinition.OrderStaus;
+import repast.yiyou.common.base.EnumDefinition.PayWay;
 
 /**
  * 订单表
@@ -23,13 +29,20 @@ public class Order implements Serializable{
 	private Long id;
 	private Long merchantId;//商户ID
 	private Long userId;//用户ID
+	
 	private String deskNum;//桌号
-	private String payWay;//支付方式
-	private String status;//状态
+	@Enumerated(EnumType.STRING)
+	private PayWay payWay;//支付方式
+	@Enumerated(EnumType.STRING)
+	private OrderStaus status;//状态
+	private BigDecimal amount;//订单金额
+	private BigDecimal discountAmount;//优惠金额
+	
 	private Date createTime;//下单时间
 	private Long createUser;//下单用户
 	private Date predictDate;//预计就餐日期
 	private String predictTime;//预计就餐时间
+	
 	public Long getId() {
 		return id;
 	}
@@ -54,16 +67,16 @@ public class Order implements Serializable{
 	public void setDeskNum(String deskNum) {
 		this.deskNum = deskNum;
 	}
-	public String getPayWay() {
+	public PayWay getPayWay() {
 		return payWay;
 	}
-	public void setPayWay(String payWay) {
+	public void setPayWay(PayWay payWay) {
 		this.payWay = payWay;
 	}
-	public String getStatus() {
+	public OrderStaus getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(OrderStaus status) {
 		this.status = status;
 	}
 	public Date getCreateTime() {
@@ -89,5 +102,17 @@ public class Order implements Serializable{
 	}
 	public void setPredictTime(String predictTime) {
 		this.predictTime = predictTime;
+	}
+	public BigDecimal getAmount() {
+		return amount;
+	}
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+	public BigDecimal getDiscountAmount() {
+		return discountAmount;
+	}
+	public void setDiscountAmount(BigDecimal discountAmount) {
+		this.discountAmount = discountAmount;
 	}
 }
