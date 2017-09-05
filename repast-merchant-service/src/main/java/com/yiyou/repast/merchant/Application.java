@@ -9,8 +9,9 @@ import repast.yiyou.common.util.LoggerUtil;
 public class Application {
 	
 	public static void main(String[] args) {
+		LoggerUtil.info("********************MERCHANT repast merchant service starting run*********************");
 		SpringApplication.run(Application.class, args);
-		LoggerUtil.info("李大侠开始发功了..............");
+		LoggerUtil.info("********************MERCHANT repast merchant service run end**************************");
 	}
 }
 
