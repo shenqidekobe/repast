@@ -4,10 +4,14 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+
+import repast.yiyou.common.base.EnumDefinition.MerchantStaus;
 
 /**
  * 商户对象
@@ -17,7 +21,7 @@ import javax.persistence.Table;
 public class Merchant implements Serializable {
 
 	private static final long serialVersionUID = 4251237178411815647L;
-
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
@@ -26,16 +30,17 @@ public class Merchant implements Serializable {
 	private String industry;//行业
 	private String address;//商户地址
 	private String settleWay;//结算方式
-	private String status;//状态
+	@Enumerated(EnumType.STRING)
+	private MerchantStaus status;//状态
 	private String remark;//备注描述
 	private Date startTime;//有效开始时间
 	private Date endTime;//有效结束时间
+	
 	private Date createTime;//创建时间
 	private Date auditTime;//审核时间
 	private String operUser;//操作人
 	
 	
-
 	public Long getId() {
 		return id;
 	}
@@ -72,10 +77,10 @@ public class Merchant implements Serializable {
 	public void setSettleWay(String settleWay) {
 		this.settleWay = settleWay;
 	}
-	public String getStatus() {
+	public MerchantStaus getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(MerchantStaus status) {
 		this.status = status;
 	}
 	public String getRemark() {

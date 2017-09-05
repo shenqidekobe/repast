@@ -4,9 +4,12 @@ import java.io.Serializable;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -21,25 +24,34 @@ public class User implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Long merchantId;//商户ID
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "merchant_id")
+	private Merchant merchant;
+	
 	private String openId;//微信ID
 	private String avatar;//头像
 	private String nickName;//用户名
 	private String phone;//手机号码
-	private String grade;//用户等级
+
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "grade_id")
+	private UserGrade grade;//用户等级
+	
 	private Date createTime;
 	private Date loginTime;
+	
+	
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getMerchantId() {
-		return merchantId;
+	public Merchant getMerchant() {
+		return merchant;
 	}
-	public void setMerchantId(Long merchantId) {
-		this.merchantId = merchantId;
+	public void setMerchant(Merchant merchant) {
+		this.merchant = merchant;
 	}
 	public String getOpenId() {
 		return openId;
@@ -65,10 +77,10 @@ public class User implements Serializable{
 	public void setPhone(String phone) {
 		this.phone = phone;
 	}
-	public String getGrade() {
+	public UserGrade getGrade() {
 		return grade;
 	}
-	public void setGrade(String grade) {
+	public void setGrade(UserGrade grade) {
 		this.grade = grade;
 	}
 	public Date getCreateTime() {
