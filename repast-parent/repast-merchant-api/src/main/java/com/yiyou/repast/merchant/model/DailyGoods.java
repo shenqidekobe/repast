@@ -1,11 +1,16 @@
 package com.yiyou.repast.merchant.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -20,5 +25,61 @@ public class DailyGoods implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Long merchantId;//商户ID
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "merchant_id")
+	private Merchant merchant;
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "goods_id")
+	private Goods goods;
+	
+	private Date createTime;//试用日期
+	private BigDecimal amount;//套餐金额
+	private Integer sales=0;//销量
+	private String operUser;//操作人
+	
+	
+	public Long getId() {
+		return id;
+	}
+	public void setId(Long id) {
+		this.id = id;
+	}
+	public Merchant getMerchant() {
+		return merchant;
+	}
+	public void setMerchant(Merchant merchant) {
+		this.merchant = merchant;
+	}
+	public Goods getGoods() {
+		return goods;
+	}
+	public void setGoods(Goods goods) {
+		this.goods = goods;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	public BigDecimal getAmount() {
+		return amount;
+	}
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
+	}
+	public Integer getSales() {
+		return sales;
+	}
+	public void setSales(Integer sales) {
+		this.sales = sales;
+	}
+	public String getOperUser() {
+		return operUser;
+	}
+	public void setOperUser(String operUser) {
+		this.operUser = operUser;
+	}
+	
 }

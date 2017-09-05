@@ -12,18 +12,20 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
- * 商品分类
+ * 商户后台彩蛋
  */
 @Entity
-@Table(name = "t_goods_category")
-public class GoodsCategory implements Serializable {
+@Table(name = "t_merchant_menu")
+public class MerchantMenu implements Serializable {
 
-	private static final long serialVersionUID = 1801573277087560343L;
+	private static final long serialVersionUID = 4251237178411815647L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -34,62 +36,87 @@ public class GoodsCategory implements Serializable {
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "parent_id")
-	private GoodsCategory parent;
+	private MerchantMenu parent;
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "parent")
-	private Set<GoodsCategory> children = new HashSet<>(0);
-	
-	private String name;//分类名称
-	private Integer priority;//优先级
-	private String remark;//备注
+	private Set<MerchantMenu> children = new HashSet<>(0);
+
+	@ManyToMany(targetEntity = MerchantRole.class, fetch = FetchType.EAGER)
+	@JoinTable(name = "t_merchant_role_menu", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "menu_id"))
+	private Set<MerchantRole> roles = new HashSet<>();
+
+	private String name;
+	private String url;
+	private Integer sort;
 	private Date createTime;
-	
-	
+
 	public Long getId() {
 		return id;
 	}
+
 	public void setId(Long id) {
 		this.id = id;
 	}
+
 	public Merchant getMerchant() {
 		return merchant;
 	}
+
 	public void setMerchant(Merchant merchant) {
 		this.merchant = merchant;
 	}
-	public GoodsCategory getParent() {
+
+	public MerchantMenu getParent() {
 		return parent;
 	}
-	public void setParent(GoodsCategory parent) {
+
+	public void setParent(MerchantMenu parent) {
 		this.parent = parent;
 	}
-	public Set<GoodsCategory> getChildren() {
+
+	public Set<MerchantMenu> getChildren() {
 		return children;
 	}
-	public void setChildren(Set<GoodsCategory> children) {
+
+	public void setChildren(Set<MerchantMenu> children) {
 		this.children = children;
 	}
+	public Set<MerchantRole> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(Set<MerchantRole> roles) {
+		this.roles = roles;
+	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Integer getPriority() {
-		return priority;
+
+	public String getUrl() {
+		return url;
 	}
-	public void setPriority(Integer priority) {
-		this.priority = priority;
+
+	public void setUrl(String url) {
+		this.url = url;
 	}
-	public String getRemark() {
-		return remark;
+
+	public Integer getSort() {
+		return sort;
 	}
-	public void setRemark(String remark) {
-		this.remark = remark;
+
+	public void setSort(Integer sort) {
+		this.sort = sort;
 	}
+
 	public Date getCreateTime() {
 		return createTime;
 	}
+
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}

@@ -1,13 +1,22 @@
 package com.yiyou.repast.merchant.model;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+
+import repast.yiyou.common.base.EnumDefinition.UserWhiteStaus;
+import repast.yiyou.common.base.EnumDefinition.UserWhiteType;
 
 /**
  * 用户白名单对象
@@ -21,13 +30,25 @@ public class UserWhite implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Long merchantId;//商户ID
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "merchant_id")
+	private Merchant merchant;
+	
 	private String company;//公司名
 	private String dept;//部门名
 	private String phone;//手机号码
 	private String settleWay;//结算方式
-	private String status;//状态
-	private String grade;//用户等级
+	@Enumerated(EnumType.STRING)
+	private UserWhiteType type;//类型
+	@Enumerated(EnumType.STRING)
+	private UserWhiteStaus status;//状态
+	private BigDecimal chargeAamount;//充值金额
+	private Byte permission;//是否拥有签单权限
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "grade_id")
+	private UserGrade grade;//用户等级
+	
 	private String remark;//备注
 	private Date createTime;//创建时间
 	
@@ -38,11 +59,11 @@ public class UserWhite implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Long getMerchantId() {
-		return merchantId;
+	public Merchant getMerchant() {
+		return merchant;
 	}
-	public void setMerchantId(Long merchantId) {
-		this.merchantId = merchantId;
+	public void setMerchant(Merchant merchant) {
+		this.merchant = merchant;
 	}
 	public String getCompany() {
 		return company;
@@ -68,16 +89,16 @@ public class UserWhite implements Serializable{
 	public void setSettleWay(String settleWay) {
 		this.settleWay = settleWay;
 	}
-	public String getStatus() {
+	public UserWhiteStaus getStatus() {
 		return status;
 	}
-	public void setStatus(String status) {
+	public void setStatus(UserWhiteStaus status) {
 		this.status = status;
 	}
-	public String getGrade() {
+	public UserGrade getGrade() {
 		return grade;
 	}
-	public void setGrade(String grade) {
+	public void setGrade(UserGrade grade) {
 		this.grade = grade;
 	}
 	public String getRemark() {
@@ -91,5 +112,23 @@ public class UserWhite implements Serializable{
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	public UserWhiteType getType() {
+		return type;
+	}
+	public void setType(UserWhiteType type) {
+		this.type = type;
+	}
+	public BigDecimal getChargeAamount() {
+		return chargeAamount;
+	}
+	public void setChargeAamount(BigDecimal chargeAamount) {
+		this.chargeAamount = chargeAamount;
+	}
+	public Byte getPermission() {
+		return permission;
+	}
+	public void setPermission(Byte permission) {
+		this.permission = permission;
 	}
 }
