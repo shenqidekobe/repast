@@ -109,4 +109,10 @@ public class MerchantAccount implements Serializable{
 		this.loginTime = loginTime;
 	}
 
+	public String getTypeName(){
+		return type==null?"":type.getName();
+	}
+	public String getStatusName(){
+		return status==null?"":status.getName();
+	}
 }
