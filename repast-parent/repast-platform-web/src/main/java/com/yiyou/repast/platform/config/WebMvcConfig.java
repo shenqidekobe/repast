@@ -2,20 +2,19 @@ package com.yiyou.repast.platform.config;
 
 import javax.annotation.Resource;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.boot.autoconfigure.web.WebMvcAutoConfiguration;
-import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import com.yiyou.repast.platform.filter.AdminInterceptor;
 
-@EnableAutoConfiguration
-public class WebMvcConfig extends WebMvcAutoConfiguration {
+@Configuration
+public class WebMvcConfig extends WebMvcConfigurerAdapter {
 
 	@Resource
 	private AdminInterceptor adminInterceptor;
 
-	@Bean
+	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
 		registry.addInterceptor(adminInterceptor).addPathPatterns("/admin/**");
 	}
