@@ -31,7 +31,7 @@ public class MerchantRole implements Serializable {
 	@JoinColumn(name = "merchant_id")
 	private Merchant merchant;
 
-	@ManyToMany(mappedBy = "roles", targetEntity = MerchantMenu.class, fetch = FetchType.LAZY)
+	@ManyToMany(mappedBy = "roles", targetEntity = MerchantMenu.class, fetch = FetchType.EAGER)
 	private Set<MerchantMenu> menus = new HashSet<>();
 
 	private String name;
