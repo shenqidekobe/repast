@@ -3,7 +3,7 @@ package repast.yiyou.common.exception;
 /**
  * 自定义业务异常
  */
-public class BusinessException extends Exception {
+public class BusinessException extends RuntimeException {
 
 	private static final long serialVersionUID = -238091758285157331L;
 
