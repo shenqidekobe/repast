@@ -47,6 +47,7 @@ public class MerchantMenu implements Serializable {
 
 	private String name;
 	private String url;
+	private String permission;
 	private Integer sort;
 	private Date createTime;
 
@@ -103,6 +104,14 @@ public class MerchantMenu implements Serializable {
 
 	public void setUrl(String url) {
 		this.url = url;
+	}
+
+	public String getPermission() {
+		return permission;
+	}
+
+	public void setPermission(String permission) {
+		this.permission = permission;
 	}
 
 	public Integer getSort() {
