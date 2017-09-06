@@ -31,17 +31,11 @@
                                         <th>状态</th>
                                         <th>入职时间</th>
                                         <th>最后登录时间</th>
+                                        <th>操作</th>
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr class="gradeX" th:each="it,iterStat:${list}" th:class="${iterStat.odd}? 'odd'">
-                                        <td th:text="${it.id}"></td>
-                                        <td th:text="${it.loginName}"></td>
-                                        <td th:text="${it.role.name}"></td>
-                                        <td th:text="${it.type.name}"></td>
-                                        <td th:text="${it.status.name}"></td>
-                                        <td th:text="${it.createTime}"></td>
-                                        <td th:text="${it.loginTime}"></td>
+                                    <tr class="gradeX">
                                     </tr>
                                 </tbody>
                             </table>
