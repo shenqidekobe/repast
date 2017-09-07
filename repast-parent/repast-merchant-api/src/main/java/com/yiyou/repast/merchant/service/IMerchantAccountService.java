@@ -12,7 +12,11 @@ public interface IMerchantAccountService {
 	
 	MerchantAccount update(MerchantAccount obj);
 	
+	void remove(Long id);
+	
 	MerchantAccount login(String loginName,String password);
+	
+	MerchantAccount findByLoginName(String loginName);
 	
 	MerchantAccount find(Long id);
 	
