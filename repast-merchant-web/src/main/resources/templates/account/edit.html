@@ -57,14 +57,18 @@
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/metisMenu/metisMenu.min.js"></script>
     <script src="/static/dist/js/sb-admin-2.js"></script>
+    <script src="/static/toastr/toastr.min.js"></script>
     <script>
        $(function(){
     	   $("#saveBtn").click(function(){
+    		   toastr.options = {"positionClass": "toast-bottom-center"}
     		   var loginName=$.trim($("#loginName").val());
     		   var password=$.trim($("#password").val());
     		   if(loginName==""){
+    			   toastr.warning('请填写登录帐号');
     			   return false;
     		   }else if(password==""){
+    			   toastr.warning('请填写帐号密码');
     			   return false;
     		   }
     		   $.ajax({
