@@ -6,7 +6,7 @@ $.dataTablesSettings = {
     bInfo : false,//是否显示页数信息
     sPaginationType : "full_numbers",//分页样式
     iDisplayLength : 10,//默认每页显示多少条记录
-    searching : false,//是否显示搜索框
+    searching : true,//是否显示搜索框
     bSort : false,//是否允许排序
     serverSide : true,//是否从服务器获取数据
     bStateSave : true,//页面重载后保持当前页
@@ -26,6 +26,37 @@ $.dataTablesSettings = {
         aoData._rand = Math.random();
     }
 };
+$.dataTablesSettings.ajax ={
+		url:"/account/listData.do",
+		dataSrc:function(rsp){
+			var data=new Array();
+			for (var i=0, ien=rsp.length ; i<ien ; i++ ) {
+				var obj=rsp[i];
+				var arr=new Array();
+				arr[0]=obj.id;
+				arr[1]=obj.loginName;
+				arr[2]=obj.role.name;
+				arr[3]=obj.typeName;
+				arr[4]=obj.statusName;
+				arr[5]=new Date(obj.createTime).Format("yyyy-MM-dd hh:mm:ss");
+				arr[6]=new Date(obj.loginTime).Format("yyyy-MM-dd hh:mm:ss")
+				data.push(arr);
+	        }
+			return data;
+		}
+} 
+function deleteTabRow(id){
+	console.info(id);
+}
+$.dataTablesSettings.columnDefs = [{
+    targets : [7],
+    render : function(data, type, row) {
+        return "<a title='编辑' class='glyphicon glyphicon-edit nounderline' href='/account/edit?id='"+row[0]+"></a>&nbsp;"  + 
+               "<a title='删除' class='glyphicon glyphicon-trash nounderline' href='javascript:deleteTabRow(" + row[0] + ");'></a>";
+    }
+}];
+var dataTable=$('#dataTable').DataTable($.dataTablesSettings);
+
 Date.prototype.Format = function(fmt) { //author: meizz 
     var o = { 
         "M+": this.getMonth() + 1, 
