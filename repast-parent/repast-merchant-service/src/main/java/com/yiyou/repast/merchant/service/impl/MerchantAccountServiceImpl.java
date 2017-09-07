@@ -64,5 +64,20 @@ public class MerchantAccountServiceImpl implements IMerchantAccountService{
 		return new PageConvertDataGrid.Bulid<MerchantAccount>().page(pages).build().getData();
 	}
 
+	@Override
+	public void remove(Long id) {
+		merchantAccountRepository.delete(id);
+	}
+
+	@Override
+	public MerchantAccount findByLoginName(String loginName) {
+		MerchantAccount account=new MerchantAccount();
+		account.setLoginName(loginName);
+	    ExampleMatcher matcher = ExampleMatcher.matching();
+	    Example<MerchantAccount> example = Example.of(account, matcher); 
+		List<MerchantAccount> list=merchantAccountRepository.findAll(example);
+		return list.isEmpty()?null:list.get(0);
+	}
+
 
 }
