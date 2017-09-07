@@ -5,10 +5,19 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.util.StringUtils;
+
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.merchant.dao.MerchantAccountRepository;
 import com.yiyou.repast.merchant.model.MerchantAccount;
 import com.yiyou.repast.merchant.service.IMerchantAccountService;
+import com.yiyou.repast.merchant.tools.PageConvertDataGrid;
 
 import repast.yiyou.common.util.DataGrid;
 
@@ -46,7 +55,13 @@ public class MerchantAccountServiceImpl implements IMerchantAccountService{
 
 	@Override
 	public DataGrid<MerchantAccount> findList(String loginName, String status, String type, int page, int pageSize) {
-		return null;
+		MerchantAccount account=new MerchantAccount();
+		if(!StringUtils.isEmpty(loginName))account.setLoginName(loginName);
+	    ExampleMatcher matcher = ExampleMatcher.matching();
+	    Example<MerchantAccount> example = Example.of(account, matcher); 
+	    Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.ASC, "id");  
+		Page<MerchantAccount> pages=merchantAccountRepository.findAll(example, pageable);
+		return new PageConvertDataGrid.Bulid<MerchantAccount>().page(pages).build().getData();
 	}
 
 
