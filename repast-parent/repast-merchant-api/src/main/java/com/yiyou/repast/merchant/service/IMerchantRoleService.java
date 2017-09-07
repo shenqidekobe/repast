@@ -8,6 +8,6 @@ public interface IMerchantRoleService {
 	
 	MerchantRole find(Long id);
 	
-	List<MerchantRole> findAll(Long merchantId);
+	List<MerchantRole> findAll();
 
 }
