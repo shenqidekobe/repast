@@ -10,8 +10,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.yiyou.repast.merchant.base.RspResult;
 import com.yiyou.repast.merchant.model.MerchantAccount;
 import com.yiyou.repast.merchant.service.IMerchantAccountService;
+import com.yiyou.repast.merchant.service.IMerchantRoleService;
+
+import repast.yiyou.common.base.EnumDefinition.AccountStaus;
+import repast.yiyou.common.util.DataGrid;
 
 /**
  * 商户管理员控制器
@@ -22,6 +27,8 @@ public class AccountController {
 	
 	@Reference
 	private IMerchantAccountService merchantAccountService;
+	@Reference
+	private IMerchantRoleService merchantRoleService;
 
 	@GetMapping()
 	public String list(Model model) {
@@ -30,8 +37,47 @@ public class AccountController {
 	
 	@ResponseBody
 	@PostMapping("/listData.do")
-	public List<MerchantAccount> listData(Model model) {
-		return merchantAccountService.findAll();
+	public List<MerchantAccount> listData(String loginName,String status,String type,Integer page,Integer pageSize) {
+		page=page==null?page=0:page;
+		pageSize=pageSize==null?pageSize=10:pageSize;
+		DataGrid<MerchantAccount> data=merchantAccountService.findList(loginName, status, type, page, pageSize);
+		return data.getRecords();
 	}
 
+	@GetMapping("/edit")
+	public String edit(Long id,Model model) {
+		if(id!=null) {
+			model.addAttribute("obj",this.merchantAccountService.find(id));
+		}
+		model.addAttribute("roleList", merchantRoleService.findAll());
+		return "/account/edit";
+	}
+	
+	@ResponseBody
+	@PostMapping("/save.do")
+	public RspResult save(MerchantAccount obj,Long roleId) {
+		if(roleId!=null) {
+			obj.setRole(this.merchantRoleService.find(roleId));
+		}
+		obj.setStatus(AccountStaus.normal);
+		merchantAccountService.save(obj);
+		return new RspResult();
+	}
+	
+	@ResponseBody
+	@PostMapping("/remove.do")
+	public RspResult remove(Long id) {
+		MerchantAccount obj= merchantAccountService.find(id);
+		obj.setStatus(AccountStaus.disable);
+		merchantAccountService.update(obj);
+		return new RspResult();
+	}
+	
+	@ResponseBody
+	@PostMapping("/validate.do")
+	public RspResult validate(String loginName) {
+		RspResult rsp=new RspResult();
+		rsp.setData(this.merchantAccountService.findByLoginName(loginName));
+		return new RspResult();
+	}
 }
