@@ -29,12 +29,13 @@ public class Order implements Serializable{
 	private Long id;
 	private Long merchantId;//商户ID
 	private Long userId;//用户ID
-	
 	private String deskNum;//桌号
+	
 	@Enumerated(EnumType.STRING)
 	private PayWay payWay;//支付方式
 	@Enumerated(EnumType.STRING)
 	private OrderStaus status;//状态
+	
 	private BigDecimal amount;//订单金额
 	private BigDecimal discountAmount;//优惠金额
 	
