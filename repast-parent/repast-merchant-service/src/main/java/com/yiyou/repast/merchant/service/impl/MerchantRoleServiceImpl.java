@@ -1,5 +1,7 @@
 package com.yiyou.repast.merchant.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import com.alibaba.dubbo.config.annotation.Service;
@@ -16,6 +18,11 @@ public class MerchantRoleServiceImpl implements IMerchantRoleService{
 	@Override
 	public MerchantRole find(Long id) {
 		return merchantRoleRepository.findOne(id);
+	}
+
+	@Override
+	public List<MerchantRole> findAll() {
+		return merchantRoleRepository.findAll();
 	}
 
 
