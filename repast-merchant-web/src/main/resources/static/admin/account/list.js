@@ -1,14 +1,32 @@
 $(function () {
+	 var dataTable=null;
 	 $("#addBtn").click(function(){
 		location.href='/account/edit'; 
 	 });
 	 window.operateEvents={
 	    "click #edit":function(e,value, row, index){
-	    	location.href='/account/edit?id'+row.id; 
-		   return false;
-	    },"click #del":function(e,value, row, index){
-	    	console.info(row.id);
-		   return false;
+	    	location.href='/account/edit?id='+row.id; 
+		    return false;
+	    },"click #toggle":function(e,value, row, index){
+	    	var toggleTips=row.status=="normal"?"禁用":"启用";
+	    	var status=row.status=="normal"?"disable":"normal";
+	    	toastrC.confirm({ message: "确认要"+toggleTips+"该用户嘛？" }).on(function (e) {
+	    		if (!e) { return; }
+	    		$.ajax({
+		    		url:'/account/toggle.do',
+		    		type:'POST',
+		    		data:{id:row.id,status:status},
+		    		success:function(rsp){
+		    			if(rsp.status==200){
+		    				toastr.success(toggleTips+"成功");
+		    				doQuery();
+		    			}else{
+		    				toastr.error("服务器繁忙，请稍后再试");
+		    			}
+		    		}
+		    	});
+	    	});
+		    return false;
 	    }
      } 
 	 var url = "/account/listData.do?random="+Math.random();
@@ -23,10 +41,10 @@ $(function () {
 	        { field : 'loginTime',title : '登录时间',formatter : function (value, row, index){return new Date(value).Format('yyyy-MM-dd hh:mm:ss');} },
 	        { field : 'opers',title: '操作',events:operateEvents, formatter : operateFormatter }]
 	  function operateFormatter(value, row, index) {
-	        return ['<button type="button" class="btn btn-primary btn-circle" id="edit">编辑</button>&nbsp;&nbsp;'+
-	               '<button type="button" class="btn btn-warning btn-circle"  id="del">删除</button>'].join("");
+		  var toggle=row.status=="normal"?"禁用":"启用";
+	      return ['<button type="button" class="btn btn-primary btn-circle" id="edit">编辑</button>&nbsp;&nbsp;'+
+	               '<button type="button" class="btn btn-warning btn-circle"  id="toggle">'+toggle+'</button>'].join("");
 	  }
-	  var dataTable=null;
 	  loadTable(url,columns,function(options){
 		 options.rowStyle= function (row, index) {
              var strclass = "";

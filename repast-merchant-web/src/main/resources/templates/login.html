@@ -11,6 +11,7 @@
     <link href="/static/metisMenu/metisMenu.min.css" rel="stylesheet">
     <link href="/static/dist/css/sb-admin-2.css" rel="stylesheet">
     <link href="/static/font-awesome/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="/static/toastr/toastr.min.css" rel="stylesheet" type="text/css">
 </head>
 
 <body>
@@ -48,9 +49,15 @@
     <script src="/static/bootstrap/js/bootstrap.min.js"></script>
     <script src="/static/metisMenu/metisMenu.min.js"></script>
     <script src="/static/dist/js/sb-admin-2.js"></script>
+    <script src="/static/toastr/toastr.min.js"></script>
     
     <script>
 	    $(function() {
+	    	$('body').keydown(function(event) {
+				if (event.keyCode == 13){
+					$("#loginBtn").click();
+				}
+			});
 	    	$("#loginBtn").click(function(){
 	    		var loginName=$.trim($("#loginName").val());
 	    		var password=$.trim($("#password").val());
@@ -64,7 +71,7 @@
 	    				if(rsp.status==200){
 	    					location.href='/index';
 	    				}else{
-	    					alert(rsp.message);
+	    					toastr.error(rsp.message);
 	    				}
 	    			}
 	    		});
