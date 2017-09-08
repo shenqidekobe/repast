@@ -7,19 +7,19 @@ import com.yiyou.repast.merchant.dao.MerchantRepository;
 import com.yiyou.repast.merchant.model.Merchant;
 import com.yiyou.repast.merchant.service.IMerchantService;
 
-@Service(version = "1.0.0")
+@Service
 public class MerchantServiceImpl implements IMerchantService {
 	
 	@Resource
 	private MerchantRepository merchantRepository;
 
 	@Override
-	public Merchant createMerchant(Merchant obj) {
+	public Merchant save(Merchant obj) {
 		return merchantRepository.save(obj);
 	}
 
 	@Override
-	public Merchant getById(Long id) {
+	public Merchant find(Long id) {
 		return merchantRepository.findOne(id);
 	}
 
