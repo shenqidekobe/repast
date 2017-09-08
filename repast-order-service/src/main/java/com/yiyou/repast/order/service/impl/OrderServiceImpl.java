@@ -32,5 +32,10 @@ public class OrderServiceImpl implements IOrderService {
 		return orderItemRepository.save(obj);
 	}
 
+	@Override
+	public void remove(Long id) {
+		orderRepository.delete(id);
+	}
+
 
 }
