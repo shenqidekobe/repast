@@ -10,11 +10,11 @@ public interface IMerchantService {
 	/**
 	 * 创建商户信息
 	 * */
-	Merchant createMerchant(Merchant obj);
+	Merchant save(Merchant obj);
 	
 	/**
 	 * 按ID查询商户
 	 * */
-	Merchant getById(Long id);
+	Merchant find(Long id);
 
 }
