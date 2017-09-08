@@ -11,10 +11,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.base.Constants;
+import com.yiyou.repast.merchant.base.RBeanUtils;
 import com.yiyou.repast.merchant.base.RspResult;
 import com.yiyou.repast.merchant.model.MerchantAccount;
 import com.yiyou.repast.merchant.service.IMerchantAccountService;
 import com.yiyou.repast.merchant.service.IMerchantRoleService;
+import com.yiyou.repast.merchant.service.IMerchantService;
 
 import repast.yiyou.common.base.EnumDefinition.AccountStaus;
 import repast.yiyou.common.util.DataGrid;
@@ -30,6 +32,8 @@ public class AccountController {
 	private IMerchantAccountService merchantAccountService;
 	@Reference
 	private IMerchantRoleService merchantRoleService;
+	@Reference
+	private IMerchantService merchantService;
 
 	@GetMapping()
 	public String list(Model model) {
@@ -62,7 +66,14 @@ public class AccountController {
 			obj.setRole(this.merchantRoleService.find(roleId));
 		}
 		obj.setStatus(AccountStaus.normal);
-		merchantAccountService.save(obj);
+		if(obj.getId()==null) {
+			obj.setMerchant(merchantService.find(Constants.MERCHANT_ID));
+			merchantAccountService.save(obj);
+		}else {
+			MerchantAccount pojo=merchantAccountService.find(obj.getId());
+			RBeanUtils.copyProperties(obj, pojo);
+			merchantAccountService.update(pojo);
+		}
 		return new RspResult();
 	}
 	
