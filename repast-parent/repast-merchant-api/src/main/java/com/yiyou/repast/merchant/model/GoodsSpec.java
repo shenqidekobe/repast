@@ -10,9 +10,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 /**
@@ -27,9 +25,7 @@ public class GoodsSpec implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "merchant_id")
-	private Merchant merchant;
+	private Long merchantId;
 	
     @ManyToMany(mappedBy = "specs",targetEntity = Goods.class ,fetch = FetchType.LAZY)  
     private Set<Goods> goods = new HashSet<>();  
@@ -45,11 +41,11 @@ public class GoodsSpec implements Serializable {
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Merchant getMerchant() {
-		return merchant;
+	public Long getMerchantId() {
+		return merchantId;
 	}
-	public void setMerchant(Merchant merchant) {
-		this.merchant = merchant;
+	public void setMerchantId(Long merchantId) {
+		this.merchantId = merchantId;
 	}
 	public Set<Goods> getGoods() {
 		return goods;

@@ -29,9 +29,7 @@ public class MerchantAccount implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "merchant_id")
-	private Merchant merchant;
+	private Long merchantId;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "role_id")
@@ -55,11 +53,11 @@ public class MerchantAccount implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Merchant getMerchant() {
-		return merchant;
+	public Long getMerchantId() {
+		return merchantId;
 	}
-	public void setMerchant(Merchant merchant) {
-		this.merchant = merchant;
+	public void setMerchantId(Long merchantId) {
+		this.merchantId = merchantId;
 	}
 	public MerchantRole getRole() {
 		return role;

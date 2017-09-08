@@ -24,9 +24,7 @@ public class User implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "merchant_id")
-	private Merchant merchant;
+	private Long merchantId;
 	
 	private String openId;//微信ID
 	private String avatar;//头像
@@ -47,11 +45,11 @@ public class User implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Merchant getMerchant() {
-		return merchant;
+	public Long getMerchantId() {
+		return merchantId;
 	}
-	public void setMerchant(Merchant merchant) {
-		this.merchant = merchant;
+	public void setMerchantId(Long merchantId) {
+		this.merchantId = merchantId;
 	}
 	public String getOpenId() {
 		return openId;
