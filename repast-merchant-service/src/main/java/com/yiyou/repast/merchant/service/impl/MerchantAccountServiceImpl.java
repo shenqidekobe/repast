@@ -39,7 +39,7 @@ public class MerchantAccountServiceImpl implements IMerchantAccountService{
 	}
 
 	@Override
-	public MerchantAccount login(String loginName, String password) {
+	public MerchantAccount login(Long merchantId,String loginName, String password) {
 		return merchantAccountRepository.findByLoginNameAndPassword(loginName, password);
 	}
 
@@ -49,12 +49,12 @@ public class MerchantAccountServiceImpl implements IMerchantAccountService{
 	}
 
 	@Override
-	public List<MerchantAccount> findAll() {
+	public List<MerchantAccount> findAll(Long merchantId) {
 		return merchantAccountRepository.findAll();
 	}
 
 	@Override
-	public DataGrid<MerchantAccount> findList(String loginName, String status, String type, int page, int pageSize) {
+	public DataGrid<MerchantAccount> findList(Long merchantId,String loginName, String status, String type, int page, int pageSize) {
 		MerchantAccount account=new MerchantAccount();
 		if(!StringUtils.isEmpty(loginName))account.setLoginName(loginName);
 	    ExampleMatcher matcher = ExampleMatcher.matching();
@@ -70,7 +70,7 @@ public class MerchantAccountServiceImpl implements IMerchantAccountService{
 	}
 
 	@Override
-	public MerchantAccount findByLoginName(String loginName) {
+	public MerchantAccount findByLoginName(Long merchantId,String loginName) {
 		MerchantAccount account=new MerchantAccount();
 		account.setLoginName(loginName);
 	    ExampleMatcher matcher = ExampleMatcher.matching();

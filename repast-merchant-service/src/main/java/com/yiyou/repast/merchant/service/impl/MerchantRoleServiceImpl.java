@@ -21,7 +21,7 @@ public class MerchantRoleServiceImpl implements IMerchantRoleService{
 	}
 
 	@Override
-	public List<MerchantRole> findAll() {
+	public List<MerchantRole> findAll(Long merchantId) {
 		return merchantRoleRepository.findAll();
 	}
 
