@@ -47,12 +47,11 @@ public class AccountController {
 
 	@GetMapping("/edit")
 	public String edit(Long id,Model model) {
-		if(id!=null) {
-			model.addAttribute("obj",this.merchantAccountService.find(id));
-		}else {
-			model.addAttribute("obj",null);
-		}
 		model.addAttribute("roleList", merchantRoleService.findAll(Constants.MERCHANT_ID));
+		if(id==null) {
+			return "/account/add";
+		}
+		model.addAttribute("obj",this.merchantAccountService.find(id));
 		return "/account/edit";
 	}
 	
