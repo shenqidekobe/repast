@@ -3,11 +3,15 @@ package com.yiyou.repast.order.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
 /**
@@ -21,7 +25,6 @@ public class Cart implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Long merchantId;//商户ID
 	private Long userId;//用户ID
 	
     private String deskNum;//桌号
@@ -31,18 +34,14 @@ public class Cart implements Serializable{
 	private Date createTime;//创建时间
 	private Long createUser;//创建用户
 	
+	@ManyToMany(mappedBy = "cart", targetEntity = CartItem.class, fetch = FetchType.EAGER)
+	private Set<CartItem> items = new HashSet<>();
 	
 	public Long getId() {
 		return id;
 	}
 	public void setId(Long id) {
 		this.id = id;
-	}
-	public Long getMerchantId() {
-		return merchantId;
-	}
-	public void setMerchantId(Long merchantId) {
-		this.merchantId = merchantId;
 	}
 	public Long getUserId() {
 		return userId;

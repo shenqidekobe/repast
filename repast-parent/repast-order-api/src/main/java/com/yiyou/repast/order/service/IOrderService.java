@@ -9,6 +9,8 @@ public interface IOrderService {
 	
 	Order update(Order obj);
 	
+	void remove(Long id);
+	
 	OrderItem save(OrderItem obj);
 
 }
