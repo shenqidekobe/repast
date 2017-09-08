@@ -29,6 +29,7 @@ public class Order implements Serializable{
 	private Long id;
 	private Long merchantId;//商户ID
 	private Long userId;//用户ID
+	private String orderId;//订单号
 	private String deskNum;//桌号
 	
 	@Enumerated(EnumType.STRING)
@@ -61,6 +62,12 @@ public class Order implements Serializable{
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	public String getOrderId() {
+		return orderId;
+	}
+	public void setOrderId(String orderId) {
+		this.orderId = orderId;
 	}
 	public String getDeskNum() {
 		return deskNum;
