@@ -16,7 +16,6 @@ import com.yiyou.repast.merchant.base.RspResult;
 import com.yiyou.repast.merchant.model.MerchantAccount;
 import com.yiyou.repast.merchant.service.IMerchantAccountService;
 import com.yiyou.repast.merchant.service.IMerchantRoleService;
-import com.yiyou.repast.merchant.service.IMerchantService;
 
 import repast.yiyou.common.base.EnumDefinition.AccountStaus;
 import repast.yiyou.common.util.DataGrid;
@@ -32,8 +31,6 @@ public class AccountController {
 	private IMerchantAccountService merchantAccountService;
 	@Reference
 	private IMerchantRoleService merchantRoleService;
-	@Reference
-	private IMerchantService merchantService;
 
 	@GetMapping()
 	public String list(Model model) {
@@ -67,7 +64,7 @@ public class AccountController {
 		}
 		obj.setStatus(AccountStaus.normal);
 		if(obj.getId()==null) {
-			obj.setMerchant(merchantService.find(Constants.MERCHANT_ID));
+			obj.setMerchantId((Constants.MERCHANT_ID));
 			merchantAccountService.save(obj);
 		}else {
 			MerchantAccount pojo=merchantAccountService.find(obj.getId());
