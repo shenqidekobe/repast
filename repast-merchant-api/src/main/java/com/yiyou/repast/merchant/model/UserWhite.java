@@ -30,9 +30,7 @@ public class UserWhite implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "merchant_id")
-	private Merchant merchant;
+	private Long merchantId;
 	
 	private String company;//公司名
 	private String dept;//部门名
@@ -59,11 +57,11 @@ public class UserWhite implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Merchant getMerchant() {
-		return merchant;
+	public Long getMerchantId() {
+		return merchantId;
 	}
-	public void setMerchant(Merchant merchant) {
-		this.merchant = merchant;
+	public void setMerchantId(Long merchantId) {
+		this.merchantId = merchantId;
 	}
 	public String getCompany() {
 		return company;

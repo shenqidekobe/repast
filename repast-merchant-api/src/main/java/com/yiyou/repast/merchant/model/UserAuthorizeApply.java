@@ -29,9 +29,7 @@ public class UserAuthorizeApply implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "merchant_id")
-	private Merchant merchant;
+	private Long merchantId;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "user_id")
@@ -54,11 +52,11 @@ public class UserAuthorizeApply implements Serializable{
 	public void setId(Long id) {
 		this.id = id;
 	}
-	public Merchant getMerchant() {
-		return merchant;
+	public Long getMerchantId() {
+		return merchantId;
 	}
-	public void setMerchant(Merchant merchant) {
-		this.merchant = merchant;
+	public void setMerchantId(Long merchantId) {
+		this.merchantId = merchantId;
 	}
 	public User getUser() {
 		return user;
