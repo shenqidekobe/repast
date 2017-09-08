@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RspResult;
 import com.yiyou.repast.merchant.model.MerchantAccount;
 import com.yiyou.repast.merchant.service.IMerchantAccountService;
@@ -40,7 +41,7 @@ public class AccountController {
 	public List<MerchantAccount> listData(String loginName,String status,String type,Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
 		pageSize=pageSize==null?pageSize=10:pageSize;
-		DataGrid<MerchantAccount> data=merchantAccountService.findList(loginName, status, type, page, pageSize);
+		DataGrid<MerchantAccount> data=merchantAccountService.findList(Constants.MERCHANT_ID,loginName, status, type, page, pageSize);
 		return data.getRecords();
 	}
 
@@ -48,8 +49,10 @@ public class AccountController {
 	public String edit(Long id,Model model) {
 		if(id!=null) {
 			model.addAttribute("obj",this.merchantAccountService.find(id));
+		}else {
+			model.addAttribute("obj",null);
 		}
-		model.addAttribute("roleList", merchantRoleService.findAll());
+		model.addAttribute("roleList", merchantRoleService.findAll(Constants.MERCHANT_ID));
 		return "/account/edit";
 	}
 	
@@ -65,10 +68,11 @@ public class AccountController {
 	}
 	
 	@ResponseBody
-	@PostMapping("/remove.do")
-	public RspResult remove(Long id) {
+	@PostMapping("/toggle.do")
+	public RspResult toggle(Long id,String status) {
 		MerchantAccount obj= merchantAccountService.find(id);
-		obj.setStatus(AccountStaus.disable);
+		AccountStaus as=AccountStaus.valueOf(AccountStaus.class, status);
+		obj.setStatus(as);
 		merchantAccountService.update(obj);
 		return new RspResult();
 	}
@@ -77,7 +81,7 @@ public class AccountController {
 	@PostMapping("/validate.do")
 	public RspResult validate(String loginName) {
 		RspResult rsp=new RspResult();
-		rsp.setData(this.merchantAccountService.findByLoginName(loginName));
+		rsp.setData(this.merchantAccountService.findByLoginName(Constants.MERCHANT_ID,loginName));
 		return new RspResult();
 	}
 }
