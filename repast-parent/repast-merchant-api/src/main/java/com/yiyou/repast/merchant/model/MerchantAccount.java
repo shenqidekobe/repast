@@ -38,6 +38,7 @@ public class MerchantAccount implements Serializable{
 	private MerchantRole role;
 	
 	private String loginName;
+	private String userName;
 	private String password;
 	@Enumerated(EnumType.STRING)
 	private AccountType type;
@@ -71,6 +72,12 @@ public class MerchantAccount implements Serializable{
 	}
 	public void setLoginName(String loginName) {
 		this.loginName = loginName;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getPassword() {
 		return password;
