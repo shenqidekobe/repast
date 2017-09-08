@@ -1,6 +1,7 @@
 package com.yiyou.repast.weixin.controller;
 
 import java.util.Date;
+import java.util.Map;
 import java.util.Objects;
 
 import javax.annotation.Resource;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.dw.weixin.sdk.base.WxResponse;
 import com.dw.weixin.sdk.openapi.IWeixinBasisAPI;
 import com.dw.weixin.sdk.request.oauth.OAuthGetAccessTokenByCodeRequest;
 import com.dw.weixin.sdk.request.oauth.OAuthGetCodeRequest;
@@ -22,8 +22,6 @@ import com.dw.weixin.sdk.response.oauth.OAuthGetUserInfoResponse;
 import com.yiyou.repast.merchant.model.User;
 import com.yiyou.repast.weixin.base.Constants;
 import com.yiyou.repast.weixin.compent.WechatProperties;
-
-import repast.yiyou.common.util.LoggerUtil;
 
 /**
  * 微信用户授权认证
@@ -42,7 +40,7 @@ public class OAuthController {
 	 * 用户登入进行网页授权
 	 */
 	@GetMapping()
-	public void oauth(HttpServletRequest request) throws Exception {
+	public String oauth(HttpServletRequest request) throws Exception {
 		String callbackUrl = wechatProperties.getDomain() + request.getContextPath() + "/wx/oauth/callback";
 		String sessionState = RandomStringUtils.random(10, true, true);
 		request.getSession().setAttribute(SESSION_OAUTH_STATE, sessionState);
@@ -52,9 +50,11 @@ public class OAuthController {
 		oauthReq.setScope("snsapi_userinfo");// snsapi_base为静默
 		oauthReq.setState(sessionState);
 		oauthReq.setRedirect_uri(callbackUrl);
-		
-		WxResponse rsp = weixinBasisAPI.sendReq(oauthReq, null);
-		LoggerUtil.info("用户发起授权结果：" + rsp.toString());
+		String params="?r=yiyou";
+		for(Map.Entry<String, String> entry: oauthReq.getTextParams().entrySet()) {
+			params += "&"+entry.getKey()+"="+entry.getValue();
+		}
+		return "redirect:"+oauthReq.getApiMethodUrl()+params;
 	}
 
 	/**
