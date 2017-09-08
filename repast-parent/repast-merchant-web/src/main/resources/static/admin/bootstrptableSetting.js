@@ -32,7 +32,6 @@ function loadTable(url, colums, callback) {
 	$.dataTablesSettings.url = url;
 	$.dataTablesSettings.columns = colums;
 	$.dataTablesSettings.queryParams = queryParams;
-	console.info(url);
 	callback($.dataTablesSettings);
 }
 function queryParams(params) {
