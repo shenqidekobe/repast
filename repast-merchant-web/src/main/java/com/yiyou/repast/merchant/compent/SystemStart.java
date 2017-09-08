@@ -13,7 +13,7 @@ import com.yiyou.repast.merchant.base.Constants;
 public class SystemStart implements InitializingBean{
 
 	@Value("${current.merchant.id}")
-    private String merchantId;
+    private Long merchantId;
 	
 	@Override
 	public void afterPropertiesSet() throws Exception {

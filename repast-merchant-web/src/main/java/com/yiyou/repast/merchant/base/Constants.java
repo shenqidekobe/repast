@@ -5,6 +5,6 @@ package com.yiyou.repast.merchant.base;
  * */
 public class Constants {
 
-	public static String MERCHANT_ID=null;
+	public static Long MERCHANT_ID=null;
 
 }
