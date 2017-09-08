@@ -14,14 +14,14 @@ public interface IMerchantAccountService {
 	
 	void remove(Long id);
 	
-	MerchantAccount login(String loginName,String password);
+	MerchantAccount login(Long merchantId,String loginName,String password);
 	
-	MerchantAccount findByLoginName(String loginName);
+	MerchantAccount findByLoginName(Long merchantId,String loginName);
 	
 	MerchantAccount find(Long id);
 	
-	List<MerchantAccount> findAll();
+	List<MerchantAccount> findAll(Long merchantId);
 	
-	DataGrid<MerchantAccount> findList(String loginName,String status,String type,int page,int pageSize);
+	DataGrid<MerchantAccount> findList(Long merchantId,String loginName,String status,String type,int page,int pageSize);
 
 }
