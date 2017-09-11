@@ -12,9 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/goods")
 public class GoodsController {
 //    @Reference
-//    private IMerchantGoodsService merchantGoodsService;
+//    private IGoodsService merchantGoodsService;
 //    @Reference
-//    private IMerchantGoodsCategoryService merchantGoodsCategoryService;
+//    private IGoodsCategoryService merchantGoodsCategoryService;
 
     @GetMapping("/manager")
     public String goodsManager(Model model) {
