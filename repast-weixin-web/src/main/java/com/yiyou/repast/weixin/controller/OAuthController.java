@@ -22,6 +22,7 @@ import com.dw.weixin.sdk.response.oauth.OAuthGetUserInfoResponse;
 import com.yiyou.repast.merchant.model.User;
 import com.yiyou.repast.weixin.base.Constants;
 import com.yiyou.repast.weixin.compent.WechatProperties;
+import com.yiyou.repast.weixin.service.UserBusinessService;
 
 /**
  * 微信用户授权认证
@@ -34,7 +35,11 @@ public class OAuthController {
 	private IWeixinBasisAPI weixinBasisAPI;
 	@Resource
 	private WechatProperties wechatProperties;
+	@Resource
+	private UserBusinessService userService;
+	
 	private final String SESSION_OAUTH_STATE = "session_oauth_state";
+	private final String OAUTH_SCOPE="snsapi_base";
 
 	/**
 	 * 用户登入进行网页授权
@@ -47,7 +52,7 @@ public class OAuthController {
 		
 		OAuthGetCodeRequest oauthReq = new OAuthGetCodeRequest();
 		oauthReq.setAppid(wechatProperties.getAppId());
-		oauthReq.setScope("snsapi_userinfo");// snsapi_base为静默
+		oauthReq.setScope(OAUTH_SCOPE);// snsapi_base为静默，snsapi_userinfo为用户需确认登录
 		oauthReq.setState(sessionState);
 		oauthReq.setRedirect_uri(callbackUrl);
 		String params="?r=yiyou";
@@ -76,23 +81,34 @@ public class OAuthController {
 		OAuthGetAccessTokenByCodeResponse rsp = (OAuthGetAccessTokenByCodeResponse) weixinBasisAPI.sendReq(tokenReq,
 				null);
 		if(rsp.isSuccess()) {
-			//授权成功，开始获取用户信息
 			String openId=rsp.getOpenid();
-			OAuthGetUserInfoRequest req1=new OAuthGetUserInfoRequest();
-        	req1.setOpenid(openId);
-        	req1.setAccess_token(rsp.getAccess_token());
-        	OAuthGetUserInfoResponse rsp1=(OAuthGetUserInfoResponse) this.weixinBasisAPI.sendReq(req1, null);
-        	if(rsp1.isSuccess()){
-        		User user=new User();
-        		user.setOpenId(openId);
-        		user.setAvatar(rsp1.getHeadimgurl());
-        		user.setCreateTime(new Date());
-        		user.setNickName(rsp1.getNickname());
-        		request.getSession().setAttribute(Constants.SESSION_ACCOUNT, user);
-        		return "/index";
-        	}
+			//授权成功，非静默方式则开始获取用户信息
+			if("snsapi_userinfo".equals(OAUTH_SCOPE)) {
+				getWechatUserInfo(openId, rsp.getAccess_token());
+			}
+        	request.getSession().setAttribute(Constants.SESSION_ACCOUNT, openId);
+        	return "/index";
 		}
 		return "/fail";
+	}
+	
+	
+	private void getWechatUserInfo(String openId,String accessToken) {
+		try {
+			OAuthGetUserInfoRequest req1=new OAuthGetUserInfoRequest();
+	    	req1.setOpenid(openId);
+	    	req1.setAccess_token(accessToken);
+	    	OAuthGetUserInfoResponse rsp1=(OAuthGetUserInfoResponse) this.weixinBasisAPI.sendReq(req1, null);
+	    	if(rsp1.isSuccess()){
+	    		User user=new User();
+	    		user.setOpenId(openId);
+	    		user.setAvatar(rsp1.getHeadimgurl());
+	    		user.setCreateTime(new Date());
+	    		user.setNickName(rsp1.getNickname());
+	    		this.userService.registerUser(user);
+	    	}
+		} catch (Exception e) {}
+		
 	}
 
 }
