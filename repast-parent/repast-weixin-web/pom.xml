@@ -6,6 +6,7 @@
 		<artifactId>repast-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
+	<packaging>war</packaging> 
 	<artifactId>repast-weixin-web</artifactId>
 	<name>repast weixin web  front system</name>
 
@@ -31,12 +32,10 @@
 					<groupId>commons-io</groupId>
 					<artifactId>commons-io</artifactId>
 				</exclusion>
-				
 				<exclusion>
 					<groupId>commons-codec</groupId>
 					<artifactId>commons-codec</artifactId>
 				</exclusion>
-				
 				<exclusion>
 					<groupId>dom4j</groupId>
 					<artifactId>dom4j</artifactId>
