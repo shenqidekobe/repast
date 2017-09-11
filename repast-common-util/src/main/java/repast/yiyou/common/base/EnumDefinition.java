@@ -90,6 +90,8 @@ public class EnumDefinition {
 		await("已下单"),
 	    ing("出菜中"),
 	    already("已出菜"),
+	    awaitPay("待付款"),
+	    settle("已结算"),
 	    cancel("已取消");
 	    private String name;
 	    private OrderStaus(String name){
