@@ -29,8 +29,6 @@ public class Cart implements Serializable{
 	
     private String deskNum;//桌号
 	private BigDecimal amount;//总金额
-	private BigDecimal discountAmount;//优惠金额
-	
 	private Date createTime;//创建时间
 	private Long createUser;//创建用户
 	
@@ -60,12 +58,6 @@ public class Cart implements Serializable{
 	}
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
-	}
-	public BigDecimal getDiscountAmount() {
-		return discountAmount;
-	}
-	public void setDiscountAmount(BigDecimal discountAmount) {
-		this.discountAmount = discountAmount;
 	}
 	public Date getCreateTime() {
 		return createTime;
