@@ -93,6 +93,9 @@ public class OAuthController {
 	}
 	
 	
+	/**
+	 * 获取微信用户基本信息注册到数据库
+	 * */
 	private void getWechatUserInfo(String openId,String accessToken) {
 		try {
 			OAuthGetUserInfoRequest req1=new OAuthGetUserInfoRequest();
