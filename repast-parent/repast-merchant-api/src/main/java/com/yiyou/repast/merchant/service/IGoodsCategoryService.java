@@ -1,6 +1,7 @@
 package com.yiyou.repast.merchant.service;
 
 import com.yiyou.repast.merchant.model.GoodsCategory;
+import repast.yiyou.common.util.DataGrid;
 
 import java.util.List;
 
@@ -8,8 +9,6 @@ import java.util.List;
  * 商品分类
  */
 public interface IGoodsCategoryService {
-
-    void add(Long merchantId);
 
     GoodsCategory find(Long merchantId, Long GoodsCategoryId);
 
@@ -21,5 +20,8 @@ public interface IGoodsCategoryService {
 
     List<GoodsCategory> findAll(Long merchantId);
 
+    List<GoodsCategory> findAllParent(Long merchantId);
+
+    DataGrid<GoodsCategory> findList(Long merchantId, int page, int pageSize);
 
 }
