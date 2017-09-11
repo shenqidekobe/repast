@@ -51,8 +51,9 @@ public class GoodsServiceImpl implements IGoodsService {
     }
 
     @Override
-    public DataGrid<Goods> findList(Long merchantId, String goodsName, String status, String type, int page, int pageSize) {
+    public DataGrid<Goods> findList(Long merchantId, int page, int pageSize) {
         return null;
     }
+
 
 }

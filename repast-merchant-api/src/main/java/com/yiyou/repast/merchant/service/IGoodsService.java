@@ -18,13 +18,13 @@ public interface IGoodsService {
 
     Goods save(Long merchantId, Goods obj);
 
-    void remove(Long merchantId,Long goodsId);
+    void remove(Long merchantId, Long goodsId);
 
     Goods update(Long merchantId, Goods obj);
 
     List<Goods> findAll(Long merchantId);
 
-    DataGrid<Goods> findList(Long merchantId, String goodsName, String status, String type, int page, int pageSize);
+    DataGrid<Goods> findList(Long merchantId, int page, int pageSize);
 
 
 }
