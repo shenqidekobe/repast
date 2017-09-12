@@ -24,7 +24,7 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService {
 
     @Override
     public void remove(Long merchantId, Long GoodsCategoryId) {
-
+        goodsCategoryRepository.deleteByMerchantIdAndId(merchantId, GoodsCategoryId);
     }
 
     @Override
@@ -41,12 +41,17 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService {
 
     @Override
     public List<GoodsCategory> findAll(Long merchantId) {
-        return goodsCategoryRepository.findAll();
+        return goodsCategoryRepository.findAllByMerchantId(merchantId);
     }
 
     @Override
     public List<GoodsCategory> findAllParent(Long merchantId) {
         return goodsCategoryRepository.findByMerchantIdAndParentIsNull(merchantId);
+    }
+
+    @Override
+    public List<GoodsCategory> findAllParent(Long merchantId, Long id) {
+        return goodsCategoryRepository.findByMerchantIdAndParentIsNullAndIdNot(merchantId, id);
     }
 
     @Override

@@ -40,10 +40,12 @@ public class GoodsCategoryController {
 
     @GetMapping("/edit")
     public String edit(Long id, Model model) {
-        model.addAttribute("parentList", this.goodsCategoryService.findAllParent(Constants.MERCHANT_ID));
         if (id == null) {
+            model.addAttribute("parentList", this.goodsCategoryService.findAllParent(Constants.MERCHANT_ID));
             return "/goodsCategory/add";
         }
+        model.addAttribute("parentList", this.goodsCategoryService.findAllParent(Constants.MERCHANT_ID, id));
+
         model.addAttribute("obj", this.goodsCategoryService.find(Constants.MERCHANT_ID, id));
         return "/goodsCategory/edit";
     }
@@ -51,24 +53,24 @@ public class GoodsCategoryController {
 
     @ResponseBody
     @PostMapping("/save.do")
-    public RspResult save(GoodsCategory obj, Long parentId) {
-        if (obj != null) {
-            if (parentId != null) {//是否选择上级
-                GoodsCategory parent = goodsCategoryService.find(Constants.MERCHANT_ID, parentId);
-                obj.setParent(parent);
-            }
-            if (obj.getId() == null) {
-                goodsCategoryService.save(Constants.MERCHANT_ID, obj);
-            } else {
-                GoodsCategory pojo = goodsCategoryService.find(obj.getMerchantId(), obj.getId());
-                RBeanUtils.copyProperties(obj, pojo);
-
-                goodsCategoryService.update(Constants.MERCHANT_ID, pojo);
-            }
-            return new RspResult();
-        } else {
+    public RspResult save(GoodsCategory obj, Long parentId, Long id) {
+        if (obj == null) {
             return new RspResult(505, "参数错误");
         }
+
+        if (obj.getId() == null) {
+            GoodsCategory parent = goodsCategoryService.find(Constants.MERCHANT_ID, parentId);
+            obj.setParent(parent);
+            goodsCategoryService.save(Constants.MERCHANT_ID, obj);
+        } else {
+            GoodsCategory pojo = goodsCategoryService.find(Constants.MERCHANT_ID, id);
+            RBeanUtils.copyProperties(obj, pojo);
+            GoodsCategory parent = goodsCategoryService.find(Constants.MERCHANT_ID, parentId);
+            pojo.setParent(parent);
+            goodsCategoryService.update(Constants.MERCHANT_ID, pojo);
+        }
+        return new RspResult();
+
     }
 
 

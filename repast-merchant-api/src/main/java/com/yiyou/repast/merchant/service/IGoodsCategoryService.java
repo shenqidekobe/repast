@@ -22,6 +22,8 @@ public interface IGoodsCategoryService {
 
     List<GoodsCategory> findAllParent(Long merchantId);
 
+    List<GoodsCategory> findAllParent(Long merchantId,Long id);
+
     DataGrid<GoodsCategory> findList(Long merchantId, int page, int pageSize);
 
 }
