@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yiyou.repast.weixin.service.OrderBusinessService;
+import com.yiyou.repast.weixin.service.UserBusinessService;
 
 /**
  * 我的订单处理中心
@@ -15,6 +16,8 @@ import com.yiyou.repast.weixin.service.OrderBusinessService;
 @RequestMapping("/order")
 public class OrderController {
 	
+	@Resource
+	private UserBusinessService userService;
 	@Resource
 	private OrderBusinessService orderService;
 	

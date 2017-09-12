@@ -4,9 +4,11 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.yiyou.repast.weixin.service.CartBusinessService;
+import com.yiyou.repast.weixin.service.UserBusinessService;
 
 /**
  * 我的购物车处理中心
@@ -16,11 +18,23 @@ import com.yiyou.repast.weixin.service.CartBusinessService;
 public class CartController {
 	
 	@Resource
+	private UserBusinessService userService;
+	@Resource
 	private CartBusinessService cartService;
 	
+	/**
+	 * 我的购物车
+	 * */
+	@GetMapping("/list")
+	public String myCart() {
+		return "";
+	}
 	
-	@GetMapping("")
-	public String index() {
+	/**
+	 * 商品加入购物车
+	 * */
+	@PostMapping("/save.do")
+	public String saveCart(Long goodsId) {
 		return "";
 	}
 

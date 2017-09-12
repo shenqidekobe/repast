@@ -1,12 +1,14 @@
 package com.yiyou.repast.weixin.service.impl;
 
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.model.User;
 import com.yiyou.repast.merchant.service.IUserService;
 import com.yiyou.repast.weixin.base.RBeanUtils;
+import com.yiyou.repast.weixin.base.SessionToken;
 import com.yiyou.repast.weixin.service.UserBusinessService;
 
 import repast.yiyou.common.exception.BusinessException;
@@ -18,7 +20,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	private IUserService userService;
 
 	@Override
-	public void registerUser(User user) {
+	public User registerUser(User user) {
 		if(user==null) {
 			throw new BusinessException(4444, "user not be null");
 		}
@@ -33,6 +35,14 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 			RBeanUtils.copyProperties(user, obj);
 			userService.update(obj);
 		}
+		return user;
+	}
+
+	@Override
+	public SessionToken getSessionUser() {
+		if(SecurityUtils.getSubject()==null)return null;
+		
+		return (SessionToken) SecurityUtils.getSubject().getPrincipal();
 	}
 
 }
