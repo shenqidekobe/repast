@@ -89,6 +89,6 @@ public class AccountController {
 	public RspResult validate(String loginName) {
 		RspResult rsp=new RspResult();
 		rsp.setData(this.merchantAccountService.findByLoginName(Constants.MERCHANT_ID,loginName));
-		return new RspResult();
+		return rsp;
 	}
 }
