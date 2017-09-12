@@ -2,6 +2,7 @@ package com.yiyou.repast.order.model;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -31,8 +32,7 @@ public class CartItem implements Serializable{
 	private String auxIds;//商品辅料ID字符串
 	private Integer count;//数量
 	private BigDecimal amount;//订单金额
-	private BigDecimal discountAmount;//优惠金额
-	
+	private Date createTime;
 	
 	public Long getId() {
 		return id;
@@ -70,11 +70,10 @@ public class CartItem implements Serializable{
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
-	public BigDecimal getDiscountAmount() {
-		return discountAmount;
+	public Date getCreateTime() {
+		return createTime;
 	}
-	public void setDiscountAmount(BigDecimal discountAmount) {
-		this.discountAmount = discountAmount;
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
 	}
-	
 }

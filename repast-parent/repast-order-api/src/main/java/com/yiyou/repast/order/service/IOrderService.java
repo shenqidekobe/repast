@@ -1,5 +1,7 @@
 package com.yiyou.repast.order.service;
 
+import java.util.List;
+
 import com.yiyou.repast.order.model.Order;
 import com.yiyou.repast.order.model.OrderItem;
 
@@ -11,6 +13,10 @@ public interface IOrderService {
 	
 	void remove(Long id);
 	
-	OrderItem save(OrderItem obj);
-
+	OrderItem saveOrderItem(OrderItem obj);
+	
+	Order findById(Long id);
+	
+	List<Order> findByUserId(Long userId);
+	
 }

@@ -30,7 +30,6 @@ public class Cart implements Serializable{
     private String deskNum;//桌号
 	private BigDecimal amount;//总金额
 	private Date createTime;//创建时间
-	private Long createUser;//创建用户
 	
 	@ManyToMany(mappedBy = "cart", targetEntity = CartItem.class, fetch = FetchType.EAGER)
 	private Set<CartItem> items = new HashSet<>();
@@ -65,11 +64,11 @@ public class Cart implements Serializable{
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
-	public Long getCreateUser() {
-		return createUser;
+	public Set<CartItem> getItems() {
+		return items;
 	}
-	public void setCreateUser(Long createUser) {
-		this.createUser = createUser;
+	public void setItems(Set<CartItem> items) {
+		this.items = items;
 	}
-    
+	
 }
