@@ -15,6 +15,7 @@ import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RBeanUtils;
 import com.yiyou.repast.merchant.base.RspResult;
 import com.yiyou.repast.merchant.model.MerchantRole;
+import com.yiyou.repast.merchant.service.IMerchantMenuService;
 import com.yiyou.repast.merchant.service.IMerchantRoleService;
 
 /**
@@ -26,6 +27,8 @@ public class RoleController {
 	
 	@Reference
 	private IMerchantRoleService merchantRoleService;
+	@Reference
+	private IMerchantMenuService merchantMenuService;
 
 	@GetMapping()
 	public String list(Model model) {
@@ -53,6 +56,7 @@ public class RoleController {
 	@GetMapping("/pers")
 	public String permission(Long id,Model model) {
 		model.addAttribute("obj",this.merchantRoleService.find(id));
+		model.addAttribute("menus", merchantMenuService.findAll(Constants.MERCHANT_ID));
 		return "/role/permission";
 	}
 	
@@ -82,7 +86,7 @@ public class RoleController {
 	@PostMapping("/validate.do")
 	public RspResult validate(String name) {
 		RspResult rsp=new RspResult();
-		//rsp.setData(this.merchantRoleService.findByLoginName(Constants.MERCHANT_ID,name));
+		rsp.setData(this.merchantRoleService.findByName(Constants.MERCHANT_ID,name));
 		return rsp;
 	}
 }
