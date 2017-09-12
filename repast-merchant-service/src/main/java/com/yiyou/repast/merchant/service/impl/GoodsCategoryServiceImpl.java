@@ -24,7 +24,8 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService {
 
     @Override
     public void remove(Long merchantId, Long GoodsCategoryId) {
-        goodsCategoryRepository.deleteByMerchantIdAndId(merchantId, GoodsCategoryId);
+        goodsCategoryRepository.delete(GoodsCategoryId);
+//        goodsCategoryRepository.deleteGoodsCategoryByMerchantIdAndId(merchantId, GoodsCategoryId);
     }
 
     @Override
@@ -39,16 +40,32 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService {
         return goodsCategoryRepository.save(obj);
     }
 
+    /**
+     * 所有分类
+     * @param merchantId
+     * @return
+     */
     @Override
     public List<GoodsCategory> findAll(Long merchantId) {
         return goodsCategoryRepository.findAllByMerchantId(merchantId);
     }
 
+    /**
+     * 所有一级分类
+     * @param merchantId
+     * @return
+     */
     @Override
     public List<GoodsCategory> findAllParent(Long merchantId) {
         return goodsCategoryRepository.findByMerchantIdAndParentIsNull(merchantId);
     }
 
+    /**
+     * 除本分类外所有一级分类
+     * @param merchantId
+     * @param id
+     * @return
+     */
     @Override
     public List<GoodsCategory> findAllParent(Long merchantId, Long id) {
         return goodsCategoryRepository.findByMerchantIdAndParentIsNullAndIdNot(merchantId, id);

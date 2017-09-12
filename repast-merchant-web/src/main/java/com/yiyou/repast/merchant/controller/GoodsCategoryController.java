@@ -34,7 +34,7 @@ public class GoodsCategoryController {
         // TODO: 2017/9/11  分页没做
         page = page == null ? page = 0 : page;
         pageSize = pageSize == null ? pageSize = 10 : pageSize;
-        DataGrid<GoodsCategory> data = goodsCategoryService.findList(Constants.MERCHANT_ID, page, pageSize);
+        DataGrid<GoodsCategory> data = this.goodsCategoryService.findList(Constants.MERCHANT_ID, page, pageSize);
         return data.getRecords();
     }
 
@@ -50,6 +50,11 @@ public class GoodsCategoryController {
         return "/goodsCategory/edit";
     }
 
+    @GetMapping("/remove")
+    public String delete(Long id,Model model) {
+        this.goodsCategoryService.remove(Constants.MERCHANT_ID,id);
+        return "redirect:/goods/category";
+    }
 
     @ResponseBody
     @PostMapping("/save.do")
@@ -59,15 +64,15 @@ public class GoodsCategoryController {
         }
 
         if (obj.getId() == null) {
-            GoodsCategory parent = goodsCategoryService.find(Constants.MERCHANT_ID, parentId);
+            GoodsCategory parent = this.goodsCategoryService.find(Constants.MERCHANT_ID, parentId);
             obj.setParent(parent);
-            goodsCategoryService.save(Constants.MERCHANT_ID, obj);
+            this.goodsCategoryService.save(Constants.MERCHANT_ID, obj);
         } else {
-            GoodsCategory pojo = goodsCategoryService.find(Constants.MERCHANT_ID, id);
+            GoodsCategory pojo = this.goodsCategoryService.find(Constants.MERCHANT_ID, id);
             RBeanUtils.copyProperties(obj, pojo);
-            GoodsCategory parent = goodsCategoryService.find(Constants.MERCHANT_ID, parentId);
+            GoodsCategory parent = this.goodsCategoryService.find(Constants.MERCHANT_ID, parentId);
             pojo.setParent(parent);
-            goodsCategoryService.update(Constants.MERCHANT_ID, pojo);
+            this.goodsCategoryService.update(Constants.MERCHANT_ID, pojo);
         }
         return new RspResult();
 

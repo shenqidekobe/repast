@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="link">
+    <link type="text/css" rel="stylesheet" href="/static/bootstrap-fileinput/fileinput.min.css">
+</head>
 <body>
 <div id="wrapper">
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -57,37 +59,63 @@
 <script src="/static/metisMenu/metisMenu.min.js"></script>
 <script src="/static/dist/js/sb-admin-2.js"></script>
 <script src="/static/toastr/toastr.min.js"></script>
+<script src="/static/bootstrap-fileinput/zh.js"></script>
+<script src="/static/bootstrap-fileinput/fileinput.min.js"></script>
+
 <script>
     $(function () {
-        $("#saveBtn").click(function () {
-            var name = $.trim($("#name").val());
-            var amount = $.trim($("#amount").val());
-            if (name == "") {
-                toastr.warning('请填写菜名');
-                return false;
-            } else if (amount == "") {
-                toastr.warning('请填写价格');
-                return false;
-            }
-            if (isNaN(amount)) {
-                toastr.error('请输入正确的价格');
-                return false;
-            }
+        projectfileoptions = {
+            showUpload: false,
+            showRemove: false,
+            language: 'zh',
+            allowedPreviewTypes: ['image'],
+            allowedFileExtensions: ['jpg', 'png', 'gif'],
+            maxFileSize: 2000,
+            minHeight: 300,
+        }
+        $('input[class=projectfile]').each(function () {
+            var imageurl = $(this).attr("value");
 
-            $.ajax({
-                url: 'save.do',
-                type: 'POST',
-                data: $("#editForm").serialize(),
-                success: function (rsp) {
-                    if (rsp.status == 200) {
-                        toastr.success('保存成功');
-                        location.href = '/goods';
-                    } else {
-                        toastr.warning('服务器繁忙，请稍后再试');
-                    }
+            if (imageurl) {
+                var op = $.extend({
+                    initialPreview: [ // 预览图片的设置
+                        "<img src='" + imageurl + "' class='file-preview-image'>",]
+                }, projectfileoptions);
+
+                $(this).fileinput(op);
+            } else {
+                $(this).fileinput(projectfileoptions);
+            }
+        }),
+            $("#saveBtn").click(function () {
+                var name = $.trim($("#name").val());
+                var amount = $.trim($("#amount").val());
+                if (name == "") {
+                    toastr.warning('请填写菜名');
+                    return false;
+                } else if (amount == "") {
+                    toastr.warning('请填写价格');
+                    return false;
                 }
+                if (isNaN(amount)) {
+                    toastr.error('请输入正确的价格');
+                    return false;
+                }
+                $.ajax({
+                    url: 'save.do',
+                    type: 'POST',
+                    data: $("#editForm").serialize(),
+                    success: function (rsp) {
+                        if (rsp.status == 200) {
+                            toastr.success('保存成功');
+                            location.href = '/goods';
+                        } else {
+                            toastr.warning('服务器繁忙，请稍后再试');
+                        }
+                    }
+                });
             });
-        });
+
     })
 </script>
 

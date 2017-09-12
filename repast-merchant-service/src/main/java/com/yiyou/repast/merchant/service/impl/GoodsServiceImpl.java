@@ -18,11 +18,6 @@ public class GoodsServiceImpl implements IGoodsService {
 
 
     @Override
-    public void add(Long merchantId) {
-
-    }
-
-    @Override
     public Goods find(Long merchantId, Long goodsId) {
         return null;
     }
