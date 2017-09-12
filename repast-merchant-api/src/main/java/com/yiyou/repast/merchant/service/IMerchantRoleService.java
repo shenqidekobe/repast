@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.yiyou.repast.merchant.model.MerchantRole;
 
+import repast.yiyou.common.util.DataGrid;
+
 public interface IMerchantRoleService {
 	
 	MerchantRole save(MerchantRole obj);
@@ -17,5 +19,7 @@ public interface IMerchantRoleService {
 	MerchantRole find(Long id);
 	
 	List<MerchantRole> findAll(Long merchantId);
+	
+	DataGrid<MerchantRole> findList(Long merchantId,String name,int page,int pageSize);
 
 }
