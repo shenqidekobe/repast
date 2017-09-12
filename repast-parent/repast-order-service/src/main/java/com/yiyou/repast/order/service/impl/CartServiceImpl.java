@@ -1,9 +1,11 @@
 package com.yiyou.repast.order.service.impl;
 
 import java.util.Date;
-import java.util.List;
 
 import javax.annotation.Resource;
+
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.order.dao.CartItemRepository;
@@ -48,12 +50,16 @@ public class CartServiceImpl implements ICartService{
 
 	@Override
 	public void clearCart(Long userId) {
-		
+		cartRepository.delete(findCart(userId));
 	}
 
 	@Override
-	public List<Cart> findCart(Long userId) {
-		return null;
+	public Cart findCart(Long userId) {
+		Cart cart=new Cart();
+		cart.setUserId(userId);
+	    ExampleMatcher matcher = ExampleMatcher.matching();
+	    Example<Cart> example = Example.of(cart, matcher); 
+		return cartRepository.findOne(example);
 	}
 
 
