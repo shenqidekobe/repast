@@ -18,6 +18,8 @@ public interface IMerchantRoleService {
 	
 	MerchantRole find(Long id);
 	
+	MerchantRole findByName(Long merchantId,String name);
+	
 	List<MerchantRole> findAll(Long merchantId);
 	
 	DataGrid<MerchantRole> findList(Long merchantId,String name,int page,int pageSize);
