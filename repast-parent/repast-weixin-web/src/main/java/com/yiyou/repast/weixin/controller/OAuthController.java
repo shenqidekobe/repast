@@ -9,6 +9,8 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang.RandomStringUtils;
 import org.apache.commons.lang.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,7 +22,6 @@ import com.dw.weixin.sdk.request.oauth.OAuthGetUserInfoRequest;
 import com.dw.weixin.sdk.response.oauth.OAuthGetAccessTokenByCodeResponse;
 import com.dw.weixin.sdk.response.oauth.OAuthGetUserInfoResponse;
 import com.yiyou.repast.merchant.model.User;
-import com.yiyou.repast.weixin.base.Constants;
 import com.yiyou.repast.weixin.compent.WechatProperties;
 import com.yiyou.repast.weixin.service.UserBusinessService;
 
@@ -82,11 +83,16 @@ public class OAuthController {
 				null);
 		if(rsp.isSuccess()) {
 			String openId=rsp.getOpenid();
+			User user=new User();
+			user.setOpenId(openId);
 			//授权成功，非静默方式则开始获取用户信息
 			if("snsapi_userinfo".equals(OAUTH_SCOPE)) {
-				getWechatUserInfo(openId, rsp.getAccess_token());
+				user=getWechatUserInfo(user, rsp.getAccess_token());
 			}
-        	request.getSession().setAttribute(Constants.SESSION_ACCOUNT, openId);
+			User obj=this.userService.registerUser(user);
+			//开始登录注册到shiro
+			UsernamePasswordToken token = new UsernamePasswordToken(obj.getId().toString(), obj.getOpenId());
+	        SecurityUtils.getSubject().login(token);
         	return "/index";
 		}
 		return "/fail";
@@ -96,22 +102,23 @@ public class OAuthController {
 	/**
 	 * 获取微信用户基本信息注册到数据库
 	 * */
-	private void getWechatUserInfo(String openId,String accessToken) {
+	private User getWechatUserInfo(User user,String accessToken) {
 		try {
+			String openId=user.getOpenId();
 			OAuthGetUserInfoRequest req1=new OAuthGetUserInfoRequest();
 	    	req1.setOpenid(openId);
 	    	req1.setAccess_token(accessToken);
 	    	OAuthGetUserInfoResponse rsp1=(OAuthGetUserInfoResponse) this.weixinBasisAPI.sendReq(req1, null);
 	    	if(rsp1.isSuccess()){
-	    		User user=new User();
+	    		user=new User();
 	    		user.setOpenId(openId);
 	    		user.setAvatar(rsp1.getHeadimgurl());
 	    		user.setCreateTime(new Date());
 	    		user.setNickName(rsp1.getNickname());
-	    		this.userService.registerUser(user);
+	    		
 	    	}
 		} catch (Exception e) {}
-		
+		return user;
 	}
 
 }

@@ -1,5 +1,7 @@
 package com.yiyou.repast.weixin.service;
 
+import com.yiyou.repast.order.model.Cart;
+
 public interface CartBusinessService {
 	
 	/**
@@ -16,5 +18,10 @@ public interface CartBusinessService {
 	 * 删除购物车项
 	 * */
 	void removeCartItem(Long cartId,Long cartItemId);
+	
+	/**
+	 * 获取用户的购物车内容
+	 * */
+	Cart getCart(Long userId);
 
 }
