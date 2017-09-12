@@ -1,7 +1,5 @@
 package com.yiyou.repast.order.service;
 
-import java.util.List;
-
 import com.yiyou.repast.order.model.Cart;
 import com.yiyou.repast.order.model.CartItem;
 
@@ -11,9 +9,13 @@ public interface ICartService {
 	
 	Cart update(Cart obj);
 	
-	CartItem save(CartItem obj);
+	CartItem saveCartItem(CartItem obj);
 	
-	CartItem update(CartItem obj);
+	CartItem updateCartItem(CartItem obj);
+	
+	Cart findCartById(Long id);
+	
+	CartItem findCartItemById(Long id);
 	
 	void removeCartItem(Long id);
 	
@@ -25,6 +27,6 @@ public interface ICartService {
 	/**
 	 * 我的购物车
 	 * */
-	List<Cart> findCart(Long userId);
+	Cart findCart(Long userId);
 
 }
