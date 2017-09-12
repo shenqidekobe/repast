@@ -10,7 +10,6 @@ import java.util.List;
  */
 public interface IGoodsService {
 
-    void add(Long merchantId);
 
     Goods find(Long merchantId, Long goodsId);
 

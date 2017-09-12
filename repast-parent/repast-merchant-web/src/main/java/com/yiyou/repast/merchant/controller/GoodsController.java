@@ -23,8 +23,10 @@ import java.util.List;
 @Controller
 @RequestMapping("/goods")
 public class GoodsController {
+
     @Reference
     private IGoodsService goodsService;
+
     @Reference
     private IGoodsCategoryService goodsCategoryService;
 
