@@ -7,7 +7,9 @@ import com.yiyou.repast.merchant.service.IGoodsService;
 import repast.yiyou.common.util.DataGrid;
 
 import javax.annotation.Resource;
+import java.util.Date;
 import java.util.List;
+
 @Service
 public class GoodsServiceImpl implements IGoodsService {
 
@@ -32,7 +34,9 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Override
     public Goods save(Long merchantId, Goods obj) {
-        return null;
+        obj.setCreateTime(new Date());
+        obj.setMerchantId(merchantId);
+        return merchantGoodsRepository.save(obj);
     }
 
     @Override
@@ -42,16 +46,17 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Override
     public Goods update(Long merchantId, Goods obj) {
-        return null;
+        return merchantGoodsRepository.save(obj);
     }
 
     @Override
     public List<Goods> findAll(Long merchantId) {
-        return merchantGoodsRepository.findAll();
+        return merchantGoodsRepository.findAllByMerchantId(merchantId);
     }
 
     @Override
     public DataGrid<Goods> findList(Long merchantId, int page, int pageSize) {
+        // TODO: 2017/9/12 分页
         return null;
     }
 

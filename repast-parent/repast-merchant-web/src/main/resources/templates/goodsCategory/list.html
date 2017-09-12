@@ -67,7 +67,7 @@
         }
         var url = "/goods/category/listData.do?random=" + Math.random();
         var columns = [
-            {field: 'id', title: '编号',},
+            { field: '',title: '序号', formatter: function (value, row, index) { return index+1; }  },
             {field: 'name', title: '分类名称',},
             {field: 'priority', title: '优先级',},
             {field: 'parentName', title: '所属分类',},
