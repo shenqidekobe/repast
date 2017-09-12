@@ -21,7 +21,7 @@ $(function () {
 	        { field : 'opers',title: '操作',events:operateEvents, formatter : operateFormatter }]
 	  function operateFormatter(value, row, index) {
 	      return ['<button type="button" class="btn btn-primary btn-circle" id="edit">编辑</button>&nbsp;&nbsp;'+
-	               '<button type="button" class="btn btn-warning btn-circle"  id="pers">分配权限</button>'].join("");
+	               '<button type="button" class="btn btn-warning"  id="pers">分配权限</button>'].join("");
 	  }
 	  loadTable(url,columns,function(options){
           dataTable=$('#dataTable').bootstrapTable(options);
