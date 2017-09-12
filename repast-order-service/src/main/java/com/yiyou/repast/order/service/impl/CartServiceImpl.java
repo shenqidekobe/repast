@@ -34,12 +34,12 @@ public class CartServiceImpl implements ICartService{
 	}
 
 	@Override
-	public CartItem save(CartItem obj) {
+	public CartItem saveCartItem(CartItem obj) {
 		return cartItemRepository.save(obj);
 	}
 
 	@Override
-	public CartItem update(CartItem obj) {
+	public CartItem updateCartItem(CartItem obj) {
 		return cartItemRepository.save(obj);
 	}
 
@@ -62,5 +62,14 @@ public class CartServiceImpl implements ICartService{
 		return cartRepository.findOne(example);
 	}
 
+	@Override
+	public Cart findCartById(Long id) {
+		return cartRepository.findOne(id);
+	}
+
+	@Override
+	public CartItem findCartItemById(Long id) {
+		return cartItemRepository.findOne(id);
+	}
 
 }

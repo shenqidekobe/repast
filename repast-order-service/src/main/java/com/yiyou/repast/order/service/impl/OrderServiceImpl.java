@@ -1,6 +1,11 @@
 package com.yiyou.repast.order.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
+
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.order.dao.OrderItemRepository;
@@ -28,13 +33,28 @@ public class OrderServiceImpl implements IOrderService {
 	}
 
 	@Override
-	public OrderItem save(OrderItem obj) {
+	public OrderItem saveOrderItem(OrderItem obj) {
 		return orderItemRepository.save(obj);
 	}
 
 	@Override
 	public void remove(Long id) {
 		orderRepository.delete(id);
+	}
+
+
+	@Override
+	public Order findById(Long id) {
+		return orderRepository.findOne(id);
+	}
+
+	@Override
+	public List<Order> findByUserId(Long userId) {
+		Order obj=new Order();
+		obj.setUserId(userId);
+	    ExampleMatcher matcher = ExampleMatcher.matching();
+	    Example<Order> example = Example.of(obj, matcher); 
+		return orderRepository.findAll(example);
 	}
 
 
