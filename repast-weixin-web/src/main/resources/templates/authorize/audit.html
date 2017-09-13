@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+	    <meta content="yes" name="apple-touch-fullscreen">
+	    <meta content="telephone=no,email=no" name="format-detection">
+	    <meta content="maximum-dpr=1" name="flexible" />
+	    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+		<link rel="stylesheet" href="css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="css/mui.picker.min.css" />
+	    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
+		<link rel="stylesheet" type="text/css" href="css/common.css"/>
+        <title>同意授权</title>
+        
+	</head>
+	<body class="">
+		<ul class="m-form-shouquan f-bgc-fff p011">
+			<li class="form-list"><span class="f-fr m-cont cursor btn" id="gongsi"><span class="m-tit">均瑶国际</span></span><span class="m-tit">公司</span></li>
+			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit">技术部</span></span><span class="m-tit">部门</span></li>
+			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit">日常用餐</span></span><span class="m-tit">订单</span></li>
+			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit">3人</span></span><span class="m-tit">人数</span></li>
+			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit">09-04 12:50</span></span><span class="m-tit">用餐时间</span></li>
+			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit">李国强</span></span><span class="m-tit">授权人</span></li>
+			<li class="form-list list-text bb0">
+				<textarea name="" rows="" cols="" placeholder="请填写您的申请理由..." class="m-text">宴请贵宾</textarea>
+			</li>
+		</ul>
+		<div class="f-tac m-btn-shenqing">
+			<a class="m-btn m-btn-feda00" >同意授权</a>
+		</div>
+		
+		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="js/common.js"></script>
+		<script src="js/mui.min.js"></script>
+		<script src="js/mui.picker.min.js"></script>
+		<script>
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+				var result = $('#time-yongcan')[0];
+				var _getParam = function(obj, param) {
+						return obj[param] || '';
+					};
+					//普通示例
+					var userPicker = new $.PopPicker();
+					userPicker.setData([{value:"0",text:"均瑶国际"},{value:"1",text:"华彩国际"}]);
+					var showUserPickerButton = doc.getElementById('gongsi');
+					//var userResult = doc.getElementById('userResult');
+					showUserPickerButton.addEventListener('tap', function(event) {
+						userPicker.show(function(items) {
+							showUserPickerButton.innerText = JSON.stringify(items[0]);
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+						});
+					}, false);
+				});
+			})(mui,document);
+		</script>
+	</body>
+</html>
