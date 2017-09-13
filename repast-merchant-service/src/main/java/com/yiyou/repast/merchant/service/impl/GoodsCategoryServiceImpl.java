@@ -25,7 +25,6 @@ public class GoodsCategoryServiceImpl implements IGoodsCategoryService {
     @Override
     public void remove(Long merchantId, Long GoodsCategoryId) {
         goodsCategoryRepository.delete(GoodsCategoryId);
-//        goodsCategoryRepository.deleteGoodsCategoryByMerchantIdAndId(merchantId, GoodsCategoryId);
     }
 
     @Override

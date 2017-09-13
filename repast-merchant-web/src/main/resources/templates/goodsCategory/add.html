@@ -60,6 +60,11 @@
 <script>
     $("#saveBtn").click(function () {
         var priority = $.trim($("#priority").val());
+        var name = $.trim($("#name").val());
+        if (name == "") {
+            toastr.warning('请输入规格名');
+            return false;
+        }
         if (isNaN(priority)) {
             toastr.error('请输入正确的优先级');
             return false;

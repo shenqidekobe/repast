@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="link">
+    <link href="/static/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div th:include="top"></div>
+        <div th:include="left"></div>
+    </nav>
+
+    <div id="page-wrapper">
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">辅料管理</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <ol class="breadcrumb">
+                        <li><strong><span style="color: #27a0d7">辅料列表</span></strong></li>
+                    </ol>
+                    <form class="form-inline" role="form" method="post" id="searchForm">
+                        <div class="form-group" style="margin-left:20px">
+                            <input type="text" class="form-control" placeholder="辅料名"
+                                   onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
+                        </div>
+                        <div class="form-group">
+                            <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
+                        </div>
+                        <div class="form-group btn-right">
+                            <button type="button" class="btn btn-primary" id="addBtn">新增辅料</button>
+                        </div>
+                    </form>
+                    <div class="container" style="width: 100%">
+                        <table id="dataTable"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>∂
+
+<script src="/static/jquery/jquery.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/metisMenu/metisMenu.min.js"></script>
+<script src="/static/dist/js/sb-admin-2.js"></script>
+<script src="/static/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/static/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+<script src="/static/admin/bootstrptableSetting.js"></script>
+<script src="/static/toastr/toastr.min.js"></script>
+<script src="/static/toastr/toastr.confirm.js"></script>
+<script src="/static/admin/goods/list.js"></script>
+<script>
+    var dataTable = null;
+    $("#addBtn").click(function () {
+        location.href = '/goods/aux/edit';
+    });
+    window.operateEvents = {
+        "click #edit": function (e, value, row, index) {
+            location.href = '/goods/aux/edit?id=' + row.id;
+            return false;
+        },
+        "click #delete":function(e, value,row,index){
+            location.href='/goods/aux/remove?id='+row.id;
+            return false;
+        }
+    }
+    var url = "/goods/aux/listData.do?random=" + Math.random();
+    var columns = [
+        {
+            field: '', title: '序号', formatter: function (value, row, index) {
+            return index + 1;
+        }
+        },
+        {field: 'name', title: '辅料名',},
+        {field: 'amount', title: '价格',},
+        {field: 'sales', title: '累计销量',},
+        {
+            field: 'createTime', title: '创建时间', formatter: function (value, row, index) {
+            return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+        }
+        },
+        {field: 'opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
+
+    function operateFormatter(value, row, index) {
+        return "<button type=\"button\" class=\"btn btn-primary btn-circle\" id=\"edit\">编辑</button>"+
+            "   <button type=\"button\" class=\"btn btn-danger btn-circle\" id=\"delete\">删除</button>";;
+    }
+
+    loadTable(url, columns, function (options) {
+        dataTable = $('#dataTable').bootstrapTable(options);
+    });
+
+</script>
+
+</body>
+</html>
