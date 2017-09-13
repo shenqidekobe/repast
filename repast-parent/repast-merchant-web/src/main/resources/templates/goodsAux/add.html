@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="link">
+</head>
 <body>
 <div id="wrapper">
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -11,41 +12,26 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">编辑菜品分类</h1>
+                <h1 class="page-header">新增辅料</h1>
             </div>
         </div>
         <div class="panel-body">
             <div class="row">
                 <div class="col-lg-6">
-                    <form class="" role="form" method="post" id="editForm" th:if="${obj!=null}">
-
+                    <form class="" role="form" method="post" id="editForm">
                         <div class="form-group">
-                            <label>分类名称</label>
-                            <input type="hidden" name="id" th:field="${obj.id}">
-                            <input type="text" class="form-control" name="name" id="name" th:field="${obj.name}"
+                            <label>辅料名</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="辅料名"
                                    maxlength="16">
                         </div>
                         <div class="form-group">
-                            <label>优先级</label>
-                            <input type="text" class="form-control" name="priority" id="priority"
-                                   th:field="*{obj.priority}" maxlength="20">
+                            <label>价格</label>
+                            <input type="text" class="form-control" name="amount" id="amount" value="0"
+                                   maxlength="8">
                         </div>
-
                         <div class="form-group">
-                            <label>所属分类</label>
-                            <select class="form-control" name="parentId" id="parentId">
-                                <option value="">无</option>
-                                <option th:each="category:${parentList}"
-                                        th:value="${category.id}"
-                                        th:text="${category.name}"
-                                        th:selected="(${obj.parentName} == ${category.name})"></option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>备注</label>
-                            <textarea class="form-control" rows="3" name="remark" id="remark"
-                                      th:field="*{obj.remark}"></textarea>
+                            <label>说明</label>
+                            <textarea class="form-control" rows="3" name="remark" id="remark"></textarea>
                         </div>
                         <button type="button" class="btn btn-primary" id="saveBtn">保存</button>
                     </form>
@@ -60,17 +46,18 @@
 <script src="/static/metisMenu/metisMenu.min.js"></script>
 <script src="/static/dist/js/sb-admin-2.js"></script>
 <script src="/static/toastr/toastr.min.js"></script>
+
 <script>
     $(function () {
         $("#saveBtn").click(function () {
-            var priority = $.trim($("#priority").val());
             var name = $.trim($("#name").val());
+            var amount = $.trim($("#amount").val());
             if (name == "") {
-                toastr.warning('请输入规格名');
+                toastr.warning('请输入辅料名');
                 return false;
             }
-            if (isNaN(priority)) {
-                toastr.error('请输入正确的优先级');
+            if (isNaN(amount)) {
+                toastr.error('请输入正确的价格');
                 return false;
             }
             $.ajax({
@@ -80,13 +67,14 @@
                 success: function (rsp) {
                     if (rsp.status == 200) {
                         toastr.success('保存成功');
-                        location.href = '/goods/category';
+                        location.href = '/goods/aux';
                     } else {
                         toastr.warning('服务器繁忙，请稍后再试');
                     }
                 }
             });
         });
+
     })
 </script>
 

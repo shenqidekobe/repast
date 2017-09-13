@@ -1,19 +1,8 @@
 package com.yiyou.repast.merchant.controller;
 
-import java.io.ByteArrayOutputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.OutputStream;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.alibaba.dubbo.common.utils.StringUtils;
+import com.yiyou.repast.merchant.base.Constants;
+import com.yiyou.repast.merchant.base.RspResult;
 import org.apache.tomcat.util.http.fileupload.servlet.ServletFileUpload;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.FileCopyUtils;
@@ -24,13 +13,16 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 
-import com.alibaba.dubbo.common.utils.StringUtils;
-import com.yiyou.repast.merchant.base.Constants;
-import com.yiyou.repast.merchant.base.RspResult;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.*;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 
 /**
- * 图片上传读取公用借口 
+ * 图片上传读取公用接口
  */
 @Controller
 public class ImageController{

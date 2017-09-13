@@ -5,8 +5,10 @@ import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RspResult;
 import com.yiyou.repast.merchant.model.Goods;
 import com.yiyou.repast.merchant.model.GoodsCategory;
+import com.yiyou.repast.merchant.service.IGoodsAuxService;
 import com.yiyou.repast.merchant.service.IGoodsCategoryService;
 import com.yiyou.repast.merchant.service.IGoodsService;
+import com.yiyou.repast.merchant.service.IGoodsSpecService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -30,10 +32,32 @@ public class GoodsController {
     @Reference
     private IGoodsCategoryService goodsCategoryService;
 
+    @Reference
+    private IGoodsSpecService goodsSpecService;
+
+    @Reference
+    private IGoodsAuxService goodsAuxService;
+
     @GetMapping()
     public String goodsManager(Model model) {
         return "/goods/list";
     }
+
+
+    @GetMapping("/edit")
+    public String edit(Long id, Model model) {
+        model.addAttribute("parentList", this.goodsCategoryService.findAll(Constants.MERCHANT_ID));
+        if (id == null) {
+            model.addAttribute("specList", this.goodsSpecService.findAll(Constants.MERCHANT_ID));
+            model.addAttribute("auxList", this.goodsAuxService.findAll(Constants.MERCHANT_ID));
+            return "/goods/add";
+        }
+        model.addAttribute("obj", this.goodsService.find(Constants.MERCHANT_ID,id));
+        return "/goods/edit";
+    }
+
+
+
 
     @ResponseBody
     @PostMapping("/listData.do")
@@ -45,31 +69,22 @@ public class GoodsController {
         return goodsService.findAll(Constants.MERCHANT_ID);
     }
 
-    @GetMapping("/edit")
-    public String edit(Long id, Model model) {
-        model.addAttribute("parentList", this.goodsCategoryService.findAll(Constants.MERCHANT_ID));
-        if (id == null) {
-            return "/goods/add";
-        }
-        return "/goods/edit";
-    }
 
 
     @ResponseBody
     @PostMapping("/save.do")
-    public RspResult save(Goods obj, Long parentId, Long id) {
-        if (obj==null) {
-            return new RspResult(505,"参数错误");
+    public RspResult save(Goods obj, Long parentId, Long id,Long[] specIds,Long[] auxIds) {
+        if (obj == null) {
+            return new RspResult(505, "参数错误");
         }
-        if (obj.getId()==null) {
+        if (obj.getId() == null) {
             //新增
             GoodsCategory category = goodsCategoryService.find(Constants.MERCHANT_ID, parentId);
             obj.setCategory(category);
-            goodsService.save(Constants.MERCHANT_ID,obj);
-        }else {
+            goodsService.save(Constants.MERCHANT_ID, obj);
+        } else {
             //保存
         }
-
         return new RspResult();
     }
 

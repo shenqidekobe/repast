@@ -1,17 +1,10 @@
 package com.yiyou.repast.merchant.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
 
 /**
  * 商品规格
@@ -27,13 +20,12 @@ public class GoodsSpec implements Serializable {
 	private Long id;
 	private Long merchantId;
 	
-    @ManyToMany(mappedBy = "specs",targetEntity = Goods.class ,fetch = FetchType.LAZY)  
+    @ManyToMany(mappedBy = "specs",targetEntity = Goods.class ,fetch = FetchType.EAGER)
     private Set<Goods> goods = new HashSet<>();  
 	
 	private String name;//名称
 	private String remark;//说明
 	private Date createTime;
-	
 	
 	public Long getId() {
 		return id;
