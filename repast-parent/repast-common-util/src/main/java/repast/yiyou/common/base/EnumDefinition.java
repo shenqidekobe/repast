@@ -48,6 +48,7 @@ public class EnumDefinition {
 	public enum AuthorizeAuditStaus {
 		await("待审核"),
 	    pass("同意"),
+	    use("已使用"),
 	    refuse("拒绝");
 	    private String name;
 	    private AuthorizeAuditStaus(String name){
