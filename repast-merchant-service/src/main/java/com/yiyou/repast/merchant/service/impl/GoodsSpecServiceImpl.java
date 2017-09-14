@@ -4,6 +4,7 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.merchant.dao.GoodsSpecRepository;
 import com.yiyou.repast.merchant.model.GoodsSpec;
 import com.yiyou.repast.merchant.service.IGoodsSpecService;
+import repast.yiyou.common.util.DataGrid;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -18,9 +19,16 @@ public class GoodsSpecServiceImpl implements IGoodsSpecService {
 
 
     @Override
+    public GoodsSpec findById(Long mearchant, Long id) {
+        return null;
+    }
+
+    @Override
     public List<GoodsSpec> findAll(Long merchantId) {
         return goodsSpecRepository.findAllByMerchantId(merchantId);
     }
+
+
 
     @Override
     public GoodsSpec save(Long merchantId, GoodsSpec obj) {
@@ -32,6 +40,11 @@ public class GoodsSpecServiceImpl implements IGoodsSpecService {
     @Override
     public GoodsSpec update(Long merchantId, GoodsSpec obj) {
         return goodsSpecRepository.save(obj);
+    }
+
+    @Override
+    public DataGrid<GoodsSpec> findList(Long merchantId, int page, int pageSize) {
+        return null;
     }
 
     @Override

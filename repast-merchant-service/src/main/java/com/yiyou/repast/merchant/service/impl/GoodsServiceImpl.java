@@ -17,7 +17,7 @@ public class GoodsServiceImpl implements IGoodsService {
     private GoodsRepository merchantGoodsRepository;
 
     @Override
-    public Goods find(Long merchantId, Long goodsId) {
+    public Goods findById(Long merchantId, Long goodsId) {
         return merchantGoodsRepository.findByMerchantIdAndId(merchantId,goodsId);
     }
 

@@ -46,17 +46,15 @@ public class GoodsController {
 
     @GetMapping("/edit")
     public String edit(Long id, Model model) {
-        model.addAttribute("parentList", this.goodsCategoryService.findAll(Constants.MERCHANT_ID));
+        model.addAttribute("parentList", goodsCategoryService.findAll(Constants.MERCHANT_ID));
+        model.addAttribute("specList", goodsSpecService.findAll(Constants.MERCHANT_ID));
+        model.addAttribute("auxList", goodsAuxService.findAll(Constants.MERCHANT_ID));
         if (id == null) {
-            model.addAttribute("specList", this.goodsSpecService.findAll(Constants.MERCHANT_ID));
-            model.addAttribute("auxList", this.goodsAuxService.findAll(Constants.MERCHANT_ID));
             return "/goods/add";
         }
-        model.addAttribute("obj", this.goodsService.find(Constants.MERCHANT_ID,id));
+        model.addAttribute("obj", goodsService.findById(Constants.MERCHANT_ID,id));
         return "/goods/edit";
     }
-
-
 
 
     @ResponseBody
@@ -79,7 +77,7 @@ public class GoodsController {
         }
         if (obj.getId() == null) {
             //新增
-            GoodsCategory category = goodsCategoryService.find(Constants.MERCHANT_ID, parentId);
+            GoodsCategory category = goodsCategoryService.findById(Constants.MERCHANT_ID, parentId);
             obj.setCategory(category);
             goodsService.save(Constants.MERCHANT_ID, obj);
         } else {

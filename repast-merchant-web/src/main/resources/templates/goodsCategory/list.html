@@ -31,12 +31,58 @@
                             <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
                         </div>
                         <div class="form-group btn-right">
-                            <button type="button" class="btn btn-primary" id="addBtn">新增菜品分类</button>
+                            <button type="button" class="btn btn-primary" id="addBtn">新增菜品分类
+                            </button>
                         </div>
                     </form>
                     <div class="container" style="width: 100%">
                         <table id="dataTable"></table>
                     </div>
+                </div>
+                <!--增改模块-->
+                <div class="modal fade" id="addModal" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal" aria-hidden="true"></button>
+                                <h4 class="modal-title" id="addModalLabel">新增分类</h4>
+                            </div>
+                            <div class="modal-body">
+                                <form class="" role="form" method="post" id="editForm">
+                                    <div class="form-group">
+                                        <label>分类名</label>
+                                        <input type="text" class="form-control" name="name" id="name"
+                                               placeholder="分类名:如湘菜、川菜、粤菜等" maxlength="20">
+                                    </div>
+                                    <div class="form-group">
+                                        <label>优先级</label>
+                                        <input type="text" class="form-control" name="priority" id="priority"
+                                               maxlength="5"
+                                               placeholder="请输入1-100">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>所属分类</label>
+                                        <select class="form-control" name="parentId" id="parentId">
+                                            <option value="">无</option>
+                                            <option th:each="category:${parentList}"
+                                                    th:value="${category.id}"
+                                                    th:text="${category.name}"></option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>备注</label>
+                                        <textarea class="form-control" rows="3" name="remark" id="remark"></textarea>
+                                    </div>
+                                    <input type="hidden" name="id" id="categoryId">
+                                </form>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                                <button type="button" class="btn btn-primary" id="addComit">提交</button>
+                            </div>
+                        </div><!-- /.modal-content -->
+                    </div><!-- /.modal -->
                 </div>
             </div>
         </div>
@@ -54,47 +100,90 @@
 <script src="/static/toastr/toastr.confirm.js"></script>
 <script src="/static/admin/goodsCategory/list.js"></script>
 <script>
+
     $(function () {
         var dataTable = null;
         $("#addBtn").click(function () {
             location.href = '/goods/category/edit';
         });
         window.operateEvents = {
-            "click #edit": function (e, value, row, index) {
-                location.href = '/goods/category/edit?id=' + row.id;
+            "click #editBtn": function (e, value, row, index) {
+
+                $("#addModal").modal("show");
+                $("#addModalLabel").text("修改分类");
+
+                $("#name").val(row.name);
+
+                $("#priority").val(row.priority);
+                $("#remark").text(row.remark);
+
+                $("#categoryId").val(row.id);
+                var selectText = row.parentName;
+                $("#parentId").attr("text", selectText + "");//设置value=-sel3的项目为当前选中项
                 return false;
             },
-            "click #delete":function(e, value,row,index){
+            "click #deleteBtn": function (e, value, row, index) {
                 if (row.parentName != '') {
                     toastr.warning('请先删除父级分类');
                     return false;
                 }
-
-                location.href='category/remove?id='+row.id;
+                location.href = 'category/remove?id=' + row.id;
                 return false;
             }
         }
         var url = "/goods/category/listData.do?random=" + Math.random();
         var columns = [
-            {field: '',title: '序号', formatter: function (value, row, index) { return index+1; }  },
+            {
+                field: '', title: '序号', formatter: function (value, row, index) {
+                return index + 1;
+            }
+            },
             {field: 'name', title: '分类名称',},
             {field: 'priority', title: '优先级',},
             {field: 'parentName', title: '所属分类',},
             {field: 'remark', title: '备注',},
-            {field: 'createTime', title: '创建时间', formatter: function (value, row, index) {
-                return new Date(value).Format('yyyy-MM-dd hh:mm:ss');}
+            {
+                field: 'createTime', title: '创建时间', formatter: function (value, row, index) {
+                return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+            }
             },
-            { field : 'opers',title: '操作',events:operateEvents, formatter : operateFormatter }]
+            {field: 'opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
 
         function operateFormatter(value, row, index) {
-            return "<button type=\"button\" class=\"btn btn-primary btn-circle\" id=\"edit\">编辑</button>" +
-                "   <button type=\"button\" class=\"btn btn-danger btn-circle\" id=\"delete\">删除</button>";
+            return "<button type=\"button\" class=\"btn btn-primary btn-circle\" id=\"editBtn\">编辑</button>" +
+                "   <button type=\"button\" class=\"btn btn-danger btn-circle\" id=\"deleteBtn\">删除</button>";
         }
+
         loadTable(url, columns, function (options) {
             dataTable = $('#dataTable').bootstrapTable(options);
         });
     })
-
+    //添加
+    $("#addComit").click(function () {
+        var priority = $.trim($("#priority").val());
+        var name = $.trim($("#name").val());
+        if (name == "") {
+            toastr.warning('请输入规格名');
+            return false;
+        }
+        if (isNaN(priority)) {
+            toastr.error('请输入正确的优先级');
+            return false;
+        }
+        $.ajax({
+            url: '/goods/category/save.do',
+            type: 'POST',
+            data: $("#editForm").serialize(),
+            success: function (rsp) {
+                if (rsp.status == 200) {
+                    toastr.success('保存成功');
+                    location.reload();
+                } else {
+                    toastr.warning('服务器繁忙，请稍后再试');
+                }
+            }
+        });
+    })
 </script>
 </body>
 </html>

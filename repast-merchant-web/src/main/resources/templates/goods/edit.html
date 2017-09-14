@@ -39,61 +39,30 @@
                             <input type="text" class="form-control" name="amount" id="amount" th:field="*{obj.amount}"
                                    maxlength="10">
                         </div>
-                        <div class="form-group" id="specFrom">
-                            <label>已选规格: </label>
-                        </div>
-                        <div class="form-group" id="auxFrom">
-                            <label>已选辅料: </label>
-                        </div>
 
                         <div class="form-group">
                             <label>描述</label>
                             <textarea class="form-control" rows="3" name="remark" id="remark"
                                       th:field="*{obj.remark}"></textarea>
                         </div>
-                        <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#myModal">
-                            选择规格和辅料
-                        </button>
+
+                        <div class="form-group">
+                            <label>规格: </label>
+                            <input ype="checkbox" th:each="spec:${specList}"
+                                   th:value="${spec.id}"
+                                   th:text="${spec.name}">
+                        </div>
+                        <div class="form-group">
+                            <label>辅料: </label>
+                            <input type="checkbox" th:each="aux:${auxList}"
+                                   th:value="${aux.id}"
+                                   th:text="${aux.name}">
+                        </div>
 
                         <button type="button" class="btn btn-primary" id="saveBtn">保存</button>
                     </form>
                 </div>
             </div>
-            <!--规格辅料选择-->
-            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
-                 aria-hidden="true">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
-                            </button>
-                            <h4 class="modal-title" id="myModalLabel">
-                                选择要添加的规格和辅料
-                            </h4>
-                        </div>
-                        <div class="modal-body">
-                            <div class="form-group">
-                                <label>规格: </label>
-                                <input class="specSelect" type="checkbox" th:each="spec:${specList}"
-                                       th:value="${spec.id}"
-                                       th:text="${spec.name}"
-                                th:checked="false">
-                            </div>
-                            <div class="form-group">
-                                <label>辅料: </label>
-                                <input class="auxSelect" type="checkbox" th:each="aux:${auxList}"
-                                       th:value="${aux.id}"
-                                       th:text="${aux.name}">
-                            </div>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
-                            <button type="button" class="btn btn-primary" id="selectBtn">提交</button>
-                        </div>
-                    </div><!-- /.modal-content -->
-                </div><!-- /.modal -->
-            </div>
-
 
         </div>
     </div>
@@ -107,11 +76,6 @@
 <script src="/static/toastr/toastr.min.js"></script>
 <script>
     $(function () {
-        $("#selectBtn").click(function () {
-
-            $('#myModal').modal('hide');
-        });
-
         $("#saveBtn").click(function () {
             var name = $.trim($("#name").val());
             var amount = $.trim($("#amount").val());
