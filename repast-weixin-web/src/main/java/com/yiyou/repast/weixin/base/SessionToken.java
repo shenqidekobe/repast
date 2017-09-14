@@ -10,6 +10,7 @@ public class SessionToken implements Serializable{
 	
 	private static final long serialVersionUID = 348051708546226611L;
 	private Long userId;
+	private Long merchantId;
 	private String openId;
 	private String token;
 	private Date createTime;
@@ -19,6 +20,12 @@ public class SessionToken implements Serializable{
 	}
 	public void setUserId(Long userId) {
 		this.userId = userId;
+	}
+	public Long getMerchantId() {
+		return merchantId;
+	}
+	public void setMerchantId(Long merchantId) {
+		this.merchantId = merchantId;
 	}
 	public String getOpenId() {
 		return openId;
