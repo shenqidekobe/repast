@@ -22,6 +22,11 @@ public class CartController {
 	@Resource
 	private CartBusinessService cartService;
 	
+	@GetMapping("/people")
+	public String people() {
+		return "people";
+	}
+	
 	/**
 	 * 我的购物车
 	 * */

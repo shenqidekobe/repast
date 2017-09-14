@@ -17,6 +17,16 @@ public interface UserBusinessService {
 	SessionToken getSessionUser();
 	
 	/**
+	 * 根据ID获取用户
+	 * */
+	User findById(Long id);
+	
+	/**
+	 * 更新
+	 * */
+	User update(User obj);
+	
+	/**
 	 * 创建授权记录
 	 * */
 	void createUserAuthorizeApply(UserAuthorizeApply obj);

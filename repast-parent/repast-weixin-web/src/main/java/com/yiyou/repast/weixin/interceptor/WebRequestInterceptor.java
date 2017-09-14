@@ -21,8 +21,8 @@ public class WebRequestInterceptor implements HandlerInterceptor {
 	}
 
 	@Override
-	public boolean preHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2) throws Exception {
-		
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse arg1, Object arg2) throws Exception {
+		request.setAttribute("_PATH", request.getContextPath());
 		return true;
 	}
 

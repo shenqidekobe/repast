@@ -51,6 +51,23 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 		
 		return (SessionToken) SecurityUtils.getSubject().getPrincipal();
 	}
+	
+	@Override
+	public User findById(Long id) {
+		User obj=userService.findById(null, id);
+		if(obj==null) {
+			throw new BusinessException(4444, "object userAuthorizeApply must not be null");
+		}
+		return obj;
+	}
+	
+	@Override
+	public User update(User obj) {
+		if(obj==null||obj.getId()==null) {
+			throw new BusinessException(4444, "object userAuthorizeApply must not be null");
+		}
+		return userService.update(obj);
+	}
 
 	@Override
 	public void createUserAuthorizeApply(UserAuthorizeApply obj) {
