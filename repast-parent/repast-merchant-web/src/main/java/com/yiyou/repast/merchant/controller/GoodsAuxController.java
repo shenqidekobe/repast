@@ -48,7 +48,7 @@ public class GoodsAuxController {
     @GetMapping("/edit")
     public String edit(Long id, Model model) {
         if (id != null) {
-            model.addAttribute("obj",goodsAuxService.find(Constants.MERCHANT_ID,id));
+            model.addAttribute("obj",goodsAuxService.findById(Constants.MERCHANT_ID,id));
             return "/goodsAux/edit";
         }
 

@@ -52,6 +52,7 @@ public class ImageController{
 				}
 				String suffix = file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf("."));
 				String fileName=UUID.randomUUID().toString()+suffix;
+
 				FileOutputStream os=new FileOutputStream(new File(dir + fileName));
 				FileCopyUtils.copy(file.getInputStream(), os);
 				object.put("fileKey", e.getKey());

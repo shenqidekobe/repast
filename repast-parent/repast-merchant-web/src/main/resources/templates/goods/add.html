@@ -2,7 +2,6 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="link">
     <link type="text/css" rel="stylesheet" href="/static/bootstrap-fileinput/fileinput.min.css">
-</head>
 <body>
 <div id="wrapper">
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -18,13 +17,15 @@
         </div>
         <div class="panel-body" th:if="${parentList.size()>0}">
             <div class="row">
-                <div class="col-lg-6">
-                    <form class="" role="form" method="post" id="editForm">
+                <form class="" role="form" method="post" id="editForm">
+                    <div class="col-lg-6">
                         <div class="form-group">
                             <label>菜品名</label>
                             <input type="text" class="form-control" name="name" id="name" placeholder="菜品名"
                                    maxlength="16">
                         </div>
+
+
                         <div class="form-group">
                             <label>所属分类</label>
                             <select class="form-control" name="parentId" id="parentId">
@@ -43,11 +44,28 @@
                             <label>描述</label>
                             <textarea class="form-control" rows="3" name="remark" id="remark"></textarea>
                         </div>
-
-                        <button type="button" class="btn btn-primary" id="addBtn">选择规格和辅料</button>
+                        <div class="form-group">
+                            <label>规格: </label>
+                            <input type="checkbox" th:each="spec:${specList}"
+                                   th:value="${spec.id}"
+                                   th:text="${spec.name}">
+                        </div>
+                        <div class="form-group">
+                            <label>辅料: </label>
+                            <input type="checkbox" th:each="aux:${auxList}"
+                                   th:value="${aux.id}"
+                                   th:text="${aux.name}">
+                        </div>
                         <button type="button" class="btn btn-primary" id="saveBtn">保存</button>
-                    </form>
-                </div>
+                    </div>
+                    <div class="col-lg-6">
+                        <label>菜品图片</label>
+                        <input id="goods" name="goods" class="file-loading" type="file" />
+                        <p class="help-block">支持jpg、jpeg、png、gif格式，大小不超过2.0M</p>
+                    </div>
+                    <input type="hidden" name="pic" id="pic">
+                </form>
+
             </div>
         </div>
         <div th:unless="${parentList.size()>0}">
@@ -61,65 +79,59 @@
 <script src="/static/metisMenu/metisMenu.min.js"></script>
 <script src="/static/dist/js/sb-admin-2.js"></script>
 <script src="/static/toastr/toastr.min.js"></script>
-<script src="/static/bootstrap-fileinput/zh.js"></script>
 <script src="/static/bootstrap-fileinput/fileinput.min.js"></script>
-
+<script src="/static/bootstrap-fileinput/zh.js"></script>
 <script>
     $(function () {
-        $("#addBtn").click(function(){
-
-        });
-        projectfileoptions = {
+        $("#goods").fileinput({//初始化上传文件框
             showUpload: false,
             showRemove: false,
-            language: 'zh',
-            allowedPreviewTypes: ['image'],
-            allowedFileExtensions: ['jpg', 'png', 'gif'],
+            uploadAsync: true,
+            uploadLabel: "上传",//设置上传按钮的汉字
+            language: "zh",//配置语言
+            uploadUrl: "/common/img/upload.do",
             maxFileSize: 2000,
-            minHeight: 300,
-        }
-        $('input[class=projectfile]').each(function () {
-            var imageurl = $(this).attr("value");
+            maxFileCount: 1, /*允许最大上传数，可以多个，当前设置单个*/
+            enctype: 'multipart/form-data',
+            allowedFileExtensions: ["jpg", "png", "gif"], /*上传文件格式*/
+        });
+        $("#file-pic").on("fileuploaded", function (event, data, previewId, index) {
+            var result = data.response; //后台返回的json
+            $('#pic').val(result.fileName);
+        });
 
-            if (imageurl) {
-                var op = $.extend({
-                    initialPreview: [ // 预览图片的设置
-                        "<img src='" + imageurl + "' class='file-preview-image'>",]
-                }, projectfileoptions);
-
-                $(this).fileinput(op);
-            } else {
-                $(this).fileinput(projectfileoptions);
+        $("#saveBtn").click(function () {
+            var name = $.trim($("#name").val());
+            var amount = $.trim($("#amount").val());
+//            var pic = $.trim($("#pic").val());
+            if (name == "") {
+                toastr.warning('请填写菜名');
+                return false;
+//            } else if (pic == "") {
+//                toastr.warning('请选择商品图片');
+//                return false;
+            } else if (amount == "") {
+                toastr.warning('请填写价格');
+                return false;
             }
-        }),
-            $("#saveBtn").click(function () {
-                var name = $.trim($("#name").val());
-                var amount = $.trim($("#amount").val());
-                if (name == "") {
-                    toastr.warning('请填写菜名');
-                    return false;
-                } else if (amount == "") {
-                    toastr.warning('请填写价格');
-                    return false;
-                }
-                if (isNaN(amount)) {
-                    toastr.error('请输入正确的价格');
-                    return false;
-                }
-                $.ajax({
-                    url: 'save.do',
-                    type: 'POST',
-                    data: $("#editForm").serialize(),
-                    success: function (rsp) {
-                        if (rsp.status == 200) {
-                            toastr.success('保存成功');
-                            location.href = '/goods';
-                        } else {
-                            toastr.warning('服务器繁忙，请稍后再试');
-                        }
+            if (isNaN(amount)) {
+                toastr.error('请输入正确的价格');
+                return false;
+            }
+            $.ajax({
+                url: 'save.do',
+                type: 'POST',
+                data: $("#editForm").serialize(),
+                success: function (rsp) {
+                    if (rsp.status == 200) {
+                        toastr.success('保存成功');
+                        location.href = '/goods';
+                    } else {
+                        toastr.warning('服务器繁忙，请稍后再试');
                     }
-                });
+                }
             });
+        });
 
     })
 </script>

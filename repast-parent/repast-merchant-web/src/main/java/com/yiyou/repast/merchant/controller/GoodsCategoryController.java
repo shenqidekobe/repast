@@ -25,6 +25,7 @@ public class GoodsCategoryController {
 
     @GetMapping()
     public String catagory(Model model) {
+        model.addAttribute("parentList", this.goodsCategoryService.findAllParent(Constants.MERCHANT_ID));
         return "/goodsCategory/list";
     }
 
@@ -46,7 +47,7 @@ public class GoodsCategoryController {
         }
         model.addAttribute("parentList", this.goodsCategoryService.findAllParent(Constants.MERCHANT_ID, id));
 
-        model.addAttribute("obj", this.goodsCategoryService.find(Constants.MERCHANT_ID, id));
+        model.addAttribute("obj", this.goodsCategoryService.findById(Constants.MERCHANT_ID, id));
         return "/goodsCategory/edit";
     }
 
@@ -62,21 +63,18 @@ public class GoodsCategoryController {
         if (obj == null) {
             return new RspResult(505, "参数错误");
         }
-
         if (obj.getId() == null) {
-            GoodsCategory parent = this.goodsCategoryService.find(Constants.MERCHANT_ID, parentId);
+            GoodsCategory parent = this.goodsCategoryService.findById(Constants.MERCHANT_ID, parentId);
             obj.setParent(parent);
             this.goodsCategoryService.save(Constants.MERCHANT_ID, obj);
         } else {
-            GoodsCategory pojo = this.goodsCategoryService.find(Constants.MERCHANT_ID, id);
+            GoodsCategory pojo = this.goodsCategoryService.findById(Constants.MERCHANT_ID, id);
             RBeanUtils.copyProperties(obj, pojo);
-            GoodsCategory parent = this.goodsCategoryService.find(Constants.MERCHANT_ID, parentId);
+            GoodsCategory parent = this.goodsCategoryService.findById(Constants.MERCHANT_ID, parentId);
             pojo.setParent(parent);
             this.goodsCategoryService.update(Constants.MERCHANT_ID, pojo);
         }
         return new RspResult();
-
     }
-
 
 }

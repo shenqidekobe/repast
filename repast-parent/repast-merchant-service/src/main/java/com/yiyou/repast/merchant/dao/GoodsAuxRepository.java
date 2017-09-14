@@ -9,4 +9,5 @@ public interface GoodsAuxRepository extends JpaRepository<GoodsAux,Long> {
 
     List<GoodsAux> findAllByMerchantId(Long merchantId);
 
+    GoodsAux findByMerchantIdAndId(Long merchant, Long id);
 }
