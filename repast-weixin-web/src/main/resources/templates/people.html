@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+	<head>
+		<meta charset="UTF-8">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+	    <meta content="yes" name="apple-touch-fullscreen">
+	    <meta content="telephone=no,email=no" name="format-detection">
+	    <meta content="maximum-dpr=1" name="flexible" />
+	    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
+	    <link rel="stylesheet" th:href="@{/static/css/mui.min.css}">
+	    <link rel="stylesheet" type="text/css" th:href="@{/static/css/reset.css}"/>
+		<link rel="stylesheet" type="text/css" th:href="@{/static/css/common.css}"/>
+		<link rel="stylesheet" type="text/css" th:href="@{/static/css/mui.picker.min.css}" />
+        <title>用餐人数</title>
+	</head>
+	<body class="m-login">
+		<div class="m-box-yongcan p011 f-tac">
+			<img th:src="@{/static/img/img-yongcan.png}" class="m-img img-yongcan" title="用餐人数" alt="用餐人数"/>
+			<div class="m-tit">请选择用餐人数</div>
+			<ul class="item-yongcan  f-click-par f-cb">
+				<li class="label on f-click-radio" data-num="1"><span>1人</span></li>
+				<li class="label f-click-radio " data-num="2"><span>2人</span></li>
+				<li class="label f-click-radio " data-num="3"><span>3人</span></li>
+				<li class="label f-click-radio " data-num="4"><span>4人</span></li>
+				<li class="label f-click-radio " data-num="5"><span>5人</span></li>
+				<li class="label f-click-radio " data-num="6"><span>6人</span></li>
+				<li class="label f-click-radio " data-num="7"><span>7人</span></li>
+				<li class="label f-click-radio " data-num="8"><span>8人</span></li>
+				<li class="label f-click-radio " data-num="9"><span>9人</span></li>
+				<li class="label f-click-radio " data-num="10"><span>10人</span></li>
+				<li class="label f-click-radio " data-num="11"><span>11人</span></li>
+				<li class="label f-click-radio none" data-num="12"><span>12人</span></li>
+				<li class="label f-click-radio none " data-num="13"><span>13人</span></li>
+				<li class="label f-click-radio none " data-num="14"><span>14人</span></li>
+				<li class="label f-click-radio none " data-num="15"><span>15人</span></li>
+				<li class="label f-click-radio none " data-num="16"><span>16人</span></li>
+				<li class="label f-click-radio none " data-num="17"><span>17人</span></li>
+				<li class="label f-click-radio none " data-num="18"><span>18人</span></li>
+				<li class="label f-click-radio none " data-num="19"><span>19人</span></li>
+				<li class="label f-click-radio none " data-num="20"><span>20人</span></li>
+				<li class="label f-click-radio none " data-num="21"><span>21人</span></li>
+				<li class="label f-click-radio none " data-num="22"><span>22人</span></li>
+				<li class="label f-click-radio none " data-num="23"><span>23人</span></li>
+				<li class="label f-click-radio none " data-num="24"><span>24人</span></li>
+				<li class="label f-click-radio " data-num="0" data-show="0"><span>...</span></li>
+			</ul>
+			<div class="m-select-div ">
+			    <select id="date">
+			       <option value="today">今天中午十二点</option>
+			       <option value="tomorrow">明天中午十二点</option>
+			    </select>
+			</div>
+			<div class="m-btn-diancan">
+				<a class="m-btn m-btn-feda00" id="startBtn">开始点餐</a>
+			</div>
+		</div>
+		<div class="bg f-bgc-000"></div>
+		
+		<script type="text/javascript" th:src="@{/static/js/jquery-1.8.3.min.js}"></script>
+		<script th:src="@{/static/js/mui.min.js}"></script>
+		<script th:src="@{/static/js/mui.picker.min.js}"></script>
+		<script th:inline="javascript">
+		   $(function(){
+			   var count=1;
+			   $(document).on('click','.f-click-radio',function(){
+			    	var num=$(this).attr('data-num'),
+			    		show=$(this).attr('data-show');
+			    	if(num==0){
+			    		if(show==0){
+			    			$(this).attr('data-show',1);
+			    			$('.f-click-par').find('.f-click-radio').removeClass('none');
+			    		}else{
+			    			$(this).attr('data-show',0);
+			    			$('.f-click-par').find('.f-click-radio:gt(10)').addClass('none');
+			    			$(this).removeClass('none');
+			    		}
+			    	}else{
+			    		$(this).parents('.f-click-par').find('.f-click-radio').removeClass('on').end().end().addClass('on');
+			    	}
+			    	count=num;
+			    });
+			   $("#startBtn").click(function(){
+				   var ctx=[[${_PATH}]]
+				   location.href=ctx+'/goods/index?pc='+count+'&pt='+$("#date").val();
+			   });
+		   })
+		</script>
+	</body>
+</html>
