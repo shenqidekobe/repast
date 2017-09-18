@@ -33,6 +33,15 @@
                         <div class="form-group btn-right">
                             <button type="button" class="btn btn-primary" id="addBtn">新增菜品</button>
                         </div>
+                        <div class="form-group btn-right">
+                            <button type="button" class="btn btn-primary" id="categoryBtn">分类</button>
+                        </div>
+                        <div class="form-group btn-right">
+                            <button type="button" class="btn btn-primary" id="specBtn">规格</button>
+                        </div>
+                        <div class="form-group btn-right">
+                            <button type="button" class="btn btn-primary" id="auxBtn">辅料</button>
+                        </div>
                     </form>
                     <div class="container" style="width: 100%">
                         <table id="dataTable"></table>
@@ -58,6 +67,15 @@
     $("#addBtn").click(function () {
         location.href = '/goods/edit';
     });
+    $("#categoryBtn").click(function () {
+        location.href = '/goods/category';
+    });
+    $("#specBtn").click(function () {
+        location.href = '/goods/spec';
+    });
+    $("#auxBtn").click(function () {
+        location.href = '/goods/aux';
+    });
     window.operateEvents = {
         "click #edit": function (e, value, row, index) {
             location.href = '/goods/edit?id=' + row.id;
@@ -72,9 +90,9 @@
         }
         },
         {field: 'name', title: '菜品名',},
+        {field: 'amount', title: '价格',},
         {field: 'categoryName', title: '分类',},
         {field: 'specsName', title: '规格',},
-        {field: 'newon', title: '新品',},
         {
             field: 'createTime', title: '发布时间', formatter: function (value, row, index) {
             return new Date(value).Format('yyyy-MM-dd hh:mm:ss');

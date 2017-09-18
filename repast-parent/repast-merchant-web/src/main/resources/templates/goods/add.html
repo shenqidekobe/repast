@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="link">
-    <link type="text/css" rel="stylesheet" href="/static/bootstrap-fileinput/fileinput.min.css">
+
 <body>
 <div id="wrapper">
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -10,11 +10,6 @@
     </nav>
 
     <div id="page-wrapper">
-        <div class="row">
-            <div class="col-lg-12">
-                <h1 class="page-header">新建菜品</h1>
-            </div>
-        </div>
         <div class="panel-body" th:if="${parentList.size()>0}">
             <div class="row">
                 <form class="" role="form" method="post" id="editForm">
@@ -24,8 +19,6 @@
                             <input type="text" class="form-control" name="name" id="name" placeholder="菜品名"
                                    maxlength="16">
                         </div>
-
-
                         <div class="form-group">
                             <label>所属分类</label>
                             <select class="form-control" name="parentId" id="parentId">
@@ -44,28 +37,32 @@
                             <label>描述</label>
                             <textarea class="form-control" rows="3" name="remark" id="remark"></textarea>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" data-toggle="buttons">
                             <label>规格: </label>
-                            <input type="checkbox" th:each="spec:${specList}"
-                                   th:value="${spec.id}"
-                                   th:text="${spec.name}">
+                            <label th:each="spec:${specList}" class="btn btn-warning">
+                                <input type="checkbox"
+                                       name="specIds[]"
+                                       th:value="${spec.id}"
+                                       th:text="${spec.name}">
+                            </label>
                         </div>
-                        <div class="form-group">
+                        <div class="form-group" data-toggle="buttons">
                             <label>辅料: </label>
-                            <input type="checkbox" th:each="aux:${auxList}"
-                                   th:value="${aux.id}"
-                                   th:text="${aux.name}">
+                            <label th:each="aux:${auxList}" class="btn btn-warning">
+                                <input type="checkbox"
+                                       name="auxs[]"
+                                       th:value="${aux.id}"
+                                       th:text="${aux.name}">
+                            </label>
                         </div>
-                        <button type="button" class="btn btn-primary" id="saveBtn">保存</button>
-                    </div>
-                    <div class="col-lg-6">
-                        <label>菜品图片</label>
-                        <input id="goods" name="goods" class="file-loading" type="file" />
-                        <p class="help-block">支持jpg、jpeg、png、gif格式，大小不超过2.0M</p>
                     </div>
                     <input type="hidden" name="pic" id="pic">
                 </form>
 
+            </div>
+            <div class="btn-group col-md-offset-3 col-lg-6" >
+                <button class="btn btn-primary col-lg-6" id="backBtn">返回</button>
+                <button type="button" class="btn btn-primary col-lg-6" id="saveBtn">保存</button>
             </div>
         </div>
         <div th:unless="${parentList.size()>0}">
@@ -75,41 +72,22 @@
 </div>
 
 <script src="/static/jquery/jquery.min.js"></script>
+<script src="/static/jquery/jquery.upload.js"></script>
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <script src="/static/metisMenu/metisMenu.min.js"></script>
 <script src="/static/dist/js/sb-admin-2.js"></script>
 <script src="/static/toastr/toastr.min.js"></script>
-<script src="/static/bootstrap-fileinput/fileinput.min.js"></script>
-<script src="/static/bootstrap-fileinput/zh.js"></script>
 <script>
+    $("#backBtn").click(function () {
+        location.href = '/goods';
+    });
     $(function () {
-        $("#goods").fileinput({//初始化上传文件框
-            showUpload: false,
-            showRemove: false,
-            uploadAsync: true,
-            uploadLabel: "上传",//设置上传按钮的汉字
-            language: "zh",//配置语言
-            uploadUrl: "/common/img/upload.do",
-            maxFileSize: 2000,
-            maxFileCount: 1, /*允许最大上传数，可以多个，当前设置单个*/
-            enctype: 'multipart/form-data',
-            allowedFileExtensions: ["jpg", "png", "gif"], /*上传文件格式*/
-        });
-        $("#file-pic").on("fileuploaded", function (event, data, previewId, index) {
-            var result = data.response; //后台返回的json
-            $('#pic').val(result.fileName);
-        });
-
         $("#saveBtn").click(function () {
             var name = $.trim($("#name").val());
             var amount = $.trim($("#amount").val());
-//            var pic = $.trim($("#pic").val());
             if (name == "") {
                 toastr.warning('请填写菜名');
                 return false;
-//            } else if (pic == "") {
-//                toastr.warning('请选择商品图片');
-//                return false;
             } else if (amount == "") {
                 toastr.warning('请填写价格');
                 return false;
@@ -119,7 +97,7 @@
                 return false;
             }
             $.ajax({
-                url: 'save.do',
+                url: '/goods/save.do',
                 type: 'POST',
                 data: $("#editForm").serialize(),
                 success: function (rsp) {

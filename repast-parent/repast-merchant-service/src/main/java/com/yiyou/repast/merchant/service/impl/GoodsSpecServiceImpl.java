@@ -8,7 +8,9 @@ import repast.yiyou.common.util.DataGrid;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class GoodsSpecServiceImpl implements IGoodsSpecService {
@@ -27,7 +29,6 @@ public class GoodsSpecServiceImpl implements IGoodsSpecService {
     public List<GoodsSpec> findAll(Long merchantId) {
         return goodsSpecRepository.findAllByMerchantId(merchantId);
     }
-
 
 
     @Override
@@ -53,4 +54,13 @@ public class GoodsSpecServiceImpl implements IGoodsSpecService {
     }
 
 
+    @Override
+    public Set<GoodsSpec> findByIds(List<Long> ids) {
+        List<GoodsSpec> all = goodsSpecRepository.findAll(ids);
+        Set<GoodsSpec> set = new HashSet<>();
+        for (GoodsSpec goodsSpec : all) {
+            set.add(goodsSpec);
+        }
+        return set;
+    }
 }
