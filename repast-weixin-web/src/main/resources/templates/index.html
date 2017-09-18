@@ -1,16 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<meta content="yes" name="apple-mobile-web-app-capable">
-	    <meta content="yes" name="apple-touch-fullscreen">
-	    <meta content="telephone=no,email=no" name="format-detection">
-	    <meta content="maximum-dpr=1" name="flexible" />
-	    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-		<link rel="stylesheet" th:href="@{/static/css/mui.min.css}">
-	    <link rel="stylesheet" type="text/css" th:href="@{/static/css/reset.css}"/>
-		<link rel="stylesheet" type="text/css" th:href="@{/static/css/common.css}"/>
-        <title>开始点餐</title>
+	<head th:include="link">
+	<title>开始点餐</title>
 	</head>
 	<body class="m-login">
 		<div class="m-box-logo f-tac">
@@ -27,7 +18,7 @@
 		<script type="text/javascript">
 		    $(function(){
 		    	$("#startBtn").click(function(){
-		    		location.href='/cart/people';
+		    		location.href=ctx+'/cart/people';
 		    	});
 		    });
 		</script>

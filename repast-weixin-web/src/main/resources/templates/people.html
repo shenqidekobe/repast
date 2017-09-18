@@ -1,17 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head>
-		<meta charset="UTF-8">
-		<meta content="yes" name="apple-mobile-web-app-capable">
-	    <meta content="yes" name="apple-touch-fullscreen">
-	    <meta content="telephone=no,email=no" name="format-detection">
-	    <meta content="maximum-dpr=1" name="flexible" />
-	    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-	    <link rel="stylesheet" th:href="@{/static/css/mui.min.css}">
-	    <link rel="stylesheet" type="text/css" th:href="@{/static/css/reset.css}"/>
-		<link rel="stylesheet" type="text/css" th:href="@{/static/css/common.css}"/>
-		<link rel="stylesheet" type="text/css" th:href="@{/static/css/mui.picker.min.css}" />
-        <title>用餐人数</title>
+	<head th:include="link">
+	   <title>用餐人数</title>
 	</head>
 	<body class="m-login">
 		<div class="m-box-yongcan p011 f-tac">
@@ -80,7 +70,6 @@
 			    	count=num;
 			    });
 			   $("#startBtn").click(function(){
-				   var ctx=[[${_PATH}]]
 				   location.href=ctx+'/goods/index?pc='+count+'&pt='+$("#date").val();
 			   });
 		   })
