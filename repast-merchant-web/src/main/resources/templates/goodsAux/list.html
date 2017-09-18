@@ -12,35 +12,59 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">辅料管理</h1>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-lg-12">
                 <div class="panel panel-default">
                     <ol class="breadcrumb">
                         <li><strong><span style="color: #27a0d7">辅料列表</span></strong></li>
                     </ol>
-                    <form class="form-inline" role="form" method="post" id="searchForm">
-                        <div class="form-group" style="margin-left:20px">
-                            <input type="text" class="form-control" placeholder="辅料名"
-                                   onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
-                        </div>
-                        <div class="form-group">
-                            <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
-                        </div>
-                        <div class="form-group btn-right">
-                            <button type="button" class="btn btn-primary" id="addBtn">新增辅料</button>
-                        </div>
-                    </form>
+                    <div class="form-group" style="margin-left: 20px">
+                        <button type="button" class="btn btn-primary" id="backBtn">返回</button>
+                        <button type="button" class="btn btn-primary" id="addBtn">新增辅料</button>
+                    </div>
                     <div class="container" style="width: 100%">
                         <table id="dataTable"></table>
                     </div>
                 </div>
             </div>
+
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel">编辑分类</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form class="" role="form" method="post" id="editForm">
+                                <div class="form-group">
+                                    <label>辅料名</label>
+                                    <input type="text" class="form-control" name="name" id="name" placeholder="辅料名"
+                                           maxlength="16">
+                                </div>
+                                <div class="form-group">
+                                    <label>价格</label>
+                                    <input type="text" class="form-control" name="amount" id="amount" value="0"
+                                           maxlength="8">
+                                </div>
+                                <div class="form-group">
+                                    <label>说明</label>
+                                    <textarea class="form-control" rows="3" name="remark" id="remark"></textarea>
+                                </div>
+                                <input type="reset" style="display:none">
+                                <input type="hidden" name="id" id="auxId">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="commitBtn">提交</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+
+                </div><!-- /.modal-dialog -->
+            </div>
         </div>
     </div>
-</div>∂
+</div>
 
 <script src="/static/jquery/jquery.min.js"></script>
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
@@ -55,15 +79,26 @@
 <script>
     var dataTable = null;
     $("#addBtn").click(function () {
-        location.href = '/goods/aux/edit';
+        $("input[type=reset]").trigger("click");
+        $("#myModalLabel").text("新增辅料");
+        $("#auxId").val("");
+        $("#myModal").modal("show");
+    });
+    $("#backBtn").click(function () {
+        location.href = '/goods';
     });
     window.operateEvents = {
         "click #edit": function (e, value, row, index) {
-            location.href = '/goods/aux/edit?id=' + row.id;
+            $("#myModalLabel").text("修改辅料");
+            $("#name").val(row.name);
+            $("#amount").val(row.amount);
+            $("#remark").val(row.remark);
+            $("#auxId").val(row.id);
+            $("#myModal").modal("show");
             return false;
         },
-        "click #delete":function(e, value,row,index){
-            location.href='/goods/aux/remove?id='+row.id;
+        "click #delete": function (e, value, row, index) {
+            location.href = '/goods/aux/remove?id=' + row.id;
             return false;
         }
     }
@@ -85,13 +120,44 @@
         {field: 'opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
 
     function operateFormatter(value, row, index) {
-        return "<button type=\"button\" class=\"btn btn-primary btn-circle\" id=\"edit\">编辑</button>"+
-            "   <button type=\"button\" class=\"btn btn-danger btn-circle\" id=\"delete\">删除</button>";;
+        return "<button type=\"button\" class=\"btn btn-primary btn-circle\" id=\"edit\">编辑</button>" +
+            "   <button type=\"button\" class=\"btn btn-danger btn-circle\" id=\"delete\">删除</button>";
+        ;
     }
 
     loadTable(url, columns, function (options) {
         dataTable = $('#dataTable').bootstrapTable(options);
     });
+
+    $("#commitBtn").click(function () {
+        var name = $.trim($("#name").val());
+        var amount = $.trim($("#amount").val());
+        if (name == "") {
+            toastr.warning('请输入辅料名');
+            return false;
+        }
+        if (isNaN(amount)) {
+            toastr.error('请输入正确的价格');
+            return false;
+        }
+        $.ajax({
+            url: '/goods/aux/save.do',
+            type: 'POST',
+            data: $("#editForm").serialize(),
+            success: function (rsp) {
+                if (rsp.status == 200) {
+                    toastr.success('保存成功');
+                    $("#myModal").modal("hide");
+                    $("#dataTable").bootstrapTable('refresh');
+                } else {
+                    toastr.warning('服务器繁忙，请稍后再试');
+                }
+            }
+        });
+    });
+
+
+
 
 </script>
 

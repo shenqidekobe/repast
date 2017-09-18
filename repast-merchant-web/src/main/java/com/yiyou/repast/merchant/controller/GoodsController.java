@@ -5,19 +5,18 @@ import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RspResult;
 import com.yiyou.repast.merchant.model.Goods;
 import com.yiyou.repast.merchant.model.GoodsCategory;
+import com.yiyou.repast.merchant.model.GoodsSpec;
 import com.yiyou.repast.merchant.service.IGoodsAuxService;
 import com.yiyou.repast.merchant.service.IGoodsCategoryService;
 import com.yiyou.repast.merchant.service.IGoodsService;
 import com.yiyou.repast.merchant.service.IGoodsSpecService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import repast.yiyou.common.util.DataGrid;
 
 import java.util.List;
+import java.util.Set;
 
 /**
  * 菜品控制器
@@ -52,7 +51,7 @@ public class GoodsController {
         if (id == null) {
             return "/goods/add";
         }
-        model.addAttribute("obj", goodsService.findById(Constants.MERCHANT_ID,id));
+        model.addAttribute("obj", goodsService.findById(Constants.MERCHANT_ID, id));
         return "/goods/edit";
     }
 
@@ -68,17 +67,22 @@ public class GoodsController {
     }
 
 
-
     @ResponseBody
     @PostMapping("/save.do")
-    public RspResult save(Goods obj, Long parentId, Long id,Long[] specIds,Long[] auxIds) {
+    public RspResult save(Goods obj, Long parentId, Long id,
+                          @RequestParam(value = "auxs[]", required = false) List<String> auxIds,
+                          @RequestParam(value = "specIds[]", required = false) List<Long> specIds) {
         if (obj == null) {
             return new RspResult(505, "参数错误");
         }
+        Set<GoodsSpec> specs = goodsSpecService.findByIds(specIds);
+        String auxs = auxIds.toString().replace("[", "").replace("]", "");
         if (obj.getId() == null) {
             //新增
             GoodsCategory category = goodsCategoryService.findById(Constants.MERCHANT_ID, parentId);
             obj.setCategory(category);
+            obj.setSpecs(specs);
+            obj.setAuxIds(auxs);
             goodsService.save(Constants.MERCHANT_ID, obj);
         } else {
             //保存

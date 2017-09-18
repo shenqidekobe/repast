@@ -46,7 +46,6 @@ public class GoodsCategoryController {
             return "/goodsCategory/add";
         }
         model.addAttribute("parentList", this.goodsCategoryService.findAllParent(Constants.MERCHANT_ID, id));
-
         model.addAttribute("obj", this.goodsCategoryService.findById(Constants.MERCHANT_ID, id));
         return "/goodsCategory/edit";
     }

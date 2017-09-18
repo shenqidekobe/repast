@@ -9,6 +9,7 @@ import repast.yiyou.common.util.DataGrid;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class GoodsAuxServiceImpl implements IGoodsAuxService {
@@ -51,4 +52,8 @@ public class GoodsAuxServiceImpl implements IGoodsAuxService {
     }
 
 
+    @Override
+    public Set<GoodsAux> findByIds(List<Long> ids) {
+        return null;
+    }
 }

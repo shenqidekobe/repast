@@ -47,7 +47,13 @@ public class Goods implements Serializable {
 
     public String specsName() {
         if (specs.size() > 0) {
-            return specs.toArray().toString();
+            StringBuffer sb =new StringBuffer();
+            for (GoodsSpec spec : specs) {
+                sb.append(spec.getName());
+                sb.append(",");
+            }
+            sb.deleteCharAt(sb.length() - 1);
+            return sb.toString();
         } else {
             return "";
         }
