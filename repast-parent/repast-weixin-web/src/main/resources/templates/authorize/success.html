@@ -1,17 +1,7 @@
 <!DOCTYPE html>
 <html>
-	<head>
-		<meta charset="UTF-8">
-		<meta content="yes" name="apple-mobile-web-app-capable">
-	    <meta content="yes" name="apple-touch-fullscreen">
-	    <meta content="telephone=no,email=no" name="format-detection">
-	    <meta content="maximum-dpr=1" name="flexible" />
-	    <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
-		<link rel="stylesheet" href="css/mui.min.css">
-	    <link rel="stylesheet" type="text/css" href="css/reset.css"/>
-		<link rel="stylesheet" type="text/css" href="css/common.css"/>
+	<head th:include="link">
         <title>授权成功</title>
-        
 	</head>
 	<body class="">
 		<div class="m-box-def p011 f-tac f-bgc-fff">
@@ -20,7 +10,7 @@
 			<button type="button" class="m-btn m-btn-feda00 f-mt-91" >开始点餐</button>
 		</div>
 		
-		<script type="text/javascript" src="js/jquery-1.8.3.min.js"></script>
-		<script type="text/javascript" src="js/common.js"></script>
+		<script type="text/javascript" th:src="@{/static/js/jquery-1.8.3.min.js}"></script>
+		<script type="text/javascript"></script>
 	</body>
 </html>
