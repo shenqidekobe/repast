@@ -30,13 +30,14 @@ public class Goods implements Serializable {
     private GoodsCategory category;//商品分类
 
     @ManyToMany(targetEntity = GoodsSpec.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "t_goods_spec_r", joinColumns = @JoinColumn(name = "spec_id"), inverseJoinColumns = @JoinColumn(name = "goods_id"))
+    @JoinTable(name = "t_goods_spec_r", joinColumns = @JoinColumn(name = "goods_id",referencedColumnName="id"), inverseJoinColumns = @JoinColumn(name = "spec_id",referencedColumnName="id"))
     @JsonBackReference
     private Set<GoodsSpec> specs = new HashSet<>();
 
     private String name;//商品名称
     private String pic;//商品图片地址
     private BigDecimal amount;//商品金额
+    private String auxIds;//辅料ID，逗号分隔
 
     private Byte newon;//是否新品
     private String remark;//描述
@@ -92,7 +93,15 @@ public class Goods implements Serializable {
         this.specs = specs;
     }
 
-    public String getName() {
+    public String getAuxIds() {
+		return auxIds;
+	}
+
+	public void setAuxIds(String auxIds) {
+		this.auxIds = auxIds;
+	}
+
+	public String getName() {
         return name;
     }
 
