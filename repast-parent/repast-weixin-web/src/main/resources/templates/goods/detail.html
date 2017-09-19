@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:include="link">
+        <title>均瑶国际会客厅</title>
+	</head>
+	<body class="f-bgc-fff">
+		<div class="cont-keting-show f-bgc-fff f-cb">
+			<div class="m-hd">
+				<img th:src="@{/static/img/bg-login.jpg}" class="a-img img-big"/>
+				<div class="p011">
+					<div class="m-tit" th:text="${obj.name}">红烧麻辣鱼</div>
+					<div class="m-pris  f-bb-e5e5e5 f-cb">
+						<div class="f-fr m-count">
+							<span class="f-fl">数量：</span>
+							<span class="f-fr m-sum">
+								<span class="m-del f-click" data-id="del">-</span>
+								<span class="m-num f-click-num"><input type="number" id="number" value="1" class="" readonly/></span>
+								<span class="m-add f-click" data-id="add">-</span>
+							</span>
+						</div>
+						<span class="m-pri">
+							<span class="m-rmb">￥</span>
+							<span class="m-num" th:text="${obj.amount}" id="jiage">98.00</span>
+							<span>/份</span>
+						</span>
+					</div>
+				</div>
+				<div class="p011">
+					<div class="list-kt list-kt-1 m-c2 f-bb-e5e5e5">
+						<div class="m-hd">
+							<div class="m-tit">规格：</div>
+						</div>
+						<input type="hidden" id="objId" th:value="${obj.id}"/>
+						<div class="m-bd">
+							<div class="m-txt">
+								<span class="m-cailiao">鱼头毛重1100克</span>
+								<span class="m-cailiao">大蒜20克</span>
+								<span class="m-cailiao">鱼头毛重1100克</span>
+								<span class="m-cailiao">大蒜20克</span>
+							</div>
+						</div>
+					</div>
+					<div class="list-kt list-kt-2 m-c2 ">
+						<div class="m-hd">
+							<div class="m-tit">辅料：</div>
+						</div>
+						<div class="m-bd">
+							<div class="m-txt tags f-click-par">
+								<span class="m-tags on f-click-radio" data-num="0">微辣</span>
+								<span class="m-tags f-click-radio" data-num="1">中辣</span>
+								<span class="m-tags f-click-radio" data-num="2">重辣</span>
+								<span class="m-tags f-click-radio" data-num="3">变态辣</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<a href="javascript:void(0);" class="img-back"><img th:src="@{/static/img/icon-back.png}" class="a-img"/></a>
+			</div>
+		</div>
+		<div class="h50"></div>
+		<div class="foot fix fix-bot foot-buy f-bt-e5e5e5 f-bgc-fff">
+			<span class="m-pri p011">
+				<button class="f-fr m-btn btn-cart" type="button" id="">加入购物车</button>
+				<span class="m-rmb">￥</span>
+				<span class="m-num" th:text="${obj.amount}" id="amount">98.00</span>
+			</span>
+		</div>
+		
+		<script type="text/javascript" th:src="@{/static/js/jquery-1.8.3.min.js}"></script>
+		<script type="text/javascript">
+		   $(function(){
+			   $(".img-back").click(function(){
+				   location.href=history.go(-1);
+			   });
+			   $(".btn-cart").click(function(){
+				   var number=$("#number").val();
+				   var id=$("#objId").val();
+				   var amount=$("#jiage").text();
+				   $.ajax({
+					   url:ctx+'/cart/save.do',
+					   type:'POST',
+					   data:{id:id,number:number,amount:amount},
+					   success:function(rsp){
+						   console.info(rsp);
+					   }
+				   });
+			   });
+			   $(document).on('click','.f-click',function(){
+			    	var _this=$(this),
+			    		did=$(this).attr('data-id'),
+			    		at=$("#amount");
+			    		num=$(this).siblings('.f-click-num').find('input');
+			    		switch (did){
+			    			case "del":
+			    				if(parseInt(num.val())>1){
+			    					num.val(parseInt(num.val())-1);
+			    					var am=parseFloat(at.text())/2;
+			    					at.text(am.toFixed(2));
+			    				}
+			    				break;
+			    			case "add":
+			    				num.val(parseInt(num.val())+1);
+			    				var am=parseFloat(at.text())*2;
+		    					at.text(am.toFixed(2));
+			    				break;
+			    			default:
+			    				break;
+			    		}
+			    }); 
+			    $(document).on('click','.f-click-radio',function(){
+			    	$(this).parents('.f-click-par').find('.f-click-radio').removeClass('on').end().end().addClass('on');
+			    });
+		   });
+		</script>
+	</body>
+</html>

@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:include="link">
+        <title>购物车订单</title>
+	</head>
+	<body class="m-login">
+		<div class="p011 pt15">
+			<div class="list-card list-card-0 m-c2-lr">
+				<div class="m-bd">
+					<div class="m-tit">用餐人数　3人</div>
+					<div class="m-txt">合计<span class="c-ff4035">6</span>个：茶饮1个，大荤4个，小荤1</div>
+				</div>
+			</div>
+			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
+			<div class="list-card list-card-1 m-c2-lr">
+				<div class="m-hd" id="confirmBtn">
+					<img th:src="@{/static/img/icon-del.png}" class="a-img icon-del"/>
+					<div class="m-txt">清空</div>
+				</div>
+				<div class="m-bd">
+					<div class="m-txt">共计：<span class="m-rmb c-ff4035">￥</span><span class="m-num c-ff4035">270.00</span><span class="c-ff4035">元</span></div>
+				</div>
+			</div>
+		</div>
+		<div class="p011 f-mt10 ">
+			<div class="list-card list-card-3 m-c2 f-cb">
+				<div class="m-hd">
+					<img th:src="@{/static/img/bg-login.jpg}" class="a-img img-user"/>
+				</div>
+				<div class="m-bd">
+					<div class="m-tit"><span class="m-time f-fr">15:34</span>BonVoyage</div>
+				</div>
+			</div>
+			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
+			<div class="f-bgc-fff bb-ras5">
+				<ul class=" p010">
+					<li class="list-card list-card-4 m-c2 f-bb-e5e5e5 f-pt-5">
+						<div class="m-hd">
+							<a href="" class=""><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
+						</div>
+						<div class="m-bd">
+							<div class="m-tit">糖醋小黄鱼</div>
+							<div class="m-pri">
+								<span class="m-rmb">￥</span><span class="m-num">98.00</span><span>/份</span>
+							</div>
+							<div class="f-fr m-count m-pris">
+								<span class="f-fr m-sum">
+									<span class="m-del f-click" data-id="del">-</span>
+									<span class="m-num f-click-num"><input type="number" value="1" class=""/></span>
+									<span class="m-add f-click" data-id="add">-</span>
+								</span>
+							</div>
+						</div>
+					</li>
+					<li class="list-card list-card-4 m-c2 f-bb-e5e5e5">
+						<div class="m-hd">
+							<a href="" class=""><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
+						</div>
+						<div class="m-bd">
+							<div class="m-tit">糖醋小黄鱼</div>
+							<div class="m-pri">
+								<span class="m-rmb">￥</span><span class="m-num">98.00</span><span>/份</span>
+							</div>
+							<div class="f-fr m-count m-pris">
+								<span class="f-fr m-sum">
+									<span class="m-del f-click" data-id="del">-</span>
+									<span class="m-num f-click-num"><input type="number" value="1" class=""/></span>
+									<span class="m-add f-click" data-id="add">-</span>
+								</span>
+							</div>
+						</div>
+					</li>
+					<li class="list-card list-card-4 m-c2 ">
+						<div class="m-hd">
+							<a href="" class=""><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
+						</div>
+						<div class="m-bd">
+							<div class="m-tit">糖醋小黄鱼</div>
+							<div class="m-pri">
+								<span class="m-rmb">￥</span><span class="m-num">98.00</span><span>/份</span>
+							</div>
+							<div class="f-fr m-count m-pris">
+								<span class="f-fr m-sum">
+									<span class="m-del f-click" data-id="del">-</span>
+									<span class="m-num f-click-num"><input type="number" value="1" class=""/></span>
+									<span class="m-add f-click" data-id="add">-</span>
+								</span>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="p011 f-mt10">
+			<div class="list-card list-card-3 list-card-3-1 m-c2 f-cb">
+				<div class="m-hd">
+					<img th:src="@{/static/img/bg-login.jpg" class="a-img img-user"/>
+				</div>
+				<div class="m-bd">
+					<div class="m-tit"><span class="m-time f-fr">15:34</span>BonVoyage</div>
+				</div>
+			</div>
+			<!--<div class="line line-2"></div>-->
+			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
+			<div class="f-bgc-fff bb-ras5">
+				<ul class=" p010">
+					<li class="list-card list-card-4 m-c2 f-bb-e5e5e5 f-pt-5">
+						<div class="m-hd">
+							<a href="" class=""><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
+						</div>
+						<div class="m-bd">
+							<div class="m-tit">糖醋小黄鱼</div>
+							<div class="m-pri">
+								<span class="m-rmb">￥</span><span class="m-num">98.00</span><span>/份</span>
+							</div>
+							<div class="f-fr m-count m-pris">
+								<span class="f-fr m-sum">
+									<span class="m-del f-click" data-id="del">-</span>
+									<span class="m-num f-click-num"><input type="number" value="1" class=""/></span>
+									<span class="m-add f-click" data-id="add">-</span>
+								</span>
+							</div>
+						</div>
+					</li>
+					<li class="list-card list-card-4 m-c2 f-bb-e5e5e5">
+						<div class="m-hd">
+							<a href="" class=""><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
+						</div>
+						<div class="m-bd">
+							<div class="m-tit">糖醋小黄鱼</div>
+							<div class="m-pri">
+								<span class="m-rmb">￥</span><span class="m-num">98.00</span><span>/份</span>
+							</div>
+							<div class="f-fr m-count m-pris">
+								<span class="f-fr m-sum">
+									<span class="m-del f-click" data-id="del">-</span>
+									<span class="m-num f-click-num"><input type="number" value="1" class=""/></span>
+									<span class="m-add f-click" data-id="add">-</span>
+								</span>
+							</div>
+						</div>
+					</li>
+					<li class="list-card list-card-4 m-c2 ">
+						<div class="m-hd">
+							<a href="" class=""><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
+						</div>
+						<div class="m-bd">
+							<div class="m-tit">糖醋小黄鱼</div>
+							<div class="m-pri">
+								<span class="m-rmb">￥</span><span class="m-num">98.00</span><span>/份</span>
+							</div>
+							<div class="f-fr m-count m-pris">
+								<span class="f-fr m-sum">
+									<span class="m-del f-click" data-id="del">-</span>
+									<span class="m-num f-click-num"><input type="number" value="1" class=""/></span>
+									<span class="m-add f-click" data-id="add">-</span>
+								</span>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+		<div class="h88"></div>
+		<div class="m-cart fix">
+			<img th:src="@{/static/img/icon-xiadan.png}" class="a-img img-xiadan"/>
+			<div class="m-num">15</div>
+		</div>
+		<div class="m-cart m-back fix">
+			<img th:src="@{/static/img/icon-back1.png}" class="a-img img-back1"/>
+			<div class="m-num">15</div>
+		</div>
+		<div class="m-shuaxin fix">
+			<img th:src="@{/static/img/icon-shuaxin.png}" class="a-img icon-shuaxin"/>
+		</div>
+		<script type="text/javascript" th:src="@{/static/js/jquery-1.8.3.min.js}"></script>
+		<script th:src="@{/static/js/mui.min.js}"></script>
+		<script th:src="@{/static/js/mui.picker.min.js}"></script>
+		<style type="text/css">
+			.mui-popup{border-radius: 3px;}
+			.mui-popup-inner{padding: 32px 0;border-radius: 3px 3px 0 0;}
+			.mui-popup-button:first-child {border-radius: 0 0 0 3px;}
+			.mui-popup-button:last-child{border-radius: 0 0 3px 0;}
+			.mui-popup-text{display: none;}
+			.mui-popup-button{color: #333;}
+			.mui-popup-button-bold{font-weight: normal !important;color: #ff4035;}
+		</style>
+		<script type="text/javascript">
+			
+			(function() {
+				var btn = ['取消', '删除'];
+				mui('body').on('click','#confirmBtn',function(e) {
+					mui.confirm(' ','确定要删除该商品吗？', btn, function(e) {
+						console.log(e.index);
+						//e.index == 0 ? mui.toast('感谢您的支持!') : mui.toast('MUI 没有得到你的认可,继续加油!')
+					})
+				})
+			})();
+		
+		</script>
+	</body>
+</html>
