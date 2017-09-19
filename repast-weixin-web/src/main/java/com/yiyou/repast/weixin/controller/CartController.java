@@ -52,10 +52,10 @@ public class CartController {
 	 * */
 	@ResponseBody
 	@PostMapping("/save.do")
-	public RspResult saveCart(Long id,String auxIds,Integer number,String amount,HttpServletRequest request) {
+	public RspResult saveCart(Long id,String auxIds,Integer number,String amount,String goodsType,HttpServletRequest request) {
 		String deskNum=(String) request.getSession().getAttribute("deskNum");
 		SessionToken session=userService.getSessionUser();
-		cartService.addCart(session.getUserId(), deskNum, id, auxIds, number, amount);
+		cartService.addCart(session.getUserId(),session.getUserName(),deskNum, id, auxIds, number, amount,goodsType);
 		return new RspResult();
 	}
 

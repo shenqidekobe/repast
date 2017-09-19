@@ -7,7 +7,7 @@ public interface CartBusinessService {
 	/**
 	 * 添加商品到购物车
 	 * */
-	void addCart(Long userId,String deskNum,Long goodsId,String auxIds,Integer count,String amount);
+	void addCart(Long userId,String userName,String deskNum,Long goodsId,String auxIds,Integer count,String amount,String goodsType);
 	
 	/**
 	 * 修改购物车商品数量

@@ -21,10 +21,15 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 	private ICartService cartService;
 
 	@Override
-	public void addCart(Long userId, String deskNum, Long goodsId, String auxIds, Integer count, String amount) {
-	    //验证此用户是否存在购物车，存在则累加，不存在则新建购物车,：存在的商品项则累加，否则新建购物车项
-		Cart cart=getCart(userId);
+	public void addCart(Long userId,String userName,String deskNum, Long goodsId, String auxIds, Integer count, String amount,String goodsType) {
+	    //首先验证桌号，桌号存在就添加到当前桌的购物车
+		//验证此用户是否存在购物车，存在则累加，不存在则新建购物车,：存在的商品项则累加，否则新建购物车项
+		Cart cart=this.cartService.findCartByDeskNum(deskNum);
+		if(cart==null) {
+			cart=getCart(userId);
+		}
 		boolean itemFlag=true;
+		BigDecimal all=new BigDecimal(0);
 		if(cart==null) {
 			cart=new Cart();
 			cart.setUserId(userId);
@@ -36,7 +41,8 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 			for(CartItem item:items) {
 				if(item.getGoodsId().equals(goodsId)) {
 					item.setCount(item.getCount()+1);
-					item.setAmount(item.getAmount().multiply(new BigDecimal(2)));
+					all=item.getAmount().multiply(new BigDecimal(2));
+					item.setAmount(all);
 					this.cartService.updateCartItem(item);
 					itemFlag=false;//只更新购物车项数量和价格
 				}
@@ -44,15 +50,21 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 		}
 		if(itemFlag) {
 			CartItem item=new CartItem();
+			item.setUserId(userId);
+			item.setUserName(userName);
 			item.setGoodsId(goodsId);
 			item.setAuxIds(auxIds);
 			item.setCount(count);
-			item.setAmount(new BigDecimal(amount));
+			all=new BigDecimal(amount);
+			item.setAmount(all);
 			item.setCreateTime(new Date());
 			item.setCart(cart);
+			item.setGoodsType(goodsType);
 			cartService.saveCartItem(item);
 		}
-		
+		BigDecimal pre=cart.getAmount()==null?new BigDecimal(0):cart.getAmount();
+		cart.setAmount(pre.add(all));
+		this.cartService.update(cart);
 	}
 
 	@Override
