@@ -24,11 +24,13 @@ public class CartItem implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cart_id")
 	private Cart cart;
 	
 	private Long goodsId;//商品ID
+	private String goodsType;//商品类型{用于分类统计}
 	private String auxIds;//商品辅料ID字符串
 	private Integer count;//数量
 	private BigDecimal amount;//订单金额
@@ -51,6 +53,12 @@ public class CartItem implements Serializable{
 	}
 	public void setGoodsId(Long goodsId) {
 		this.goodsId = goodsId;
+	}
+	public String getGoodsType() {
+		return goodsType;
+	}
+	public void setGoodsType(String goodsType) {
+		this.goodsType = goodsType;
 	}
 	public String getAuxIds() {
 		return auxIds;

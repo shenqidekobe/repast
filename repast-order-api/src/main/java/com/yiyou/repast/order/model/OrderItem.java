@@ -29,6 +29,7 @@ public class OrderItem implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
 	private Order order;
