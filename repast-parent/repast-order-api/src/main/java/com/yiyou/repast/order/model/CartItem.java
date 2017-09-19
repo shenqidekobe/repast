@@ -24,6 +24,8 @@ public class CartItem implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private Long userId;
+	private String userName;
 	
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cart_id")
@@ -41,6 +43,18 @@ public class CartItem implements Serializable{
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public Long getUserId() {
+		return userId;
+	}
+	public void setUserId(Long userId) {
+		this.userId = userId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public Cart getCart() {
 		return cart;
