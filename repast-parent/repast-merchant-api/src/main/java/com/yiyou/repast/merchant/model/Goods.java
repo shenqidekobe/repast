@@ -44,6 +44,9 @@ public class Goods implements Serializable {
     private Integer sales = 0;//累计销量
     private Date createTime;//发布时间
     private String operUser;//操作人
+    
+    @Transient
+    private Set<GoodsAux> auxs=new HashSet<>();
 
     public String specsName() {
         if (specs.size() > 0) {
@@ -170,5 +173,13 @@ public class Goods implements Serializable {
     public void setOperUser(String operUser) {
         this.operUser = operUser;
     }
+
+	public Set<GoodsAux> getAuxs() {
+		return auxs;
+	}
+
+	public void setAuxs(Set<GoodsAux> auxs) {
+		this.auxs = auxs;
+	}
 
 }

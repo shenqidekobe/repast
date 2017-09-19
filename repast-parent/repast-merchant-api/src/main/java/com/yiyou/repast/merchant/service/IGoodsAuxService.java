@@ -9,5 +9,6 @@ import java.util.Set;
  * 商品
  */
 public interface IGoodsAuxService  extends IBaseService<GoodsAux>{
+	
     Set<GoodsAux> findByIds(List<Long> ids);
 }
