@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:include="link">
+        <title>购物车</title>
+	</head>
+	<body class="m-login">
+		<div class="p011 pt15">
+			<div class="list-card list-card-5 p010">
+				<div class="m-tit-2">购物车</div>
+			</div>
+			<!--<div class="line line-2"></div>-->
+			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
+			<div class="list-card list-card-5 p010 bb-ras5">
+				<div class="f-bgc-fff m-box-def f-tac">
+					<img th:src="@{/static/img/icon-cart1.png}" class="m-img icon-cart1"/>
+					<div class="m-tit">购物车空空如也</div>
+				</div>
+			</div>
+			
+			<div class="list-card list-card-5 p010 f-mt10 bt-ras5">
+				<div class="m-tit-2 m-tit-2-1">本店顾客最常点的菜</div>
+			</div>
+			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
+			<div class="list-card list-card-5 p010 pt10 bb-ras5">
+				<div class="swiper-container swiper-container-1 cont-keting">
+				  <div class="swiper-wrapper m-bd"></div>
+				  <div class="swiper-pagination"></div>
+				</div>
+			</div>
+		</div>
+		
+		<div class="h50"></div>
+		<div class="m-cart fix">
+			<img th:src="@{/static/img/icon-diancai.png}" class="a-img imgdiancai"/>
+			<div class="m-num">15</div>
+		</div>
+		<div class="m-cart m-back fix">
+			<img th:src="@{/static/img/icon-back1.png}" class="a-img img-back1"/>
+			<div class="m-num">15</div>
+		</div>
+		<div class="m-shuaxin fix">
+			<img th:src="@{/static/img/icon-shuaxin.png}" class="a-img icon-shuaxin"/>
+		</div>
+		
+		<script type="text/javascript" th:src="@{/static/js/jquery-1.8.3.min.js}"></script>
+		<script type="text/javascript" th:src="@{/static/js/swiper.min.js}"></script>
+		<script type="text/javascript">
+		   $(function(){
+			    $(".imgdiancai").click(function() {
+			    	location.href=ctx+'/goods/list';
+				});
+				$(".img-back1").click(function() {
+					location.href=history.go(-1);
+				});
+				$(".icon-shuaxin").click(function() {
+					location.href=location.href;
+				});
+			})
+		</script>
+	</body>
+</html>

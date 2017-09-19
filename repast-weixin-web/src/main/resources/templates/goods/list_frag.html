@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<body>
+    <div class="cont-keting f-bgc-fff p011 f-cb" th:each="dmap : ${dataMap}">
+		<div class="m-hd f-tac">
+			<div class="m-tit" th:text="${dmap.key}">大荤</div>
+		</div>
+		<div class="m-bd">
+			<ul class="li-c3 f-cb">
+				<li class="list" th:each="obj:${dmap.value}">
+					<a th:href="@{'/goods/detail?id='+${obj.id}}">
+						<img th:src="@{/static/img/bg-login.jpg}" class="a-img"/>
+						<div class="m-tit" th:text="${obj.name}">红烧麻辣鱼</div>
+						<span class="m-pri">
+						   <span>￥</span>
+						   <span th:text="${obj.amount}">98</span>
+						</span>
+					</a>
+				</li>
+			</ul>
+		</div>
+	    <div class="line line-h10"></div>
+	</div>
+</body>
+</html>
