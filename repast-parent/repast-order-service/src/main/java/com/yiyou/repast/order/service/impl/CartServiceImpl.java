@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.order.dao.CartItemRepository;
@@ -70,6 +71,16 @@ public class CartServiceImpl implements ICartService{
 	@Override
 	public CartItem findCartItemById(Long id) {
 		return cartItemRepository.findOne(id);
+	}
+
+	@Override
+	public Cart findCartByDeskNum(String deskNum) {
+		if(StringUtils.isEmpty(deskNum))return null;
+		Cart cart=new Cart();
+		cart.setDeskNum(deskNum);
+	    ExampleMatcher matcher = ExampleMatcher.matching();
+	    Example<Cart> example = Example.of(cart, matcher); 
+		return cartRepository.findOne(example);
 	}
 
 }
