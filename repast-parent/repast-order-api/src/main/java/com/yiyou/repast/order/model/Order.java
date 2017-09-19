@@ -3,13 +3,17 @@ package com.yiyou.repast.order.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
@@ -31,6 +35,7 @@ public class Order implements Serializable{
 	private Long userId;//用户ID
 	private String orderId;//订单号
 	private String deskNum;//桌号
+	private Integer peopleCount;//用餐人数
 	
 	@Enumerated(EnumType.STRING)
 	private PayWay payWay;//支付方式
@@ -42,8 +47,11 @@ public class Order implements Serializable{
 	
 	private Date createTime;//下单时间
 	private Long createUser;//下单用户
-	private Date predictDate;//预计就餐日期
+	private String predictDate;//预计就餐日期
 	private String predictTime;//预计就餐时间
+	
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
+	private Set<OrderItem> items = new HashSet<>();
 	
 	public Long getId() {
 		return id;
@@ -75,6 +83,18 @@ public class Order implements Serializable{
 	public void setDeskNum(String deskNum) {
 		this.deskNum = deskNum;
 	}
+	public Integer getPeopleCount() {
+		return peopleCount;
+	}
+	public void setPeopleCount(Integer peopleCount) {
+		this.peopleCount = peopleCount;
+	}
+	public Set<OrderItem> getItems() {
+		return items;
+	}
+	public void setItems(Set<OrderItem> items) {
+		this.items = items;
+	}
 	public PayWay getPayWay() {
 		return payWay;
 	}
@@ -99,10 +119,10 @@ public class Order implements Serializable{
 	public void setCreateUser(Long createUser) {
 		this.createUser = createUser;
 	}
-	public Date getPredictDate() {
+	public String getPredictDate() {
 		return predictDate;
 	}
-	public void setPredictDate(Date predictDate) {
+	public void setPredictDate(String predictDate) {
 		this.predictDate = predictDate;
 	}
 	public String getPredictTime() {

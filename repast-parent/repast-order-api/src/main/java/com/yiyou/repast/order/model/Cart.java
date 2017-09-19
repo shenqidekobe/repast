@@ -11,7 +11,7 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -28,10 +28,12 @@ public class Cart implements Serializable{
 	private Long userId;//用户ID
 	
     private String deskNum;//桌号
+    private Integer peopleCount;//用餐人数
+    private String predictDate;//就餐时间
 	private BigDecimal amount;//总金额
 	private Date createTime;//创建时间
 	
-	@ManyToMany(mappedBy = "cart", targetEntity = CartItem.class, fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "cart")
 	private Set<CartItem> items = new HashSet<>();
 	
 	public Long getId() {
@@ -69,6 +71,18 @@ public class Cart implements Serializable{
 	}
 	public void setItems(Set<CartItem> items) {
 		this.items = items;
+	}
+	public Integer getPeopleCount() {
+		return peopleCount;
+	}
+	public void setPeopleCount(Integer peopleCount) {
+		this.peopleCount = peopleCount;
+	}
+	public String getPredictDate() {
+		return predictDate;
+	}
+	public void setPredictDate(String predictDate) {
+		this.predictDate = predictDate;
 	}
 	
 }
