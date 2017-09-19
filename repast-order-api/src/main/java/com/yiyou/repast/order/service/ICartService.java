@@ -15,6 +15,8 @@ public interface ICartService {
 	
 	Cart findCartById(Long id);
 	
+	Cart findCartByDeskNum(String deskNum);
+	
 	CartItem findCartItemById(Long id);
 	
 	void removeCartItem(Long id);
