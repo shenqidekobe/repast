@@ -17,6 +17,10 @@ public interface OrderBusinessService {
 	 * */
 	Order getOrder(Long userId);
 	
+	Order getOrderById(Long id);
+	
+	Order getOrderByDeskNum(String deskNum);
+	
 	/**
 	 * 我的订单列表
 	 * */

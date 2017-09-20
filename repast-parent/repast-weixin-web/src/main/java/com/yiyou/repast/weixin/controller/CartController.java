@@ -3,6 +3,7 @@ package com.yiyou.repast.weixin.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yiyou.repast.order.model.Cart;
+import com.yiyou.repast.weixin.base.CartItemMap;
 import com.yiyou.repast.weixin.base.RspResult;
 import com.yiyou.repast.weixin.base.SessionToken;
 import com.yiyou.repast.weixin.service.CartBusinessService;
@@ -35,15 +37,23 @@ public class CartController {
 	
 	/**
 	 * 我的购物车
+	 * 按用户点的分类处理
 	 * */
 	@GetMapping("/list")
 	public String myCart(Model model) {
 		SessionToken session=userService.getSessionUser();
-		Cart cart=cartService.getCart(session.getUserId());
+		Cart cart=cartService.getCart(session.getDeskNum());
+		if(cart==null&&StringUtils.isEmpty(session.getDeskNum())) {
+			cart=cartService.getCart(session.getUserId());
+		}
 		if(cart==null) {
 			return "goods/cart_empty";
 		}
+		CartItemMap cmap=cartService.cartToMap(cart);
 		model.addAttribute("cart", cart);
+		model.addAttribute("count", cart.getItems().size());
+		model.addAttribute("itemList",cmap.getList());
+		model.addAttribute("typeMap",cmap.getTypeMap());
 		return "goods/cart_list";
 	}
 	
@@ -53,10 +63,21 @@ public class CartController {
 	@ResponseBody
 	@PostMapping("/save.do")
 	public RspResult saveCart(Long id,String auxIds,Integer number,String amount,String goodsType,HttpServletRequest request) {
-		String deskNum=(String) request.getSession().getAttribute("deskNum");
 		SessionToken session=userService.getSessionUser();
-		cartService.addCart(session.getUserId(),session.getUserName(),deskNum, id, auxIds, number, amount,goodsType);
+		cartService.addCart(session.getUserId(),session.getUserName(),session.getDeskNum(),
+				id, auxIds, number, amount,goodsType);
 		return new RspResult();
 	}
+	
+	/**
+	 * 清空购物车
+	 * */
+	@ResponseBody
+	@PostMapping("/clear.do")
+	public RspResult clearCart(Long id) {
+		cartService.clearCart(id);
+		return new RspResult();
+	}
+	
 
 }

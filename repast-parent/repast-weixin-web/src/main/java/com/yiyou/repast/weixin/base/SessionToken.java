@@ -14,6 +14,7 @@ public class SessionToken implements Serializable{
 	private Long merchantId;
 	private String openId;
 	private String token;
+	private String deskNum;
 	private Date createTime;
 	
 	public Long getUserId() {
@@ -45,6 +46,12 @@ public class SessionToken implements Serializable{
 	}
 	public void setToken(String token) {
 		this.token = token;
+	}
+	public String getDeskNum() {
+		return deskNum;
+	}
+	public void setDeskNum(String deskNum) {
+		this.deskNum = deskNum;
 	}
 	public Date getCreateTime() {
 		return createTime;

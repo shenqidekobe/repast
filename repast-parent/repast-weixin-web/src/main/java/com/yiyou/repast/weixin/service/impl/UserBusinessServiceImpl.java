@@ -73,13 +73,13 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	}
 
 	@Override
-	public void createUserAuthorizeApply(UserAuthorizeApply obj) {
+	public UserAuthorizeApply createUserAuthorizeApply(UserAuthorizeApply obj) {
 		if(obj==null) {
 			throw new BusinessException(4444, "object userAuthorizeApply must not be null");
 		}
 		obj.setAuditStatus(AuthorizeAuditStaus.await);
 		obj.setCreateTime(new Date());
-		userAuthorizeApplyService.save(obj);
+		return userAuthorizeApplyService.save(obj);
 	}
 
 	@Override
@@ -103,6 +103,14 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 			throw new BusinessException(4444, "userId must not be null");
 		}
 		return userAuthorizeApplyService.findByUserId(userId);
+	}
+	
+	@Override
+	public UserAuthorizeApply getUserAuthorizeApplyByID(Long id) {
+		if(id==null) {
+			throw new BusinessException(4444, "id must not be null");
+		}
+		return userAuthorizeApplyService.findById(id);
 	}
 
 }

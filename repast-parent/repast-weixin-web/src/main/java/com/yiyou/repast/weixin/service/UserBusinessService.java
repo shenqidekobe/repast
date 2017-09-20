@@ -29,7 +29,7 @@ public interface UserBusinessService {
 	/**
 	 * 创建授权记录
 	 * */
-	void createUserAuthorizeApply(UserAuthorizeApply obj);
+	UserAuthorizeApply createUserAuthorizeApply(UserAuthorizeApply obj);
 	
 	/**
 	 * 审核授权
@@ -40,5 +40,10 @@ public interface UserBusinessService {
 	 * 查询我的授权记录
 	 * */
 	UserAuthorizeApply getUserAuthorizeApply(Long userId);
+	
+	/**
+	 * id查询
+	 * */
+	UserAuthorizeApply getUserAuthorizeApplyByID(Long id);
 
 }
