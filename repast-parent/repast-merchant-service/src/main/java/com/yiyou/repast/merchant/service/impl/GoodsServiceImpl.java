@@ -18,7 +18,7 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Override
     public Goods findById(Long merchantId, Long goodsId) {
-        return merchantGoodsRepository.findByMerchantIdAndId(merchantId,goodsId);
+        return merchantGoodsRepository.findByMerchantIdAndId(merchantId, goodsId);
     }
 
     @Override
@@ -35,7 +35,7 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Override
     public void remove(Long merchantId, Long goodsId) {
-
+        merchantGoodsRepository.deleteByMerchantIdAndId(merchantId, goodsId);
     }
 
     @Override

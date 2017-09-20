@@ -7,6 +7,6 @@ public class Constants {
 
 	public static Long MERCHANT_ID=null;
 	
-	public static final String GOODS_IMG_PATH="/data/upload/goods/";//商品图片目录
+	public static final String GOODS_IMG_PATH="d:/data/upload/goods/";//商品图片目录
 
 }

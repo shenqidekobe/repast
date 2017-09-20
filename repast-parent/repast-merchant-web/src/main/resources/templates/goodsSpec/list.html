@@ -108,14 +108,13 @@
         {field: 'opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
 
     function operateFormatter(value, row, index) {
-        return "<button type=\"button\" class=\"btn btn-danger btn-circle\" id=\"delete\">删除</button>";
-        ;
+        return "<i class=\"fa fa-trash-o fa-lg\" id='delete'></i>";
     }
 
     loadTable(url, columns, function (options) {
         dataTable = $('#dataTable').bootstrapTable(options);
     });
-    $("#saveBtn").click(function () {
+    $("#commitBtn").click(function () {
         var name = $.trim($("#name").val());
         if (name == "") {
             toastr.warning('请输入规格名');

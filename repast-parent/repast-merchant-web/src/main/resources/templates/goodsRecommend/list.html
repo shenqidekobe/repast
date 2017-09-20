@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="link">
+    <link href="/static/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+<body>
+<div id="wrapper">
+    <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+        <div th:include="top"></div>
+        <div th:include="left"></div>
+    </nav>
+
+    <div id="page-wrapper">
+         商家推荐管理
+
+    </div>
+</div>
+
+<script src="/static/jquery/jquery.min.js"></script>
+<script src="/static/bootstrap/js/bootstrap.min.js"></script>
+<script src="/static/metisMenu/metisMenu.min.js"></script>
+<script src="/static/dist/js/sb-admin-2.js"></script>
+<script src="/static/bootstrap-table/bootstrap-table.min.js"></script>
+<script src="/static/bootstrap-table/bootstrap-table-zh-CN.min.js"></script>
+<script src="/static/admin/bootstrptableSetting.js"></script>
+<script src="/static/toastr/toastr.min.js"></script>
+<script src="/static/toastr/toastr.confirm.js"></script>
+<script src="/static/admin/goods/list.js"></script>
+<script>
+    var dataTable = null;
+    $("#addBtn").click(function () {
+        location.href = '/goods/edit';
+    });
+    $("#categoryBtn").click(function () {
+        location.href = '/goods/category';
+    });
+    $("#specBtn").click(function () {
+        location.href = '/goods/spec';
+    });
+    $("#auxBtn").click(function () {
+        location.href = '/goods/aux';
+    });
+    window.operateEvents = {
+        "click #edit": function (e, value, row, index) {
+            location.href = '/goods/edit?id=' + row.id;
+            return false;
+        }
+    }
+    var url = "/goods/listData.do?random=" + Math.random();
+    var columns = [
+        {
+            field: '', title: '序号', formatter: function (value, row, index) {
+            return index + 1;
+        }
+        },
+        {field: 'name', title: '菜品名',},
+        {field: 'amount', title: '价格',},
+        {field: 'categoryName', title: '分类',},
+        {field: 'specsName', title: '规格',},
+        {
+            field: 'createTime', title: '发布时间', formatter: function (value, row, index) {
+            return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+        }
+        },
+        {field: 'opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
+
+    function operateFormatter(value, row, index) {
+        return "<button type=\"button\" class=\"btn btn-primary btn-circle\" id=\"edit\">编辑</button>";
+    }
+
+    loadTable(url, columns, function (options) {
+        dataTable = $('#dataTable').bootstrapTable(options);
+    });
+
+</script>
+
+</body>
+</html>
