@@ -27,15 +27,21 @@ public class UserAuthorizeApply implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private Long merchantId;
-	private Long userId;
+	private Long userId;//申请人ID
+	private String userName;//申请人名称
 	
-	private Date repastTime;//就餐日期
 	private Integer count;//人数
 	private BigDecimal amount;//套餐价格
+	private String company;//公司
+	private String dept;//部门
+	private String repastTime;//就餐日期
 	private String reason;//理由
 	private Date createTime;//申请时间
+	
 	@Enumerated(EnumType.STRING)
 	private AuthorizeAuditStaus auditStatus;//审核状态
+	private Long auditId;//审核人ID
+	private String auditName;//审核人姓名
 	private String auditReason;//审核理由
 	private Date auditTime;//审核时间
 	
@@ -58,10 +64,10 @@ public class UserAuthorizeApply implements Serializable{
 	public void setUserId(Long userId) {
 		this.userId = userId;
 	}
-	public Date getRepastTime() {
+	public String getRepastTime() {
 		return repastTime;
 	}
-	public void setRepastTime(Date repastTime) {
+	public void setRepastTime(String repastTime) {
 		this.repastTime = repastTime;
 	}
 	public Integer getCount() {
@@ -105,6 +111,36 @@ public class UserAuthorizeApply implements Serializable{
 	}
 	public void setAuditTime(Date auditTime) {
 		this.auditTime = auditTime;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
+	}
+	public String getCompany() {
+		return company;
+	}
+	public void setCompany(String company) {
+		this.company = company;
+	}
+	public String getDept() {
+		return dept;
+	}
+	public void setDept(String dept) {
+		this.dept = dept;
+	}
+	public Long getAuditId() {
+		return auditId;
+	}
+	public void setAuditId(Long auditId) {
+		this.auditId = auditId;
+	}
+	public String getAuditName() {
+		return auditName;
+	}
+	public void setAuditName(String auditName) {
+		this.auditName = auditName;
 	}
 	
 }
