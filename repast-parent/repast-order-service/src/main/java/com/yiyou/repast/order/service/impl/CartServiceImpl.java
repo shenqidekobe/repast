@@ -1,6 +1,7 @@
 package com.yiyou.repast.order.service.impl;
 
 import java.util.Date;
+import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -50,8 +51,11 @@ public class CartServiceImpl implements ICartService{
 	}
 
 	@Override
-	public void clearCart(Long userId) {
-		cartRepository.delete(findCart(userId));
+	public void clearCart(Long id) {
+		Cart cart=findCartById(id);
+		Set<CartItem> set=cart.getItems();
+		if(!set.isEmpty())cartItemRepository.delete(set);
+		cartRepository.delete(cart);
 	}
 
 	@Override
