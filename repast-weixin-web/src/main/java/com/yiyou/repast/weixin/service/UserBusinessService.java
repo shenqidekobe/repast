@@ -45,5 +45,15 @@ public interface UserBusinessService {
 	 * id查询
 	 * */
 	UserAuthorizeApply getUserAuthorizeApplyByID(Long id);
+	
+	/**
+	 * 发送短信
+	 * */
+	void sendSms(String phone,String content);
+	
+	/**
+	 * 验证短信
+	 * */
+	boolean validateSms(String phone,String content);
 
 }

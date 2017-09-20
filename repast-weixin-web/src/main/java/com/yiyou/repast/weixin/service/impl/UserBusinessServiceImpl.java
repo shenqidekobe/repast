@@ -2,6 +2,8 @@ package com.yiyou.repast.weixin.service.impl;
 
 import java.util.Date;
 
+import javax.annotation.Resource;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
@@ -9,6 +11,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.model.User;
 import com.yiyou.repast.merchant.model.UserAuthorizeApply;
+import com.yiyou.repast.merchant.service.ISmsService;
 import com.yiyou.repast.merchant.service.IUserAuthorizeApplyService;
 import com.yiyou.repast.merchant.service.IUserService;
 import com.yiyou.repast.weixin.base.RBeanUtils;
@@ -25,6 +28,8 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	private IUserService userService;
 	@Reference
 	private IUserAuthorizeApplyService userAuthorizeApplyService;
+	@Resource
+	private ISmsService smsService;
 
 	@Override
 	public User registerUser(User user) {
@@ -111,6 +116,19 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 			throw new BusinessException(4444, "id must not be null");
 		}
 		return userAuthorizeApplyService.findById(id);
+	}
+
+	@Override
+	public void sendSms(String phone, String content) {
+		if(org.apache.commons.lang3.StringUtils.isEmpty(phone)) {
+			throw new BusinessException(4444, "phone must not be null");
+		}
+		smsService.sendMessage(phone, content);
+	}
+
+	@Override
+	public boolean validateSms(String phone, String content) {
+		return smsService.verifyCode(phone, content);
 	}
 
 }
