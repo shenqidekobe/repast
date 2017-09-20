@@ -143,4 +143,10 @@ public class Order implements Serializable{
 	public void setDiscountAmount(BigDecimal discountAmount) {
 		this.discountAmount = discountAmount;
 	}
+	public String getPredictDateStr() {
+		if(predictDate==null||predictDate.equals(""))return "今天中午12点";
+		if(predictDate.equals("today"))return "今天中午12点";
+		if(predictDate.equals("tomorrow"))return "名天中午12点";
+		return "今天中午12点";
+	}
 }
