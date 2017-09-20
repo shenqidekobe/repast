@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.util.StringUtils;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.order.dao.OrderItemRepository;
@@ -42,7 +43,6 @@ public class OrderServiceImpl implements IOrderService {
 		orderRepository.delete(id);
 	}
 
-
 	@Override
 	public Order findById(Long id) {
 		return orderRepository.findOne(id);
@@ -52,6 +52,16 @@ public class OrderServiceImpl implements IOrderService {
 	public List<Order> findByUserId(Long userId) {
 		Order obj=new Order();
 		obj.setUserId(userId);
+	    ExampleMatcher matcher = ExampleMatcher.matching();
+	    Example<Order> example = Example.of(obj, matcher); 
+		return orderRepository.findAll(example);
+	}
+	
+	@Override
+	public List<Order> findByDeskNum(String deskNum){
+		if(StringUtils.isEmpty(deskNum))return null;
+		Order obj=new Order();
+		obj.setDeskNum(deskNum);
 	    ExampleMatcher matcher = ExampleMatcher.matching();
 	    Example<Order> example = Example.of(obj, matcher); 
 		return orderRepository.findAll(example);
