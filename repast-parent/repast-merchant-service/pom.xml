@@ -60,6 +60,20 @@
 			<artifactId>druid</artifactId>
 			<version>${com.alibaba.druid.version}</version>
 		</dependency>
+		
+		<!-- http client -->
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpcore</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+		</dependency>
 
 		<!--添加对tomcat的支持 -->
 		<dependency>
