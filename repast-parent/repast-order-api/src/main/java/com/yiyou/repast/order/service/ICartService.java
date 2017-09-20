@@ -24,7 +24,7 @@ public interface ICartService {
 	/**
 	 * 清楚购物车
 	 * */
-	void clearCart(Long userId);
+	void clearCart(Long id);
 	
 	/**
 	 * 我的购物车
