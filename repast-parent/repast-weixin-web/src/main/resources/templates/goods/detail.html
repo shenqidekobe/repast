@@ -31,6 +31,7 @@
 							<div class="m-tit">规格：</div>
 						</div>
 						<input type="hidden" id="objId" th:value="${obj.id}"/>
+						<input type="hidden" id="goodsType" th:value="${obj.category.name}"/>
 						<div class="m-bd">
 							<div class="m-txt">
 								<span class="m-cailiao">鱼头毛重1100克</span>
@@ -76,12 +77,16 @@
 				   var number=$("#number").val();
 				   var id=$("#objId").val();
 				   var amount=$("#jiage").text();
+				   var goodsType=$("#goodsType").val();
 				   $.ajax({
 					   url:ctx+'/cart/save.do',
 					   type:'POST',
-					   data:{id:id,number:number,amount:amount},
+					   data:{id:id,number:number,amount:amountgoodsType:goodsType},
 					   success:function(rsp){
-						   console.info(rsp);
+						   if(rsp.status==200){
+						   }else{
+							   toast("服务器繁忙，请稍后再试！");
+						   }
 					   }
 				   });
 			   });

@@ -272,5 +272,31 @@
 .mui-toast-message{background: rgba(255,255,255,.2);}
 
 
+
+.toast {
+	position: fixed;
+	left: 0;
+	top: 50%;
+	z-index: 10;
+	height: 40px;
+	margin: -20px 0 0;
+	text-align: center;
+	width: 100%;
+	display: none;
+}
+
+.toast span {
+	border-radius: 5px;
+	height: 40px;
+	padding: 0 10px;
+	color: rgba(255, 255, 255, 1);
+	line-height: 40px;
+	display: inline-block;
+	font-size: 14px;
+}
+
+.toast .default {
+	background: rgba(0, 0, 0, .7);
+}
 @media (max-width:360px){}
 @media (max-width:320px){}

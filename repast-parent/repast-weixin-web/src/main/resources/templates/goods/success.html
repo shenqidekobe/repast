@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+    <head th:include="link">
+        <title>我的订单</title>
+	</head>
+	<body class="m-login">
+		<div class="p011 pt15">
+			<div class="list-card list-card-5 p010">
+				<div class="m-tit-1">已下单的菜</div>
+				<div class="m-bd">
+					<div class="m-tit">
+					<span class="f-fr m-txt">下单时间： 
+					<span th:text="${#dates.format(obj.createTime, 'HH:mm')}"></span></span>
+                    <span th:text="${obj.deskNum}"></span></div>
+					<div class="m-txt">用餐时间：<span th:text="${obj.predictDateStr}"></span></div>
+				</div>
+			</div>
+			<!--<div class="line line-2"></div>-->
+			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
+			<div class="list-card list-card-6 p010">
+				<div class="m-bd">
+					<div class="m-tit">
+					    <span class="f-fr ">已付<span class="m-rmb">￥</span>0.00</span>
+					   应付<span class="m-rmb">￥</span><span th:text="${obj.amount}">288.00</span></div>
+					<div class="m-txt">
+						<span class="f-fr"><button class="f-fr m-btn btn-zhifu" type="button" th:attr="oid=${obj.id}">立即支付</button></span>
+						还需支付<span class="m-rmb c-ff4035">￥</span>
+						     <span class=" c-ff4035"><span th:text="${obj.amount}">288.00</span></span>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="p011 f-mt10">
+			<div class="list-card list-card-3 list-card-3-1 m-c2">
+				<div class="m-hd">
+					<img th:src="@{/static/img/bg-login.jpg}" class="a-img img-user"/>
+				</div>
+				<!-- <div class="m-bd">
+					<div class="m-tit"><span class="m-time f-fr">15:34</span>BonVoyage</div>
+				</div> -->
+			</div>
+			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
+			<div class="f-bgc-fff">
+				<ul class=" p010">
+					<li class="list-card list-card-4 m-c2 f-bb-e5e5e5 f-pt-5" th:each="ot,otStat:${obj.items}">
+						<div class="m-hd">
+							<a href="" class="" target="_blank"><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
+						</div>
+						<div class="m-bd">
+							<div class="m-tit" th:text="${ot.goodsName}">糖醋小黄鱼</div>
+							<div class="m-pri">
+								<span class="m-rmb">￥</span><span class="m-num" th:text="${ot.amount}">98.00</span><span>/份</span>
+								<span class="m-sales"><span th:text="${ot.count}"></span>份</span>
+							</div>
+							<div class="f-fr m-count m-pris">
+								<div class="m-tags" th:text="${ot.status.name}">已下厨</div>
+							</div>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
+			<div class="list-card list-card-1 m-c2-lr">
+				<div class="m-bd">
+					<div class="m-txt">合计<span class="c-ff4035" th:text="${count}">6</span>个：
+					    <span th:each="tp,tpStat:${typeMap}" th:text="${tp.key+tp.value}+'个、'"></span>
+				    </div>
+				</div>
+			</div>
+		</div>
+		<div class="h88"></div>
+		<div class="m-cart fix">
+			<img th:src="@{/static/img/icon-diancai.png}" class="a-img imgdiancai"/>
+			<div class="m-num">15</div>
+		</div>
+		<div class="m-cart m-back fix">
+			<img th:src="@{/static/img/icon-back1.png}" class="a-img img-back1"/>
+			<div class="m-num">15</div>
+		</div>
+		<div class="m-shuaxin fix">
+			<img th:src="@{/static/img/icon-shuaxin.png}" class="a-img icon-shuaxin"/>
+		</div>
+		
+		<script type="text/javascript" th:src="@{/static/js/jquery-1.8.3.min.js}"></script>
+		<script type="text/javascript">
+		    $(function(){
+		    	$(".imgdiancai").click(function(){
+				   location.href=ctx+'/goods/index';
+			    });
+				$(".img-back1").click(function(){
+				   location.href=history.go(-1);
+			    });
+				$(".icon-shuaxin").click(function(){
+				   location.href=location.href;
+			    });
+				$(".btn-zhifu").click(function(){
+				   location.href=ctx+'/order/settle?id='+$(this).attr("oid");
+			    });
+		    })
+		</script>
+</html>

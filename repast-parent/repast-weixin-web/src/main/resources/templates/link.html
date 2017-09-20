@@ -5,8 +5,23 @@
 <meta content="maximum-dpr=1" name="flexible" />
 <meta name="viewport" content="initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no">
 <link rel="stylesheet" th:href="@{/static/css/mui.min.css}">
+<link rel="stylesheet" th:href="@{/static/css/mui.picker.min.css}">
 <link rel="stylesheet" type="text/css" th:href="@{/static/css/reset.css}"/>
 <link rel="stylesheet" type="text/css" th:href="@{/static/css/common.css}"/>
 <script th:inline="javascript">
 var ctx=[[${_PATH}]];
+function toast(content){
+	var div="<div class='toast'><span class='default'>";
+	div+=content;
+    div+="</span></div>";
+    if($(".toast").length==0){
+	   $(document.body).append(div);
+    }else{
+       $(".default").text(content);
+    }
+    $(".toast").show();
+	setTimeout(function(){
+		$(".toast").hide();
+	},2000);
+}
 </script>
