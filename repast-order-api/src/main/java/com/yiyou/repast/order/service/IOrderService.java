@@ -19,4 +19,6 @@ public interface IOrderService {
 	
 	List<Order> findByUserId(Long userId);
 	
+	List<Order> findByDeskNum(String deskNum);
+	
 }
