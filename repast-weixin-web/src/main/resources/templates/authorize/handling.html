@@ -1,11 +1,11 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head th:include="link">
         <title>授权中</title>
 	</head>
 	<body class="f-bgc-fff">
 		<div class="m-box-def  p011 f-tac">
-			<img src="img/icon-shouquanzhong.png" class="m-img icon-sqz"/>
+			<img th:src="@{/static/img/icon-shouquanzhong.png}" class="m-img icon-sqz"/>
 			<div class="m-tit">授权中</div>
 		</div>
 		

@@ -7,82 +7,54 @@
 		<div class="p011 pt15">
 			<div class="list-card list-card-0 m-c2-lr">
 				<div class="m-bd">
-					<div class="m-tit">用餐人数　3人</div>
-					<div class="m-txt">合计<span class="c-ff4035">6</span>个：茶饮1个，大荤4个，小荤1</div>
+					<div class="m-tit">用餐人数　<span th:text="${cart.peopleCount}">3</span>人</div>
+					<div class="m-txt">合计<span class="c-ff4035" th:text="${count}">6</span>个：
+					   <span th:each="tp,tpStat:${typeMap}" th:text="${tp.key+tp.value}+'个、'"></span>
+					</div>
 				</div>
 			</div>
 			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
 			<div class="list-card list-card-1 m-c2-lr">
-				<div class="m-hd" id="confirmBtn">
+				<div class="m-hd" id="confirmBtn" th:attr="cid=${cart.id}">
 					<img th:src="@{/static/img/icon-del.png}" class="a-img icon-del"/>
 					<div class="m-txt">清空</div>
 				</div>
 				<div class="m-bd">
-					<div class="m-txt">共计：<span class="m-rmb c-ff4035">￥</span><span class="m-num c-ff4035">270.00</span><span class="c-ff4035">元</span></div>
+					<div class="m-txt">共计：<span class="m-rmb c-ff4035">￥</span>
+					<span class="m-num c-ff4035" th:text="${cart.amount}" id="allAmount">270.00</span>
+					<span class="c-ff4035">元</span>
+					</div>
 				</div>
 			</div>
 		</div>
-		<div class="p011 f-mt10 ">
+		<div class="p011 f-mt10 " th:each="item,itemStat:${itemList}">
 			<div class="list-card list-card-3 m-c2 f-cb">
 				<div class="m-hd">
 					<img th:src="@{/static/img/bg-login.jpg}" class="a-img img-user"/>
 				</div>
 				<div class="m-bd">
-					<div class="m-tit"><span class="m-time f-fr">15:34</span>BonVoyage</div>
+					<div class="m-tit">
+					   <span class="m-time f-fr" th:text="${#dates.format(item.createTime, 'HH:mm')}">15:34</span>
+					   <span th:text="${item.userName}"></span>
+					</div>
 				</div>
 			</div>
 			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
 			<div class="f-bgc-fff bb-ras5">
 				<ul class=" p010">
-					<li class="list-card list-card-4 m-c2 f-bb-e5e5e5 f-pt-5">
+					<li class="list-card list-card-4 m-c2 f-bb-e5e5e5 f-pt-5" th:each="gts,gtsTat:${item.itemList}">
 						<div class="m-hd">
 							<a href="" class=""><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
 						</div>
 						<div class="m-bd">
-							<div class="m-tit">糖醋小黄鱼</div>
+							<div class="m-tit" th:text="${gts.goodsName}">糖醋小黄鱼</div>
 							<div class="m-pri">
-								<span class="m-rmb">￥</span><span class="m-num">98.00</span><span>/份</span>
+								<span class="m-rmb">￥</span><span class="m-num" th:text="${gts.amount}" id="amount">98.00</span><span>/份</span>
 							</div>
 							<div class="f-fr m-count m-pris">
-								<span class="f-fr m-sum">
+								<span class="f-fr m-sum" th:attr="gid=${gts.goodsId},gtp=${gts.goodsType},gam=${gts.goodsAmount}">
 									<span class="m-del f-click" data-id="del">-</span>
-									<span class="m-num f-click-num"><input type="number" value="1" class=""/></span>
-									<span class="m-add f-click" data-id="add">-</span>
-								</span>
-							</div>
-						</div>
-					</li>
-					<li class="list-card list-card-4 m-c2 f-bb-e5e5e5">
-						<div class="m-hd">
-							<a href="" class=""><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
-						</div>
-						<div class="m-bd">
-							<div class="m-tit">糖醋小黄鱼</div>
-							<div class="m-pri">
-								<span class="m-rmb">￥</span><span class="m-num">98.00</span><span>/份</span>
-							</div>
-							<div class="f-fr m-count m-pris">
-								<span class="f-fr m-sum">
-									<span class="m-del f-click" data-id="del">-</span>
-									<span class="m-num f-click-num"><input type="number" value="1" class=""/></span>
-									<span class="m-add f-click" data-id="add">-</span>
-								</span>
-							</div>
-						</div>
-					</li>
-					<li class="list-card list-card-4 m-c2 ">
-						<div class="m-hd">
-							<a href="" class=""><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
-						</div>
-						<div class="m-bd">
-							<div class="m-tit">糖醋小黄鱼</div>
-							<div class="m-pri">
-								<span class="m-rmb">￥</span><span class="m-num">98.00</span><span>/份</span>
-							</div>
-							<div class="f-fr m-count m-pris">
-								<span class="f-fr m-sum">
-									<span class="m-del f-click" data-id="del">-</span>
-									<span class="m-num f-click-num"><input type="number" value="1" class=""/></span>
+									<span class="m-num f-click-num"><input type="number" th:value="${gts.count}" class=""/></span>
 									<span class="m-add f-click" data-id="add">-</span>
 								</span>
 							</div>
@@ -91,79 +63,10 @@
 				</ul>
 			</div>
 		</div>
-		<div class="p011 f-mt10">
-			<div class="list-card list-card-3 list-card-3-1 m-c2 f-cb">
-				<div class="m-hd">
-					<img th:src="@{/static/img/bg-login.jpg" class="a-img img-user"/>
-				</div>
-				<div class="m-bd">
-					<div class="m-tit"><span class="m-time f-fr">15:34</span>BonVoyage</div>
-				</div>
-			</div>
-			<!--<div class="line line-2"></div>-->
-			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
-			<div class="f-bgc-fff bb-ras5">
-				<ul class=" p010">
-					<li class="list-card list-card-4 m-c2 f-bb-e5e5e5 f-pt-5">
-						<div class="m-hd">
-							<a href="" class=""><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
-						</div>
-						<div class="m-bd">
-							<div class="m-tit">糖醋小黄鱼</div>
-							<div class="m-pri">
-								<span class="m-rmb">￥</span><span class="m-num">98.00</span><span>/份</span>
-							</div>
-							<div class="f-fr m-count m-pris">
-								<span class="f-fr m-sum">
-									<span class="m-del f-click" data-id="del">-</span>
-									<span class="m-num f-click-num"><input type="number" value="1" class=""/></span>
-									<span class="m-add f-click" data-id="add">-</span>
-								</span>
-							</div>
-						</div>
-					</li>
-					<li class="list-card list-card-4 m-c2 f-bb-e5e5e5">
-						<div class="m-hd">
-							<a href="" class=""><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
-						</div>
-						<div class="m-bd">
-							<div class="m-tit">糖醋小黄鱼</div>
-							<div class="m-pri">
-								<span class="m-rmb">￥</span><span class="m-num">98.00</span><span>/份</span>
-							</div>
-							<div class="f-fr m-count m-pris">
-								<span class="f-fr m-sum">
-									<span class="m-del f-click" data-id="del">-</span>
-									<span class="m-num f-click-num"><input type="number" value="1" class=""/></span>
-									<span class="m-add f-click" data-id="add">-</span>
-								</span>
-							</div>
-						</div>
-					</li>
-					<li class="list-card list-card-4 m-c2 ">
-						<div class="m-hd">
-							<a href="" class=""><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
-						</div>
-						<div class="m-bd">
-							<div class="m-tit">糖醋小黄鱼</div>
-							<div class="m-pri">
-								<span class="m-rmb">￥</span><span class="m-num">98.00</span><span>/份</span>
-							</div>
-							<div class="f-fr m-count m-pris">
-								<span class="f-fr m-sum">
-									<span class="m-del f-click" data-id="del">-</span>
-									<span class="m-num f-click-num"><input type="number" value="1" class=""/></span>
-									<span class="m-add f-click" data-id="add">-</span>
-								</span>
-							</div>
-						</div>
-					</li>
-				</ul>
-			</div>
-		</div>
+		
 		<div class="h88"></div>
 		<div class="m-cart fix">
-			<img th:src="@{/static/img/icon-xiadan.png}" class="a-img img-xiadan"/>
+			<img th:src="@{/static/img/icon-xiadan.png}" class="a-img img-xiadan" th:attr="cid=${cart.id}"/>
 			<div class="m-num">15</div>
 		</div>
 		<div class="m-cart m-back fix">
@@ -186,15 +89,112 @@
 			.mui-popup-button-bold{font-weight: normal !important;color: #ff4035;}
 		</style>
 		<script type="text/javascript">
-			
 			(function() {
 				var btn = ['取消', '删除'];
 				mui('body').on('click','#confirmBtn',function(e) {
-					mui.confirm(' ','确定要删除该商品吗？', btn, function(e) {
-						console.log(e.index);
-						//e.index == 0 ? mui.toast('感谢您的支持!') : mui.toast('MUI 没有得到你的认可,继续加油!')
+					var cid=$(this).attr("cid");
+					mui.confirm(' ','确定要清空所有菜品吗？', btn, function(e) {
+						$.ajax({
+						   url:ctx+'/cart/clear.do',
+						   type:'POST',
+						   data:{id:cid},
+						   success:function(rsp){
+							   if(rsp.status==200){
+								   location.href=location.href;
+							   }else{
+								   mui.toast("服务器繁忙，请稍后再试！");
+							   }
+						   }
+					   });
 					})
 				})
+				$(".img-back1").click(function(){
+				   location.href=history.go(-1);
+			    });
+				$(".icon-shuaxin").click(function(){
+				   location.href=location.href;
+			    });
+			    $(".img-xiadan").click(function(){
+			    	 var cid=$(this).attr("cid");
+			    	 $.ajax({
+						   url:ctx+'/order/produce.do',
+						   type:'POST',
+						   data:{cid:cid},
+						   success:function(rsp){
+							   if(rsp.status==200){
+								   location.href=ctx+'/order';
+							   }else{
+								   toast("服务器繁忙，请稍后再试！");
+							   }
+						   }
+					 });
+			    });
+				function saveCart(id,number,amount,goodsType,callback){
+				   $.ajax({
+					   url:ctx+'/cart/save.do',
+					   type:'POST',
+					   data:{id:id,number:number,amount:amount,goodsType:goodsType},
+					   success:function(rsp){
+						   callback(rsp);
+					   }
+				   });
+				}
+				$(document).on('click','.f-click',function(){
+			    	var _this=$(this),
+			    		did=$(this).attr('data-id'),
+			    		at=_this.parent().parent().prev().find("#amount"),
+			    		amount=_this.parent().attr("gam"),
+			    		allAmount=$("#allAmount"),
+			    		num=$(this).siblings('.f-click-num').find('input');
+			    		console.info(at);
+			    		switch (did){
+			    			case "del":
+			    				if(parseInt(num.val())>=1){
+			    					var ct=parseInt(num.val())-1;
+			    					saveCart(_this.parent().attr("gid"),ct,amount,_this.parent().attr("gtp"),function(rsp){
+			    						if(rsp.status!=200){
+										   toast("服务器繁忙，请稍后再试！");
+										   return false;
+									    }
+			    					    //处理单行金额
+			    						num.val(ct);
+				    					var am=parseFloat(amount)*ct;
+				    					at.text(am.toFixed(2));
+				    					//处理总金额
+				    					var all=parseFloat(allAmount.text())-parseFloat(amount);
+				    					allAmount.text(all.toFixed(2));
+				    					//处理全部清除的时候
+				    					if(ct==0){
+				    						_this.parent().parent().parent().parent().remove();
+				    					}
+			    					})
+			    					
+			    				}
+			    				break;
+			    			case "add":
+			    				var ct=parseInt(num.val())+1;
+			    				if(ct>5){
+			    					mui.toast("每样菜品最多只能点五份");
+			    					return false;
+			    				}
+		    					saveCart(_this.parent().attr("gid"),ct,amount,_this.parent().attr("gtp"),function(rsp){
+		    						if(rsp.status!=200){
+									   toast("服务器繁忙，请稍后再试！");
+									   return false;
+								    }
+		    						//处理单行金额
+		    						num.val(ct);
+				    				var am=parseFloat(amount)*ct;
+			    					at.text(am.toFixed(2));
+			    					//处理总金额
+			    					var all=parseFloat(allAmount.text())+parseFloat(amount);
+			    					allAmount.text(all.toFixed(2));
+		    					})
+			    				break;
+			    			default:
+			    				break;
+			    		}
+			    }); 
 			})();
 		
 		</script>

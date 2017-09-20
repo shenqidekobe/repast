@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">l>
 	<head th:include="link">
         <title>授权成功</title>
 	</head>
@@ -11,6 +11,12 @@
 		</div>
 		
 		<script type="text/javascript" th:src="@{/static/js/jquery-1.8.3.min.js}"></script>
-		<script type="text/javascript"></script>
+		<script type="text/javascript">
+		   $(function(){
+			   $(".m-btn").click(function(){
+				   location.href=ctx+'/goods/index?pt=&ct=';
+			   });
+		   })
+		</script>
 	</body>
 </html>

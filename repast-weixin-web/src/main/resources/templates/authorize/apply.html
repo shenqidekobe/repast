@@ -1,49 +1,77 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head th:include="link">
         <title>申请授权</title>
 	</head>
 	<body class="">
+	    <form id="objForm" method="post">
 		<ul class="m-form-shouquan f-bgc-fff p011">
-			<li class="form-list"><span class="f-fr m-cont cursor btn" id="gongsi">请选择<i class="icon icon-yjt"></i></span><span class="m-tit">公司</span></li>
-			<li class="form-list"><span class="f-fr m-cont cursor">请选择<i class="icon icon-yjt"></i></span><span class="m-tit">部门</span></li>
-			<li class="form-list"><span class="f-fr m-cont cursor">请选择<i class="icon icon-yjt"></i></span><span class="m-tit">订单</span></li>
-			<li class="form-list"><span class="f-fr m-cont cursor"><input type="number" name="" id="" value="" placeholder="填写人数" class="m-inp"/></span><span class="m-tit">人数</span></li>
-			<li class="form-list"><span class="f-fr m-cont cursor">请选择<i class="icon icon-yjt"></i></span><span class="m-tit">用餐时间</span></li>
-			<li class="form-list"><span class="f-fr m-cont cursor">请选择<i class="icon icon-yjt"></i></span><span class="m-tit">授权人</span></li>
+			<li class="form-list" id="gongsi"><span class="f-fr m-cont cursor btn"><span id="gs_text">请选择</span><i class="icon icon-yjt"></i></span><span class="m-tit">公司</span></li>
+			<li class="form-list" id="dept"><span class="f-fr m-cont cursor"><span id="dept_text">请选择</span><i class="icon icon-yjt"></i></span><span class="m-tit">部门</span></li>
+			<!-- <li class="form-list"><span class="f-fr m-cont cursor">请选择<i class="icon icon-yjt"></i></span><span class="m-tit">订单</span></li> -->
+			<li class="form-list"><span class="f-fr m-cont cursor"><input type="number" name="count" id="count" value="" placeholder="填写人数" class="m-inp" maxlength="2"/></span><span class="m-tit">人数</span></li>
+			<li class="form-list" id="time"><span class="f-fr m-cont cursor"><span id="time_text">请选择</span><i class="icon icon-yjt"></i></span><span class="m-tit">用餐时间</span></li>
+			<li class="form-list" id="audit"><span class="f-fr m-cont cursor"><span id="audit_text">请选择</span><i class="icon icon-yjt"></i></span><span class="m-tit">授权人</span></li>
 			<li class="form-list list-text bb0">
-				<textarea name="" rows="" cols="" placeholder="请填写您的申请理由..." class="m-text"></textarea>
+				<textarea name="reason" id="reason" rows="" cols="" placeholder="请填写您的申请理由..." class="m-text" maxlength="300"></textarea>
 			</li>
 		</ul>
+		<input type="hidden" name="company" id="company">
+		<input type="hidden" name="dept" id="deptV">
+		<input type="hidden" name="repastTime" id="repastTime">
+		<input type="hidden" name="auditId" id="auditId">
 		<div class="f-tac m-btn-shenqing">
-			<a class="m-btn m-btn-feda00" >申请授权</a>
+			<a class="m-btn m-btn-feda00" id="">申请授权</a>
 		</div>
+		</form>
 		
 		<script type="text/javascript" th:src="@{/static/js/jquery-1.8.3.min.js}"></script>
 		<script th:src="@{/static/js/mui.min.js}"></script>
 		<script th:src="@{/static/js/mui.picker.min.js}"></script>
+		<script th:src="@{/static/js/select.picker.js}"></script>
+		<script th:src="@{/static/js/auth.data.js}"></script>
 		<script>
-			(function($, doc) {
-				$.init();
-				$.ready(function() {
-				var result = $('#time-yongcan')[0];
-				var _getParam = function(obj, param) {
-						return obj[param] || '';
-					};
-					//普通示例
-					var userPicker = new $.PopPicker();
-					userPicker.setData([{value:"0",text:"均瑶国际"},{value:"1",text:"华彩国际"}]);
-					var showUserPickerButton = doc.getElementById('gongsi');
-					//var userResult = doc.getElementById('userResult');
-					showUserPickerButton.addEventListener('tap', function(event) {
-						userPicker.show(function(items) {
-							showUserPickerButton.innerHTML= '<span class="m-tit">'+items[0].text+'</span>';
-							//返回 false 可以阻止选择框的关闭
-							//return false;
-						});
-					}, false);
-				});
-			})(mui,document);
+		   $(function(){
+			   selectPicker({data:gsData,buttonId:"gongsi",textId:"gs_text",valueId:"company"});//公司选择
+			   selectPicker({data:deptData,buttonId:"dept",textId:"dept_text",valueId:"deptV"});//部门选择
+			   selectPicker({data:timeData,buttonId:"time",textId:"time_text",valueId:"repastTime"});//用餐时间
+			   selectPicker({data:auditData,buttonId:"audit",textId:"audit_text",valueId:"auditId"});//授权人
+			   $(".m-btn-shenqing").click(function(){
+				   var company=$("#company").val();
+				   var dept=$("#deptV").val();
+				   var repastTime=$("#repastTime").val();
+				   var count=$("#count").val();
+				   var reason=$("#reason").val();
+				   if(company==""){
+					   toast("请选择您的公司");
+					   return false;
+				   }else if(dept==""){
+					   toast("请选择您的部门");
+					   return false;
+				   }else if(count==""){
+					   toast("请输入您的就餐人数");
+					   return false;
+				   }else if(repastTime==""){
+					   toast("请选择您的就餐时间");
+					   return false;
+				   }else if(reason==""){
+					   toast("请填写您的申请理由");
+					   return false;
+				   }
+				   $.ajax({
+					   url:ctx+'/authorize/apply/save.do',
+					   type:'POST',
+					   data:$("#objForm").serialize(),
+					   success:function(rsp){
+						   if(rsp.status==200){
+							   location.href=ctx+'/authorize/process?id='+rsp.data;
+						   }else{
+							   toast("服务器繁忙，请稍后再试！");
+						   }
+					   }
+				   });
+			   });
+		   })
 		</script>
 	</body>
 </html>						

@@ -1,19 +1,19 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 	<head th:include="link">
         <title>同意授权</title>
 	</head>
 	</head>
 	<body class="">
 		<ul class="m-form-shouquan f-bgc-fff p011">
-			<li class="form-list"><span class="f-fr m-cont cursor btn" id="gongsi"><span class="m-tit">均瑶国际</span></span><span class="m-tit">公司</span></li>
-			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit">技术部</span></span><span class="m-tit">部门</span></li>
+			<li class="form-list"><span class="f-fr m-cont cursor btn" id="gongsi"><span class="m-tit" th:text="${obj.company}">均瑶国际</span></span><span class="m-tit">公司</span></li>
+			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit" th:text="${obj.dept}">技术部</span></span><span class="m-tit">部门</span></li>
 			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit">日常用餐</span></span><span class="m-tit">订单</span></li>
-			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit">3人</span></span><span class="m-tit">人数</span></li>
-			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit">09-04 12:50</span></span><span class="m-tit">用餐时间</span></li>
-			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit">李国强</span></span><span class="m-tit">授权人</span></li>
+			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit"><span th:text="${obj.count}">3</span>人</span></span><span class="m-tit">人数</span></li>
+			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit" th:text="${#dates.format(obj.createTime, 'MM-dd HH:mm')}">09-04 12:50</span></span><span class="m-tit">用餐时间</span></li>
+			<li class="form-list"><span class="f-fr m-cont cursor"><span class="m-tit" th:text="${obj.userName}">李国强</span></span><span class="m-tit">授权人</span></li>
 			<li class="form-list list-text bb0">
-				<textarea name="" rows="" cols="" placeholder="请填写您的申请理由..." class="m-text">宴请贵宾</textarea>
+				<textarea name="" rows="" cols="" placeholder="请填写您的申请理由..." class="m-text" th:value="${obj.reason}">宴请贵宾</textarea>
 			</li>
 		</ul>
 		<div class="f-tac m-btn-shenqing">
@@ -21,30 +21,25 @@
 		</div>
 		
 		<script type="text/javascript" th:src="@{/static/js/jquery-1.8.3.min.js}"></script>
-		<script th:src="@{/static/js/mui.min.js}"></script>
-		<script th:src="@{/static/js/mui.picker.min.js}"></script>
-		<script>
-			(function($, doc) {
-				$.init();
-				$.ready(function() {
-				var result = $('#time-yongcan')[0];
-				var _getParam = function(obj, param) {
-						return obj[param] || '';
-					};
-					//普通示例
-					var userPicker = new $.PopPicker();
-					userPicker.setData([{value:"0",text:"均瑶国际"},{value:"1",text:"华彩国际"}]);
-					var showUserPickerButton = doc.getElementById('gongsi');
-					//var userResult = doc.getElementById('userResult');
-					showUserPickerButton.addEventListener('tap', function(event) {
-						userPicker.show(function(items) {
-							showUserPickerButton.innerText = JSON.stringify(items[0]);
-							//返回 false 可以阻止选择框的关闭
-							//return false;
-						});
-					}, false);
-				});
-			})(mui,document);
+		<script th:inline="javascript">
+		  $(function(){
+			   var id=[[${obj.id}]];
+			   $(".m-btn").click(function(){
+				   var id=
+				   $.ajax({
+					   url:ctx+'/authorize/audit/save.do',
+					   type:'POST',
+					   data:{id:id,status:'pass'},
+					   success:function(rsp){
+						   if(rsp.status==200){
+							   toast("授权成功！");
+						   }else{
+							   toast("服务器繁忙，请稍后再试！");
+						   }
+					   }
+				   });
+			   });
+		   })
 		</script>
 	</body>
 </html>
