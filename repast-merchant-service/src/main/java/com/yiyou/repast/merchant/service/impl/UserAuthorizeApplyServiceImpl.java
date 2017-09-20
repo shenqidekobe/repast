@@ -32,7 +32,7 @@ public class UserAuthorizeApplyServiceImpl implements IUserAuthorizeApplyService
 
 	@Override
 	public UserAuthorizeApply findByUserId(Long userId) {
-		List<UserAuthorizeApply> list=userAuthorizeApplyRepository.findByUserId(userId);
+		List<UserAuthorizeApply> list=userAuthorizeApplyRepository.findByUserIdOrderByIdDesc(userId);
 		return list.isEmpty()?null:list.get(0);
 	}
 
