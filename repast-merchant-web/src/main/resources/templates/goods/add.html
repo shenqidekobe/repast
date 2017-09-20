@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="link">
-
 <body>
 <div id="wrapper">
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
@@ -12,8 +11,8 @@
     <div id="page-wrapper">
         <div class="panel-body" th:if="${parentList.size()>0}">
             <div class="row">
-                <form class="" role="form" method="post" id="editForm">
-                    <div class="col-lg-6">
+                <div class="col-lg-6">
+                    <form class="" role="form" method="post" id="editForm">
                         <div class="form-group">
                             <label>菜品名</label>
                             <input type="text" class="form-control" name="name" id="name" placeholder="菜品名"
@@ -27,42 +26,48 @@
                                         th:text="${category.name}"></option>
                             </select>
                         </div>
-
                         <div class="form-group">
                             <label>价格</label>
                             <input type="text" class="form-control" name="amount" id="amount" maxlength="10">
                         </div>
-
                         <div class="form-group">
                             <label>描述</label>
                             <textarea class="form-control" rows="3" name="remark" id="remark"></textarea>
                         </div>
                         <div class="form-group" data-toggle="buttons">
                             <label>规格: </label>
-                            <label th:each="spec:${specList}" class="btn btn-warning">
-                                <input type="checkbox"
-                                       name="specIds[]"
-                                       th:value="${spec.id}"
-                                       th:text="${spec.name}">
-                            </label>
+                            <input type="checkbox" th:each="spec:${specList}"
+                                   name="specIds[]"
+                                   th:value="${spec.id}"
+                                   th:text="${spec.name}">
                         </div>
                         <div class="form-group" data-toggle="buttons">
                             <label>辅料: </label>
-                            <label th:each="aux:${auxList}" class="btn btn-warning">
-                                <input type="checkbox"
-                                       name="auxs[]"
-                                       th:value="${aux.id}"
-                                       th:text="${aux.name}">
-                            </label>
+                            <input type="checkbox" th:each="aux:${auxList}"
+                                   name="auxs[]"
+                                   th:value="${aux.id}"
+                                   th:text="${aux.name}">
                         </div>
+                        <input type="hidden" id="hidImgName" name="pic"/>
+                    </form>
+                </div>
+                <div class="col-lg-6">
+                    <label>菜品图片</label>
+                    <div class="form-group">
+                        <img id="imgShow" src="/static/images/noimg.png" style="width:80px;height:80px;"/>
                     </div>
-                    <input type="hidden" name="pic" id="pic">
-                </form>
-
+                    <input type="file" id="goodsImg" name="goods">
+                    <input class="btn btn-primary" style="margin-top: 10px" type="button" id="uploadImgBtn"
+                           value="上传"/>
+                    <input class="btn btn-primary" style="margin-top: 10px" type="button" id="deleteImgBtn"
+                           value="删除"/>
+                </div>
             </div>
-            <div class="btn-group col-md-offset-3 col-lg-6" >
-                <button class="btn btn-primary col-lg-6" id="backBtn">返回</button>
-                <button type="button" class="btn btn-primary col-lg-6" id="saveBtn">保存</button>
+            <div class="row">
+                <div class="btn-group col-md-offset-3 col-lg-6">
+                    <button class="btn btn-primary col-lg-6" id="backBtn">返回</button>
+                    <button type="button" class="btn btn-primary col-lg-6" id="saveBtn">保存</button>
+                </div>
             </div>
         </div>
         <div th:unless="${parentList.size()>0}">
@@ -72,46 +77,72 @@
 </div>
 
 <script src="/static/jquery/jquery.min.js"></script>
-<script src="/static/jquery/jquery.upload.js"></script>
+<script src="/static/jquery/ajaxfileupload.js"></script>
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <script src="/static/metisMenu/metisMenu.min.js"></script>
 <script src="/static/dist/js/sb-admin-2.js"></script>
 <script src="/static/toastr/toastr.min.js"></script>
+
 <script>
+    $("#uploadImgBtn").click(function () {
+        var val = $("#goodsImg").val();
+        if (val == null) {
+            toastr.warning("请先选择图片");
+            return;
+        }
+        $.ajaxFileUpload({
+            url: '/common/img/upload.do', //用于文件上传的服务器端请求地址
+            secureuri: false, //是否需要安全协议，一般设置为false
+            fileElementId: 'goodsImg', //文件上传域的ID
+            dataType: 'json', //返回值类型 一般设置为json
+            success: function (data, status) {//服务器成功响应处理函数
+                $("#imgShow").attr("src", "/common/img/" + data.data.fileName + "/0/");
+                $("#hidImgName").val(data.data.fileName);
+            }
+        })
+    });
+    $("#deleteImgBtn").click(function () {
+        $("#imgShow").attr("src", "/static/images/noimg.png");
+        $("#hidImgName").val("");
+        $("#goodsImg").val("");
+    });
+
+    $("#saveBtn").click(function () {
+        var name = $.trim($("#name").val());
+        var amount = $.trim($("#amount").val());
+        var pic = $.trim($("#hidImgName").val());
+        if (name == "") {
+            toastr.warning('请填写菜名');
+            return false;
+        } else if (amount == "") {
+            toastr.warning('请填写价格');
+            return false;
+        }
+        if (isNaN(amount)) {
+            toastr.error('请输入正确的价格');
+            return false;
+        }
+        if (pic == "") {
+            toastr.warning("请先选择图片");
+            return false;
+        }
+        $.ajax({
+            url: '/goods/save.do',
+            type: 'POST',
+            data: $("#editForm").serialize(),
+            success: function (rsp) {
+                if (rsp.status == 200) {
+                    toastr.success('保存成功');
+                    location.href = '/goods';
+                } else {
+                    toastr.warning('服务器繁忙，请稍后再试');
+                }
+            }
+        });
+    });
     $("#backBtn").click(function () {
         location.href = '/goods';
     });
-    $(function () {
-        $("#saveBtn").click(function () {
-            var name = $.trim($("#name").val());
-            var amount = $.trim($("#amount").val());
-            if (name == "") {
-                toastr.warning('请填写菜名');
-                return false;
-            } else if (amount == "") {
-                toastr.warning('请填写价格');
-                return false;
-            }
-            if (isNaN(amount)) {
-                toastr.error('请输入正确的价格');
-                return false;
-            }
-            $.ajax({
-                url: '/goods/save.do',
-                type: 'POST',
-                data: $("#editForm").serialize(),
-                success: function (rsp) {
-                    if (rsp.status == 200) {
-                        toastr.success('保存成功');
-                        location.href = '/goods';
-                    } else {
-                        toastr.warning('服务器繁忙，请稍后再试');
-                    }
-                }
-            });
-        });
-
-    })
 </script>
 
 </body>

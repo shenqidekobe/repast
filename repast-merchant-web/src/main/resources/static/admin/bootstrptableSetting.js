@@ -5,6 +5,8 @@ $.dataTablesSettings = {
 	contentType: "application/x-www-form-urlencoded",
 	toolbar : '#toolbar', // 工具按钮用哪个容器
 	showRefresh: true,  //是否显示刷新按钮
+    showColumns : false,
+	showToggle: false,  // 分类
     search: false,   //是否显示表格搜索,客户端搜索
 	striped : true, // 是否显示行间隔色
 	cache : false, // 是否使用缓存，默认为true，所以一般情况下需要设置一下这个属性（*）
@@ -23,7 +25,6 @@ $.dataTablesSettings = {
 	cardView : false, // 是否显示详细视图
 	detailView : false, // 是否显示父子表
 	width : $(window).width(),
-	showColumns : true,
 	minimumCountColumns : 2,
 	showExport : true,
 	exportDataType : 'all',

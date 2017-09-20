@@ -15,6 +15,7 @@
                     <form class="" role="form" method="post" id="editForm">
                         <div class="form-group">
                             <label>菜品名</label>
+                            <input type="hidden" name="id" th:value="*{obj.id}">
                             <input type="text" class="form-control" name="name" id="name" th:field="*{obj.name}"
                                    placeholder="菜品名"
                                    maxlength="16">
@@ -42,26 +43,37 @@
                         </div>
                         <div class="form-group" data-toggle="buttons">
                             <label>规格: </label>
-                            <label th:each="spec:${specList}" class="btn btn-primary spec">
-                                <input type="checkbox"
-                                       th:value="${spec.id}"
-                                       th:text="${spec.name}">
-                            </label>
+                            <input type="checkbox" th:each="spec:${specList}" class="spec"
+                                   name="specIds[]"
+                                   th:value="${spec.id}"
+                                   th:text="${spec.name}">
                         </div>
                         <div class="form-group" data-toggle="buttons">
                             <label>辅料: </label>
-                            <label th:each="aux:${auxList}" class="btn btn-primary aux">
-                                <input type="checkbox"
-                                       th:value="${aux.id}"
-                                       th:text="${aux.name}">
-                            </label>
+                            <input type="checkbox" th:each="aux:${auxList}" class="aux"
+                                   name="auxs[]"
+                                   th:value="${aux.id}"
+                                   th:text="${aux.name}">
                         </div>
+                        <input type="hidden" id="hidImgName" name="pic" th:value="${obj.pic}"/>
                     </form>
                 </div>
+                <div class="col-lg-6">
+                    <label>菜品图片</label>
+                    <div class="form-group">
+                        <img id="imgShow" th:src="'/common/img/'+${obj.pic}+'/0/'" style="width:80px;height:80px;"/>
+                    </div>
+                    <input type="file" id="goodsImg" name="goods">
+                    <input class="btn btn-primary" style="margin-top: 10px" type="button" id="uploadImgBtn"
+                           value="上传"/>
+                    <input class="btn btn-primary" style="margin-top: 10px" type="button" id="deleteImgBtn"
+                           value="删除"/>
+
+                </div>
             </div>
-            <div class="btn-group">
-                <button class="btn btn-primary" id="backBtn">返回</button>
-                <button type="button" class="btn btn-primary" id="saveBtn">保存</button>
+            <div class="btn-group col-md-offset-3 col-lg-6">
+                <button class="btn btn-primary col-lg-6" id="backBtn">返回</button>
+                <button type="button" class="btn btn-primary col-lg-6" id="saveBtn">保存</button>
             </div>
         </div>
     </div>
@@ -69,18 +81,62 @@
 
 
 <script src="/static/jquery/jquery.min.js"></script>
+<script src="/static/jquery/ajaxfileupload.js"></script>
 <script src="/static/bootstrap/js/bootstrap.min.js"></script>
 <script src="/static/metisMenu/metisMenu.min.js"></script>
 <script src="/static/dist/js/sb-admin-2.js"></script>
 <script src="/static/toastr/toastr.min.js"></script>
-<script>
+<script th:inline="javascript">
+
+    $("#uploadImgBtn").click(function () {
+        var val = $("#goodsImg").val();
+        if (val == null) {
+            toastr.warning("请先选择图片");
+            return;
+        }
+        $.ajaxFileUpload({
+            url: '/common/img/upload.do', //用于文件上传的服务器端请求地址
+            secureuri: false, //是否需要安全协议，一般设置为false
+            fileElementId: 'goodsImg', //文件上传域的ID
+            dataType: 'json', //返回值类型 一般设置为json
+            success: function (data, status) {//服务器成功响应处理函数
+                $("#imgShow").attr("src", "/common/img/" + data.data.fileName + "/0/");
+                $("#hidImgName").val(data.data.fileName);
+            }
+        })
+    });
+
+    $("#deleteImgBtn").click(function () {
+        $("#imgShow").attr("src", "/static/images/noimg.png");
+        $("#hidImgName").val("");
+        $("#goodsImg").val("");
+    });
     $("#backBtn").click(function () {
         location.href = '/goods';
     });
     $(function () {
+        var specId = [[${obj.specsId}]];
+        var auxId = [[${obj.auxIds}]];
+        var auxidArray = auxId.split(',');
+        $(".spec").each(function () {
+            for (var i = 0; i < specId.length; i++) {
+                if ($(this).val() == specId[i]) {
+                    $(this).attr("checked", "true");
+                }
+            }
+        });
+        $(".aux").each(function () {
+            for (var i = 0; i < auxidArray.length; i++) {
+                if (auxidArray[i] == $(this).val()) {
+                    $(this).attr("checked", "true");
+                }
+            }
+        });
+
         $("#saveBtn").click(function () {
             var name = $.trim($("#name").val());
             var amount = $.trim($("#amount").val());
+            var pic = $.trim($("#hidImgName").val());
             if (name == "") {
                 toastr.warning('请填写菜名');
                 return false;
@@ -92,8 +148,12 @@
                 toastr.error('请输入正确的价格');
                 return false;
             }
+            if (pic == "") {
+                toastr.warning("请先选择图片");
+                return false;
+            }
             $.ajax({
-                url: 'save.do',
+                url: '/goods/save.do',
                 type: 'POST',
                 data: $("#editForm").serialize(),
                 success: function (rsp) {

@@ -6,9 +6,7 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * 商品
@@ -30,7 +28,7 @@ public class Goods implements Serializable {
     private GoodsCategory category;//商品分类
 
     @ManyToMany(targetEntity = GoodsSpec.class, fetch = FetchType.EAGER)
-    @JoinTable(name = "t_goods_spec_r", joinColumns = @JoinColumn(name = "goods_id",referencedColumnName="id"), inverseJoinColumns = @JoinColumn(name = "spec_id",referencedColumnName="id"))
+    @JoinTable(name = "t_goods_spec_r", joinColumns = @JoinColumn(name = "goods_id", referencedColumnName = "id"), inverseJoinColumns = @JoinColumn(name = "spec_id", referencedColumnName = "id"))
     @JsonBackReference
     private Set<GoodsSpec> specs = new HashSet<>();
 
@@ -44,13 +42,20 @@ public class Goods implements Serializable {
     private Integer sales = 0;//累计销量
     private Date createTime;//发布时间
     private String operUser;//操作人
-    
-    @Transient
-    private Set<GoodsAux> auxs=new HashSet<>();
 
-    public String specsName() {
+    public List<Long> getSpecsId() {
+        List<Long> ids = new ArrayList<>();
+        for (GoodsSpec spec : specs) {
+            ids.add(spec.getId());
+        }
+        return ids;
+    }
+
+
+
+    public String getSpecsName() {
         if (specs.size() > 0) {
-            StringBuffer sb =new StringBuffer();
+            StringBuffer sb = new StringBuffer();
             for (GoodsSpec spec : specs) {
                 sb.append(spec.getName());
                 sb.append(",");
@@ -103,14 +108,14 @@ public class Goods implements Serializable {
     }
 
     public String getAuxIds() {
-		return auxIds;
-	}
+        return auxIds;
+    }
 
-	public void setAuxIds(String auxIds) {
-		this.auxIds = auxIds;
-	}
+    public void setAuxIds(String auxIds) {
+        this.auxIds = auxIds;
+    }
 
-	public String getName() {
+    public String getName() {
         return name;
     }
 
@@ -173,13 +178,5 @@ public class Goods implements Serializable {
     public void setOperUser(String operUser) {
         this.operUser = operUser;
     }
-
-	public Set<GoodsAux> getAuxs() {
-		return auxs;
-	}
-
-	public void setAuxs(Set<GoodsAux> auxs) {
-		this.auxs = auxs;
-	}
 
 }

@@ -2,6 +2,7 @@ package com.yiyou.repast.merchant.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.base.Constants;
+import com.yiyou.repast.merchant.base.RBeanUtils;
 import com.yiyou.repast.merchant.base.RspResult;
 import com.yiyou.repast.merchant.model.Goods;
 import com.yiyou.repast.merchant.model.GoodsCategory;
@@ -66,17 +67,29 @@ public class GoodsController {
         return goodsService.findAll(Constants.MERCHANT_ID);
     }
 
+    @GetMapping("/remove")
+    public String delete(Long id, Model model) {
+        this.goodsService.remove(Constants.MERCHANT_ID, id);
+        return "redirect:/goods";
+    }
 
     @ResponseBody
     @PostMapping("/save.do")
     public RspResult save(Goods obj, Long parentId, Long id,
-                          @RequestParam(value = "auxs[]", required = false) List<String> auxIds,
+                          @RequestParam(value = "auxs[]", required = false) List<Long> auxIds,
                           @RequestParam(value = "specIds[]", required = false) List<Long> specIds) {
         if (obj == null) {
             return new RspResult(505, "参数错误");
         }
         Set<GoodsSpec> specs = goodsSpecService.findByIds(specIds);
-        String auxs = auxIds.toString().replace("[", "").replace("]", "");
+        String auxs = "";
+        for (int i = 0; i < auxIds.size(); i++) {
+            if (i == 0) {
+                auxs += auxIds.get(i);
+            } else {
+                auxs += "," + auxIds.get(i);
+            }
+        }
         if (obj.getId() == null) {
             //新增
             GoodsCategory category = goodsCategoryService.findById(Constants.MERCHANT_ID, parentId);
@@ -86,6 +99,13 @@ public class GoodsController {
             goodsService.save(Constants.MERCHANT_ID, obj);
         } else {
             //保存
+            Goods pojo = this.goodsService.findById(Constants.MERCHANT_ID, id);
+            RBeanUtils.copyProperties(obj, pojo);
+            GoodsCategory parent = this.goodsCategoryService.findById(Constants.MERCHANT_ID, parentId);
+            pojo.setCategory(parent);
+            pojo.setSpecs(specs);
+            pojo.setAuxIds(auxs);
+            goodsService.save(Constants.MERCHANT_ID, pojo);
         }
         return new RspResult();
     }

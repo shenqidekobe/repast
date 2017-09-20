@@ -21,29 +21,34 @@
                     <ol class="breadcrumb">
                         <li><strong><span style="color: #27a0d7">菜品列表</span></strong></li>
                     </ol>
-                    <form class="form-inline" role="form" method="post" id="searchForm">
-                        <div class="form-group" style="margin-left:20px">
-                            <input type="text" class="form-control" name="loginName" id="loginName"
-                                   placeholder="菜品名"
-                                   onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
-                        </div>
-                        <div class="form-group">
-                            <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
-                        </div>
-                        <div class="form-group btn-right">
-                            <button type="button" class="btn btn-primary" id="addBtn">新增菜品</button>
-                        </div>
-                        <div class="form-group btn-right">
-                            <button type="button" class="btn btn-primary" id="categoryBtn">分类</button>
-                        </div>
-                        <div class="form-group btn-right">
-                            <button type="button" class="btn btn-primary" id="specBtn">规格</button>
-                        </div>
-                        <div class="form-group btn-right">
-                            <button type="button" class="btn btn-primary" id="auxBtn">辅料</button>
-                        </div>
-                    </form>
+                    <!--<form class="form-inline" role="form" method="post" id="searchForm">-->
+                        <!--&lt;!&ndash;<div class="form-group" style="margin-left:20px">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<input type="text" class="form-control" name="loginName" id="loginName"&ndash;&gt;-->
+                        <!--&lt;!&ndash;placeholder="菜品名"&ndash;&gt;-->
+                        <!--&lt;!&ndash;onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">&ndash;&gt;-->
+                        <!--&lt;!&ndash;</div>&ndash;&gt;-->
+                        <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
+                        <!--&lt;!&ndash;<button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>&ndash;&gt;-->
+                    <!--</form>-->
                     <div class="container" style="width: 100%">
+                        <div id="toolbar" class="btn-group">
+                            <button type="button" class="btn btn-info btn-sm rightSize" id="addBtn">
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i>  新增菜品
+                            </button>
+
+                            <button style="margin-left: 10px" type="button" class="btn btn-info btn-sm rightSize" id="categoryBtn">
+                                <i class="glyphicon glyphicon-tags" aria-hidden="true"></i>  菜品分类
+                            </button>
+
+                            <button style="margin-left: 10px" type="button" class="btn btn-info btn-sm rightSize" id="specBtn">
+                                <i class="glyphicon glyphicon-stats" aria-hidden="true"></i>  菜品规格
+                            </button>
+
+                            <button style="margin-left: 10px" type="button" class="btn btn-info btn-sm rightSize" id="auxBtn">
+                                <i class="glyphicon glyphicon-cutlery" aria-hidden="true"></i>  菜品辅料
+                            </button>
+
+                        </div>
                         <table id="dataTable"></table>
                     </div>
                 </div>
@@ -80,16 +85,19 @@
         "click #edit": function (e, value, row, index) {
             location.href = '/goods/edit?id=' + row.id;
             return false;
+        }, "click #delete": function (e, value, row, index) {
+            location.href = 'goods/remove?id=' + row.id;
+            return false;
         }
     }
     var url = "/goods/listData.do?random=" + Math.random();
     var columns = [
         {
-            field: '', title: '序号', formatter: function (value, row, index) {
-            return index + 1;
+            field: '', title: '菜品', formatter: function (value, row, index) {
+            return '<img src="/common/img/' + row.pic + '/0/" width=80px height=80px>';
         }
         },
-        {field: 'name', title: '菜品名',},
+        {field: 'name', title: '',},
         {field: 'amount', title: '价格',},
         {field: 'categoryName', title: '分类',},
         {field: 'specsName', title: '规格',},
@@ -101,7 +109,8 @@
         {field: 'opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
 
     function operateFormatter(value, row, index) {
-        return "<button type=\"button\" class=\"btn btn-primary btn-circle\" id=\"edit\">编辑</button>";
+        return "<i class=\"fa fa-edit fa-lg\" id='edit'></i>" + " | " +
+            "<i class=\"fa fa-trash-o fa-lg\" id='delete'></i>";
     }
 
     loadTable(url, columns, function (options) {

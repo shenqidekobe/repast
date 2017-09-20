@@ -120,9 +120,8 @@
         {field: 'opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
 
     function operateFormatter(value, row, index) {
-        return "<button type=\"button\" class=\"btn btn-primary btn-circle\" id=\"edit\">编辑</button>" +
-            "   <button type=\"button\" class=\"btn btn-danger btn-circle\" id=\"delete\">删除</button>";
-        ;
+        return "<i class=\"fa fa-edit fa-lg\" id='edit'></i>" +" | "+
+            "<i class=\"fa fa-trash-o fa-lg\" id='delete'></i>";
     }
 
     loadTable(url, columns, function (options) {

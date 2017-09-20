@@ -20,7 +20,6 @@
                         <button type="button" class="btn btn-primary" id="backBtn">返回</button>
                         <button type="button" class="btn btn-primary" id="addBtn">新增菜品分类</button>
                     </div>
-
                     <div class="container" style="width: 100%">
                         <table id="dataTable"></table>
                     </div>
@@ -28,7 +27,8 @@
             </div>
         </div>
 
-        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
@@ -51,7 +51,7 @@
                             <div class="form-group">
                                 <label>所属分类</label>
                                 <select class="form-control" name="parentId" id="parentId">
-                                    <option value="">无</option>
+                                    <option value="-1">无</option>
                                     <option th:each="category:${parentList}"
                                             th:value="${category.id}"
                                             th:text="${category.name}"></option>
@@ -61,8 +61,8 @@
                                 <label>备注</label>
                                 <textarea class="form-control" rows="3" name="remark" id="remark"></textarea>
                             </div>
-                            <input type="reset" style="display:none" >
-                            <input type="hidden" name="id" id="categoryId" >
+                            <input type="reset" style="display:none">
+                            <input type="hidden" name="id" id="categoryId">
                         </form>
                     </div>
                     <div class="modal-footer">
@@ -102,20 +102,19 @@
 //            location.href = '/goods/category/edit';
         });
         window.operateEvents = {
-            "click #editBtn": function (e, value, row, index) {
+            "click #edit": function (e, value, row, index) {
                 $("#myModalLabel").text("编辑分类");
                 $("#categoryId").val(row.id);
                 $("#name").val(row.name);
                 $("#priority").val(row.priority);
                 $("#remark").val(row.remark);
                 $("#parentId *").show();
-                $("#parentId option[value='"+row.id+"']").hide();
-                $("#parentId option[text='"+row.parentName+"']").attr("selected",true);
-
+                $("#parentId option[value='" + row.id + "']").hide();
+                $("#parentId").val(row.parentId);
                 $("#myModal").modal("show");
                 return false;
             },
-            "click #deleteBtn": function (e, value, row, index) {
+            "click #delete": function (e, value, row, index) {
                 if (row.parentName != '') {
                     toastr.warning('请先删除父级分类');
                     return false;
@@ -143,39 +142,40 @@
             {field: 'opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
 
         function operateFormatter(value, row, index) {
-            return "<button type=\"button\" class=\"btn btn-primary btn-circle\" id=\"editBtn\">编辑</button>" +
-                "   <button type=\"button\" class=\"btn btn-danger btn-circle\" id=\"deleteBtn\">删除</button>";
+            return "<i class=\"fa fa-edit fa-lg\" id='edit'></i>" +" | "+
+                "<i class=\"fa fa-trash-o fa-lg\" id='delete'></i>";
         }
+
         loadTable(url, columns, function (options) {
             dataTable = $('#dataTable').bootstrapTable(options);
         });
     })
-        $("#commitBtn").click(function () {
-            var priority = $.trim($("#priority").val());
-            var name = $.trim($("#name").val());
-            if (name == "") {
-                toastr.warning('请输入分类名称');
-                return false;
-            }
-            if (isNaN(priority)) {
-                toastr.error('请输入正确的优先级');
-                return false;
-            }
-            $.ajax({
-                url: '/goods/category/save.do',
-                type: 'POST',
-                data: $("#editForm").serialize(),
-                success: function (rsp) {
-                    if (rsp.status == 200) {
-                        toastr.success('保存成功');
-                        $("#myModal").modal("hide");
-                        $('#dataTable').bootstrapTable('refresh');
-                    } else {
-                        toastr.warning('服务器繁忙，请稍后再试');
-                    }
+    $("#commitBtn").click(function () {
+        var priority = $.trim($("#priority").val());
+        var name = $.trim($("#name").val());
+        if (name == "") {
+            toastr.warning('请输入分类名称');
+            return false;
+        }
+        if (isNaN(priority)) {
+            toastr.error('请输入正确的优先级');
+            return false;
+        }
+        $.ajax({
+            url: '/goods/category/save.do',
+            type: 'POST',
+            data: $("#editForm").serialize(),
+            success: function (rsp) {
+                if (rsp.status == 200) {
+                    toastr.success('保存成功');
+                    $("#myModal").modal("hide");
+                    $('#dataTable').bootstrapTable('refresh');
+                } else {
+                    toastr.warning('服务器繁忙，请稍后再试');
                 }
-            });
-        })
+            }
+        });
+    })
 </script>
 </body>
 </html>
