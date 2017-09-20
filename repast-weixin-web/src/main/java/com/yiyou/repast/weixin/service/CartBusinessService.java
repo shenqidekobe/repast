@@ -1,6 +1,7 @@
 package com.yiyou.repast.weixin.service;
 
 import com.yiyou.repast.order.model.Cart;
+import com.yiyou.repast.weixin.base.CartItemMap;
 
 public interface CartBusinessService {
 	
@@ -23,5 +24,22 @@ public interface CartBusinessService {
 	 * 获取用户的购物车内容
 	 * */
 	Cart getCart(Long userId);
+	
+	/**
+	 * 获取桌号的购物车内容
+	 * */
+	Cart getCart(String deskNum);
+	
+	Cart getCartById(Long id);
+	
+	/**
+	 * 清空购物车
+	 * */
+	void clearCart(Long id);
+	
+	/**
+	 * 购物车项按用户分类转换成map
+	 * */
+	CartItemMap cartToMap(Cart cart);
 
 }

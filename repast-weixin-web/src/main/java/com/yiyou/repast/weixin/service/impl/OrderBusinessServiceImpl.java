@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.stereotype.Service;
 
@@ -26,21 +27,38 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 
 	@Override
 	public Order createOrder(Cart cart) {
-		if(cart==null)throw new BusinessException(4444, "cart not be null");
+		if(cart==null)throw new BusinessException(4444, "cart not must be null");
 		if(cart.getItems()==null||cart.getItems().size()==0) {
-			throw new BusinessException(4444, "cartItem not be null");
+			throw new BusinessException(4444, "cartItem not must be null");
 		}
-		Order order=new Order();
-		order.setUserId(cart.getUserId());
-		order.setDeskNum(cart.getDeskNum());
-		order.setUserId(cart.getUserId());
-		this.orderService.save(order);
+		//判断当前用户或者当前桌是否存在订单，不存在才添加，存在则追加
+		Order order=this.getOrderByDeskNum(cart.getDeskNum());
+		if(order==null&&StringUtils.isEmpty(cart.getDeskNum())) {
+			order=this.getOrder(cart.getUserId());
+		}
+		if(order!=null) {
+			if(!OrderStaus.settle.equals(order.getStatus())
+					&&!OrderStaus.cancel.equals(order.getStatus())){
+				order=null;//订单状态已结算或者已取消的，则创建新订单
+			}
+		}
+		if(order==null) {
+			order=new Order();
+			order.setUserId(cart.getUserId());
+			order.setDeskNum(cart.getDeskNum());
+			order.setUserId(cart.getUserId());
+			order.setPeopleCount(cart.getPeopleCount());
+			order.setPredictDate(cart.getPredictDate());
+			order.setAmount(new BigDecimal(0));
+			order=this.orderService.save(order);
+		}
 		OrderItem oitem=null;
-		BigDecimal total=new BigDecimal(0);
+		BigDecimal total=order.getAmount();
 		for(CartItem item:cart.getItems()) {
 			oitem=new OrderItem();
 			oitem.setOrder(order);
 			oitem.setGoodsId(item.getGoodsId());
+			oitem.setGoodsName(item.getGoodsName());
 			oitem.setCount(item.getCount());
 			oitem.setAmount(item.getAmount());
 			oitem.setAuxIds(item.getAuxIds());
@@ -59,6 +77,17 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 	@Override
 	public Order getOrder(Long userId) {
 		List<Order> list=getOrderList(userId);
+		return list.isEmpty()?null:list.get(list.size()-1);
+	}
+	
+	@Override
+	public Order getOrderById(Long id) {
+		return orderService.findById(id);
+	}
+	
+	@Override
+	public Order getOrderByDeskNum(String deskNum) {
+		List<Order> list=orderService.findByDeskNum(deskNum);
 		return list.isEmpty()?null:list.get(list.size()-1);
 	}
 

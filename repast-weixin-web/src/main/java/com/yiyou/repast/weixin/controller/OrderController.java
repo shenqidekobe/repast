@@ -1,5 +1,8 @@
 package com.yiyou.repast.weixin.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.yiyou.repast.order.model.Cart;
 import com.yiyou.repast.order.model.Order;
+import com.yiyou.repast.order.model.OrderItem;
 import com.yiyou.repast.weixin.base.RspResult;
 import com.yiyou.repast.weixin.base.SessionToken;
 import com.yiyou.repast.weixin.service.CartBusinessService;
@@ -38,8 +42,19 @@ public class OrderController {
 	public String index(Model model) {
 		SessionToken session=userService.getSessionUser();
 		Order order=orderService.getOrder(session.getUserId());
+		if(order==null)return "redirect:/cart/list";
+		Map<String,Integer> typeMap=new HashMap<>();//分类map
+		for(OrderItem item:order.getItems()) {
+			if(typeMap.containsKey(item.getGoodsType())) {
+				typeMap.put(item.getGoodsType(), typeMap.get(item.getGoodsType())+1);
+			}else {
+				typeMap.put(item.getGoodsType(), 1);
+			}
+		}
+		model.addAttribute("count", order.getItems().size());
+		model.addAttribute("typeMap",typeMap);
 		model.addAttribute("obj", order);
-		return "";
+		return "goods/success";
 	}
 	
 	/**
@@ -47,12 +62,33 @@ public class OrderController {
 	 * */
 	@PostMapping("/produce.do")
 	@ResponseBody
-	public RspResult produceOrder() {
+	public RspResult produceOrder(Long cid) {
 		RspResult rsp=new RspResult();
-		SessionToken session=userService.getSessionUser();
-		Cart cart=cartService.getCart(session.getUserId());
+		Cart cart=cartService.getCartById(cid);
 		Order order=orderService.createOrder(cart);
 		rsp.setData(order);
+		return rsp;
+	}
+	
+	/**
+	 * 开始结算页面
+	 * */
+	@GetMapping("/settle")
+	public String settle(Model model,Long id) {
+		Order order=orderService.getOrderById(id);
+		if(order==null)return "redirect:/cart/list";
+		model.addAttribute("count", order.getItems().size());
+		model.addAttribute("obj", order);
+		return "goods/settle";
+	}
+	
+	/**
+	 * 订单结算
+	 * */
+	@PostMapping("/settle/save.do")
+	@ResponseBody
+	public RspResult settleOrder(Long cid) {
+		RspResult rsp=new RspResult();
 		return rsp;
 	}
 
