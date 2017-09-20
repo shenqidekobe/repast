@@ -33,10 +33,11 @@ public class CartItem implements Serializable{
 	
 	private Long goodsId;//商品ID
 	private String goodsName;//runyu数据
+	private BigDecimal goodsAmount;//商品价格金额
 	private String goodsType;//商品类型{用于分类统计}
 	private String auxIds;//商品辅料ID字符串
 	private Integer count;//数量
-	private BigDecimal amount;//订单金额
+	private BigDecimal amount;//总金额
 	private Date createTime;
 	
 	public Long getId() {
@@ -80,6 +81,12 @@ public class CartItem implements Serializable{
 	}
 	public void setGoodsType(String goodsType) {
 		this.goodsType = goodsType;
+	}
+	public BigDecimal getGoodsAmount() {
+		return goodsAmount;
+	}
+	public void setGoodsAmount(BigDecimal goodsAmount) {
+		this.goodsAmount = goodsAmount;
 	}
 	public String getAuxIds() {
 		return auxIds;
