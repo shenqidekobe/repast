@@ -32,6 +32,7 @@ public class CartItem implements Serializable{
 	private Cart cart;
 	
 	private Long goodsId;//商品ID
+	private String goodsName;//runyu数据
 	private String goodsType;//商品类型{用于分类统计}
 	private String auxIds;//商品辅料ID字符串
 	private Integer count;//数量
@@ -67,6 +68,12 @@ public class CartItem implements Serializable{
 	}
 	public void setGoodsId(Long goodsId) {
 		this.goodsId = goodsId;
+	}
+	public String getGoodsName() {
+		return goodsName;
+	}
+	public void setGoodsName(String goodsName) {
+		this.goodsName = goodsName;
 	}
 	public String getGoodsType() {
 		return goodsType;
