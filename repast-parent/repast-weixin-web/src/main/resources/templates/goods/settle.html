@@ -43,5 +43,24 @@
 		</div>
 		
 		<script type="text/javascript" th:src="@{/static/js/jquery-1.8.3.min.js}"></script>
+		<script type="text/javascript">
+		    $(function(){
+				$(".pay").click(function(){
+					var cid=0;
+					$.ajax({
+						url:ctx+'/order/settle/save.do',
+						type:'POST',
+						data:{cid:cid},
+						success:function(rsp){
+							if(rsp.status==200){
+								toast("结算成功");
+							}else{
+								toast(rsp.message);
+							}
+						}
+					});
+			    });
+		    })
+		</script>
 	</body>
 </html>
