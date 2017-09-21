@@ -43,6 +43,7 @@ public class Goods implements Serializable {
     private Date createTime;//发布时间
     private String operUser;//操作人
     
+    @Transient
     private Set<GoodsAux> auxs = new HashSet<>();//商品辅料列表
 
     public List<Long> getSpecsId() {
