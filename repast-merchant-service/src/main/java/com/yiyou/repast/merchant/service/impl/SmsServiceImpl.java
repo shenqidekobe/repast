@@ -87,7 +87,7 @@ public class SmsServiceImpl implements ISmsService{
 
 	@Override
 	public boolean verifyCode(String mobile, String code) {
-		Sms sms = this.smsRepository.findSmsByMobileLikeContent(mobile, code);
+		Sms sms = this.smsRepository.findSmsByMobileAndContentLike(mobile, code);
 		boolean flag = false;
 		// 计算时间在**范围内才合法
 		if (sms != null) {
