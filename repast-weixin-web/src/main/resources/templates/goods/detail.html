@@ -8,7 +8,7 @@
 			<div class="m-hd">
 				<img th:src="@{/static/img/bg-login.jpg}" class="a-img img-big"/>
 				<div class="p011">
-					<div class="m-tit" th:text="${obj.name}">红烧麻辣鱼</div>
+					<div class="m-tit" th:text="${obj.name}" id="goodsName">红烧麻辣鱼</div>
 					<div class="m-pris  f-bb-e5e5e5 f-cb">
 						<div class="f-fr m-count">
 							<span class="f-fl">数量：</span>
@@ -78,12 +78,14 @@
 				   var id=$("#objId").val();
 				   var amount=$("#jiage").text();
 				   var goodsType=$("#goodsType").val();
+				   var goodsName=$("#goodsName").text();
 				   $.ajax({
 					   url:ctx+'/cart/save.do',
 					   type:'POST',
-					   data:{id:id,number:number,amount:amountgoodsType:goodsType},
+					   data:{id:id,number:number,amount:amount,goodsType:goodsType,goodsName:goodsName},
 					   success:function(rsp){
 						   if(rsp.status==200){
+							   toast("购买成功");
 						   }else{
 							   toast("服务器繁忙，请稍后再试！");
 						   }
