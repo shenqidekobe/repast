@@ -11,9 +11,11 @@ import org.springframework.stereotype.Service;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.model.User;
 import com.yiyou.repast.merchant.model.UserAuthorizeApply;
+import com.yiyou.repast.merchant.model.UserWhite;
 import com.yiyou.repast.merchant.service.ISmsService;
 import com.yiyou.repast.merchant.service.IUserAuthorizeApplyService;
 import com.yiyou.repast.merchant.service.IUserService;
+import com.yiyou.repast.merchant.service.IUserWhiteService;
 import com.yiyou.repast.weixin.base.RBeanUtils;
 import com.yiyou.repast.weixin.base.SessionToken;
 import com.yiyou.repast.weixin.service.UserBusinessService;
@@ -28,8 +30,10 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	private IUserService userService;
 	@Reference
 	private IUserAuthorizeApplyService userAuthorizeApplyService;
-	@Resource
+	@Reference
 	private ISmsService smsService;
+	@Resource
+	private IUserWhiteService userWhiteService;
 
 	@Override
 	public User registerUser(User user) {
@@ -117,6 +121,14 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 		}
 		return userAuthorizeApplyService.findById(id);
 	}
+	
+	@Override
+	public void updateUserAuthorizeApply(UserAuthorizeApply obj) {
+		if(obj==null||obj.getId()==null) {
+			throw new BusinessException(4444, "UserAuthorizeApply must not be null");
+		}
+		userAuthorizeApplyService.update(obj);
+	}
 
 	@Override
 	public void sendSms(String phone, String content) {
@@ -129,6 +141,20 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	@Override
 	public boolean validateSms(String phone, String content) {
 		return smsService.verifyCode(phone, content);
+	}
+	
+	@Override
+	public UserWhite getUserWhite(String phone) {
+		if(org.apache.commons.lang3.StringUtils.isEmpty(phone))return null;
+		return this.userWhiteService.findUserWhiteByPhone(phone);
+	}
+
+	@Override
+	public void updateUserWhite(UserWhite obj) {
+		if(obj==null||obj.getId()==null) {
+			throw new BusinessException(4444, "UserWhite must not be null");
+		}
+		userWhiteService.update(null, obj);
 	}
 
 }

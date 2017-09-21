@@ -46,7 +46,7 @@ public class OAuthController {
 	 * 用户登入进行网页授权
 	 */
 	@GetMapping()
-	public String oauth(HttpServletRequest request) throws Exception {
+	public String oauth(HttpServletRequest request,String deskNum) throws Exception {
 		String callbackUrl = wechatProperties.getDomain() + request.getContextPath() + "/wx/oauth/callback";
 		String sessionState = RandomStringUtils.random(10, true, true);
 		request.getSession().setAttribute(SESSION_OAUTH_STATE, sessionState);
@@ -54,7 +54,7 @@ public class OAuthController {
 		OAuthGetCodeRequest oauthReq = new OAuthGetCodeRequest();
 		oauthReq.setAppid(wechatProperties.getAppId());
 		oauthReq.setScope(OAUTH_SCOPE);// snsapi_base为静默，snsapi_userinfo为用户需确认登录
-		oauthReq.setState(sessionState);
+		oauthReq.setState(sessionState+"_"+deskNum);
 		oauthReq.setRedirect_uri(callbackUrl);
 		String params="?r=yiyou";
 		for(Map.Entry<String, String> entry: oauthReq.getTextParams().entrySet()) {
@@ -69,7 +69,12 @@ public class OAuthController {
 	@GetMapping("/callback")
 	public String callback(HttpServletRequest request, String code, String state) throws Exception {
         String sessionState = Objects.toString(request.getSession().getAttribute(SESSION_OAUTH_STATE));
-        if(StringUtils.isEmpty(sessionState) || StringUtils.isEmpty(state) || !sessionState.equals(state)){
+        if(StringUtils.isEmpty(state)||!state.contains("_")) {
+        	throw new RuntimeException("非法请求");
+        }
+        String deskNum=state.split("_")[1];
+        String stateCode=state.split("_")[0];
+        if(StringUtils.isEmpty(sessionState) || !sessionState.equals(stateCode)){
             throw new RuntimeException("非法请求");
         }
         if(StringUtils.isEmpty(code)){
@@ -91,7 +96,7 @@ public class OAuthController {
 			}
 			User obj=this.userService.registerUser(user);
 			//开始登录注册到shiro
-			UsernamePasswordToken token = new UsernamePasswordToken(obj.getId().toString(), obj.getOpenId());
+			UsernamePasswordToken token = new UsernamePasswordToken(obj.getId().toString(),deskNum);
 	        SecurityUtils.getSubject().login(token);
         	return "/index";
 		}

@@ -2,6 +2,7 @@ package com.yiyou.repast.weixin.service;
 
 import com.yiyou.repast.merchant.model.User;
 import com.yiyou.repast.merchant.model.UserAuthorizeApply;
+import com.yiyou.repast.merchant.model.UserWhite;
 import com.yiyou.repast.weixin.base.SessionToken;
 
 public interface UserBusinessService {
@@ -47,6 +48,11 @@ public interface UserBusinessService {
 	UserAuthorizeApply getUserAuthorizeApplyByID(Long id);
 	
 	/**
+	 * 更新状态
+	 * */
+	void updateUserAuthorizeApply(UserAuthorizeApply obj);
+	
+	/**
 	 * 发送短信
 	 * */
 	void sendSms(String phone,String content);
@@ -55,5 +61,15 @@ public interface UserBusinessService {
 	 * 验证短信
 	 * */
 	boolean validateSms(String phone,String content);
+	
+	/**
+	 * 用户白名单查询
+	 * */
+	UserWhite getUserWhite(String phone);
+	
+	/**
+	 * 更新
+	 * */
+	void updateUserWhite(UserWhite obj);
 
 }

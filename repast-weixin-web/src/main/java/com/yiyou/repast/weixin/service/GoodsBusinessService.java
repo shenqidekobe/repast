@@ -1,6 +1,7 @@
 package com.yiyou.repast.weixin.service;
 
 import java.util.List;
+import java.util.Map;
 
 import com.yiyou.repast.merchant.model.Goods;
 
@@ -12,7 +13,7 @@ public interface GoodsBusinessService {
 	/**
 	 * 可购商品列表
 	 * */
-	List<Goods> findGoodsList();
+	Map<String, List<Goods>> findGoodsList();
 
 	/**
 	 * 商品详情

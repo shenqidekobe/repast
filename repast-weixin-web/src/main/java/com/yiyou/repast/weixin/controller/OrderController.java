@@ -1,5 +1,6 @@
 package com.yiyou.repast.weixin.controller;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -12,6 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yiyou.repast.merchant.model.UserAuthorizeApply;
+import com.yiyou.repast.merchant.model.UserWhite;
 import com.yiyou.repast.order.model.Cart;
 import com.yiyou.repast.order.model.Order;
 import com.yiyou.repast.order.model.OrderItem;
@@ -20,6 +23,10 @@ import com.yiyou.repast.weixin.base.SessionToken;
 import com.yiyou.repast.weixin.service.CartBusinessService;
 import com.yiyou.repast.weixin.service.OrderBusinessService;
 import com.yiyou.repast.weixin.service.UserBusinessService;
+
+import repast.yiyou.common.base.EnumDefinition.AuthorizeAuditStaus;
+import repast.yiyou.common.base.EnumDefinition.OrderStaus;
+import repast.yiyou.common.base.EnumDefinition.PayWay;
 
 /**
  * 我的订单处理中心
@@ -89,6 +96,41 @@ public class OrderController {
 	@ResponseBody
 	public RspResult settleOrder(Long cid) {
 		RspResult rsp=new RspResult();
+		Order order=this.orderService.getOrderById(cid);
+		SessionToken session=new SessionToken();
+		String phone=session.getPhone();
+		UserWhite white=userService.getUserWhite(phone);
+		if(white==null) {
+			UserAuthorizeApply apply=userService.getUserAuthorizeApply(session.getUserId());
+			if(apply==null) {
+				return new RspResult(400,"无权限结算订单，请联系管理员");
+			}
+			apply.setAuditStatus(AuthorizeAuditStaus.use);
+			this.userService.updateUserAuthorizeApply(apply);
+			order.setStatus(OrderStaus.settle);
+			order.setPayWay(PayWay.authorize);
+		}else {
+			switch (white.getType()) {
+			case common:
+				BigDecimal charge=white.getChargeAamount();
+				if(charge.compareTo(order.getAmount())==-1) {
+					return new RspResult(444,"卡内余额不足，请联系管理员充值");
+				}
+				white.setChargeAamount(charge.subtract(order.getAmount()));
+				this.userService.updateUserWhite(white);
+				
+				order.setStatus(OrderStaus.settle);
+				order.setPayWay(PayWay.card);
+				break;
+			case senior:
+				order.setStatus(OrderStaus.settle);
+				order.setPayWay(PayWay.senior);
+				break;
+			default:
+				return new RspResult(443,"不是本店会员，不能结算");
+			}
+		}
+		this.orderService.updateOrder(order);
 		return rsp;
 	}
 
