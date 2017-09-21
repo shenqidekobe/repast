@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -31,7 +30,7 @@ public class OrderItem implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
-	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "order_id")
 	private Order order;
 	
