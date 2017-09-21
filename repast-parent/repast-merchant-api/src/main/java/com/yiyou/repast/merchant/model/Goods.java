@@ -54,8 +54,6 @@ public class Goods implements Serializable {
         return ids;
     }
 
-
-
     public String getSpecsName() {
         if (specs.size() > 0) {
             StringBuffer sb = new StringBuffer();
