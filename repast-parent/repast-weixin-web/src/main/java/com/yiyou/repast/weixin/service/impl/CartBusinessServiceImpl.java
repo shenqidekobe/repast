@@ -14,6 +14,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.order.model.Cart;
 import com.yiyou.repast.order.model.CartItem;
 import com.yiyou.repast.order.service.ICartService;
+import com.yiyou.repast.order.service.IOrderService;
 import com.yiyou.repast.weixin.base.CartItemMap;
 import com.yiyou.repast.weixin.service.CartBusinessService;
 
@@ -24,6 +25,8 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 	
 	@Reference
 	private ICartService cartService;
+	@Reference
+	private IOrderService orderService;
 
 	@Override
 	public void addCart(Long userId,String userName,String deskNum, Long goodsId, String auxIds, Integer count, String amount,String goodsType) {
@@ -41,7 +44,7 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 			cart.setUserId(userId);
 			cart.setDeskNum(deskNum);
 			cart.setCreateTime(new Date());
-			this.cartService.save(cart);
+			cart=this.cartService.save(cart);
 		}else {
 			Set<CartItem> items=cart.getItems();
 			for(CartItem item:items) {

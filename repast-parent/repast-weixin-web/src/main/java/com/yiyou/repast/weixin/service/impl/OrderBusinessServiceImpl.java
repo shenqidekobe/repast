@@ -98,4 +98,12 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 		return orderService.findByUserId(userId);
 	}
 
+	@Override
+	public Order updateOrder(Order obj) {
+		if(obj==null||obj.getId()==0) {
+			throw new BusinessException(4444, "Order not must be null");
+		}
+		return orderService.update(obj);
+	}
+
 }

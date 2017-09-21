@@ -2,7 +2,10 @@ package com.yiyou.repast.weixin.service.impl;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Transformer;
@@ -24,8 +27,12 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 	private IGoodsAuxService goodsAuxService;
 
 	@Override
-	public List<Goods> findGoodsList() {
-		return goodsService.findAll(1l);
+	public Map<String, List<Goods>> findGoodsList() {
+		Map<String, List<Goods>> result=new HashMap<>();
+		List<Goods> list=goodsService.findAll(1l);
+		if(list.isEmpty())return result;
+		result=list.stream().collect(Collectors.groupingBy(Goods::getCategoryName));
+		return result;
 	}
 
 	@Override
