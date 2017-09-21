@@ -2,15 +2,56 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:include="link">
     <link href="/static/bootstrap-table/bootstrap-table.min.css" rel="stylesheet">
+
 <body>
 <div id="wrapper">
     <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
         <div th:include="top"></div>
         <div th:include="left"></div>
     </nav>
-
     <div id="page-wrapper">
-        每日菜单管理
+        <div class="row">
+            <div id="datetimepicker" class="col-md-offset-4"></div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <ol class="breadcrumb">
+                        <li><strong><span style="color: #27a0d7" id="selectDate">所选日期菜单</span></strong></li>
+                    </ol>
+                    <div class="container" style="width: 100%">
+                        <div id="toolbar" class="btn-group">
+                            <button type="button" class="btn btn-info btn-sm rightSize" id="addBtn">
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 新增菜品
+                            </button>
+                        </div>
+                        <table id="dataTable"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--编辑模块-->
+        <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+             aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                        <h4 class="modal-title" id="myModalLabel">选择需要添加的今日菜品</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="categorys form-group" th:each="category:${categoryList}"
+                             th:classappend="${category.id}">
+                            <label th:text="${category.name}"></label>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                        <button type="button" class="btn btn-primary" id="commitBtn">提交</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div>
     </div>
 </div>
 
@@ -23,9 +64,96 @@
 <script src="/static/admin/bootstrptableSetting.js"></script>
 <script src="/static/toastr/toastr.min.js"></script>
 <script src="/static/toastr/toastr.confirm.js"></script>
-<script src="/static/admin/goods/list.js"></script>
-<script>
+<script src="/static/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
+<script src="/static/bootstrap-datetimepicker/js/bootstrap-datetimepicker.zh-CN.js"></script>
 
+<script>
+    var selectDate = new Date();
+    var url = "/daily/listData.do?date=" + selectDate.getTime();
+    $("#selectDate").text(formDate(selectDate) + "菜单");
+    $("#addBtn").click(function () {
+        $.ajax({
+            url: '/goods/listData.do',
+            type: 'POST',
+            data: $("#editForm").serialize(),
+            success: function (list) {
+                for (var i = 0; i < list.length; i++) {
+                    var cId = list[i].category.id;
+                    $(".categorys").each(function () {
+                        var classArray = $(this).prop('className');
+                        var cid2 = classArray[classArray.length - 1];
+                        if (cId == cid2) {
+                            alert($(this).prop('className'));
+                        }
+                    });
+                };
+                $("#myModal").modal('className');
+            }
+        });
+
+    });
+
+    function formDate(date) {
+        var year = date.getFullYear();  //获取年
+        var month = date.getMonth() + 1;    //获取月
+        var day = date.getDate(); //获取日
+        return year + "年" + month + "月" + day + "日";
+    }
+
+    $(function () {
+        $("#selectDate").text(formDate(selectDate) + "菜单");
+        loadTable(url, columns, function (options) {
+            options.showRefresh = false;
+            dataTable = $('#dataTable').bootstrapTable(options);
+        });
+        $('#datetimepicker').datetimepicker({
+            language: 'zh-CN',
+            startDate: selectDate,
+            weekStart: 1,
+            todayBtn: 0,
+            autoclose: 1,
+            todayHighlight: 1,
+            startView: 2,
+            minView: 2,
+            maxView: 3,
+            forceParse: 0,
+            showMeridian: 1,
+            format: 'yyyy-mm-dd'
+        }).on('changeDate', function (ev) {
+            loadTable("/daily/listData.do?date=" + ev.date.valueOf(), columns, function (options) {
+                selectDate = ev.date;
+                var formDate2 = formDate(ev.date);
+                $("#selectDate").text(formDate2 + "菜单");
+                options.showRefresh = false;
+                dataTable = $('#dataTable').bootstrapTable(options);
+            });
+        });
+    })
+    var dataTable = null;
+    window.operateEvents = {
+        "click #edit": function (e, value, row, index) {
+            //编辑框
+            return false;
+        }, "click #delete": function (e, value, row, index) {
+            //删除确认框
+            location.href = '/daily/remove?id=' + row.id;
+            return false;
+        }
+    }
+    var columns = [
+        {
+            field: '', title: '菜品', formatter: function (value, row, index) {
+            return '<img src="/common/img/' + row.goods.pic + '/0/" width=80px height=80px>';
+        }
+        },
+        {field: 'goods.name', title: '',},
+        {field: 'goods.amount', title: '价格',},
+        {field: 'goods.opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
+
+    function operateFormatter(value, row, index) {
+        return "<i class=\"fa fa-edit fa-lg\" id='edit'></i>" + " | " +
+            "<i class=\"fa fa-trash-o fa-lg\" id='delete'></i>";
+    }
 
 </script>
 

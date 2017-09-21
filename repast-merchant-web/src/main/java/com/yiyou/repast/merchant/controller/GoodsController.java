@@ -69,7 +69,7 @@ public class GoodsController {
 
     @GetMapping("/remove")
     public String delete(Long id, Model model) {
-        this.goodsService.remove(Constants.MERCHANT_ID, id);
+        goodsService.remove(Constants.MERCHANT_ID, id);
         return "redirect:/goods";
     }
 

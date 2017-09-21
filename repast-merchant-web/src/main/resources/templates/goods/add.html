@@ -7,7 +7,6 @@
         <div th:include="top"></div>
         <div th:include="left"></div>
     </nav>
-
     <div id="page-wrapper">
         <div class="panel-body" th:if="${parentList.size()>0}">
             <div class="row">
@@ -85,8 +84,22 @@
 
 <script>
     $("#uploadImgBtn").click(function () {
-        var val = $("#goodsImg").val();
-        if (val == null) {
+        var filepath = $("#goodsImg").val();
+        var extStart = filepath.lastIndexOf(".");
+        var ext = filepath.substring(extStart, filepath.length).toUpperCase();
+        if (ext != ".BMP" && ext != ".PNG" && ext != ".JPG" && ext != ".JPEG") {
+            toastr.warning("图片限于bmp,png,jpeg,jpg格式");
+            $("#goodsImg").val("");
+            return false;
+        }
+        var img = new Image();
+        img.src = filepath;
+        if (img.fileSize > 2048) {
+            toastr.warning("上传的图片大小不能超过2M");
+            $("#goodsImg").val("");
+            return false;
+        }
+        if (filepath == null) {
             toastr.warning("请先选择图片");
             return;
         }

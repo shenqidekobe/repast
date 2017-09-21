@@ -1,17 +1,9 @@
 package com.yiyou.repast.merchant.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
 
 /**
  * 每日商品
@@ -79,5 +71,4 @@ public class DailyGoods implements Serializable {
 	public void setOperUser(String operUser) {
 		this.operUser = operUser;
 	}
-	
 }

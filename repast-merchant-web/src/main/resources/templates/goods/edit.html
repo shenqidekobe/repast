@@ -87,9 +87,23 @@
 <script src="/static/dist/js/sb-admin-2.js"></script>
 <script src="/static/toastr/toastr.min.js"></script>
 <script th:inline="javascript">
-
     $("#uploadImgBtn").click(function () {
         var val = $("#goodsImg").val();
+        var filepath = $("#goodsImg").val();
+        var extStart = filepath.lastIndexOf(".");
+        var ext = filepath.substring(extStart, filepath.length).toUpperCase();
+        if (ext != ".BMP" && ext != ".PNG" && ext != ".JPG" && ext != ".JPEG") {
+            toastr.warning("图片限于bmp,png,jpeg,jpg格式");
+            $("#goodsImg").val("");
+            return false;
+        }
+        var img = new Image();
+        img.src = filepath;
+        if (img.fileSize > 2048) {
+            toastr.warning("上传的图片大小不能超过2M");
+            $("#goodsImg").val("");
+            return false;
+        }
         if (val == null) {
             toastr.warning("请先选择图片");
             return;
@@ -105,7 +119,6 @@
             }
         })
     });
-
     $("#deleteImgBtn").click(function () {
         $("#imgShow").attr("src", "/static/images/noimg.png");
         $("#hidImgName").val("");
