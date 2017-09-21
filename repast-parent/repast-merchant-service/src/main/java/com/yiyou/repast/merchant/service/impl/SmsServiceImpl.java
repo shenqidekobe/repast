@@ -4,6 +4,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -71,15 +72,22 @@ public class SmsServiceImpl implements ISmsService{
 				YuexinUserPwd, mobile, content);
 		LoggerUtil.info("【yuexin】 send sms to  mobile =" + mobile + " message="
 				+ content + " sendResult=" + sendMsgRes);
-		if (sendMsgRes != null && sendMsgRes.contains("成功"))
+		if (sendMsgRes != null && sendMsgRes.contains("成功")) {
+			Sms sms=new Sms();
+			sms.setMobile(mobile);
+			sms.setContent(content);
+			sms.setSendDate(new Date());
+			sms.setRet(1);
+			this.save(null, sms);
 			return 0;
-		else
+		}else {
 			return -1;
+		}
 	}
 
 	@Override
 	public boolean verifyCode(String mobile, String code) {
-		Sms sms = this.smsRepository.findSmsByMobileAndContent(mobile, code);
+		Sms sms = this.smsRepository.findSmsByMobileLikeContent(mobile, code);
 		boolean flag = false;
 		// 计算时间在**范围内才合法
 		if (sms != null) {

@@ -6,6 +6,6 @@ import com.yiyou.repast.merchant.model.Sms;
 
 public interface SmsRepository extends JpaRepository<Sms,Long> {
 	
-	Sms findSmsByMobileAndContent(String mobile,String content);
+	Sms findSmsByMobileLikeContent(String mobile,String content);
 
 }
