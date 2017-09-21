@@ -4,6 +4,9 @@ import java.util.List;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.merchant.dao.UserWhiteRepository;
 import com.yiyou.repast.merchant.model.UserWhite;
@@ -45,6 +48,16 @@ public class UserWhiteServiceImpl implements IUserWhiteService{
 	@Override
 	public DataGrid<UserWhite> findList(Long merchantId, int page, int pageSize) {
 		return null;
+	}
+
+	@Override
+	public UserWhite findUserWhiteByPhone(String phone) {
+		UserWhite account=new UserWhite();
+		account.setPhone(phone);
+	    ExampleMatcher matcher = ExampleMatcher.matching();
+	    Example<UserWhite> example = Example.of(account, matcher); 
+		List<UserWhite> list=userWhiteRepository.findAll(example);
+		return list.isEmpty()?null:list.get(0);
 	}
 
 }
