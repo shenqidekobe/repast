@@ -36,6 +36,7 @@ public class OrderItem implements Serializable{
 	private Order order;
 	
 	private Long goodsId;//商品ID
+	private String goodsType;
 	private String goodsName;//runyu数据
 	private String auxIds;//商品辅料ID字符串
 	private Integer count;//数量
@@ -64,6 +65,12 @@ public class OrderItem implements Serializable{
 	}
 	public void setGoodsId(Long goodsId) {
 		this.goodsId = goodsId;
+	}
+	public String getGoodsType() {
+		return goodsType;
+	}
+	public void setGoodsType(String goodsType) {
+		this.goodsType = goodsType;
 	}
 	public String getGoodsName() {
 		return goodsName;
