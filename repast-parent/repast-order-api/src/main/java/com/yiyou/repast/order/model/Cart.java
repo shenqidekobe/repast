@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -33,7 +34,7 @@ public class Cart implements Serializable{
 	private BigDecimal amount;//总金额
 	private Date createTime;//创建时间
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "cart")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "cart",cascade=CascadeType.REMOVE)
 	private Set<CartItem> items = new HashSet<>();
 	
 	public Long getId() {

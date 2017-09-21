@@ -4,7 +4,6 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -28,7 +27,7 @@ public class CartItem implements Serializable{
 	private Long userId;
 	private String userName;
 	
-	@ManyToOne(fetch = FetchType.EAGER,cascade=CascadeType.PERSIST)
+	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "cart_id")
 	private Cart cart;
 	
