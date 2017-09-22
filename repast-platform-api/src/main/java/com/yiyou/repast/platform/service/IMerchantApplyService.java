@@ -1,5 +1,7 @@
 package com.yiyou.repast.platform.service;
 
+import java.util.List;
+
 import com.yiyou.repast.platform.model.MerchantApply;
 
 public interface IMerchantApplyService {
@@ -18,5 +20,10 @@ public interface IMerchantApplyService {
 	 * 根据应用域名查询
 	 * */
 	MerchantApply findMerchantApplyByDomain(String domain);
+	
+	/**
+	 * 所有的应用
+	 * */
+	List<MerchantApply> findAll();
 
 }
