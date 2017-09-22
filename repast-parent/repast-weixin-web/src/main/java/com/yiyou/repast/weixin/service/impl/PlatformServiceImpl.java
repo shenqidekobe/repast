@@ -1,5 +1,7 @@
 package com.yiyou.repast.weixin.service.impl;
 
+import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -19,6 +21,11 @@ public class PlatformServiceImpl implements PlatformService{
 		MerchantApply obj=merchantApplyService.findMerchantApplyByPath(path);
 		if(obj==null) return new MerchantApply(1l,path);
 		return obj;
+	}
+
+	@Override
+	public List<MerchantApply> getAll() {
+		return merchantApplyService.findAll();
 	}
 
 
