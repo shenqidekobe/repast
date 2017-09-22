@@ -12,7 +12,7 @@ import com.yiyou.repast.platform.model.GroupAccess;
 
 public interface GroupAccessRepository extends JpaRepository<GroupAccess, Integer> {
 
-	@Query("from GroupAccess s where s.groupId in (:groupIds)")
+	@Query("from GroupAccess s where s.groupId in :groupIds")
 	Page<GroupAccess> findGroupAccessListByGroupIds(@Param("groupIds")List<Integer> groupIds, Pageable pageable);
 
 }
