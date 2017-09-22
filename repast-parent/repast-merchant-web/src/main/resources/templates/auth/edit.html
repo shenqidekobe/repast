@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="link">
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+           <div th:include="top"></div>
+           <div th:include="left"></div>
+        </nav>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header" th:if="${obj!=null}">编辑授权记录</h1>
+                </div>
+            </div>
+            <div class="panel-body">
+                  <div class="row">
+					<div class="col-lg-6">
+					    <form class="" role="form"  method="post" id="editForm" th:object="${obj}">
+							<div class="form-group">
+						    	<label>公司</label>
+						    	<input type="hidden" name="id" th:field="*{id}">
+								<input type="text" class="form-control" name="company" id="company" th:field="*{company}" maxlength="20">
+							</div>
+							<div class="form-group">
+						    	<label>部门</label>
+								<input type="text" class="form-control" name="dept" id="dept" th:field="*{dept}" maxlength="16">
+							</div>
+							<div class="form-group">
+						    	<label>申请人</label>
+								<input type="text" class="form-control" name="userName" id="userName" th:field="*{userName}" maxlength="16">
+							</div>
+							<div class="form-group">
+						    	<label>人数</label>
+								<input type="tel" class="form-control" name="count" id="count" th:field="*{count}" maxlength="16">
+							</div>
+							<div class="form-group">
+						    	<label>就餐时间</label>
+								<input type="text" class="form-control" name="repastTime" id="repastTime" th:field="*{repastTime}" maxlength="16">
+							</div>
+							<div class="form-group">
+						    	<label>就餐理由</label>
+								<textarea class="form-control" rows="3" name="reason" id="reason" th:field="*{reason}"></textarea>
+							</div>
+							<div class="form-group">
+						    	<label>状态</label>
+								<select class="form-control" name="auditStatus" id="auditStatus">
+                                     <option value="await" th:selected="(${obj.auditStatus} == 'await')">待审核</option>
+                                     <option value="pass" th:selected="(${obj.auditStatus} == 'pass')">已同意</option>
+                                     <option value="use" th:selected="(${obj.auditStatus} == 'use')">已使用</option>
+                                     <option value="refuse" th:selected="(${obj.auditStatus} == 'refuse')">被拒绝</option>
+                                 </select>
+							</div>
+				            <button type="button" class="btn btn-primary" id="saveBtn">保存</button>
+			            </form>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/jquery/jquery.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/metisMenu/metisMenu.min.js"></script>
+    <script src="/static/dist/js/sb-admin-2.js"></script>
+    <script src="/static/toastr/toastr.min.js"></script>
+    <script>
+       $(function(){
+    	   $("#saveBtn").click(function(){
+    		   var company=$.trim($("#company").val());
+    		   var dept=$.trim($("#dept").val());
+    		   var userName=$.trim($("#userName").val());
+    		   if(company==""){
+    			   toastr.warning('请填写公司名');
+    			   return false;
+    		   }else  if(dept==""){
+    			   toastr.warning('请填写所在部门');
+    			   return false;
+    		   }else  if(userName==""){
+    			   toastr.warning('请填写用户姓名');
+    			   return false;
+    		   }
+    		   $.ajax({
+    			   url:'/user/auth/save.do',
+    			   type:'POST',
+    			   data:$("#editForm").serialize(),
+    			   success:function(rsp){
+    				   if(rsp.status==200){
+    					   toastr.success('保存成功');
+    					   location.href='/user/auth';
+    				   }else{
+    					   toastr.warning('服务器繁忙，请稍后再试');
+    				   }
+    			   }
+    		   });
+    	   });
+       })
+    </script>
+
+</body>
+</html>
