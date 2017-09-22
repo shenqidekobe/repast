@@ -22,27 +22,27 @@ public class UserWhiteServiceImpl implements IUserWhiteService{
 
 	@Override
 	public UserWhite findById(Long merchantId, Long id) {
-		return null;
+		return userWhiteRepository.findOne(id);
 	}
 
 	@Override
 	public List<UserWhite> findAll(Long merchantId) {
-		return null;
+		return userWhiteRepository.findAllByMerchantId(merchantId);
 	}
 
 	@Override
 	public UserWhite save(Long merchantId, UserWhite obj) {
-		return null;
+		return userWhiteRepository.save(obj);
 	}
 
 	@Override
 	public void remove(Long merchantId, Long id) {
-		
+		userWhiteRepository.delete(id);
 	}
 
 	@Override
 	public UserWhite update(Long merchantId, UserWhite obj) {
-		return null;
+		return userWhiteRepository.save(obj);
 	}
 
 	@Override
