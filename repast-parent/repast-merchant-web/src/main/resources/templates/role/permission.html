@@ -22,8 +22,8 @@
 							<div class="form-group" th:each="m:${menus}">
 						    	<label></label>
 						    	<div class="checkbox">
-                                     <label>
-                                         <input type="checkbox" name="ids" th:value="${m.id}" th:text="${m.name}">
+                                     <label> 
+                                         <input type="checkbox" name="ids" th:value="${m.id}" th:text="${m.name}" th:checked="${#lists.contains(menuIds,m.id)}">
                                      </label>
                                  </div>
 							</div>
