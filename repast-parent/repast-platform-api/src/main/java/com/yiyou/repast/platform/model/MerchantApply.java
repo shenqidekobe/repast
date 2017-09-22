@@ -29,7 +29,12 @@ public class MerchantApply implements Serializable{
 	private Integer status;// 0无效1有效
 	private Date createTime;
 	
-	
+	public MerchantApply() {}
+	public MerchantApply(Long merchantId, String applyPath) {
+		super();
+		this.merchantId = merchantId;
+		this.applyPath = applyPath;
+	}
 	public Integer getId() {
 		return id;
 	}
