@@ -2,7 +2,7 @@ package com.yiyou.repast.merchant.service;
 
 import com.yiyou.repast.merchant.model.User;
 
-public interface IUserService {
+public interface IUserService extends IBaseService<User>{
 	
 	User save(User user);
 	
