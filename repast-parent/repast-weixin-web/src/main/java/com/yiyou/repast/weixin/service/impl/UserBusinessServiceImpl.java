@@ -91,7 +91,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	}
 
 	@Override
-	public void auditUserAuthorizeApply(Long id, boolean flag) {
+	public void auditUserAuthorizeApply(Long userId,Long id, boolean flag) {
 		if(id==null) {
 			throw new BusinessException(4444, "id must not be null");
 		}
@@ -100,6 +100,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 			throw new BusinessException(4444, "object userAuthorizeApply must not be null");
 		}
 		AuthorizeAuditStaus status=flag?AuthorizeAuditStaus.pass:AuthorizeAuditStaus.refuse;
+		obj.setAuditId(userId);
 		obj.setAuditStatus(status);
 		obj.setAuditTime(new Date());
 		userAuthorizeApplyService.update(obj);

@@ -122,7 +122,8 @@ public class UserAuthorizeController {
 	@PostMapping("/authorize/audit/save.do")
 	public RspResult auditSave(Long id,String status) {
 		boolean flag="pass".equals(status);
-		userService.auditUserAuthorizeApply(id, flag);
+		SessionToken session=userService.getSessionUser();
+		userService.auditUserAuthorizeApply(session.getUserId(),id, flag);
 		return new RspResult();
 	}
 	
