@@ -1,5 +1,7 @@
 package com.yiyou.repast.weixin.service;
 
+import java.util.List;
+
 import com.yiyou.repast.platform.model.MerchantApply;
 
 /**
@@ -9,4 +11,5 @@ public interface PlatformService {
 	
 	MerchantApply getMerchantApply(String path);
 
+	List<MerchantApply> getAll();
 }
