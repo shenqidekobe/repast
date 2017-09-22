@@ -67,7 +67,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	public User findById(Long id) {
 		User obj=userService.findById(null, id);
 		if(obj==null) {
-			throw new BusinessException(4444, "object userAuthorizeApply must not be null");
+			throw new BusinessException(4444, "object User must not be null");
 		}
 		return obj;
 	}
@@ -75,7 +75,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	@Override
 	public User update(User obj) {
 		if(obj==null||obj.getId()==null) {
-			throw new BusinessException(4444, "object userAuthorizeApply must not be null");
+			throw new BusinessException(4444, "object User must not be null");
 		}
 		return userService.update(obj);
 	}
