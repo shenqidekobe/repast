@@ -52,6 +52,7 @@ public class WechatStartInit implements EnvironmentAware{
 		List<MerchantApply> list=platformService.getAll();
 		if(CollectionUtils.isEmpty(list))return applyMap;
 		applyMap=list.stream().collect(Collectors.toMap(MerchantApply::getApplyPath, MerchantApply::getMerchantId));
+		System.out.println("applyMap  =  "+applyMap.toString());
 		return applyMap;
 	}
 
