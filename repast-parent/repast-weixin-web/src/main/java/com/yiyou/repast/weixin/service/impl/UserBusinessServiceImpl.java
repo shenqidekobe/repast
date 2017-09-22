@@ -2,8 +2,6 @@ package com.yiyou.repast.weixin.service.impl;
 
 import java.util.Date;
 
-import javax.annotation.Resource;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
@@ -32,7 +30,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	private IUserAuthorizeApplyService userAuthorizeApplyService;
 	@Reference
 	private ISmsService smsService;
-	@Resource
+	@Reference
 	private IUserWhiteService userWhiteService;
 
 	@Override
@@ -61,6 +59,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 		SessionToken session=(SessionToken) SecurityUtils.getSubject().getPrincipal();
 		session=new SessionToken();
 		session.setUserId(100l);
+		session.setPhone("15000658445");
 		return session;
 	}
 	

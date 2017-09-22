@@ -49,7 +49,23 @@ public class GoodsController {
 	
 	@PostMapping("/listData.do")
 	public String listData(String type,Model model) {
-		Map<String, List<Goods>> map=goodsBusinessService.findGoodsList();
+		SessionToken session=userService.getSessionUser();
+		type=StringUtils.isEmpty(type)?"1":type;
+		Map<String, List<Goods>> map=null;
+		switch (type) {
+		case "1":
+			map=goodsBusinessService.findGoodsList();//随便点 全部商品
+			break;
+		case "2":
+			map=goodsBusinessService.findRecommedGoodsList();//店家推荐
+			break;
+		case "3":
+			map=goodsBusinessService.findHotGoodsList(20L);//热销榜，20条
+			break;
+		case "4":
+			map=goodsBusinessService.findOldGoodsList(session.getUserId());//我点过的商品
+			break;
+		}
 		model.addAttribute("dataMap", map);
 		return "goods/list_frag";
 	}

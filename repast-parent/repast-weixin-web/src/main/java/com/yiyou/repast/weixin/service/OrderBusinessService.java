@@ -12,7 +12,10 @@ public interface OrderBusinessService {
 	 * */
 	Order createOrder(Cart cart);
 	
-	Order updateOrder(Order obj);
+	/**
+	 * 订单结算
+	 * */
+	Order settleOrder(Order obj);
 	
 	/**
 	 * 我的当前订单

@@ -13,6 +13,7 @@ public class WechatProperties {
 	private String encodingAESKey;
 	private String domain;
 	private Boolean validateFlag;
+	private String noticeTemplateId;
 	public String getAppId() {
 		return appId;
 	}
@@ -49,7 +50,11 @@ public class WechatProperties {
 	public void setValidateFlag(Boolean validateFlag) {
 		this.validateFlag = validateFlag;
 	}
-	
-	
+	public String getNoticeTemplateId() {
+		return noticeTemplateId;
+	}
+	public void setNoticeTemplateId(String noticeTemplateId) {
+		this.noticeTemplateId = noticeTemplateId;
+	}
 
 }
