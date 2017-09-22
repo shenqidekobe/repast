@@ -10,5 +10,7 @@ public interface UserAuthorizeApplyRepository extends JpaRepository<UserAuthoriz
 	
 	//@Query("from UserAuthorizeApply where userId=? order by id desc")
 	List<UserAuthorizeApply> findByUserIdOrderByIdDesc(Long userId);
+	
+	List<UserAuthorizeApply> findAllByMerchantId(Long merchantId);
 
 }

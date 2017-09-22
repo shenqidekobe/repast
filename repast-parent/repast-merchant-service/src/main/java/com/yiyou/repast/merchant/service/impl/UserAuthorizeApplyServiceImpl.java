@@ -40,30 +40,27 @@ public class UserAuthorizeApplyServiceImpl implements IUserAuthorizeApplyService
 
 	@Override
 	public UserAuthorizeApply findById(Long merchantId, Long id) {
-		// TODO Auto-generated method stub
-		return null;
+		return userAuthorizeApplyRepository.findOne(id);
 	}
 
 	@Override
 	public List<UserAuthorizeApply> findAll(Long merchantId) {
-		// TODO Auto-generated method stub
-		return null;
+		return userAuthorizeApplyRepository.findAllByMerchantId(merchantId);
 	}
 
 	@Override
 	public UserAuthorizeApply save(Long merchantId, UserAuthorizeApply obj) {
-		// TODO Auto-generated method stub
-		return null;
+		return userAuthorizeApplyRepository.save(obj);
 	}
 
 	@Override
 	public void remove(Long merchantId, Long id) {
-		
+		userAuthorizeApplyRepository.delete(id);
 	}
 
 	@Override
 	public UserAuthorizeApply update(Long merchantId, UserAuthorizeApply obj) {
-		return null;
+		return userAuthorizeApplyRepository.save(obj);
 	}
 
 	@Override
