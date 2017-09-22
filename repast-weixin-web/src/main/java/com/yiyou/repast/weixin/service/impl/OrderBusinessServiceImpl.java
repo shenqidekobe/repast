@@ -3,12 +3,16 @@ package com.yiyou.repast.weixin.service.impl;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
+import com.yiyou.repast.merchant.model.Goods;
+import com.yiyou.repast.merchant.service.IGoodsService;
 import com.yiyou.repast.order.model.Cart;
 import com.yiyou.repast.order.model.CartItem;
 import com.yiyou.repast.order.model.Order;
@@ -24,6 +28,8 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 	
 	@Reference
 	private IOrderService orderService;
+	@Reference
+	private IGoodsService goodsService;
 
 	@Override
 	public Order createOrder(Cart cart) {
@@ -99,11 +105,21 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 	}
 
 	@Override
-	public Order updateOrder(Order obj) {
+	public Order settleOrder(Order obj) {
 		if(obj==null||obj.getId()==0) {
 			throw new BusinessException(4444, "Order not must be null");
 		}
-		return orderService.update(obj);
+		obj=orderService.update(obj);
+		//增加商品销量
+		Set<OrderItem> items=obj.getItems();
+		List<Goods> list=items.stream().map(o->goodsService.findById(1l, o.getGoodsId()))
+				.collect(Collectors.toList());
+		for(Goods goods:list) {
+			int sales=goods.getSales()==null?0:goods.getSales();
+			goods.setSales(sales+1);
+			this.goodsService.update(null, goods);
+		}
+		return obj;
 	}
 
 }

@@ -97,7 +97,7 @@ public class OrderController {
 	public RspResult settleOrder(Long cid) {
 		RspResult rsp=new RspResult();
 		Order order=this.orderService.getOrderById(cid);
-		SessionToken session=new SessionToken();
+		SessionToken session=userService.getSessionUser();
 		String phone=session.getPhone();
 		UserWhite white=userService.getUserWhite(phone);
 		if(white==null) {
@@ -130,7 +130,7 @@ public class OrderController {
 				return new RspResult(443,"不是本店会员，不能结算");
 			}
 		}
-		this.orderService.updateOrder(order);
+		this.orderService.settleOrder(order);
 		return rsp;
 	}
 

@@ -30,6 +30,9 @@ public class CartController {
 	@Resource
 	private CartBusinessService cartService;
 	
+	/**
+	 * 选择人数
+	 * */
 	@GetMapping("/people")
 	public String people() {
 		return "people";

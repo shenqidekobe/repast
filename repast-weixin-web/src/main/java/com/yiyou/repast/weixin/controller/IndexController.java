@@ -37,7 +37,7 @@ public class IndexController {
 	 * */
 	@GetMapping("/index")
 	public String index(Model model) {
-		SessionToken session=new SessionToken();
+		SessionToken session=userService.getSessionUser();
 		String phone=session.getPhone();
 		if(StringUtils.isEmpty(phone)) {
 			return "redirect:/bind/phone";//去绑定手机
