@@ -35,7 +35,7 @@ public interface UserBusinessService {
 	/**
 	 * 审核授权
 	 * */
-	void auditUserAuthorizeApply(Long id,boolean flag);
+	void auditUserAuthorizeApply(Long userId,Long id,boolean flag);
 	
 	/**
 	 * 查询我的授权记录
