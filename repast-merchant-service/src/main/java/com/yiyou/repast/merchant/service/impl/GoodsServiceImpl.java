@@ -27,6 +27,11 @@ public class GoodsServiceImpl implements IGoodsService {
     }
 
     @Override
+    public List<Goods> findByIds(Long merchantId, List<Long> ids) {
+        return merchantGoodsRepository.findByIds(merchantId, ids);
+    }
+
+    @Override
     public Goods save(Long merchantId, Goods obj) {
         obj.setCreateTime(new Date());
         obj.setMerchantId(merchantId);

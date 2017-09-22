@@ -43,7 +43,7 @@
                         <div class="form-group" data-toggle="buttons">
                             <label>辅料: </label>
                             <input type="checkbox" th:each="aux:${auxList}"
-                                   name="auxs[]"
+                                   name="auxsId"
                                    th:value="${aux.id}"
                                    th:text="${aux.name}">
                         </div>

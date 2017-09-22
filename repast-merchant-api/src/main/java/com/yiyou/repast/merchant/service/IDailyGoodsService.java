@@ -11,4 +11,7 @@ public interface IDailyGoodsService extends IBaseService<DailyGoods>{
 
     List<DailyGoods> findByDate(Long merchantId, String date);
 
+    void deleteByDate(Long merchantId, String date);
+
+    List<DailyGoods> save(Long merchantId, List<DailyGoods> obj);
 }

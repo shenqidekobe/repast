@@ -2,18 +2,19 @@ package com.yiyou.repast.merchant.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.base.Constants;
+import com.yiyou.repast.merchant.base.RspResult;
 import com.yiyou.repast.merchant.model.DailyGoods;
+import com.yiyou.repast.merchant.model.Goods;
 import com.yiyou.repast.merchant.service.IDailyGoodsService;
 import com.yiyou.repast.merchant.service.IGoodsCategoryService;
+import com.yiyou.repast.merchant.service.IGoodsService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import repast.yiyou.common.util.DataGrid;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,15 +24,23 @@ import java.util.List;
 @RequestMapping("/daily")
 public class GoodsDailyController {
     @Reference
-    private IDailyGoodsService dailyGoodsService;
-
+    private IGoodsService goodsService;
     @Reference
     private IGoodsCategoryService goodsCategoryService;
+    @Reference
+    private IDailyGoodsService dailyGoodsService;
+
 
     @GetMapping()
     public String dailyManager(Model model) {
         model.addAttribute("categoryList", goodsCategoryService.findAll(Constants.MERCHANT_ID));
         return "/goodsDaily/list";
+    }
+
+    @GetMapping("/remove")
+    public String delete(Long id, Model model) {
+        dailyGoodsService.remove(Constants.MERCHANT_ID, id);
+        return "redirect:/daily";
     }
 
     @ResponseBody
@@ -45,14 +54,25 @@ public class GoodsDailyController {
         return dailyGoodsService.findByDate(Constants.MERCHANT_ID, format);
     }
 
-    @GetMapping("/edit")
-    public String edit(Long id, Model model) {
-
-        if (id == null) {
-            return "/goods/add";
+    @PostMapping("/edit")
+    @ResponseBody
+    public RspResult edit(Long today, @RequestParam(value = "goodsIds[]", required = false) List<Long> goodsIds, Model model) {
+        String date = new SimpleDateFormat("yyyy-MM-dd").format(today);
+        try {
+            dailyGoodsService.deleteByDate(Constants.MERCHANT_ID, date);
+            List<Goods> byIds = goodsService.findByIds(Constants.MERCHANT_ID, goodsIds);
+            List<DailyGoods> list = new ArrayList<>();
+            for (Goods goods : byIds) {
+                DailyGoods dailyGoods = new DailyGoods();
+                dailyGoods.setAmount(goods.getAmount());
+                dailyGoods.setGoods(goods);
+                list.add(dailyGoods);
+            }
+            dailyGoodsService.save(Constants.MERCHANT_ID, list);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new RspResult(505, "");
         }
-        model.addAttribute("obj", dailyGoodsService.findById(Constants.MERCHANT_ID, id));
-        return "/goods/edit";
+        return new RspResult();
     }
-
 }

@@ -22,7 +22,7 @@
                     <div class="container" style="width: 100%">
                         <div id="toolbar" class="btn-group">
                             <button type="button" class="btn btn-info btn-sm rightSize" id="addBtn">
-                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 新增菜品
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 编辑菜单
                             </button>
                         </div>
                         <table id="dataTable"></table>
@@ -37,13 +37,17 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title" id="myModalLabel">选择需要添加的今日菜品</h4>
+                        <h4 class="modal-title" id="myModalLabel">编辑今日菜品</h4>
                     </div>
                     <div class="modal-body">
-                        <div class="categorys form-group" th:each="category:${categoryList}"
-                             th:classappend="${category.id}">
-                            <label th:text="${category.name}"></label>
-                        </div>
+                        <form role="form" method="post" id="modalForm">
+                            <div class="categorys form-group" th:each="category:${categoryList}"
+                                 th:id="${category.id}">
+                                <label th:text="${category.name}"></label>
+                                <div class="context form-group"></div>
+                            </div>
+                            <input type="hidden" id="today" name="today">
+                        </form>
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
@@ -68,31 +72,43 @@
 <script src="/static/bootstrap-datetimepicker/js/bootstrap-datetimepicker.zh-CN.js"></script>
 
 <script>
+    var dataTable = null;
     var selectDate = new Date();
-    var url = "/daily/listData.do?date=" + selectDate.getTime();
+    var dailIds = new Array();
+
     $("#selectDate").text(formDate(selectDate) + "菜单");
     $("#addBtn").click(function () {
+        alert("Id长度" + dailIds.length);
         $.ajax({
             url: '/goods/listData.do',
             type: 'POST',
             data: $("#editForm").serialize(),
             success: function (list) {
+                $(".context").children().remove();
                 for (var i = 0; i < list.length; i++) {
                     var cId = list[i].category.id;
-                    $(".categorys").each(function () {
-                        var classArray = $(this).prop('className');
-                        var cid2 = classArray[classArray.length - 1];
-                        if (cId == cid2) {
-                            alert($(this).prop('className'));
-                        }
-                    });
-                };
-                $("#myModal").modal('className');
+                    $("#" + cId + " .context").append("<input style='margin-left: 10px' type='checkbox' name='goodsIds[]' value='" + list[i].id + "'/><label>" + list[i].name + "</label>");
+                }
+                $("#myModal").modal('show');
             }
         });
-
     });
-
+    $("#commitBtn").click(function () {
+        $("#today").val(selectDate.getTime() + "");
+        $.ajax({
+            url: '/daily/edit',
+            type: 'POST',
+            data: $("#modalForm").serialize(),
+            success: function (rsp) {
+                if (rsp.status == 200) {
+                    toastr.success('保存成功');
+                    location.href = '/daily';
+                } else {
+                    toastr.warning('服务器繁忙，请稍后再试');
+                }
+            }
+        })
+    });
     function formDate(date) {
         var year = date.getFullYear();  //获取年
         var month = date.getMonth() + 1;    //获取月
@@ -100,41 +116,27 @@
         return year + "年" + month + "月" + day + "日";
     }
 
-    $(function () {
+    $('#datetimepicker').datetimepicker({
+        language: 'zh-CN',
+        startDate: selectDate,
+        weekStart: 1,
+        todayBtn: 0,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        maxView: 3,
+        forceParse: 0,
+        showMeridian: 1,
+        format: 'yyyy-mm-dd'
+    }).on('changeDate', function (ev) {
+        selectDate = ev.date;
         $("#selectDate").text(formDate(selectDate) + "菜单");
-        loadTable(url, columns, function (options) {
-            options.showRefresh = false;
-            dataTable = $('#dataTable').bootstrapTable(options);
-        });
-        $('#datetimepicker').datetimepicker({
-            language: 'zh-CN',
-            startDate: selectDate,
-            weekStart: 1,
-            todayBtn: 0,
-            autoclose: 1,
-            todayHighlight: 1,
-            startView: 2,
-            minView: 2,
-            maxView: 3,
-            forceParse: 0,
-            showMeridian: 1,
-            format: 'yyyy-mm-dd'
-        }).on('changeDate', function (ev) {
-            loadTable("/daily/listData.do?date=" + ev.date.valueOf(), columns, function (options) {
-                selectDate = ev.date;
-                var formDate2 = formDate(ev.date);
-                $("#selectDate").text(formDate2 + "菜单");
-                options.showRefresh = false;
-                dataTable = $('#dataTable').bootstrapTable(options);
-            });
-        });
-    })
-    var dataTable = null;
+    });
+
+    var url = "/daily/listData.do?date=" + selectDate.getTime();
     window.operateEvents = {
-        "click #edit": function (e, value, row, index) {
-            //编辑框
-            return false;
-        }, "click #delete": function (e, value, row, index) {
+        "click #delete": function (e, value, row, index) {
             //删除确认框
             location.href = '/daily/remove?id=' + row.id;
             return false;
@@ -151,10 +153,12 @@
         {field: 'goods.opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
 
     function operateFormatter(value, row, index) {
-        return "<i class=\"fa fa-edit fa-lg\" id='edit'></i>" + " | " +
-            "<i class=\"fa fa-trash-o fa-lg\" id='delete'></i>";
+        return "<i class=\"fa fa-trash-o fa-lg\" id='delete'></i>";
     }
-
+    loadTable(url, columns, function (options) {
+        options.showRefresh = false;
+        dataTable = $('#dataTable').bootstrapTable(options);
+    });
 </script>
 
 </body>
