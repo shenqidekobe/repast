@@ -1,8 +1,11 @@
 package com.yiyou.repast.merchant.controller;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -14,6 +17,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RBeanUtils;
 import com.yiyou.repast.merchant.base.RspResult;
+import com.yiyou.repast.merchant.model.MerchantMenu;
 import com.yiyou.repast.merchant.model.MerchantRole;
 import com.yiyou.repast.merchant.service.IMerchantMenuService;
 import com.yiyou.repast.merchant.service.IMerchantRoleService;
@@ -55,7 +59,13 @@ public class RoleController {
 	
 	@GetMapping("/pers")
 	public String permission(Long id,Model model) {
-		model.addAttribute("obj",this.merchantRoleService.find(id));
+		MerchantRole role=this.merchantRoleService.find(id);
+		List<Long> menuIds=new ArrayList<>();
+		if(!CollectionUtils.isEmpty(role.getMenus())){
+			menuIds=role.getMenus().stream().map(MerchantMenu::getId).collect(Collectors.toList());
+		}
+		model.addAttribute("obj",role);
+		model.addAttribute("menuIds",menuIds);
 		model.addAttribute("menus", merchantMenuService.findAll(Constants.MERCHANT_ID));
 		return "/role/permission";
 	}
