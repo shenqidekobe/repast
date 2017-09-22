@@ -3,6 +3,7 @@ package com.yiyou.repast.weixin.controller;
 import java.util.Date;
 import java.util.Map;
 import java.util.Objects;
+import java.util.UUID;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -90,9 +91,14 @@ public class OAuthController {
 			String openId=rsp.getOpenid();
 			User user=new User();
 			user.setOpenId(openId);
+			user.setMerchantId(1l);
 			//授权成功，非静默方式则开始获取用户信息
 			if("snsapi_userinfo".equals(OAUTH_SCOPE)) {
 				user=getWechatUserInfo(user, rsp.getAccess_token());
+			}else {
+				int hashCodeV = UUID.randomUUID().toString().hashCode();  
+				if(hashCodeV < 0) hashCodeV = - hashCodeV;  
+				user.setNickName("吃客"+hashCodeV);//手动设置一个名称
 			}
 			User obj=this.userService.registerUser(user);
 			//开始登录注册到shiro
@@ -102,7 +108,6 @@ public class OAuthController {
 		}
 		return "/fail";
 	}
-	
 	
 	/**
 	 * 获取微信用户基本信息注册到数据库
@@ -120,7 +125,6 @@ public class OAuthController {
 	    		user.setAvatar(rsp1.getHeadimgurl());
 	    		user.setCreateTime(new Date());
 	    		user.setNickName(rsp1.getNickname());
-	    		
 	    	}
 		} catch (Exception e) {}
 		return user;
