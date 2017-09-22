@@ -76,9 +76,9 @@ public class RoleController {
 	
 	@ResponseBody
 	@PostMapping("/permission.do")
-	public RspResult permissionSave(Long roleId,Long[] ids) {
+	public RspResult permissionSave(Long id,Long[] ids) {
 		List<Long> menuIds=Arrays.asList(ids);
-		merchantRoleService.updatePermission(roleId, menuIds);
+		merchantRoleService.updatePermission(id, menuIds);
 		return new RspResult();
 	}
 	
