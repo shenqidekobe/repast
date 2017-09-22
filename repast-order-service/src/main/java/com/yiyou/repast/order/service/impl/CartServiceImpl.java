@@ -1,6 +1,7 @@
 package com.yiyou.repast.order.service.impl;
 
 import java.util.Date;
+import java.util.List;
 
 import javax.annotation.Resource;
 
@@ -84,6 +85,15 @@ public class CartServiceImpl implements ICartService{
 	    ExampleMatcher matcher = ExampleMatcher.matching();
 	    Example<Cart> example = Example.of(cart, matcher); 
 		return cartRepository.findOne(example);
+	}
+
+	@Override
+	public List<Cart> findAll(Long merchantId) {
+		Cart cart=new Cart();
+		cart.setMerchantId(merchantId);
+	    ExampleMatcher matcher = ExampleMatcher.matching();
+	    Example<Cart> example = Example.of(cart, matcher); 
+		return cartRepository.findAll(example);
 	}
 
 }
