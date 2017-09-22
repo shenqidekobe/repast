@@ -48,4 +48,9 @@ public class MerchantApplyServiceImpl implements IMerchantApplyService {
 		return list.isEmpty()?null:list.get(0);
 	}
 
+	@Override
+	public List<MerchantApply> findAll() {
+		return merchantApplyRepository.findAll();
+	}
+
 }
