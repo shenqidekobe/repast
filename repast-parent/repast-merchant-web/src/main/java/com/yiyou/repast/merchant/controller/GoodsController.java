@@ -76,20 +76,13 @@ public class GoodsController {
     @ResponseBody
     @PostMapping("/save.do")
     public RspResult save(Goods obj, Long parentId, Long id,
-                          @RequestParam(value = "auxs[]", required = false) List<Long> auxIds,
+                          @RequestParam(value = "auxsId", required = false) String auxIds,
                           @RequestParam(value = "specIds[]", required = false) List<Long> specIds) {
         if (obj == null) {
             return new RspResult(505, "参数错误");
         }
         Set<GoodsSpec> specs = goodsSpecService.findByIds(specIds);
-        String auxs = "";
-        for (int i = 0; i < auxIds.size(); i++) {
-            if (i == 0) {
-                auxs += auxIds.get(i);
-            } else {
-                auxs += "," + auxIds.get(i);
-            }
-        }
+        String auxs = auxIds;
         if (obj.getId() == null) {
             //新增
             GoodsCategory category = goodsCategoryService.findById(Constants.MERCHANT_ID, parentId);

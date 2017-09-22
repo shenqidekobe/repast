@@ -16,6 +16,7 @@
                         <div class="form-group">
                             <label>菜品名</label>
                             <input type="hidden" name="id" th:value="*{obj.id}">
+                            <input type="hidden" id="hidImgName" name="pic" th:value="${obj.pic}"/>
                             <input type="text" class="form-control" name="name" id="name" th:field="*{obj.name}"
                                    placeholder="菜品名"
                                    maxlength="16">
@@ -51,11 +52,10 @@
                         <div class="form-group" data-toggle="buttons">
                             <label>辅料: </label>
                             <input type="checkbox" th:each="aux:${auxList}" class="aux"
-                                   name="auxs[]"
+                                   name="auxsId"
                                    th:value="${aux.id}"
                                    th:text="${aux.name}">
                         </div>
-                        <input type="hidden" id="hidImgName" name="pic" th:value="${obj.pic}"/>
                     </form>
                 </div>
                 <div class="col-lg-6">
@@ -130,22 +130,25 @@
     $(function () {
         var specId = [[${obj.specsId}]];
         var auxId = [[${obj.auxIds}]];
-        var auxidArray = auxId.split(',');
-        $(".spec").each(function () {
-            for (var i = 0; i < specId.length; i++) {
-                if ($(this).val() == specId[i]) {
-                    $(this).attr("checked", "true");
+        if (auxId != null) {
+            var auxidArray = auxId.split(',');
+            $(".aux").each(function () {
+                for (var i = 0; i < auxidArray.length; i++) {
+                    if ($(this).val()==auxidArray[i]) {
+                        $(this).attr("checked", "true");
+                    }
                 }
-            }
-        });
-        $(".aux").each(function () {
-            for (var i = 0; i < auxidArray.length; i++) {
-                if (auxidArray[i] == $(this).val()) {
-                    $(this).attr("checked", "true");
+            });
+        }
+        if (specId != null) {
+            $(".spec").each(function () {
+                for (var i = 0; i < specId.length; i++) {
+                    if ($(this).val() == specId[i]) {
+                        $(this).attr("checked", "true");
+                    }
                 }
-            }
-        });
-
+            });
+        }
         $("#saveBtn").click(function () {
             var name = $.trim($("#name").val());
             var amount = $.trim($("#amount").val());

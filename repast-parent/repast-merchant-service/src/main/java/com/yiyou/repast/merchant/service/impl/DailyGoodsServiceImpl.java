@@ -13,10 +13,8 @@ import java.util.List;
 @Service
 public class DailyGoodsServiceImpl implements IDailyGoodsService {
 
-
     @Resource
     DailyGoodsRepository dailyGoodsRepository;
-
 
     @Override
     public List<DailyGoods> findAll(Long merchantId) {
@@ -31,6 +29,20 @@ public class DailyGoodsServiceImpl implements IDailyGoodsService {
     @Override
     public List<DailyGoods> findByDate(Long mearchant, String date) {
         return dailyGoodsRepository.findByDate(mearchant,date);
+    }
+
+    @Override
+    public void deleteByDate(Long merchantId, String date) {
+
+    }
+
+    @Override
+    public List<DailyGoods> save(Long merchantId, List<DailyGoods> obj) {
+        for (DailyGoods dailyGoods : obj) {
+            dailyGoods.setMerchantId(merchantId);
+            dailyGoods.setCreateTime(new Date());
+        }
+        return dailyGoodsRepository.save(obj);
     }
 
     @Override
