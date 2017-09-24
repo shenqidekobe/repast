@@ -5,6 +5,9 @@ import java.util.List;
 import com.yiyou.repast.order.model.Order;
 import com.yiyou.repast.order.model.OrderItem;
 
+import repast.yiyou.common.base.EnumDefinition.OrderStaus;
+import repast.yiyou.common.util.DataGrid;
+
 public interface IOrderService {
 	
 	Order save(Order obj);
@@ -20,5 +23,8 @@ public interface IOrderService {
 	List<Order> findByUserId(Long userId);
 	
 	List<Order> findByDeskNum(String deskNum);
+	
+	DataGrid<Order> findOrderList(Long merchantId,String orderId,String deskNum,OrderStaus status,
+			String startTime,String endTime,int page,int pageSize);
 	
 }
