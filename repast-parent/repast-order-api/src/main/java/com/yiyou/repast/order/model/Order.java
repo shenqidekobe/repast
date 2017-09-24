@@ -46,6 +46,7 @@ public class Order implements Serializable{
 	private BigDecimal discountAmount;//优惠金额
 	
 	private Date createTime;//下单时间
+	private Date settleTime;//结算时间
 	private Long createUser;//下单用户
 	private String predictDate;//预计就餐日期
 	private String predictTime;//预计就餐时间
@@ -131,6 +132,12 @@ public class Order implements Serializable{
 	public void setPredictTime(String predictTime) {
 		this.predictTime = predictTime;
 	}
+	public Date getSettleTime() {
+		return settleTime;
+	}
+	public void setSettleTime(Date settleTime) {
+		this.settleTime = settleTime;
+	}
 	public BigDecimal getAmount() {
 		return amount;
 	}
@@ -148,5 +155,8 @@ public class Order implements Serializable{
 		if(predictDate.equals("today"))return "今天中午12点";
 		if(predictDate.equals("tomorrow"))return "名天中午12点";
 		return "今天中午12点";
+	}
+	public String getStatusName(){
+		return status.getName();
 	}
 }
