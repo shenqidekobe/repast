@@ -14,6 +14,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 /**
  * 用户对象
@@ -42,6 +43,9 @@ public class User implements Serializable{
 	
 	@OneToMany(mappedBy = "merchant",fetch=FetchType.EAGER)
 	private Set<UserMerchant> merchants = new HashSet<>();
+	
+	@Transient
+	private Long merchantId;//当前的商户ID
 	
 	public Long getId() {
 		return id;
@@ -91,5 +95,16 @@ public class User implements Serializable{
 	public void setLoginTime(Date loginTime) {
 		this.loginTime = loginTime;
 	}
-	
+	public Set<UserMerchant> getMerchants() {
+		return merchants;
+	}
+	public void setMerchants(Set<UserMerchant> merchants) {
+		this.merchants = merchants;
+	}
+	public Long getMerchantId() {
+		return merchantId;
+	}
+	public void setMerchantId(Long merchantId) {
+		this.merchantId = merchantId;
+	}
 }
