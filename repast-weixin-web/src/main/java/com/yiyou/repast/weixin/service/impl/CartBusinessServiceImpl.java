@@ -16,7 +16,7 @@ import com.yiyou.repast.order.model.CartItem;
 import com.yiyou.repast.order.service.ICartService;
 import com.yiyou.repast.order.service.IOrderService;
 import com.yiyou.repast.weixin.base.CartItemMap;
-import com.yiyou.repast.weixin.base.Constants;
+import com.yiyou.repast.weixin.base.ThreadContextHolder;
 import com.yiyou.repast.weixin.service.CartBusinessService;
 
 import repast.yiyou.common.exception.BusinessException;
@@ -42,7 +42,7 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 		BigDecimal all=new BigDecimal(0);
 		if(cart==null) {
 			cart=new Cart();
-			cart.setMerchantId(Constants.merchantId);
+			cart.setMerchantId(ThreadContextHolder.getCurrentMerchantId());
 			cart.setUserId(userId);
 			cart.setDeskNum(deskNum);
 			cart.setCreateTime(new Date());
