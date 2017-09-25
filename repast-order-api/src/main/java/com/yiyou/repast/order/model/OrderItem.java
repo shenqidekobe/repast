@@ -15,6 +15,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
 
 /**
@@ -22,6 +24,7 @@ import repast.yiyou.common.base.EnumDefinition.OrderStaus;
  */
 @Entity
 @Table(name = "t_order_item")
+@JsonIgnoreProperties(value= {"order"})
 public class OrderItem implements Serializable{
 
 	private static final long serialVersionUID = 4704542642694999182L;
