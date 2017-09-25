@@ -46,9 +46,10 @@ public class OAuthController {
 
 	/**
 	 * 用户登入进行网页授权
+	 * @param 随机数+商户号+桌子号 _分割
 	 */
 	@GetMapping()
-	public String oauth(HttpServletRequest request,String deskNum) throws Exception {
+	public String oauth(HttpServletRequest request,String param) throws Exception {
 		String callbackUrl = wechatProperties.getDomain() + request.getContextPath() + "/wx/oauth/callback";
 		String sessionState = RandomStringUtils.random(10, true, true);
 		request.getSession().setAttribute(SESSION_OAUTH_STATE, sessionState);
@@ -56,7 +57,7 @@ public class OAuthController {
 		OAuthGetCodeRequest oauthReq = new OAuthGetCodeRequest();
 		oauthReq.setAppid(wechatProperties.getAppId());
 		oauthReq.setScope(OAUTH_SCOPE);// snsapi_base为静默，snsapi_userinfo为用户需确认登录
-		oauthReq.setState(sessionState+"_"+deskNum);
+		oauthReq.setState(sessionState+"_"+param);
 		oauthReq.setRedirect_uri(callbackUrl);
 		String params="?r=yiyou";
 		for(Map.Entry<String, String> entry: oauthReq.getTextParams().entrySet()) {
@@ -70,18 +71,22 @@ public class OAuthController {
 	 */
 	@GetMapping("/callback")
 	public String callback(HttpServletRequest request, String code, String state) throws Exception {
+		if(StringUtils.isEmpty(code)){
+            throw new RuntimeException("请授权对微信账号的访问权限");
+        }
         String sessionState = Objects.toString(request.getSession().getAttribute(SESSION_OAUTH_STATE));
-        if(StringUtils.isEmpty(state)||!state.contains("_")) {
+        if(StringUtils.isEmpty(state)||!state.contains("_")||state.split("_").length!=3) {
         	throw new RuntimeException("非法请求");
         }
-        String deskNum=state.split("_")[1];
-        String stateCode=state.split("_")[0];
+        //解析参数里面的内容
+        String[] arrs=state.split("_");
+        String stateCode=arrs[0];
         if(StringUtils.isEmpty(sessionState) || !sessionState.equals(stateCode)){
             throw new RuntimeException("非法请求");
         }
-        if(StringUtils.isEmpty(code)){
-            throw new RuntimeException("请授权对微信账号的访问权限");
-        }
+        Long merchantId=Long.valueOf(arrs[1]);
+        String deskNum=arrs[2];
+        //获取微信用户基础信息
 		OAuthGetAccessTokenByCodeRequest tokenReq = new OAuthGetAccessTokenByCodeRequest();
 		tokenReq.setCode(code);
 		tokenReq.setAppid(wechatProperties.getAppId());
@@ -103,7 +108,7 @@ public class OAuthController {
 			}
 			User obj=this.userService.registerUser(user);
 			//开始登录注册到shiro
-			UsernamePasswordToken token = new UsernamePasswordToken(obj.getId().toString(),deskNum);
+			UsernamePasswordToken token = new UsernamePasswordToken(obj.getId().toString(),merchantId+"_"+deskNum);
 	        SecurityUtils.getSubject().login(token);
         	return "/index";
 		}

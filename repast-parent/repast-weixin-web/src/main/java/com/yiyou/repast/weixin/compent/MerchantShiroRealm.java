@@ -33,13 +33,16 @@ public class MerchantShiroRealm extends AuthorizingRealm{
 	@Override
 	protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken authcToken) throws AuthenticationException {
 		UsernamePasswordToken user= (UsernamePasswordToken) authcToken;
-		String deskNum = String.valueOf(user.getPassword());
+		String cipher = String.valueOf(user.getPassword());
+		String[] arrs=cipher.split("_");
+		Long merchantId=Long.valueOf(arrs[0]);
+	    String deskNum=arrs[1];
 		Long userId=Long.parseLong(user.getUsername());
 		User userInfo=userService.findById(userId);
 		
 		SessionToken session=new SessionToken();
 		session.setUserId(userId);
-		session.setMerchantId(userInfo.getMerchantId());
+		session.setMerchantId(merchantId);
 		session.setPhone(userInfo.getPhone());
 		session.setUserName(userInfo.getNickName());
 		session.setDeskNum(deskNum);
