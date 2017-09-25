@@ -64,6 +64,9 @@ public class AccountController {
 		}
 		obj.setStatus(AccountStaus.normal);
 		if(obj.getId()==null) {
+			if(merchantAccountService.findByLoginName(Constants.MERCHANT_ID,obj.getLoginName())!=null){
+				return new RspResult(400,"该用户名已存在");
+			}
 			obj.setMerchantId((Constants.MERCHANT_ID));
 			merchantAccountService.save(obj);
 		}else {
