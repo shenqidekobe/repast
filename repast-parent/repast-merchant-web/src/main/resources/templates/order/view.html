@@ -10,35 +10,47 @@
         <div id="page-wrapper">
             <div class="row">
                 <div class="col-lg-12">
-                    <h1 class="page-header" th:if="${obj!=null}">订单详情</h1>
+                    <h1 class="page-header">订单详情</h1>
                 </div>
             </div>
             <div class="panel-body">
                   <div class="row">
 					<div class="col-lg-6">
-					    <form class="" role="form"  method="post" id="editForm" th:object="${obj}">
+					    <form class="" role="form"  method="post" id="editForm">
 							<div class="form-group">
 						    	<label>订单号</label>
-						    	<input type="hidden" name="id" th:field="*{id}">
-								<input type="text" class="form-control" name="loginName" id="loginName" th:field="*{loginName}" maxlength="20">
+						    	<input type="hidden" name="id" th:value="${obj.id}">
+								<input type="text" class="form-control" name="orderId" id="orderId" th:value="${obj.orderId}" maxlength="20">
 							</div>
 							<div class="form-group">
 						    	<label>消费用户</label>
-								<input type="password" class="form-control" name="userName" id="userName" th:field="*{userName}" maxlength="16">
+								<input type="text" class="form-control" name="userId" id="userId" th:value="${obj.userId}" maxlength="16">
+							</div>
+							<div class="form-group">
+						    	<label>消费金额</label>
+								<input type="text" class="form-control" name="amount" id="amount" th:value="${obj.amount}" maxlength="16">
 							</div>
 							<div class="form-group">
 						    	<label>人数</label>
-								<input type="password" class="form-control" name="password" id="password" th:field="*{password}" maxlength="16">
+								<input type="text" class="form-control" name="peopleCount" id="peopleCount" th:value="${obj.peopleCount}" maxlength="16">
 							</div>
 							<div class="form-group">
 						    	<label>桌号</label>
-								<input type="password" class="form-control" name="password" id="password" th:field="*{password}" maxlength="16">
+								<input type="text" class="form-control" name="deskNum" id="deskNum" th:value="${obj.deskNum}" maxlength="16">
 							</div>
 							<div class="form-group">
-						    	<label>备注</label>
-								<textarea class="form-control" rows="3" name="remark" id="remark" th:field="*{remark}"></textarea>
+						    	<label>状态</label>
+								<input type="text" class="form-control" th:value="${obj.statusName}" maxlength="16">
 							</div>
-				            <button type="button" class="btn btn-primary" id="saveBtn">保存</button>
+							<div class="form-group">
+						    	<label>下单时间</label>
+						    	<input type="text" class="form-control" th:value="${#dates.format(obj.createTime,'yyyy-MM-dd HH:mm:ss')}" maxlength="16">
+							</div>
+							<div class="form-group"  th:if="${obj.settleTime!=null}">
+						    	<label>结算时间</label>
+						    	<input type="text" class="form-control" th:value="${#dates.format(obj.settleTime,'yyyy-MM-dd HH:mm:ss')}" maxlength="16">
+							</div>
+				            <button type="button" class="btn btn-primary" id="saveBtn">返回</button>
 			            </form>
                     </div>
                  </div>
@@ -54,28 +66,7 @@
     <script>
        $(function(){
     	   $("#saveBtn").click(function(){
-    		   var loginName=$.trim($("#loginName").val());
-    		   var password=$.trim($("#password").val());
-    		   if(loginName==""){
-    			   toastr.warning('请填写登录帐号');
-    			   return false;
-    		   }else if(password==""){
-    			   toastr.warning('请填写帐号密码');
-    			   return false;
-    		   }
-    		   $.ajax({
-    			   url:'/account/save.do',
-    			   type:'POST',
-    			   data:$("#editForm").serialize(),
-    			   success:function(rsp){
-    				   if(rsp.status==200){
-    					   toastr.success('保存成功');
-    					   location.href='/account';
-    				   }else{
-    					   toastr.warning('服务器繁忙，请稍后再试');
-    				   }
-    			   }
-    		   });
+    			location.href='/order';
     	   });
        })
     </script>
