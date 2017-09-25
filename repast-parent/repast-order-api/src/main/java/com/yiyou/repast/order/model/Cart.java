@@ -26,6 +26,7 @@ public class Cart implements Serializable{
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private Long merchantId;
 	private Long userId;//用户ID
 	
     private String deskNum;//桌号
@@ -42,6 +43,12 @@ public class Cart implements Serializable{
 	}
 	public void setId(Long id) {
 		this.id = id;
+	}
+	public Long getMerchantId() {
+		return merchantId;
+	}
+	public void setMerchantId(Long merchantId) {
+		this.merchantId = merchantId;
 	}
 	public Long getUserId() {
 		return userId;
