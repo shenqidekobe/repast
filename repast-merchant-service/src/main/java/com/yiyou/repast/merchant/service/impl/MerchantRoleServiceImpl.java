@@ -16,7 +16,6 @@ import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.merchant.dao.MerchantMenuRepository;
 import com.yiyou.repast.merchant.dao.MerchantRoleMenuRepository;
 import com.yiyou.repast.merchant.dao.MerchantRoleRepository;
-import com.yiyou.repast.merchant.model.MerchantMenu;
 import com.yiyou.repast.merchant.model.MerchantRole;
 import com.yiyou.repast.merchant.model.MerchantRoleMenu;
 import com.yiyou.repast.merchant.service.IMerchantRoleService;
@@ -64,16 +63,14 @@ public class MerchantRoleServiceImpl implements IMerchantRoleService{
 	public MerchantRole updatePermission(Long roleId, List<Long> menuIds) {
 		merchantRoleMenuRepository.deleteByRoleId(roleId);
 		
-		MerchantRole role=merchantRoleRepository.findOne(roleId);
 		MerchantRoleMenu ru=null;
 		for(Long menuId:menuIds) {
 			ru=new MerchantRoleMenu();
-			ru.setRole(role);
-			MerchantMenu menu=merchantMenuRepository.findOne(menuId);
-			ru.setMenu(menu);
+			ru.setRoleId(roleId);
+			ru.setMenuId(menuId);
 			merchantRoleMenuRepository.save(ru);
 		}
-		return role;
+		return null;
 	}
 
 	@Override
