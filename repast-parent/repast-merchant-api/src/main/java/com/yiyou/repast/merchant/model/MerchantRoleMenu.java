@@ -22,6 +22,8 @@ public class MerchantRoleMenu implements Serializable {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
+	private Long roleId;//角色ID
+	private Long menuId;//菜单ID
 
 	@ManyToOne
 	@JoinColumn(name = "roleId", insertable = false, updatable = false)
@@ -54,10 +56,21 @@ public class MerchantRoleMenu implements Serializable {
 	public void setMenu(MerchantMenu menu) {
 		this.menu = menu;
 	}
-	
-	public Long getMenuId() {
-		if(menu==null)return null;
-		return menu.getId();
+
+	public Long getRoleId() {
+		return roleId;
 	}
 
+	public void setRoleId(Long roleId) {
+		this.roleId = roleId;
+	}
+
+	public Long getMenuId() {
+		return menuId;
+	}
+
+	public void setMenuId(Long menuId) {
+		this.menuId = menuId;
+	}
+	
 }
