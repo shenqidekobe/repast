@@ -12,8 +12,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
@@ -38,10 +36,6 @@ public class MerchantMenu implements Serializable {
 
 	@OneToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER, mappedBy = "parent")
 	private Set<MerchantMenu> children = new HashSet<>(0);
-
-	@ManyToMany(targetEntity = MerchantRole.class, fetch = FetchType.EAGER)
-	@JoinTable(name = "t_merchant_role_menu", joinColumns = @JoinColumn(name = "role_id"), inverseJoinColumns = @JoinColumn(name = "menu_id"))
-	private Set<MerchantRole> roles = new HashSet<>();
 
 	private String name;
 	private String url;
@@ -80,14 +74,6 @@ public class MerchantMenu implements Serializable {
 	public void setChildren(Set<MerchantMenu> children) {
 		this.children = children;
 	}
-	public Set<MerchantRole> getRoles() {
-		return roles;
-	}
-
-	public void setRoles(Set<MerchantRole> roles) {
-		this.roles = roles;
-	}
-
 	public String getName() {
 		return name;
 	}
