@@ -5,12 +5,12 @@ import java.util.List;
 import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.yiyou.repast.platform.model.MerchantApply;
-import com.yiyou.repast.platform.service.IMerchantApplyService;
-import com.yiyou.repast.weixin.service.PlatformService;
+import com.yiyou.repast.merchant.model.MerchantApply;
+import com.yiyou.repast.merchant.service.IMerchantApplyService;
+import com.yiyou.repast.weixin.service.MerchantService;
 
 @org.springframework.stereotype.Service
-public class PlatformServiceImpl implements PlatformService{
+public class MerchantServiceImpl implements MerchantService{
 	
 	@Reference
 	private IMerchantApplyService merchantApplyService;
