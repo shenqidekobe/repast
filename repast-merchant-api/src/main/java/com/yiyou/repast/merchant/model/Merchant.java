@@ -6,12 +6,16 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import repast.yiyou.common.base.EnumDefinition.MerchantStaus;
+import repast.yiyou.common.base.EnumDefinition.SettleWay;
 
 /**
  * 商户对象
@@ -27,12 +31,18 @@ public class Merchant implements Serializable {
 	private Long id;
 	private String name;//商户名
 	private String type;//商户类型
-	private String industry;//行业
 	private String address;//商户地址
-	private String settleWay;//结算方式
+	
+	@ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "industry_id")
+	private Industry industry;//所属行业
+	
+	@Enumerated(EnumType.STRING)
+	private SettleWay settleWay;//结算方式
 	@Enumerated(EnumType.STRING)
 	private MerchantStaus status;//状态
 	private String remark;//备注描述
+	
 	private Date startTime;//有效开始时间
 	private Date endTime;//有效结束时间
 	
@@ -59,10 +69,10 @@ public class Merchant implements Serializable {
 	public void setType(String type) {
 		this.type = type;
 	}
-	public String getIndustry() {
+	public Industry getIndustry() {
 		return industry;
 	}
-	public void setIndustry(String industry) {
+	public void setIndustry(Industry industry) {
 		this.industry = industry;
 	}
 	public String getAddress() {
@@ -71,10 +81,10 @@ public class Merchant implements Serializable {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public String getSettleWay() {
+	public SettleWay getSettleWay() {
 		return settleWay;
 	}
-	public void setSettleWay(String settleWay) {
+	public void setSettleWay(SettleWay settleWay) {
 		this.settleWay = settleWay;
 	}
 	public MerchantStaus getStatus() {

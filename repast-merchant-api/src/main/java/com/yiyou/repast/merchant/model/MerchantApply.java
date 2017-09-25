@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 /**
- * 商户和应用的对应关系配置
+ * 商户注册的对应关系配置
  */
 @Entity
 @Table(name = "t_merchant_apply")
@@ -21,6 +21,7 @@ public class MerchantApply implements Serializable{
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private Long merchantId;
+	private String applyUrl;//二维码URL
 	private String applyPath;//应用路径
 	private String applyName;//应用名称
 	private String applyLogo;//应用logo
@@ -46,6 +47,13 @@ public class MerchantApply implements Serializable{
 	}
 	public void setMerchantId(Long merchantId) {
 		this.merchantId = merchantId;
+	}
+	
+	public String getApplyUrl() {
+		return applyUrl;
+	}
+	public void setApplyUrl(String applyUrl) {
+		this.applyUrl = applyUrl;
 	}
 	public String getApplyPath() {
 		return applyPath;

@@ -15,6 +15,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import repast.yiyou.common.base.EnumDefinition.SettleWay;
 import repast.yiyou.common.base.EnumDefinition.UserWhiteStaus;
 import repast.yiyou.common.base.EnumDefinition.UserWhiteType;
 
@@ -35,8 +36,9 @@ public class UserWhite implements Serializable{
 	private String company;//公司名
 	private String dept;//部门名
 	private String phone;//手机号码
-	private String userName;//用户名
-	private String settleWay;//结算方式
+	private String userName;//姓名
+	@Enumerated(EnumType.STRING)
+	private SettleWay settleWay;//结算方式
 	
 	@Enumerated(EnumType.STRING)
 	private UserWhiteType type;//类型
@@ -78,22 +80,22 @@ public class UserWhite implements Serializable{
 	public void setDept(String dept) {
 		this.dept = dept;
 	}
-	public String getPhone() {
-		return phone;
-	}
-	public void setPhone(String phone) {
-		this.phone = phone;
-	}
 	public String getUserName() {
 		return userName;
 	}
 	public void setUserName(String userName) {
 		this.userName = userName;
 	}
-	public String getSettleWay() {
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public SettleWay getSettleWay() {
 		return settleWay;
 	}
-	public void setSettleWay(String settleWay) {
+	public void setSettleWay(SettleWay settleWay) {
 		this.settleWay = settleWay;
 	}
 	public UserWhiteStaus getStatus() {
@@ -137,5 +139,12 @@ public class UserWhite implements Serializable{
 	}
 	public void setPermission(Byte permission) {
 		this.permission = permission;
+	}
+	
+	public String getTypeName(){
+		return type==null?"":type.getName();
+	}
+	public String getStatusName(){
+		return status==null?"":status.getName();
 	}
 }
