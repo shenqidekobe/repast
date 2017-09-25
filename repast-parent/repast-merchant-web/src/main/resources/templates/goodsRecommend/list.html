@@ -58,6 +58,28 @@
                 </div><!-- /.modal-dialog -->
             </div>
 
+
+            <div class="modal fade" id="remarkModal" tabindex="-1" role="dialog" aria-labelledby="remarkModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="remarkModalLabel">编辑备注</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" method="post" id="remarkForm">
+                                <input type="hidden" name="recommendId" id="recommendId">
+                                <textarea class="form-control" rows="3" name="remark" id="remark"></textarea>
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="remarkBtn">提交</button>
+                        </div>
+                    </div><!-- /.modal-content -->
+                </div><!-- /.modal-dialog -->
+            </div>
         </div>
     </div>
 </div>
@@ -76,6 +98,21 @@
     var dataTable = null;
     var url = "/recommend/listData.do?random=" + Math.random();
     var dailIds = new Array();
+
+    window.operateEvents = {
+        "click #edit": function (e, value, row, index) {
+            $.ajax({
+                url: '/recommend/edit?id=' + row.id,
+                type: 'POST',
+                success: function (rsp) {
+                    $("#recommendId").val(row.id);
+                    $("#remark").val(rsp.data.remark);
+                    $("#remarkModal").modal("show");
+                }
+            })
+            return false;
+        }
+    }
     var columns = [
         {
             field: '', title: '菜品', formatter: function (value, row, index) {
@@ -83,12 +120,33 @@
             return '<img src="/common/img/' + row.goods.pic + '/0/" width=80px height=80px>';
         }
         },
-        {field: 'amount', title: '价格',},
-        {field: 'categoryName', title: '分类',},
-        {field: 'specsName', title: '规格',},]
-    
+        {field: 'goods.name', title: '',},
+        {field: 'goods.amount', title: '价格',},
+        {field: 'remark', title: '备注',},
+        {field: 'opers', title: '操作', events: operateEvents, formatter: operateFormatter}
+    ]
+
+    function operateFormatter(value, row, index) {
+        return "<i class=\"fa fa-edit fa-lg\" id='edit'></i>";
+    }
+
     loadTable(url, columns, function (options) {
         dataTable = $('#dataTable').bootstrapTable(options);
+    });
+    $("#remarkBtn").click(function () {
+        $.ajax({
+            url: '/recommend/remark',
+            type: 'POST',
+            data: $("#remarkForm").serialize(),
+            success: function (rsp) {
+                if (rsp.status == 200) {
+                    toastr.success('保存成功');
+                    location.href = '/recommend';
+                } else {
+                    toastr.warning('服务器繁忙，请稍后再试');
+                }
+            }
+        });
     });
     $("#editBtn").click(function () {
         $.ajax({
@@ -99,10 +157,10 @@
                 $(".context").children().remove();
                 for (var i = 0; i < list.length; i++) {
                     var cId = list[i].category.id;
-                    var inArray = $.inArray(list[i].id,dailIds);
+                    var inArray = $.inArray(list[i].id, dailIds);
                     if (inArray != -1) {
                         $("#" + cId + " .context").append("<input style='margin-left: 10px' checked='true' type='checkbox' name='goodsIds[]' value='" + list[i].id + "'/><label>" + list[i].name + "</label>");
-                    }else {
+                    } else {
                         $("#" + cId + " .context").append("<input style='margin-left: 10px' type='checkbox' name='goodsIds[]'  value='" + list[i].id + "'/><label>" + list[i].name + "</label>");
                     }
                 }
@@ -112,13 +170,13 @@
     });
     $("#commitBtn").click(function () {
         $.ajax({
-            url: '/daily/edit',
+            url: '/recommend/edit',
             type: 'POST',
             data: $("#modalForm").serialize(),
             success: function (rsp) {
                 if (rsp.status == 200) {
                     toastr.success('保存成功');
-                    location.href = '/daily';
+                    location.href = '/recommend';
                 } else {
                     toastr.warning('服务器繁忙，请稍后再试');
                 }

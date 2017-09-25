@@ -12,7 +12,9 @@ public interface RecommendGoodsRepository extends JpaRepository<RecommendGoods, 
     List<RecommendGoods> findAllByMerchantId(Long merchantId);
 
     RecommendGoods findByMerchantIdAndId(Long merchant, Long id);
+
     @Modifying
     @Transactional
     void removeAllByMerchantId(Long merchantId);
+
 }

@@ -6,7 +6,6 @@ import com.yiyou.repast.merchant.dao.GoodsRepository;
 import com.yiyou.repast.merchant.model.DailyGoods;
 import com.yiyou.repast.merchant.model.Goods;
 import com.yiyou.repast.merchant.service.IDailyGoodsService;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -28,7 +27,6 @@ public class DailyGoodsServiceImpl implements IDailyGoodsService {
         return dailyGoodsRepository.findByDate(mearchant, date);
     }
 
-    @Transactional
     @Override
     public void editByDate(Long merchantId, String date, List<Long> goodsIds) {
         dailyGoodsRepository.deleteByDate(merchantId, date);

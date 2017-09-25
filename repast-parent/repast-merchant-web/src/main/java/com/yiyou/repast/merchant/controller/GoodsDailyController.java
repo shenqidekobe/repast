@@ -26,7 +26,6 @@ public class GoodsDailyController {
     @Reference
     private IDailyGoodsService dailyGoodsService;
 
-
     @GetMapping()
     public String dailyManager(Model model) {
         model.addAttribute("categoryList", goodsCategoryService.findAll(Constants.MERCHANT_ID));
