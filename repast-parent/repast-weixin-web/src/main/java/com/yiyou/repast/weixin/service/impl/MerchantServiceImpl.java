@@ -7,6 +7,7 @@ import org.apache.commons.lang3.StringUtils;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.model.MerchantApply;
 import com.yiyou.repast.merchant.service.IMerchantApplyService;
+import com.yiyou.repast.weixin.base.Constants;
 import com.yiyou.repast.weixin.service.MerchantService;
 
 @org.springframework.stereotype.Service
@@ -17,9 +18,9 @@ public class MerchantServiceImpl implements MerchantService{
 
 	@Override
 	public MerchantApply getMerchantApply(String path) {
-		if(StringUtils.isEmpty(path)) return new MerchantApply(1l,null);
+		if(StringUtils.isEmpty(path)) return new MerchantApply(Constants.merchantId,null);
 		MerchantApply obj=merchantApplyService.findMerchantApplyByPath(path);
-		if(obj==null) return new MerchantApply(1l,path);
+		if(obj==null) return new MerchantApply(Constants.merchantId,path);
 		return obj;
 	}
 
