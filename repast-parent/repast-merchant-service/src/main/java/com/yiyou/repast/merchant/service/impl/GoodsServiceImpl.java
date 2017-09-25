@@ -14,11 +14,11 @@ import java.util.List;
 public class GoodsServiceImpl implements IGoodsService {
 
     @Resource
-    private GoodsRepository merchantGoodsRepository;
+    private GoodsRepository goodsRepository;
 
     @Override
     public Goods findById(Long merchantId, Long goodsId) {
-        return merchantGoodsRepository.findByMerchantIdAndId(merchantId, goodsId);
+        return goodsRepository.findByMerchantIdAndId(merchantId, goodsId);
     }
 
     @Override
@@ -28,29 +28,29 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Override
     public List<Goods> findByIds(Long merchantId, List<Long> ids) {
-        return merchantGoodsRepository.findByIds(merchantId, ids);
+        return goodsRepository.findByIds(merchantId, ids);
     }
 
     @Override
     public Goods save(Long merchantId, Goods obj) {
         obj.setCreateTime(new Date());
         obj.setMerchantId(merchantId);
-        return merchantGoodsRepository.save(obj);
+        return goodsRepository.save(obj);
     }
 
     @Override
     public void remove(Long merchantId, Long goodsId) {
-        merchantGoodsRepository.deleteByMerchantIdAndId(merchantId, goodsId);
+        goodsRepository.deleteByMerchantIdAndId(merchantId, goodsId);
     }
 
     @Override
     public Goods update(Long merchantId, Goods obj) {
-        return merchantGoodsRepository.save(obj);
+        return goodsRepository.save(obj);
     }
 
     @Override
     public List<Goods> findAll(Long merchantId) {
-        return merchantGoodsRepository.findAllByMerchantId(merchantId);
+        return goodsRepository.findAllByMerchantId(merchantId);
     }
 
     @Override

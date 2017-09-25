@@ -31,8 +31,34 @@
                     </div>
                 </div>
             </div>
-        </div>
+            <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
+                 aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h4 class="modal-title" id="myModalLabel">编辑推荐列表</h4>
+                        </div>
+                        <div class="modal-body">
+                            <form role="form" method="post" id="modalForm">
+                                <div class="categorys form-group" th:each="category:${categoryList}"
+                                     th:id="${category.id}">
+                                    <label th:text="${category.name}"></label>
+                                    <div class="context form-group"></div>
+                                </div>
+                                <input type="hidden" id="today" name="today">
+                            </form>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                            <button type="button" class="btn btn-primary" id="commitBtn">提交</button>
+                        </div>
+                    </div><!-- /.modal-content -->
 
+                </div><!-- /.modal-dialog -->
+            </div>
+
+        </div>
     </div>
 </div>
 
@@ -49,8 +75,14 @@
 <script>
     var dataTable = null;
     var url = "/recommend/listData.do?random=" + Math.random();
+    var dailIds = new Array();
     var columns = [
-        {field: 'name', title: '菜品名',},
+        {
+            field: '', title: '菜品', formatter: function (value, row, index) {
+            dailIds.push(row.goods.id);
+            return '<img src="/common/img/' + row.goods.pic + '/0/" width=80px height=80px>';
+        }
+        },
         {field: 'amount', title: '价格',},
         {field: 'categoryName', title: '分类',},
         {field: 'specsName', title: '规格',},]
@@ -58,8 +90,40 @@
     loadTable(url, columns, function (options) {
         dataTable = $('#dataTable').bootstrapTable(options);
     });
-    $("#editbtn").click(function () {
-        
+    $("#editBtn").click(function () {
+        $.ajax({
+            url: '/goods/listData.do',
+            type: 'POST',
+            data: $("#editForm").serialize(),
+            success: function (list) {
+                $(".context").children().remove();
+                for (var i = 0; i < list.length; i++) {
+                    var cId = list[i].category.id;
+                    var inArray = $.inArray(list[i].id,dailIds);
+                    if (inArray != -1) {
+                        $("#" + cId + " .context").append("<input style='margin-left: 10px' checked='true' type='checkbox' name='goodsIds[]' value='" + list[i].id + "'/><label>" + list[i].name + "</label>");
+                    }else {
+                        $("#" + cId + " .context").append("<input style='margin-left: 10px' type='checkbox' name='goodsIds[]'  value='" + list[i].id + "'/><label>" + list[i].name + "</label>");
+                    }
+                }
+                $("#myModal").modal('show');
+            }
+        });
+    });
+    $("#commitBtn").click(function () {
+        $.ajax({
+            url: '/daily/edit',
+            type: 'POST',
+            data: $("#modalForm").serialize(),
+            success: function (rsp) {
+                if (rsp.status == 200) {
+                    toastr.success('保存成功');
+                    location.href = '/daily';
+                } else {
+                    toastr.warning('服务器繁忙，请稍后再试');
+                }
+            }
+        })
     });
 </script>
 

@@ -7,11 +7,10 @@ import java.util.List;
 /**
  * 每日菜单
  */
-public interface IDailyGoodsService extends IBaseService<DailyGoods>{
+public interface IDailyGoodsService {
 
     List<DailyGoods> findByDate(Long merchantId, String date);
 
-    void deleteByDate(Long merchantId, String date);
+    void editByDate(Long merchantId, String date, List<Long> goodsIds);
 
-    List<DailyGoods> save(Long merchantId, List<DailyGoods> obj);
 }
