@@ -14,12 +14,12 @@ public interface DailyGoodsRepository extends JpaRepository<DailyGoods, Long> {
 
     DailyGoods findByMerchantIdAndId(Long merchantId, Long id);
 
-    @Query("FROM DailyGoods WHERE merchantId = ?1 AND createTime = ?2")
-    List<DailyGoods> findDate(Long merchant, String date);
+    @Query("from DailyGoods  where merchantId =?1 and DATE_FORMAT( createTime , '%Y-%c-%e' )= ?2")
+    List<DailyGoods> findByDate(Long merchant, String date);
 
     @Modifying
     @Transactional
-    @Query("DELETE  from DailyGoods  where merchantId = ?1 and createTime= ?2")
-    void deleteDate(Long merchant, String date);
+    @Query("delete from DailyGoods  where merchantId = ?1 and DATE_FORMAT(createTime,'%Y-%c-%e')= ?2")
+    void deleteByDate(Long merchant, String date);
 }
 

@@ -78,7 +78,6 @@
     var url = "/daily/listData.do?date=" + formDate(selectDate);
     $("#selectDate").text(formDate(selectDate) + "菜单");
     $("#addBtn").click(function () {
-
         $.ajax({
             url: '/goods/listData.do',
             type: 'POST',
@@ -90,6 +89,7 @@
                     $("#" + cId + " .context").append("<input style='margin-left: 10px' type='checkbox' name='goodsIds[]' value='" + list[i].id + "'/><label>" + list[i].name + "</label>");
                 }
                 $("#myModal").modal('show');
+                alert("id长度"+dailIds.length);
             }
         });
     });
@@ -135,6 +135,7 @@
         {field: 'goods.opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
 
     function operateFormatter(value, row, index) {
+        dailIds.add(row.id);
         return "<i class=\"fa fa-trash-o fa-lg\" id='delete'></i>";
     }
 
