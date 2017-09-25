@@ -35,11 +35,14 @@ public class UserWhite implements Serializable{
 	private String company;//公司名
 	private String dept;//部门名
 	private String phone;//手机号码
+	private String userName;//用户名
 	private String settleWay;//结算方式
+	
 	@Enumerated(EnumType.STRING)
 	private UserWhiteType type;//类型
 	@Enumerated(EnumType.STRING)
 	private UserWhiteStaus status;//状态
+	
 	private BigDecimal chargeAamount;//充值金额
 	private Byte permission;//是否拥有签单权限
 	
@@ -80,6 +83,12 @@ public class UserWhite implements Serializable{
 	}
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public String getSettleWay() {
 		return settleWay;
