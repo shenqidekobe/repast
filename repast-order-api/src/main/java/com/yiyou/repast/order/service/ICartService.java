@@ -1,5 +1,7 @@
 package com.yiyou.repast.order.service;
 
+import java.util.List;
+
 import com.yiyou.repast.order.model.Cart;
 import com.yiyou.repast.order.model.CartItem;
 
@@ -20,6 +22,8 @@ public interface ICartService {
 	CartItem findCartItemById(Long id);
 	
 	void removeCartItem(Long id);
+	
+	List<Cart> findAll(Long merchantId);
 	
 	/**
 	 * 清楚购物车
