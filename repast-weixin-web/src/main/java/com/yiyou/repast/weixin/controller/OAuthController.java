@@ -23,6 +23,7 @@ import com.dw.weixin.sdk.request.oauth.OAuthGetUserInfoRequest;
 import com.dw.weixin.sdk.response.oauth.OAuthGetAccessTokenByCodeResponse;
 import com.dw.weixin.sdk.response.oauth.OAuthGetUserInfoResponse;
 import com.yiyou.repast.merchant.model.User;
+import com.yiyou.repast.weixin.base.Constants;
 import com.yiyou.repast.weixin.compent.WechatProperties;
 import com.yiyou.repast.weixin.service.UserBusinessService;
 
@@ -91,7 +92,7 @@ public class OAuthController {
 			String openId=rsp.getOpenid();
 			User user=new User();
 			user.setOpenId(openId);
-			user.setMerchantId(1l);
+			user.setMerchantId(Constants.merchantId);
 			//授权成功，非静默方式则开始获取用户信息
 			if("snsapi_userinfo".equals(OAUTH_SCOPE)) {
 				user=getWechatUserInfo(user, rsp.getAccess_token());

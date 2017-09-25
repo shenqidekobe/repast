@@ -25,6 +25,7 @@ import com.yiyou.repast.merchant.service.IRecommendService;
 import com.yiyou.repast.order.model.Order;
 import com.yiyou.repast.order.model.OrderItem;
 import com.yiyou.repast.order.service.IOrderService;
+import com.yiyou.repast.weixin.base.Constants;
 import com.yiyou.repast.weixin.service.GoodsBusinessService;
 
 @Service
@@ -44,7 +45,7 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 	@Override
 	public Map<String, List<Goods>> findGoodsList() {
 		Map<String, List<Goods>> result=new HashMap<>();
-		List<Goods> list=goodsService.findAll(1l);
+		List<Goods> list=goodsService.findAll(Constants.merchantId);
 		if(CollectionUtils.isEmpty(list))return result;
 		result=list.stream().collect(Collectors.groupingBy(Goods::getCategoryName));
 		return result;
@@ -52,7 +53,7 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 
 	@Override
 	public Goods findGoodsById(Long id) {
-		Goods obj= goodsService.findById(1l, id);
+		Goods obj= goodsService.findById(Constants.merchantId, id);
 		if(StringUtils.isNotEmpty(obj.getAuxIds())) {
 			List<String> ids=Arrays.asList(obj.getAuxIds().split(","));
 			List<Long> outputIds =new ArrayList<>();
@@ -70,7 +71,7 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 	@Override
 	public Map<String, List<Goods>> findDailyGoodsList() {
 		Map<String, List<Goods>> result=new HashMap<>();
-		List<DailyGoods> dailtList=dailyGoodsService.findAll(1l);
+		List<DailyGoods> dailtList=dailyGoodsService.findAll(Constants.merchantId);
 		if(CollectionUtils.isEmpty(dailtList))return result;
 		//将RecommendGoods对象的Goods属性转换成list
 		List<Goods> list=dailtList.stream().map(DailyGoods::getGoods).collect(Collectors.toList());
@@ -83,7 +84,7 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 	@Override
 	public Map<String, List<Goods>> findRecommedGoodsList() {
 		Map<String, List<Goods>> result=new HashMap<>();
-		List<RecommendGoods> remList=recommendService.findAll(1l);
+		List<RecommendGoods> remList=recommendService.findAll(Constants.merchantId);
 		if(CollectionUtils.isEmpty(remList))return result;
 		//将RecommendGoods对象的Goods属性转换成list
 		List<Goods> list=remList.stream().map(RecommendGoods::getGoods).collect(Collectors.toList());
@@ -97,7 +98,7 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 	public Map<String, List<Goods>> findHotGoodsList(Long maxSize) {
 		//热销榜，查询购买数量最多的商品
 		Map<String, List<Goods>> result=new HashMap<>();
-		List<Goods> list=goodsService.findAll(1l);
+		List<Goods> list=goodsService.findAll(Constants.merchantId);
 		if(CollectionUtils.isEmpty(list))return result;
 		//销量倒叙，最多取出maxSize条专程list，再将list进行分组
 		result=list.stream().sorted(Comparator.comparing(Goods::getSales).reversed()).limit(maxSize)
@@ -116,7 +117,7 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 		if(CollectionUtils.isEmpty(goodsIdList))return result;
 		
 		//id集合查询得到商品列表
-		List<Goods> list=goodsIdList.stream().map(o->goodsService.findById(1l, o.longValue()))
+		List<Goods> list=goodsIdList.stream().map(o->goodsService.findById(Constants.merchantId, o.longValue()))
 				.collect(Collectors.toList());
 		if(CollectionUtils.isEmpty(list))return result;
 		
