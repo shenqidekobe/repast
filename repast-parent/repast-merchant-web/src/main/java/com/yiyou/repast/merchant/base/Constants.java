@@ -5,6 +5,8 @@ package com.yiyou.repast.merchant.base;
  * */
 public class Constants {
 
+	public static final String SESSION_MERCHANTID_KEY="merchantID";
+	
 	public static Long MERCHANT_ID=null;
 	
 	public static final String GOODS_IMG_PATH="d:/data/upload/goods/";//商品图片目录
