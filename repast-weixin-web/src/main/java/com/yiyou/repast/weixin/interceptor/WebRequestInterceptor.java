@@ -9,12 +9,16 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.yiyou.repast.weixin.base.SessionToken;
 import com.yiyou.repast.weixin.base.ThreadContextHolder;
+import com.yiyou.repast.weixin.service.UserBusinessService;
 
 public class WebRequestInterceptor implements HandlerInterceptor {
 	
 	@Resource
 	private Map<String, Long> cacheMap;
+	@Resource
+	private UserBusinessService userService;
 
 	@Override
 	public void afterCompletion(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, Exception arg3)
@@ -32,8 +36,12 @@ public class WebRequestInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse arg1, Object arg2) throws Exception {
 		String contentPath=request.getContextPath();
 		request.setAttribute("_PATH",contentPath);
-		Long id=pathToId(contentPath);
-		ThreadContextHolder.setMerchantId(id);
+		SessionToken session=userService.getSessionUser();
+		if(session!=null){
+			Long merchantId=session.getMerchantId();
+			if(merchantId==null)merchantId=pathToId(contentPath);
+			ThreadContextHolder.setMerchantId(merchantId);
+		}
 		return true;
 	}
 	
