@@ -34,6 +34,7 @@ $(function () {
 	        { field : 'company', title : '公司',},
 	        { field : 'dept', title : '部门', }, 
 	        { field : 'count', title : '人数',},
+	        { field : 'statusName', title : '状态',},
 	        { field : 'repastTime',title : '就餐时间',}, 
 	        { field : 'createTime',title : '申请时间', formatter : function (value, row, index){ return new Date(value).Format('yyyy-MM-dd hh:mm:ss');}}, 
 	        { field : 'opers',title: '操作',events:operateEvents, formatter : operateFormatter }]
