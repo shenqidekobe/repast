@@ -54,5 +54,10 @@ public class MerchantRoleMenu implements Serializable {
 	public void setMenu(MerchantMenu menu) {
 		this.menu = menu;
 	}
+	
+	public Long getMenuId() {
+		if(menu==null)return null;
+		return menu.getId();
+	}
 
 }
