@@ -83,6 +83,7 @@
             type: 'POST',
             data: $("#editForm").serialize(),
             success: function (list) {
+                alert(dailIds.length);
                 $(".context").children().remove();
                 for (var i = 0; i < list.length; i++) {
                     var cId = list[i].category.id;
@@ -135,7 +136,7 @@
         {field: 'goods.opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
 
     function operateFormatter(value, row, index) {
-        dailIds.add(row.id);
+        dailIds.push(row.id);
         return "<i class=\"fa fa-trash-o fa-lg\" id='delete'></i>";
     }
 

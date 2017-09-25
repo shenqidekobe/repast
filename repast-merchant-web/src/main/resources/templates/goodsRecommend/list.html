@@ -10,7 +10,28 @@
     </nav>
 
     <div id="page-wrapper">
-         商家推荐管理
+        <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">商家推荐</h1>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="panel panel-default">
+                    <ol class="breadcrumb">
+                        <li><strong><span style="color: #27a0d7">推荐列表</span></strong></li>
+                    </ol>
+                    <div class="container" style="width: 100%">
+                        <div id="toolbar" class="btn-group">
+                            <button type="button" class="btn btn-info btn-sm rightSize" id="editBtn">
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 编辑推荐列表
+                            </button>
+                        </div>
+                        <table id="dataTable"></table>
+                    </div>
+                </div>
+            </div>
+        </div>
 
     </div>
 </div>
@@ -27,50 +48,19 @@
 <script src="/static/admin/goods/list.js"></script>
 <script>
     var dataTable = null;
-    $("#addBtn").click(function () {
-        location.href = '/goods/edit';
-    });
-    $("#categoryBtn").click(function () {
-        location.href = '/goods/category';
-    });
-    $("#specBtn").click(function () {
-        location.href = '/goods/spec';
-    });
-    $("#auxBtn").click(function () {
-        location.href = '/goods/aux';
-    });
-    window.operateEvents = {
-        "click #edit": function (e, value, row, index) {
-            location.href = '/goods/edit?id=' + row.id;
-            return false;
-        }
-    }
-    var url = "/goods/listData.do?random=" + Math.random();
+    var url = "/recommend/listData.do?random=" + Math.random();
     var columns = [
-        {
-            field: '', title: '序号', formatter: function (value, row, index) {
-            return index + 1;
-        }
-        },
         {field: 'name', title: '菜品名',},
         {field: 'amount', title: '价格',},
         {field: 'categoryName', title: '分类',},
-        {field: 'specsName', title: '规格',},
-        {
-            field: 'createTime', title: '发布时间', formatter: function (value, row, index) {
-            return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
-        }
-        },
-        {field: 'opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
-
-    function operateFormatter(value, row, index) {
-        return "<button type=\"button\" class=\"btn btn-primary btn-circle\" id=\"edit\">编辑</button>";
-    }
-
+        {field: 'specsName', title: '规格',},]
+    
     loadTable(url, columns, function (options) {
         dataTable = $('#dataTable').bootstrapTable(options);
     });
-
+    $("#editbtn").click(function () {
+        
+    });
 </script>
 
 </body>
