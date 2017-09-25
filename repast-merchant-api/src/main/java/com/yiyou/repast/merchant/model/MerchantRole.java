@@ -6,6 +6,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -26,8 +27,8 @@ public class MerchantRole implements Serializable {
 	private Long id;
 	private Long merchantId;
 
-	@OneToMany(mappedBy = "role")
-	private Set<MerchantMenu> menus = new HashSet<>();
+	@OneToMany(mappedBy = "role",fetch=FetchType.EAGER)
+	private Set<MerchantRoleMenu> roleMenu = new HashSet<>();
 
 	private String name;
 	private String remark;
@@ -48,13 +49,12 @@ public class MerchantRole implements Serializable {
 	public void setMerchantId(Long merchantId) {
 		this.merchantId = merchantId;
 	}
-
-	public Set<MerchantMenu> getMenus() {
-		return menus;
+	public Set<MerchantRoleMenu> getRoleMenu() {
+		return roleMenu;
 	}
 
-	public void setMenus(Set<MerchantMenu> menus) {
-		this.menus = menus;
+	public void setRoleMenu(Set<MerchantRoleMenu> roleMenu) {
+		this.roleMenu = roleMenu;
 	}
 
 	public String getName() {
