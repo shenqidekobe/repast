@@ -6,11 +6,10 @@ import java.util.HashSet;
 import java.util.Set;
 
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 /**
@@ -27,7 +26,7 @@ public class MerchantRole implements Serializable {
 	private Long id;
 	private Long merchantId;
 
-	@ManyToMany(mappedBy = "roles", targetEntity = MerchantMenu.class, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "role")
 	private Set<MerchantMenu> menus = new HashSet<>();
 
 	private String name;
