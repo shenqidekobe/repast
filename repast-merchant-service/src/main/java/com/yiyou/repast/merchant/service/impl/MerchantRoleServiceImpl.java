@@ -1,8 +1,6 @@
 package com.yiyou.repast.merchant.service.impl;
 
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Resource;
 
@@ -16,9 +14,11 @@ import org.springframework.util.StringUtils;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.merchant.dao.MerchantMenuRepository;
+import com.yiyou.repast.merchant.dao.MerchantRoleMenuRepository;
 import com.yiyou.repast.merchant.dao.MerchantRoleRepository;
 import com.yiyou.repast.merchant.model.MerchantMenu;
 import com.yiyou.repast.merchant.model.MerchantRole;
+import com.yiyou.repast.merchant.model.MerchantRoleMenu;
 import com.yiyou.repast.merchant.service.IMerchantRoleService;
 import com.yiyou.repast.merchant.tools.PageConvertDataGrid;
 
@@ -31,6 +31,8 @@ public class MerchantRoleServiceImpl implements IMerchantRoleService{
 	private MerchantRoleRepository merchantRoleRepository;
 	@Resource
 	private MerchantMenuRepository merchantMenuRepository;
+	@Resource
+	private MerchantRoleMenuRepository merchantRoleMenuRepository;
 
 	@Override
 	public MerchantRole find(Long id) {
@@ -60,14 +62,17 @@ public class MerchantRoleServiceImpl implements IMerchantRoleService{
 
 	@Override
 	public MerchantRole updatePermission(Long roleId, List<Long> menuIds) {
+		merchantRoleMenuRepository.deleteByRoleId(roleId);
+		
 		MerchantRole role=merchantRoleRepository.findOne(roleId);
-		Set<MerchantMenu> menus = new HashSet<>();
+		MerchantRoleMenu ru=null;
 		for(Long menuId:menuIds) {
+			ru=new MerchantRoleMenu();
+			ru.setRole(role);
 			MerchantMenu menu=merchantMenuRepository.findOne(menuId);
-			menus.add(menu);
+			ru.setMenu(menu);
+			merchantRoleMenuRepository.save(ru);
 		}
-		role.setMenus(menus);
-		this.merchantRoleRepository.save(role);
 		return role;
 	}
 
