@@ -117,6 +117,20 @@ public class EnumDefinition {
 	        return this.name;
 	    }
 	}
+	
+	//结算方式
+	public enum SettleWay {
+		inside("内部人员结算"),
+		outside("外部人员结算");
+		private String name;
 
+		private SettleWay(String name){
+		        this.name = name;
+		    }
+
+		public String getName() {
+			return this.name;
+		}
+	}
 
 }
