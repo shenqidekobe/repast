@@ -17,8 +17,8 @@ import com.dw.weixin.sdk.constants.WxEnumTransform.CALL_API_WAY;
 import com.dw.weixin.sdk.openapi.IWeixinBasisAPI;
 import com.dw.weixin.sdk.openapi.factory.WeixinAPIFactory;
 import com.dw.weixin.sdk.openapi.factory.WeixinAPInitObject;
-import com.yiyou.repast.platform.model.MerchantApply;
-import com.yiyou.repast.weixin.service.PlatformService;
+import com.yiyou.repast.merchant.model.MerchantApply;
+import com.yiyou.repast.weixin.service.MerchantService;
 
 /**
  * 微信API启动初始化配置
@@ -29,7 +29,7 @@ public class WechatStartInit implements EnvironmentAware{
 	@Resource
 	private WechatProperties wechatProperties;
 	@Resource
-	private PlatformService platformService;
+	private MerchantService merchantService;
     
 	@Override
 	public void setEnvironment(Environment env) {}
@@ -49,7 +49,7 @@ public class WechatStartInit implements EnvironmentAware{
 	@Bean
 	public Map<String, Long> merchantAapplyInit(){
 		Map<String, Long> applyMap=new HashMap<>();
-		List<MerchantApply> list=platformService.getAll();
+		List<MerchantApply> list=merchantService.getAll();
 		if(CollectionUtils.isEmpty(list))return applyMap;
 		applyMap=list.stream().collect(Collectors.toMap(MerchantApply::getApplyPath, MerchantApply::getMerchantId));
 		System.out.println("applyMap  =  "+applyMap.toString());

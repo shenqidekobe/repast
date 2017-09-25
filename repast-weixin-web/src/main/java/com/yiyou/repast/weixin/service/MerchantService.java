@@ -2,12 +2,12 @@ package com.yiyou.repast.weixin.service;
 
 import java.util.List;
 
-import com.yiyou.repast.platform.model.MerchantApply;
+import com.yiyou.repast.merchant.model.MerchantApply;
 
 /**
- * 平台相关服务接口
+ * 商户相关服务接口
  * */
-public interface PlatformService {
+public interface MerchantService {
 	
 	MerchantApply getMerchantApply(String path);
 
