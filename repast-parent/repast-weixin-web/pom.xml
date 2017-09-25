@@ -82,21 +82,6 @@
 		</dependency>
 		<dependency>
 			<groupId>com.yiyou.repast</groupId>
-			<artifactId>repast-platform-api</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.springframework.data</groupId>
-					<artifactId>spring-data-commons</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.hibernate.javax.persistence</groupId>
-					<artifactId>hibernate-jpa-2.0-api</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>com.yiyou.repast</groupId>
 			<artifactId>repast-common-util</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 			<exclusions>
