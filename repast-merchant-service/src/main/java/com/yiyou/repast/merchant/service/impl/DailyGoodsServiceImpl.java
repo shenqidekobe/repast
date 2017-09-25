@@ -7,7 +7,6 @@ import com.yiyou.repast.merchant.service.IDailyGoodsService;
 import repast.yiyou.common.util.DataGrid;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -29,31 +28,27 @@ public class DailyGoodsServiceImpl implements IDailyGoodsService {
 
     @Override
     public List<DailyGoods> findByDate(Long mearchant, String date) {
-        return dailyGoodsRepository.findDate(mearchant,date);
+        return dailyGoodsRepository.findByDate(mearchant,date);
     }
 
     @Override
     public void deleteByDate(Long merchantId, String date) {
-        dailyGoodsRepository.deleteDate(merchantId,date);
+
     }
 
     @Override
     public List<DailyGoods> save(Long merchantId, List<DailyGoods> obj) {
-        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-M-d");
-        String date = sdf.format(new Date());
         for (DailyGoods dailyGoods : obj) {
             dailyGoods.setMerchantId(merchantId);
-            dailyGoods.setCreateTime(date);
+            dailyGoods.setCreateTime(new Date());
         }
         return dailyGoodsRepository.save(obj);
     }
 
     @Override
     public DailyGoods save(Long merchantId, DailyGoods obj) {
-        SimpleDateFormat sdf =new SimpleDateFormat("yyyy-M-d");
-        String date = sdf.format(new Date());
         obj.setMerchantId(merchantId);
-        obj.setCreateTime(date);
+        obj.setCreateTime(new Date());
         return dailyGoodsRepository.save(obj);
     }
 
