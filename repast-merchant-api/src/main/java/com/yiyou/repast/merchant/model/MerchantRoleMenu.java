@@ -31,4 +31,28 @@ public class MerchantRoleMenu implements Serializable {
 	@JoinColumn(name = "menuId", insertable = false, updatable = false)
 	private MerchantMenu menu;
 
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long id) {
+		this.id = id;
+	}
+
+	public MerchantRole getRole() {
+		return role;
+	}
+
+	public void setRole(MerchantRole role) {
+		this.role = role;
+	}
+
+	public MerchantMenu getMenu() {
+		return menu;
+	}
+
+	public void setMenu(MerchantMenu menu) {
+		this.menu = menu;
+	}
+
 }
