@@ -67,7 +67,7 @@ public class UserController {
 	@PostMapping("/save.do")
 	public RspResult save(User obj,Long roleId) {
 		if(obj.getId()==null) {
-			obj.setMerchantId((Constants.MERCHANT_ID));
+			//obj.setMerchantId((Constants.MERCHANT_ID));
 			userService.save(obj);
 		}else {
 			User pojo=userService.findById(Constants.MERCHANT_ID,obj.getId());
