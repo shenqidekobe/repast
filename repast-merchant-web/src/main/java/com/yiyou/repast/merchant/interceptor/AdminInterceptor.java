@@ -6,7 +6,8 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import repast.yiyou.common.util.LoggerUtil;
+import com.yiyou.repast.merchant.base.Constants;
+import com.yiyou.repast.merchant.base.ThreadContextHolder;
 
 public class AdminInterceptor implements HandlerInterceptor {
 
@@ -23,7 +24,11 @@ public class AdminInterceptor implements HandlerInterceptor {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
 		request.setAttribute("_PATH", request.getContextPath());
-		LoggerUtil.info("------------------------------------------------------------------------"+request.getServletPath());
+		Object object=request.getSession().getAttribute(Constants.SESSION_MERCHANTID_KEY);
+		if(object!=null){
+			Long merchantId=(Long) object;
+			ThreadContextHolder.setMerchantId(merchantId);
+		}
 		return true;
 	}
 
