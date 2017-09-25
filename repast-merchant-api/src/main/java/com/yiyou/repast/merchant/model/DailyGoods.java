@@ -3,7 +3,6 @@ package com.yiyou.repast.merchant.model;
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
-import java.util.Date;
 
 /**
  * 每日商品
@@ -23,7 +22,7 @@ public class DailyGoods implements Serializable {
     @JoinColumn(name = "goods_id")
 	private Goods goods;
 	
-	private Date createTime;//试用日期
+	private String createTime;//试用日期
 	private BigDecimal amount;//套餐金额
 	private Integer sales=0;//销量
 	private String operUser;//操作人
@@ -47,10 +46,10 @@ public class DailyGoods implements Serializable {
 	public void setGoods(Goods goods) {
 		this.goods = goods;
 	}
-	public Date getCreateTime() {
+	public String getCreateTime() {
 		return createTime;
 	}
-	public void setCreateTime(Date createTime) {
+	public void setCreateTime(String createTime) {
 		this.createTime = createTime;
 	}
 	public BigDecimal getAmount() {

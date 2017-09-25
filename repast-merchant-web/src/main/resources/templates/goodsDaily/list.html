@@ -75,10 +75,10 @@
     var dataTable = null;
     var selectDate = new Date();
     var dailIds = new Array();
-
+    var url = "/daily/listData.do?date=" + formDate(selectDate);
     $("#selectDate").text(formDate(selectDate) + "菜单");
     $("#addBtn").click(function () {
-        alert("Id长度" + dailIds.length);
+
         $.ajax({
             url: '/goods/listData.do',
             type: 'POST',
@@ -94,7 +94,7 @@
         });
     });
     $("#commitBtn").click(function () {
-        $("#today").val(selectDate.getTime() + "");
+        $("#today").val(formDate(selectDate));
         $.ajax({
             url: '/daily/edit',
             type: 'POST',
@@ -109,32 +109,14 @@
             }
         })
     });
+
     function formDate(date) {
         var year = date.getFullYear();  //获取年
         var month = date.getMonth() + 1;    //获取月
         var day = date.getDate(); //获取日
-        return year + "年" + month + "月" + day + "日";
+        return year + "-" + month + "-" + day;
     }
 
-    $('#datetimepicker').datetimepicker({
-        language: 'zh-CN',
-        startDate: selectDate,
-        weekStart: 1,
-        todayBtn: 0,
-        autoclose: 1,
-        todayHighlight: 1,
-        startView: 2,
-        minView: 2,
-        maxView: 3,
-        forceParse: 0,
-        showMeridian: 1,
-        format: 'yyyy-mm-dd'
-    }).on('changeDate', function (ev) {
-        selectDate = ev.date;
-        $("#selectDate").text(formDate(selectDate) + "菜单");
-    });
-
-    var url = "/daily/listData.do?date=" + selectDate.getTime();
     window.operateEvents = {
         "click #delete": function (e, value, row, index) {
             //删除确认框
@@ -155,9 +137,30 @@
     function operateFormatter(value, row, index) {
         return "<i class=\"fa fa-trash-o fa-lg\" id='delete'></i>";
     }
+
     loadTable(url, columns, function (options) {
         options.showRefresh = false;
         dataTable = $('#dataTable').bootstrapTable(options);
+    });
+
+    $('#datetimepicker').datetimepicker({
+        language: 'zh-CN',
+        startDate: selectDate,
+        weekStart: 1,
+        todayBtn: 0,
+        autoclose: 1,
+        todayHighlight: 1,
+        startView: 2,
+        minView: 2,
+        maxView: 3,
+        forceParse: 0,
+        showMeridian: 1,
+        format: 'yyyy-mm-dd'
+    }).on('changeDate', function (ev) {
+        selectDate = ev.date;
+        $("#selectDate").text(formDate(selectDate) + "菜单");
+        url = "/daily/listData.do?date=" + formDate(ev.date);
+        $("#dataTable").bootstrapTable('refresh', {url: url});
     });
 </script>
 

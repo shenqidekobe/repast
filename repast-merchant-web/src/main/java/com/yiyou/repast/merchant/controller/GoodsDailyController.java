@@ -13,7 +13,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import repast.yiyou.common.util.DataGrid;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,21 +44,18 @@ public class GoodsDailyController {
 
     @ResponseBody
     @PostMapping("/listData.do")
-    public List<DailyGoods> listData(Integer page, Integer pageSize, Long date) {
+    public List<DailyGoods> listData(Integer page, Integer pageSize, String date) {
         page = page == null ? page = 0 : page;
         pageSize = pageSize == null ? pageSize = 10 : pageSize;
         DataGrid<DailyGoods> data = dailyGoodsService.findList(Constants.MERCHANT_ID, page, pageSize);
-        // TODO: 2017/9/12 分页
-        String format = new SimpleDateFormat("yyyy-MM-dd").format(date);
-        return dailyGoodsService.findByDate(Constants.MERCHANT_ID, format);
+        return dailyGoodsService.findByDate(Constants.MERCHANT_ID, date);
     }
 
     @PostMapping("/edit")
     @ResponseBody
-    public RspResult edit(Long today, @RequestParam(value = "goodsIds[]", required = false) List<Long> goodsIds, Model model) {
-        String date = new SimpleDateFormat("yyyy-MM-dd").format(today);
+    public RspResult edit(String today, @RequestParam(value = "goodsIds[]", required = false) List<Long> goodsIds, Model model) {
         try {
-            dailyGoodsService.deleteByDate(Constants.MERCHANT_ID, date);
+            dailyGoodsService.deleteByDate(Constants.MERCHANT_ID, today);
             List<Goods> byIds = goodsService.findByIds(Constants.MERCHANT_ID, goodsIds);
             List<DailyGoods> list = new ArrayList<>();
             for (Goods goods : byIds) {
