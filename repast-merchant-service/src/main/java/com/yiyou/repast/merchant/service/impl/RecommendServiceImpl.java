@@ -6,7 +6,6 @@ import com.yiyou.repast.merchant.dao.RecommendGoodsRepository;
 import com.yiyou.repast.merchant.model.Goods;
 import com.yiyou.repast.merchant.model.RecommendGoods;
 import com.yiyou.repast.merchant.service.IRecommendService;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -17,31 +16,44 @@ import java.util.List;
 public class RecommendServiceImpl implements IRecommendService {
 
     @Resource
-    RecommendGoodsRepository recommendGoodsRepository;
+    RecommendGoodsRepository recommendRepository;
 
     @Resource
     GoodsRepository goodsRepository;
 
-    @Transactional
+
+    @Override
+    public RecommendGoods findById(Long merchantId, Long recommendId) {
+        return recommendRepository.findByMerchantIdAndId(merchantId,recommendId);
+    }
+
     @Override
     public void upDate(Long merchantId, List<Long> goodsIds) {
-        recommendGoodsRepository.removeAllByMerchantId(merchantId);
+        recommendRepository.removeAllByMerchantId(merchantId);
         List<Goods> byIds = goodsRepository.findByIds(merchantId, goodsIds);
         if (byIds.size()>0) {
             List<RecommendGoods> list =new ArrayList<>();
             for (Goods byId : byIds) {
                 RecommendGoods rg =new RecommendGoods();
+                rg.setMerchantId(merchantId);
                 rg.setGoods(byId);
                 rg.setCreateTime(new Date());
                 list.add(rg);
             }
-            recommendGoodsRepository.save(list);
+            recommendRepository.save(list);
         }
     }
 
     @Override
     public List<RecommendGoods> findAll(Long merchantId) {
-        return recommendGoodsRepository.findAllByMerchantId(merchantId);
+        return recommendRepository.findAllByMerchantId(merchantId);
+    }
+
+    @Override
+    public void editRemark(Long merchantId, Long recommendId, String Remark) {
+        RecommendGoods byMerchantIdAndId = recommendRepository.findByMerchantIdAndId(merchantId, recommendId);
+        byMerchantIdAndId.setRemark(Remark);
+        recommendRepository.save(byMerchantIdAndId);
     }
 
 }

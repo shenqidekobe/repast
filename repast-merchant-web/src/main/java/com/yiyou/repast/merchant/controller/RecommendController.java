@@ -16,6 +16,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/recommend")
 public class RecommendController {
+
     @Reference
     private IRecommendService recommendService;
     @Reference
@@ -37,16 +38,30 @@ public class RecommendController {
         return recommendService.findAll(Constants.MERCHANT_ID);
     }
 
+
     @PostMapping("/edit")
     @ResponseBody
-    public RspResult edit(@RequestParam(value = "goodsIds[]", required = false) List<Long> goodsIds, Model model){
-        try {
-            recommendService.upDate(Constants.MERCHANT_ID,goodsIds);
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new RspResult(505, "");
+    public RspResult edit(Long id, @RequestParam(value = "goodsIds[]", required = false) List<Long> goodsIds, Model model) {
+        if (id != null) { //编辑
+            RecommendGoods recommend = recommendService.findById(Constants.MERCHANT_ID, id);
+            RspResult result = new RspResult();
+            result.setData(recommend);
+            return result;
+        } else {
+            try {
+                recommendService.upDate(Constants.MERCHANT_ID, goodsIds);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return new RspResult(505, "");
+            }
+            return new RspResult();
         }
-        return new RspResult();
     }
 
+    @PostMapping("/remark")
+    @ResponseBody
+    public RspResult remark(Model model, Long recommendId, String remark) {
+        recommendService.editRemark(Constants.MERCHANT_ID, recommendId, remark);
+        return new RspResult();
+    }
 }
