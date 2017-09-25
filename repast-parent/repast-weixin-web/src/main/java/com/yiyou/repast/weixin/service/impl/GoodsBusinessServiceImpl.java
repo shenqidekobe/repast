@@ -3,6 +3,7 @@ package com.yiyou.repast.weixin.service.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections.Transformer;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -71,7 +73,8 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 	@Override
 	public Map<String, List<Goods>> findDailyGoodsList() {
 		Map<String, List<Goods>> result=new HashMap<>();
-		List<DailyGoods> dailtList=dailyGoodsService.findAll(ThreadContextHolder.getCurrentMerchantId());
+		List<DailyGoods> dailtList=dailyGoodsService.findByDate(ThreadContextHolder.getCurrentMerchantId(),
+			DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
 		if(CollectionUtils.isEmpty(dailtList))return result;
 		//将RecommendGoods对象的Goods属性转换成list
 		List<Goods> list=dailtList.stream().map(DailyGoods::getGoods).collect(Collectors.toList());
