@@ -21,7 +21,7 @@
                     </ol>
                     <div class="container" style="width: 100%">
                         <div id="toolbar" class="btn-group">
-                            <button type="button" class="btn btn-info btn-sm rightSize" id="addBtn">
+                            <button type="button" class="btn btn-info btn-sm rightSize" id="editBtn">
                                 <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 编辑菜单
                             </button>
                         </div>
@@ -77,20 +77,23 @@
     var dailIds = new Array();
     var url = "/daily/listData.do?date=" + formDate(selectDate);
     $("#selectDate").text(formDate(selectDate) + "菜单");
-    $("#addBtn").click(function () {
+    $("#editBtn").click(function () {
         $.ajax({
             url: '/goods/listData.do',
             type: 'POST',
             data: $("#editForm").serialize(),
             success: function (list) {
-                alert(dailIds.length);
                 $(".context").children().remove();
                 for (var i = 0; i < list.length; i++) {
                     var cId = list[i].category.id;
-                    $("#" + cId + " .context").append("<input style='margin-left: 10px' type='checkbox' name='goodsIds[]' value='" + list[i].id + "'/><label>" + list[i].name + "</label>");
+                    var inArray = $.inArray(list[i].id,dailIds);
+                    if (inArray != -1) {
+                        $("#" + cId + " .context").append("<input style='margin-left: 10px' checked='true' type='checkbox' name='goodsIds[]' value='" + list[i].id + "'/><label>" + list[i].name + "</label>");
+                    }else {
+                        $("#" + cId + " .context").append("<input style='margin-left: 10px' type='checkbox' name='goodsIds[]'  value='" + list[i].id + "'/><label>" + list[i].name + "</label>");
+                    }
                 }
                 $("#myModal").modal('show');
-                alert("id长度"+dailIds.length);
             }
         });
     });
@@ -119,26 +122,17 @@
     }
 
     window.operateEvents = {
-        "click #delete": function (e, value, row, index) {
-            //删除确认框
-            location.href = '/daily/remove?id=' + row.id;
-            return false;
-        }
+
     }
     var columns = [
         {
             field: '', title: '菜品', formatter: function (value, row, index) {
+            dailIds.push(row.goods.id);
             return '<img src="/common/img/' + row.goods.pic + '/0/" width=80px height=80px>';
         }
         },
         {field: 'goods.name', title: '',},
-        {field: 'goods.amount', title: '价格',},
-        {field: 'goods.opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
-
-    function operateFormatter(value, row, index) {
-        dailIds.push(row.id);
-        return "<i class=\"fa fa-trash-o fa-lg\" id='delete'></i>";
-    }
+        {field: 'goods.amount', title: '价格',},]
 
     loadTable(url, columns, function (options) {
         options.showRefresh = false;
@@ -163,6 +157,7 @@
         $("#selectDate").text(formDate(selectDate) + "菜单");
         url = "/daily/listData.do?date=" + formDate(ev.date);
         $("#dataTable").bootstrapTable('refresh', {url: url});
+        dailIds.splice(0,dailIds.length);
     });
 </script>
 

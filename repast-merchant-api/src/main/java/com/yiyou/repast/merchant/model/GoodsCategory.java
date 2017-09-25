@@ -29,7 +29,7 @@ public class GoodsCategory implements Serializable {
     private GoodsCategory parent;
 
     @JsonManagedReference
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "parent" )
     private Set<GoodsCategory> children = new HashSet<>(0);
 
     private String name;//分类名称
