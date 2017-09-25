@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.yiyou.repast.weixin.base.Constants;
+import com.yiyou.repast.weixin.base.ThreadContextHolder;
 
 public class WebRequestInterceptor implements HandlerInterceptor {
 	
@@ -32,7 +32,8 @@ public class WebRequestInterceptor implements HandlerInterceptor {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse arg1, Object arg2) throws Exception {
 		String contentPath=request.getContextPath();
 		request.setAttribute("_PATH",contentPath);
-		Constants.merchantId=pathToId(contentPath);
+		Long id=pathToId(contentPath);
+		ThreadContextHolder.setMerchantId(id);
 		return true;
 	}
 	

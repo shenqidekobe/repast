@@ -18,7 +18,7 @@ import com.yiyou.repast.order.model.CartItem;
 import com.yiyou.repast.order.model.Order;
 import com.yiyou.repast.order.model.OrderItem;
 import com.yiyou.repast.order.service.IOrderService;
-import com.yiyou.repast.weixin.base.Constants;
+import com.yiyou.repast.weixin.base.ThreadContextHolder;
 import com.yiyou.repast.weixin.service.OrderBusinessService;
 
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
@@ -113,7 +113,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 		obj=orderService.update(obj);
 		//增加商品销量
 		Set<OrderItem> items=obj.getItems();
-		List<Goods> list=items.stream().map(o->goodsService.findById(Constants.merchantId, o.getGoodsId()))
+		List<Goods> list=items.stream().map(o->goodsService.findById(ThreadContextHolder.getCurrentMerchantId(), o.getGoodsId()))
 				.collect(Collectors.toList());
 		for(Goods goods:list) {
 			int sales=goods.getSales()==null?0:goods.getSales();
