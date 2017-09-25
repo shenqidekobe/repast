@@ -18,7 +18,7 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.SessionToken;
 import com.yiyou.repast.merchant.model.MerchantAccount;
-import com.yiyou.repast.merchant.model.MerchantMenu;
+import com.yiyou.repast.merchant.model.MerchantRoleMenu;
 import com.yiyou.repast.merchant.service.IMerchantAccountService;
 
 import repast.yiyou.common.base.EnumDefinition.AccountStaus;
@@ -34,8 +34,8 @@ public class MerchantShiroRealm extends AuthorizingRealm{
 	    SessionToken session  = (SessionToken)principal.getPrimaryPrincipal();
 	    MerchantAccount account=this.merchantAccountService.find(session.getAccountId());
 	    authorizationInfo.addRole(account.getRole().getName());
-	    for(MerchantMenu menu:account.getRole().getMenus()){
-	        authorizationInfo.addStringPermission(menu.getPermission());
+	    for(MerchantRoleMenu ru:account.getRole().getRoleMenu()){
+	        authorizationInfo.addStringPermission(ru.getMenu().getPermission());
 	    }
 	    return authorizationInfo;
 	}

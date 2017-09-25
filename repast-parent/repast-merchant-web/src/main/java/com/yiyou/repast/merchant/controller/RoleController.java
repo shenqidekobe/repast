@@ -17,8 +17,8 @@ import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RBeanUtils;
 import com.yiyou.repast.merchant.base.RspResult;
-import com.yiyou.repast.merchant.model.MerchantMenu;
 import com.yiyou.repast.merchant.model.MerchantRole;
+import com.yiyou.repast.merchant.model.MerchantRoleMenu;
 import com.yiyou.repast.merchant.service.IMerchantMenuService;
 import com.yiyou.repast.merchant.service.IMerchantRoleService;
 
@@ -61,8 +61,8 @@ public class RoleController {
 	public String permission(Long id,Model model) {
 		MerchantRole role=this.merchantRoleService.find(id);
 		List<Long> menuIds=new ArrayList<>();
-		if(!CollectionUtils.isEmpty(role.getMenus())){
-			menuIds=role.getMenus().stream().map(MerchantMenu::getId).collect(Collectors.toList());
+		if(!CollectionUtils.isEmpty(role.getRoleMenu())){
+			menuIds=role.getRoleMenu().stream().map(MerchantRoleMenu::getMenuId).collect(Collectors.toList());
 		}
 		model.addAttribute("obj",role);
 		model.addAttribute("menuIds",menuIds);
