@@ -47,6 +47,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 			userService.save(user);
 		}else {
 			RBeanUtils.copyProperties(user, obj);
+			obj.setLoginTime(new Date());
 			userService.update(obj);
 		}
 		return user;
