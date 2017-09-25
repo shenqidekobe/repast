@@ -143,4 +143,8 @@ public class UserAuthorizeApply implements Serializable{
 		this.auditName = auditName;
 	}
 	
+	public String getStatusName() {
+		return auditStatus.getName();
+	}
+	
 }
