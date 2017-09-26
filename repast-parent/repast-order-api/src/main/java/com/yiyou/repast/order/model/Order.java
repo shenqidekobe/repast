@@ -33,6 +33,8 @@ public class Order implements Serializable{
 	private Long id;
 	private Long merchantId;//商户ID
 	private Long userId;//用户ID
+	private String userName;//用户名
+	
 	private String orderId;//订单号
 	private String deskNum;//桌号
 	private Integer peopleCount;//用餐人数
@@ -74,6 +76,12 @@ public class Order implements Serializable{
 	}
 	public String getOrderId() {
 		return orderId;
+	}
+	public String getUserName() {
+		return userName;
+	}
+	public void setUserName(String userName) {
+		this.userName = userName;
 	}
 	public void setOrderId(String orderId) {
 		this.orderId = orderId;
