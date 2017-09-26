@@ -8,8 +8,7 @@ import java.util.Map;
 
 import javax.imageio.ImageIO;
 
-import org.springframework.stereotype.Service;
-
+import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.common.qrcode.Base64;
 import com.yiyou.repast.common.qrcode.QREntity;
 import com.yiyou.repast.common.qrcode.ZxingImage;
@@ -28,9 +27,9 @@ public class ZxingQrServiceImpl implements IZxingQrService {
 	}
 
 	@Override
-	public ByteArrayOutputStream qrAsByte(Map<String, Object> params) {
+	public byte[] qrAsByte(Map<String, Object> params) {
 		ByteArrayOutputStream out = produce(params);
-		return out;
+		return out.toByteArray();
 	}
 	
 	
