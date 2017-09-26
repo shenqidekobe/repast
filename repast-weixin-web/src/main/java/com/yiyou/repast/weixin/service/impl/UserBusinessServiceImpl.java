@@ -60,6 +60,8 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 		SessionToken session=(SessionToken) SecurityUtils.getSubject().getPrincipal();
 		session=new SessionToken();
 		session.setUserId(100l);
+		session.setMerchantId(1l);
+		session.setDeskNum("008");
 		session.setPhone("15000658445");
 		return session;
 	}

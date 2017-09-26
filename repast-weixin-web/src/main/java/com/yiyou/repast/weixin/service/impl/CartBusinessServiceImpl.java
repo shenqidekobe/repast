@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
@@ -30,7 +31,8 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 	private IOrderService orderService;
 
 	@Override
-	public void addCart(Long userId,String userName,String deskNum, Long goodsId, String auxIds, Integer count, String amount,String goodsType) {
+	public void addCart(Long userId,String userName,String deskNum, Long goodsId, String auxIds, 
+			Integer count, String amount,Integer peopleCount,String predictDate,String goodsType,String goodsName) {
 	    //首先验证桌号，桌号存在就添加到当前桌的购物车
 		//验证此用户是否存在购物车，存在则累加，不存在则新建购物车,：存在的商品项则累加，否则新建购物车项
 		Cart cart=this.cartService.findCartByDeskNum(deskNum);
@@ -46,6 +48,8 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 			cart.setUserId(userId);
 			cart.setDeskNum(deskNum);
 			cart.setCreateTime(new Date());
+			cart.setPredictDate(StringUtils.isEmpty(predictDate)?"today":predictDate);
+			cart.setPeopleCount(peopleCount==null?1:peopleCount);
 			cart=this.cartService.save(cart);
 		}else {
 			Set<CartItem> items=cart.getItems();
@@ -83,6 +87,7 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 			item.setCreateTime(new Date());
 			item.setCart(cart);
 			item.setGoodsType(goodsType);
+			item.setGoodsName(goodsName);
 			cartService.saveCartItem(item);
 		}
 		BigDecimal pre=cart.getAmount()==null?new BigDecimal(0):cart.getAmount();

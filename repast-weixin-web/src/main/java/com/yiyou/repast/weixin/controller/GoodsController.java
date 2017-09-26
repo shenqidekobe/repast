@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.stereotype.Controller;
@@ -35,9 +36,9 @@ public class GoodsController {
 
 	
 	@GetMapping("/index")
-	public String index(Integer pc,String pt,Model model) {
-		model.addAttribute("pc", pc);
-		model.addAttribute("pt", pt);
+	public String index(Integer pc,String pt,Model model,HttpServletRequest request) {
+		request.getSession().setAttribute("peopleCount", pc);
+		request.getSession().setAttribute("predictDate", pt);
 		SessionToken session=userService.getSessionUser();
 		Cart cart=cartService.getCart(session.getDeskNum());
 		if(cart==null&&StringUtils.isEmpty(session.getDeskNum())) {
