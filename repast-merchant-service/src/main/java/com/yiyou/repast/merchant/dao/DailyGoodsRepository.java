@@ -1,13 +1,13 @@
 package com.yiyou.repast.merchant.dao;
 
-import com.yiyou.repast.merchant.model.DailyGoods;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.util.Date;
-import java.util.List;
+import com.yiyou.repast.merchant.model.DailyGoods;
 
 public interface DailyGoodsRepository extends JpaRepository<DailyGoods, Long> {
 
@@ -15,7 +15,7 @@ public interface DailyGoodsRepository extends JpaRepository<DailyGoods, Long> {
 
     DailyGoods findByMerchantIdAndId(Long merchantId, Long id);
 
-    @Query("from DailyGoods  where merchantId =?1 and DATE_FORMAT(createTime , '%Y-%m-%d' )= ?2")
+    @Query(value="select * from t_daily_goods  where merchant_id =?1 and DATE_FORMAT(create_time , '%Y-%m-%d' )= ?2",nativeQuery=true)
     List<DailyGoods> findByDate(Long merchant, String date);
 
     @Modifying
