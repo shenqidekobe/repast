@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head th:include="link">
-	<title>开始点餐</title>
-	</head>
+	<head th:include="link" th:with="title='开始点餐'"/>
 	<body class="m-login">
 		<div class="m-box-logo f-tac">
 			<img th:src="@{/static/img/bg-login.jpg}" class="m-img m-logo"/>

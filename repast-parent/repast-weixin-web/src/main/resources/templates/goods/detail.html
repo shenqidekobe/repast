@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head th:include="link">
-        <title>均瑶国际会客厅</title>
-	</head>
+    <head th:include="link" th:with="title='均瑶国际会客厅'"/>
 	<body class="f-bgc-fff">
 		<div class="cont-keting-show f-bgc-fff f-cb">
 			<div class="m-hd">
@@ -34,10 +32,7 @@
 						<input type="hidden" id="goodsType" th:value="${obj.category.name}"/>
 						<div class="m-bd">
 							<div class="m-txt">
-								<span class="m-cailiao">鱼头毛重1100克</span>
-								<span class="m-cailiao">大蒜20克</span>
-								<span class="m-cailiao">鱼头毛重1100克</span>
-								<span class="m-cailiao">大蒜20克</span>
+								<span class="m-cailiao" th:each="sp:${obj.specs}" th:text="${sp.name}"></span>
 							</div>
 						</div>
 					</div>
@@ -47,10 +42,7 @@
 						</div>
 						<div class="m-bd">
 							<div class="m-txt tags f-click-par">
-								<span class="m-tags on f-click-radio" data-num="0">微辣</span>
-								<span class="m-tags f-click-radio" data-num="1">中辣</span>
-								<span class="m-tags f-click-radio" data-num="2">重辣</span>
-								<span class="m-tags f-click-radio" data-num="3">变态辣</span>
+								<span class="m-tags on f-click-radio" th:each="aux,stat:${obj.auxs}" th:text="${aux.name}" th:attr="data-num=${stat.index},data=${aux.id}" data-num="0"></span>
 							</div>
 						</div>
 					</div>
@@ -74,6 +66,12 @@
 				   location.href=history.go(-1);
 			   });
 			   $(".btn-cart").click(function(){
+				   var auxId="";
+				   $(".f-click-radio").each(function(){
+					   if($(this).hasClass("on")){
+						   auxId=auxId==""?$(this).attr("data"):(auxId+","+$(this).attr("data"));
+					   }
+				   });
 				   var number=$("#number").val();
 				   var id=$("#objId").val();
 				   var amount=$("#jiage").text();
@@ -82,7 +80,7 @@
 				   $.ajax({
 					   url:ctx+'/cart/save.do',
 					   type:'POST',
-					   data:{id:id,number:number,amount:amount,goodsType:goodsType,goodsName:goodsName},
+					   data:{id:id,number:number,amount:amount,goodsType:goodsType,goodsName:goodsName,auxIds:auxId},
 					   success:function(rsp){
 						   if(rsp.status==200){
 							   toast("购买成功");

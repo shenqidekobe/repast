@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head th:include="link">
-	   <title>用餐人数</title>
-	</head>
+	<head th:include="link" th:with="title='用餐人数'"/>
 	<body class="m-login">
 		<div class="m-box-yongcan p011 f-tac">
 			<img th:src="@{/static/img/img-yongcan.png}" class="m-img img-yongcan" title="用餐人数" alt="用餐人数"/>
