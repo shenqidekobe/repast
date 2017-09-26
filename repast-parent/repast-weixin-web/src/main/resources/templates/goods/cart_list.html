@@ -121,6 +121,8 @@
 						   success:function(rsp){
 							   if(rsp.status==200){
 								   location.href=ctx+'/order';
+							   }else if(rsp.status==402){
+								   toast(rsp.message);
 							   }else{
 								   toast("服务器繁忙，请稍后再试！");
 							   }

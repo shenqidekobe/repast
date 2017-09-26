@@ -8,7 +8,7 @@
 			</div>
 			<div class="list-card list-card-7 p010 f-mt15 ">
 				<div class="m-hd f-tac">
-					<div class="m-tit">桌号A11</div>
+					<div class="m-tit">桌号<span th:text="${obj.deskNum}"></span></div>
 					<div class="m-pri c-ff4035" th:text="${obj.amount}">288.00元</div>
 				</div>
 				<ul class="m-bd m-bd-1">
@@ -19,8 +19,8 @@
 			</div>
 			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
 			<div class="bb-ras5 f-bgc-fff p010">
-				<div class="m-bd-2"><span class="f-fr c-ff4035 m-tit"><span class="m-rmb">￥</span>270.00</span></span><div class="m-tit">应付金额</div></div>
-				<div class="box-btn">
+				<div class="m-bd-2"><span class="f-fr c-ff4035 m-tit"><span class="m-rmb">￥</span><span th:text="${obj.amount}">270.00</span></span></span><div class="m-tit">应付金额</div></div>
+				<div class="box-btn" id="jixu">
 					<a class="m-btn m-btn-feda00" >继续点菜</a>
 				</div>
 			</div>
@@ -29,8 +29,8 @@
 			<div class="list-card list-card-5 p010">
 				<div class="m-tit-1 f-bolder">支付方式</div>
 				<ul class="m-bd m-bd-3 f-click-par">
-					<li class="list-zf f-click-radio on" data-num="1"><span class="icon icon-wx f-fr"></span><img th:src="@{/static/img/icon-wx.png" class="a-img"/><span class="m-tit">微信支付</span></li>
-					<li class="list-zf f-click-radio" data-num="2"><span class="icon icon-alipay f-fr"></span><img th:src="@{/static/img/icon-alipay.png" class="a-img"/><span class="m-tit">支付宝支付</span></li>
+					<li class="list-zf f-click-radio on" data-num="1"><span class="icon icon-wx f-fr"></span><img th:src="@{/static/img/icon-wx.png}" class="a-img"/><span class="m-tit">微信支付</span></li>
+					<li class="list-zf f-click-radio" data-num="2"><span class="icon icon-alipay f-fr"></span><img th:src="@{/static/img/icon-alipay.png}" class="a-img"/><span class="m-tit">支付宝支付</span></li>
 				</ul>
 			</div>
 			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
@@ -52,12 +52,18 @@
 						success:function(rsp){
 							if(rsp.status==200){
 								toast("结算成功");
+								setTimeout(function(){
+									location.href=ctx+'/order';
+								}, 2000);
 							}else{
 								toast(rsp.message);
 							}
 						}
 					});
 			    });
+				$("#jixu").click(function(){
+					location.href=ctx+'/goods/index';
+				});
 		    })
 		</script>
 	</body>

@@ -9,22 +9,27 @@
 					<div class="m-tit">
 					<span class="f-fr m-txt">下单时间： 
 					<span th:text="${#dates.format(obj.createTime, 'HH:mm')}"></span></span>
-                    <span th:text="${obj.deskNum}"></span></div>
+                                                                       桌号<span th:text="${obj.deskNum}"></span></div>
 					<div class="m-txt">用餐时间：<span th:text="${obj.predictDateStr}"></span></div>
 				</div>
 			</div>
 			<!--<div class="line line-2"></div>-->
 			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
 			<div class="list-card list-card-6 p010">
-				<div class="m-bd">
-					<div class="m-tit">
-					    <span class="f-fr ">已付<span class="m-rmb">￥</span>0.00</span>
+				<div class="m-bd" th:if="${obj.status=='await'}">
+					<div class="m-tit"><span class="f-fr ">已付<span class="m-rmb">￥</span>0.00</span>
 					   应付<span class="m-rmb">￥</span><span th:text="${obj.amount}">288.00</span></div>
 					<div class="m-txt">
 						<span class="f-fr"><button class="f-fr m-btn btn-zhifu" type="button" th:attr="oid=${obj.id}">立即支付</button></span>
 						还需支付<span class="m-rmb c-ff4035">￥</span>
 						     <span class=" c-ff4035"><span th:text="${obj.amount}">288.00</span></span>
 					</div>
+				</div>
+				<div class="m-bd" th:if="${obj.status=='settle'}">
+				    <span class="f-fr ">已结算<span class="m-rmb">￥</span><span th:text="${obj.amount}">288.00</span></span>
+				</div>
+				<div class="m-bd" th:if="${obj.status=='cancel'}">
+				    <span class="f-fr ">已取消<span class="m-rmb">￥</span>0</span>
 				</div>
 			</div>
 		</div>
@@ -33,9 +38,9 @@
 				<div class="m-hd">
 					<img th:src="@{/static/img/bg-login.jpg}" class="a-img img-user"/>
 				</div>
-				<!-- <div class="m-bd">
-					<div class="m-tit"><span class="m-time f-fr">15:34</span>BonVoyage</div>
-				</div> -->
+				<div class="m-bd">
+					<div class="m-tit"><span class="m-time f-fr" th:text="${#dates.format(obj.createTime, 'HH:mm')}">15:34</span>BonVoyage</div>
+				</div>
 			</div>
 			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
 			<div class="f-bgc-fff">
