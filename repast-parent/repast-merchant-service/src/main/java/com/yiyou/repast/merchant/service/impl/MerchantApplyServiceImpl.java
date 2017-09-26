@@ -53,4 +53,14 @@ public class MerchantApplyServiceImpl implements IMerchantApplyService {
 		return merchantApplyRepository.findAll();
 	}
 
+	@Override
+	public MerchantApply findMerchantApplyByMerchantId(Long merchantId) {
+		MerchantApply obj=new MerchantApply();
+		obj.setMerchantId(merchantId);
+	    ExampleMatcher matcher = ExampleMatcher.matching();
+	    Example<MerchantApply> example = Example.of(obj, matcher); 
+	    List<MerchantApply> list=merchantApplyRepository.findAll(example);
+		return list.isEmpty()?null:list.get(0);
+	}
+
 }
