@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -19,6 +20,7 @@ import java.util.List;
 @Controller
 @RequestMapping("/daily")
 public class GoodsDailyController {
+
     @Reference
     private IGoodsService goodsService;
     @Reference
@@ -34,17 +36,17 @@ public class GoodsDailyController {
 
     @ResponseBody
     @PostMapping("/listData.do")
-    public List<DailyGoods> listData(Integer page, Integer pageSize, String date) {
+    public List<DailyGoods> listData(Integer page, Integer pageSize, Long date) {
         page = page == null ? page = 0 : page;
         pageSize = pageSize == null ? pageSize = 10 : pageSize;
-        return dailyGoodsService.findByDate(Constants.MERCHANT_ID, date);
+        return dailyGoodsService.findByDate(Constants.MERCHANT_ID, new Date(date));
     }
 
     @PostMapping("/edit")
     @ResponseBody
-    public RspResult edit(String today, @RequestParam(value = "goodsIds[]", required = false) List<Long> goodsIds, Model model) {
+    public RspResult edit(Long today, @RequestParam(value = "goodsIds[]", required = false) List<Long> goodsIds, Model model) {
         try {
-            dailyGoodsService.editByDate(Constants.MERCHANT_ID, today,goodsIds);
+            dailyGoodsService.editByDate(Constants.MERCHANT_ID, new Date(today),goodsIds);
         } catch (Exception e) {
             e.printStackTrace();
             return new RspResult(505, "");
