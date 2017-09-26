@@ -1,8 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<<head th:include="link">
-        <title>授权失败</title>
-	</head>
+	<head th:include="link" th:with="title='授权失败'"/>
 	<body class="">
 		<div class="m-box-def p011 f-tac f-bgc-fff">
 			<img src="img/icon-shibai.png" class="m-img icon-sqsb"/>
@@ -11,6 +9,12 @@
 		</div>
 		
 		<script type="text/javascript" th:src="@{/static/js/jquery-1.8.3.min.js}"></script>
-		<script type="text/javascript"></script>
+		<script type="text/javascript">
+		   $(function(){
+			   $(".m-btn").click(function(){
+				   location.href=ctx+'/goods/index?pt=&ct=';
+			   });
+		   });
+		</script>
 	</body>
 </html>
