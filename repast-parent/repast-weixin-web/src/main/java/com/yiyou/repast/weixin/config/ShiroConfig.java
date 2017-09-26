@@ -3,6 +3,8 @@ package com.yiyou.repast.weixin.config;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import javax.annotation.Resource;
+
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.context.annotation.Bean;
@@ -15,6 +17,9 @@ import com.yiyou.repast.weixin.compent.MerchantShiroRealm;
  * */
 @Configuration
 public class ShiroConfig {
+	
+	@Resource
+	private MerchantShiroRealm merchantShiroRealm;
 
 	/**
      * ShiroFilterFactoryBean 处理拦截资源文件问题。
@@ -27,11 +32,11 @@ public class ShiroConfig {
      * 3、部分过滤器可指定参数，如perms，roles
      *
      */
-    @Bean
-    public ShiroFilterFactoryBean shirFilter(org.apache.shiro.mgt.SecurityManager securityManager) {
+    @Bean("shiroFilter")
+    public ShiroFilterFactoryBean shirFilter() {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
 
-        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        shiroFilterFactoryBean.setSecurityManager(securityManager());
         shiroFilterFactoryBean.setLoginUrl("/wx/oauth");//授权开始
         shiroFilterFactoryBean.setSuccessUrl("/index");
         shiroFilterFactoryBean.setUnauthorizedUrl("/wx/oauth"); // 未授权则重新授权;
@@ -42,21 +47,14 @@ public class ShiroConfig {
         //filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-        
         return shiroFilterFactoryBean;
     }
 
     @Bean
     public org.apache.shiro.mgt.SecurityManager securityManager() {
         DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(myShiroRealm());
+        securityManager.setRealm(merchantShiroRealm);
         return securityManager;
-    }
-
-    @Bean
-    public MerchantShiroRealm myShiroRealm() {
-    	MerchantShiroRealm myShiroRealm = new MerchantShiroRealm();
-        return myShiroRealm;
     }
 
 }

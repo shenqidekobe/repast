@@ -14,11 +14,13 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
+import org.springframework.stereotype.Component;
 
 import com.yiyou.repast.merchant.model.User;
 import com.yiyou.repast.weixin.base.SessionToken;
 import com.yiyou.repast.weixin.service.UserBusinessService;
 
+@Component
 public class MerchantShiroRealm extends AuthorizingRealm{
 	
 	@Resource

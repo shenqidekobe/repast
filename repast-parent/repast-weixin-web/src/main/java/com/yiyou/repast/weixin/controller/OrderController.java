@@ -67,13 +67,18 @@ public class OrderController {
 	/**
 	 * 生成订单
 	 * */
-	@PostMapping("/produce.do")
 	@ResponseBody
+	@PostMapping("/produce.do")
 	public RspResult produceOrder(Long cid) {
-		RspResult rsp=new RspResult();
 		Cart cart=cartService.getCartById(cid);
+		if(cart==null) {
+			return new RspResult(402,"请勿重复下单");
+		}
 		Order order=orderService.createOrder(cart);
+		RspResult rsp=new RspResult();
 		rsp.setData(order);
+		//清空购物车
+		cartService.clearCart(cid);
 		return rsp;
 	}
 	

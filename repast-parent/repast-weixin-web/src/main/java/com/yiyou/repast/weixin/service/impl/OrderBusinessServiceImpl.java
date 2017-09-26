@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.stereotype.Service;
@@ -44,8 +45,8 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 			order=this.getOrder(cart.getUserId());
 		}
 		if(order!=null) {
-			if(!OrderStaus.settle.equals(order.getStatus())
-					&&!OrderStaus.cancel.equals(order.getStatus())){
+			if(OrderStaus.settle.equals(order.getStatus())
+					||OrderStaus.cancel.equals(order.getStatus())){
 				order=null;//订单状态已结算或者已取消的，则创建新订单
 			}
 		}
@@ -57,6 +58,8 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 			order.setPeopleCount(cart.getPeopleCount());
 			order.setPredictDate(cart.getPredictDate());
 			order.setAmount(new BigDecimal(0));
+			order.setCreateTime(new Date());
+			order.setStatus(OrderStaus.await);
 			order=this.orderService.save(order);
 		}
 		OrderItem oitem=null;
@@ -65,6 +68,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 			oitem=new OrderItem();
 			oitem.setOrder(order);
 			oitem.setGoodsId(item.getGoodsId());
+			oitem.setGoodsType(item.getGoodsType());
 			oitem.setGoodsName(item.getGoodsName());
 			oitem.setCount(item.getCount());
 			oitem.setAmount(item.getAmount());
@@ -95,7 +99,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 	@Override
 	public Order getOrderByDeskNum(String deskNum) {
 		List<Order> list=orderService.findByDeskNum(deskNum);
-		return list.isEmpty()?null:list.get(list.size()-1);
+		return CollectionUtils.isEmpty(list)?null:list.get(list.size()-1);
 	}
 
 	@Override

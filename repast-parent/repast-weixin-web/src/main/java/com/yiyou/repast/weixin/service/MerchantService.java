@@ -12,4 +12,8 @@ public interface MerchantService {
 	MerchantApply getMerchantApply(String path);
 
 	List<MerchantApply> getAll();
+	
+	String qrcode(Long merchantId,String deskNum);
+	
+	byte[] qrcodeImg(Long merchantId,String deskNum);
 }
