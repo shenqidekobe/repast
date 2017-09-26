@@ -22,12 +22,12 @@ public class DailyGoodsServiceImpl implements IDailyGoodsService {
     private GoodsRepository goodsRepository;
 
     @Override
-    public List<DailyGoods> findByDate(Long mearchant, Date date) {
+    public List<DailyGoods> findByDate(Long mearchant, String date) {
         return dailyGoodsRepository.findByDate(mearchant, date);
     }
 
     @Override
-    public void editByDate(Long merchantId, Date date, List<Long> goodsIds) {
+    public void editByDate(Long merchantId, String date, List<Long> goodsIds) {
         dailyGoodsRepository.deleteByDate(merchantId, date);
         List<Goods> byIds = goodsRepository.findByIds(merchantId, goodsIds);
         List<DailyGoods> list = new ArrayList<>();
