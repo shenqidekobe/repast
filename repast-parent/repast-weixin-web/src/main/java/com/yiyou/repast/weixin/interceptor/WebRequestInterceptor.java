@@ -6,6 +6,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -13,6 +14,7 @@ import com.yiyou.repast.weixin.base.SessionToken;
 import com.yiyou.repast.weixin.base.ThreadContextHolder;
 import com.yiyou.repast.weixin.service.UserBusinessService;
 
+@Component
 public class WebRequestInterceptor implements HandlerInterceptor {
 	
 	@Resource
