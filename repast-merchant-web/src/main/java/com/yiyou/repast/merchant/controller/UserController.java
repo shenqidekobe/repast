@@ -1,14 +1,5 @@
 package com.yiyou.repast.merchant.controller;
 
-import java.util.List;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RBeanUtils;
@@ -19,9 +10,16 @@ import com.yiyou.repast.merchant.model.UserWhite;
 import com.yiyou.repast.merchant.service.IUserAuthorizeApplyService;
 import com.yiyou.repast.merchant.service.IUserService;
 import com.yiyou.repast.merchant.service.IUserWhiteService;
-
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import repast.yiyou.common.base.EnumDefinition.AuthorizeAuditStaus;
 import repast.yiyou.common.base.EnumDefinition.UserWhiteStaus;
+
+import java.util.List;
 
 /**
  * 前端用户数据处理
@@ -76,8 +74,7 @@ public class UserController {
 		}
 		return new RspResult();
 	}
-	
-	
+
 	/**
 	 * 白名单列表
 	 * */
