@@ -1,6 +1,5 @@
 package com.yiyou.repast.merchant.controller;
 
-import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.shiro.SecurityUtils;
@@ -26,7 +25,7 @@ public class IndexController {
 	
 	@Reference
 	private IMerchantAccountService merchantAccountService;
-	@Resource
+	@Reference
 	private IMerchantApplyService merchantApplyService;
 	
 
