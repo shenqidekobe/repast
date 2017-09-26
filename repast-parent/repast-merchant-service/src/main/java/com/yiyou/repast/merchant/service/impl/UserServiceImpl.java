@@ -22,7 +22,7 @@ public class UserServiceImpl implements IUserService{
 
 	@Override
 	public List<User> findAll(Long merchantId) {
-		return userRepository.findAllByMerchantId(merchantId);
+		return userRepository.findAll();
 	}
 
 	@Override
