@@ -10,11 +10,14 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 /**
  * 角色菜单关系
  */
 @Entity
 @Table(name = "t_merchant_role_menu")
+@JsonIgnoreProperties(value={"role","menu"})
 public class MerchantRoleMenu implements Serializable {
 
 	private static final long serialVersionUID = -958397003919519754L;
