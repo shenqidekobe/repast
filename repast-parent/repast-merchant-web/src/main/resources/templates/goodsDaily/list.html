@@ -11,6 +11,11 @@
     </nav>
     <div id="page-wrapper">
         <div class="row">
+            <div class="col-lg-12">
+                <h1 class="page-header">每日菜品管理中心</h1>
+            </div>
+        </div>
+        <div class="row">
             <div id="datetimepicker" class="col-md-offset-4"></div>
         </div>
         <div class="row">
@@ -120,7 +125,6 @@
         var day = date.getDate(); //获取日
         return year + "-" + month + "-" + day;
     }
-
     var columns = [
         {
             field: '', title: '菜品', formatter: function (value, row, index) {
@@ -129,16 +133,15 @@
         }
         },
         {field: 'goods.name', title: '',},
-        {field: 'goods.amount', title: '价格',},]
+        {field: 'goods.amount', title: '价格',}]
     $(function () {
         loadTable(url, columns, function (options) {
             options.showRefresh = false;
             dataTable = $('#dataTable').bootstrapTable(options);
         });
-    })
+    });
     $('#datetimepicker').datetimepicker({
         language: 'zh-CN',
-        startDate: selectDate,
         weekStart: 1,
         todayBtn: 0,
         autoclose: 1,
@@ -151,10 +154,11 @@
         format: 'yyyy-mm-dd'
     }).on('changeDate', function (ev) {
         selectDate = ev.date;
+        dailIds.splice(0, dailIds.length);
+        $("#dataTable").children().remove();
         $("#selectDate").text(formDate(selectDate) + "菜单");
         url = "/daily/listData.do?date=" + selectDate.getTime();
         $("#dataTable").bootstrapTable('refresh', {url: url});
-        dailIds.splice(0, dailIds.length);
     });
 </script>
 

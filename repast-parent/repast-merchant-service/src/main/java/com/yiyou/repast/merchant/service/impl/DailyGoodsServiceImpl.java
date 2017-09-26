@@ -22,8 +22,8 @@ public class DailyGoodsServiceImpl implements IDailyGoodsService {
     private GoodsRepository goodsRepository;
 
     @Override
-    public List<DailyGoods> findByDate(Long mearchant, String date) {
-        return dailyGoodsRepository.findByDate(mearchant, date);
+    public List<DailyGoods> findByDate(Long merchantId, String date) {
+        return dailyGoodsRepository.findByDate(merchantId, date);
     }
 
     @Override
