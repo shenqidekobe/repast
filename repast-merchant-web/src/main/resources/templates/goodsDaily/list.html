@@ -75,7 +75,7 @@
     var dataTable = null;
     var selectDate = new Date();
     var dailIds = new Array();
-    var url = "/daily/listData.do?date=" + formDate(selectDate);
+    var url = "/daily/listData.do?date=" + selectDate.getTime();
     $("#selectDate").text(formDate(selectDate) + "菜单");
     $("#editBtn").click(function () {
         $.ajax({
@@ -86,10 +86,10 @@
                 $(".context").children().remove();
                 for (var i = 0; i < list.length; i++) {
                     var cId = list[i].category.id;
-                    var inArray = $.inArray(list[i].id,dailIds);
+                    var inArray = $.inArray(list[i].id, dailIds);
                     if (inArray != -1) {
                         $("#" + cId + " .context").append("<input style='margin-left: 10px' checked='true' type='checkbox' name='goodsIds[]' value='" + list[i].id + "'/><label>" + list[i].name + "</label>");
-                    }else {
+                    } else {
                         $("#" + cId + " .context").append("<input style='margin-left: 10px' type='checkbox' name='goodsIds[]'  value='" + list[i].id + "'/><label>" + list[i].name + "</label>");
                     }
                 }
@@ -98,7 +98,7 @@
         });
     });
     $("#commitBtn").click(function () {
-        $("#today").val(formDate(selectDate));
+        $("#today").val(selectDate.getTime());
         $.ajax({
             url: '/daily/edit',
             type: 'POST',
@@ -130,12 +130,12 @@
         },
         {field: 'goods.name', title: '',},
         {field: 'goods.amount', title: '价格',},]
-
-    loadTable(url, columns, function (options) {
-        options.showRefresh = false;
-        dataTable = $('#dataTable').bootstrapTable(options);
-    });
-
+    $(function () {
+        loadTable(url, columns, function (options) {
+            options.showRefresh = false;
+            dataTable = $('#dataTable').bootstrapTable(options);
+        });
+    })
     $('#datetimepicker').datetimepicker({
         language: 'zh-CN',
         startDate: selectDate,
@@ -152,9 +152,9 @@
     }).on('changeDate', function (ev) {
         selectDate = ev.date;
         $("#selectDate").text(formDate(selectDate) + "菜单");
-        url = "/daily/listData.do?date=" + formDate(ev.date);
+        url = "/daily/listData.do?date=" + selectDate.getTime();
         $("#dataTable").bootstrapTable('refresh', {url: url});
-        dailIds.splice(0,dailIds.length);
+        dailIds.splice(0, dailIds.length);
     });
 </script>
 

@@ -21,7 +21,6 @@ public class GoodsSpecController {
     @Reference
     private IGoodsSpecService goodsSpecService;
 
-
     @GetMapping()
     public String goodsSpec(Model model) {
         return "/goodsSpec/list";
