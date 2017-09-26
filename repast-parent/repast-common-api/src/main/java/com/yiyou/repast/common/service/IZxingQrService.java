@@ -1,6 +1,5 @@
 package com.yiyou.repast.common.service;
 
-import java.io.ByteArrayOutputStream;
 import java.util.Map;
 
 public interface IZxingQrService {
@@ -13,6 +12,6 @@ public interface IZxingQrService {
 	/**
 	 * 生成二进制的二维码
 	 * */
-	ByteArrayOutputStream qrAsByte(Map<String,Object> params);
+	byte[] qrAsByte(Map<String,Object> params);
 
 }
