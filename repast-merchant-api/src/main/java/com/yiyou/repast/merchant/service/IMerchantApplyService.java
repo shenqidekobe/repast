@@ -22,6 +22,11 @@ public interface IMerchantApplyService {
 	MerchantApply findMerchantApplyByDomain(String domain);
 	
 	/**
+	 * 根据商户ID查询
+	 * */
+	MerchantApply findMerchantApplyByMerchantId(Long merchantId);
+	
+	/**
 	 * 所有的应用
 	 * */
 	List<MerchantApply> findAll();
