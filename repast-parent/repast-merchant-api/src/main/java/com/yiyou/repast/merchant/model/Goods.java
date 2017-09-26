@@ -44,7 +44,7 @@ public class Goods implements Serializable {
     private String operUser;//操作人
     
     @Transient
-    private Set<GoodsAux> auxs = new HashSet<>();//商品辅料列表
+    private List<GoodsAux> auxs = new ArrayList<>();//商品辅料列表
 
     public List<Long> getSpecsId() {
         List<Long> ids = new ArrayList<>();
@@ -180,10 +180,10 @@ public class Goods implements Serializable {
         this.operUser = operUser;
     }
 
-	public Set<GoodsAux> getAuxs() {
+	public List<GoodsAux> getAuxs() {
 		return auxs;
 	}
-	public void setAuxs(Set<GoodsAux> auxs) {
+	public void setAuxs(List<GoodsAux> auxs) {
 		this.auxs = auxs;
 	}
 
