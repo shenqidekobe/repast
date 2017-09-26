@@ -10,6 +10,7 @@ import org.springframework.context.annotation.Configuration;
 
 import com.yiyou.repast.merchant.compent.MerchantShiroRealm;
 
+import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 import repast.yiyou.common.util.LoggerUtil;
 
 /**
@@ -64,6 +65,11 @@ public class ShiroConfig {
     public MerchantShiroRealm myShiroRealm() {
     	MerchantShiroRealm myShiroRealm = new MerchantShiroRealm();
         return myShiroRealm;
+    }
+    
+    @Bean
+    public ShiroDialect shiroDialect() {
+        return new ShiroDialect();
     }
 
 }
