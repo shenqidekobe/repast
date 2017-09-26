@@ -8,11 +8,11 @@ public interface IZxingQrService {
 	/**
 	 * 生成base64的二维码
 	 * */
-	String qrAsBase64(Map<String,String> params);
+	String qrAsBase64(Map<String,Object> params);
 	
 	/**
 	 * 生成二进制的二维码
 	 * */
-	ByteArrayOutputStream qrAsByte(Map<String,String> params);
+	ByteArrayOutputStream qrAsByte(Map<String,Object> params);
 
 }
