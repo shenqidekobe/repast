@@ -2,7 +2,6 @@ package com.yiyou.repast.merchant.service;
 
 import com.yiyou.repast.merchant.model.DailyGoods;
 
-import java.util.Date;
 import java.util.List;
 
 /**
@@ -10,8 +9,8 @@ import java.util.List;
  */
 public interface IDailyGoodsService {
 
-    List<DailyGoods> findByDate(Long merchantId, Date date);
+    List<DailyGoods> findByDate(Long merchantId, String date);
 
-    void editByDate(Long merchantId, Date date, List<Long> goodsIds);
+    void editByDate(Long merchantId, String date, List<Long> goodsIds);
 
 }
