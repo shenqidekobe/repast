@@ -32,7 +32,7 @@ $(function () {
 	 var url = "/account/listData.do?random="+Math.random();
 	 var columns= [
 	        { field: '',title: '序号', formatter: function (value, row, index) { return index+1; }  },
-	        { field : 'id',title : '编号',}, 
+	        { field : 'id',title : '编号',visible:false}, 
 	        { field : 'loginName', title : '帐号',},
 	        { field : 'role.name', title : '角色', }, 
 	        { field : 'typeName', title : '类型',},
