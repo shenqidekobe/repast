@@ -28,7 +28,9 @@ public class MerchantLogsServiceImpl implements IMerchantLogsService {
 
 	@Override
 	public MerchantLogs findById(Long merchantId, Long id) {
-		return null;
+		MerchantLogs logs=merchantLogsRepository.findOne(id);
+		if(logs==null||!logs.getMerchantId().equals(merchantId))return null;
+		return logs;
 	}
 
 	@Override
