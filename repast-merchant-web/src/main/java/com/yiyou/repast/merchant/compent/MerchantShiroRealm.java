@@ -49,6 +49,7 @@ public class MerchantShiroRealm extends AuthorizingRealm{
 	    }
 		SessionToken session=new SessionToken();
 		session.setAccountId(account.getId());
+		session.setMerchantId(account.getMerchantId());
 		session.setLoginName(user.getUsername());
 		session.setRoleId(account.getRole().getId());
 		session.setRoleName(account.getRole().getName());
