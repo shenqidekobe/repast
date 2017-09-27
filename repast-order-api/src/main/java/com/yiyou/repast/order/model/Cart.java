@@ -13,6 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 /**
@@ -36,6 +37,7 @@ public class Cart implements Serializable{
 	private Date createTime;//创建时间
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "cart",cascade=CascadeType.REMOVE)
+	@OrderBy("id asc")
 	private Set<CartItem> items = new HashSet<>();
 	
 	public Long getId() {
