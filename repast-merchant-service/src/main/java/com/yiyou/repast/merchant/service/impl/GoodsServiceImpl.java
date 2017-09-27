@@ -20,6 +20,10 @@ public class GoodsServiceImpl implements IGoodsService {
     public Goods findById(Long merchantId, Long goodsId) {
         return goodsRepository.findByMerchantIdAndId(merchantId, goodsId);
     }
+    @Override
+    public List<Goods>  findShelves(Long maerchanId) {
+        return goodsRepository.findAllByMerchantIdAndShelvesTrue(maerchanId);
+    }
 
     @Override
     public Goods findByGoodsName(Long merchantId, String goodsName) {
@@ -35,12 +39,15 @@ public class GoodsServiceImpl implements IGoodsService {
     public Goods save(Long merchantId, Goods obj) {
         obj.setCreateTime(new Date());
         obj.setMerchantId(merchantId);
+        obj.setShelves(true);
         return goodsRepository.save(obj);
     }
 
     @Override
     public void remove(Long merchantId, Long goodsId) {
-        goodsRepository.deleteByMerchantIdAndId(merchantId, goodsId);
+        Goods obj = goodsRepository.findByMerchantIdAndId(merchantId, goodsId);
+        obj.setShelves(false);
+        goodsRepository.save(obj);
     }
 
     @Override

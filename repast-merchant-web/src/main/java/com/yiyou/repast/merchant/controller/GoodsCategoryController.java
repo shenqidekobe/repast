@@ -52,7 +52,12 @@ public class GoodsCategoryController {
 
     @GetMapping("/remove")
     public String delete(Long id,Model model) {
-        this.goodsCategoryService.remove(Constants.MERCHANT_ID,id);
+        try {
+            this.goodsCategoryService.remove(Constants.MERCHANT_ID,id);
+        } catch (Exception e) {
+            //分类对应商品未删除
+            e.printStackTrace();
+        }
         return "redirect:/goods/category";
     }
 

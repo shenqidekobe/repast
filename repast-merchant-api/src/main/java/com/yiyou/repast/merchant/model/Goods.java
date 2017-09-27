@@ -42,9 +42,9 @@ public class Goods implements Serializable {
     private Integer sales = 0;//累计销量
     private Date createTime;//发布时间
     private String operUser;//操作人
-    
-    @Transient
-    private List<GoodsAux> auxs = new ArrayList<>();//商品辅料列表
+
+    private Boolean shelves ;//是否上架
+
 
     public List<Long> getSpecsId() {
         List<Long> ids = new ArrayList<>();
@@ -74,6 +74,13 @@ public class Goods implements Serializable {
         } else {
             return category.getName();
         }
+    }
+    public void setShelves(Boolean shelves) {
+        this.shelves = shelves;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public Long getId() {
@@ -180,11 +187,5 @@ public class Goods implements Serializable {
         this.operUser = operUser;
     }
 
-	public List<GoodsAux> getAuxs() {
-		return auxs;
-	}
-	public void setAuxs(List<GoodsAux> auxs) {
-		this.auxs = auxs;
-	}
 
 }

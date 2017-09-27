@@ -76,6 +76,7 @@
 <script src="/static/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js"></script>
 <script src="/static/bootstrap-datetimepicker/js/bootstrap-datetimepicker.zh-CN.js"></script>
 
+
 <script>
     var dataTable = null;
     var selectDate = new Date();
@@ -84,9 +85,8 @@
     $("#selectDate").text(formDate(selectDate) + "菜单");
     $("#editBtn").click(function () {
         $.ajax({
-            url: '/goods/listData.do',
+            url: '/goods/shelves/list',
             type: 'POST',
-            data: $("#editForm").serialize(),
             success: function (list) {
                 $(".context").children().remove();
                 for (var i = 0; i < list.length; i++) {

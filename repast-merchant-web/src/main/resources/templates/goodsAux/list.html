@@ -25,7 +25,6 @@
                     </div>
                 </div>
             </div>
-
             <div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel"
                  aria-hidden="true">
                 <div class="modal-dialog">
@@ -58,9 +57,8 @@
                             <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                             <button type="button" class="btn btn-primary" id="commitBtn">提交</button>
                         </div>
-                    </div><!-- /.modal-content -->
-
-                </div><!-- /.modal-dialog -->
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -76,6 +74,8 @@
 <script src="/static/toastr/toastr.min.js"></script>
 <script src="/static/toastr/toastr.confirm.js"></script>
 <script src="/static/admin/goods/list.js"></script>
+<script src="/static/bootstrap-dialog/js/bootstrap-dialog.min.js"></script>
+
 <script>
     var dataTable = null;
     $("#addBtn").click(function () {
@@ -98,7 +98,25 @@
             return false;
         },
         "click #delete": function (e, value, row, index) {
-            location.href = '/goods/aux/remove?id=' + row.id;
+            BootstrapDialog.confirm({
+                title : '是否确认删除? ',
+                message : '删除后无法恢复,请谨慎选择',
+                type : BootstrapDialog.TYPE_INFO, // <-- Default value is
+                // BootstrapDialog.TYPE_PRIMARY
+                closable : true, // <-- Default value is false，点击对话框以外的页面内容可关闭
+                draggable : true, // <-- Default value is false，可拖拽
+                btnCancelLabel : '取消', // <-- Default value is 'Cancel',
+                btnOKLabel : '确定', // <-- Default value is 'OK',
+                btnOKClass : 'btn-info', // <-- If you didn't specify it, dialog type
+                size : BootstrapDialog.SIZE_SMALL,
+                // 对话框关闭的时候执行方法
+                callback : function(result) {
+                    // 点击确定按钮时，result为true
+                    if (result) {
+                        location.href = '/goods/aux/remove?id=' + row.id;
+                    }
+                }
+            });
             return false;
         }
     }

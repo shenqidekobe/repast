@@ -20,15 +20,6 @@
                     <ol class="breadcrumb">
                         <li><strong><span style="color: #27a0d7">菜品列表</span></strong></li>
                     </ol>
-                    <!--<form class="form-inline" role="form" method="post" id="searchForm">-->
-                    <!--&lt;!&ndash;<div class="form-group" style="margin-left:20px">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<input type="text" class="form-control" name="loginName" id="loginName"&ndash;&gt;-->
-                    <!--&lt;!&ndash;placeholder="菜品名"&ndash;&gt;-->
-                    <!--&lt;!&ndash;onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">&ndash;&gt;-->
-                    <!--&lt;!&ndash;</div>&ndash;&gt;-->
-                    <!--&lt;!&ndash;<div class="form-group">&ndash;&gt;-->
-                    <!--&lt;!&ndash;<button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>&ndash;&gt;-->
-                    <!--</form>-->
                     <div class="container" style="width: 100%">
                         <div id="toolbar" class="btn-group">
                             <button type="button" class="btn btn-info btn-sm rightSize" id="addBtn">
@@ -69,6 +60,8 @@
 <script src="/static/toastr/toastr.min.js"></script>
 <script src="/static/toastr/toastr.confirm.js"></script>
 <script src="/static/admin/goods/list.js"></script>
+<script src="/static/bootstrap-dialog/js/bootstrap-dialog.min.js"></script>
+
 <script>
     var dataTable = null;
     $("#addBtn").click(function () {
@@ -88,7 +81,25 @@
             location.href = '/goods/edit?id=' + row.id;
             return false;
         }, "click #delete": function (e, value, row, index) {
-            location.href = 'goods/remove?id=' + row.id;
+            BootstrapDialog.confirm({
+                title : '确认',
+                message : '是否确认删除? ',
+                type : BootstrapDialog.TYPE_WARNING, // <-- Default value is
+                // BootstrapDialog.TYPE_PRIMARY
+                closable : true, // <-- Default value is false，点击对话框以外的页面内容可关闭
+                draggable : true, // <-- Default value is false，可拖拽
+                btnCancelLabel : '取消', // <-- Default value is 'Cancel',
+                btnOKLabel : '确定', // <-- Default value is 'OK',
+                btnOKClass : 'btn-warning', // <-- If you didn't specify it, dialog type
+                size : BootstrapDialog.SIZE_SMALL,
+                // 对话框关闭的时候执行方法
+                callback : function(result) {
+                    // 点击确定按钮时，result为true
+                    if (result) {
+                        location.href = 'goods/remove?id=' + row.id;
+                    }
+                }
+            });
             return false;
         }
     }
