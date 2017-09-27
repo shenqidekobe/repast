@@ -14,6 +14,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
@@ -54,6 +55,7 @@ public class Order implements Serializable{
 	private String predictTime;//预计就餐时间
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
+	@OrderBy("id asc")
 	private Set<OrderItem> items = new HashSet<>();
 	
 	public Long getId() {
