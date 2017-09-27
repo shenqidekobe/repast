@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.yiyou.repast.weixin.service.MerchantService;
+import com.yiyou.repast.weixin.service.MerchantBusinessService;
 
 /**
  * 二维码访问中心
@@ -18,7 +18,7 @@ import com.yiyou.repast.weixin.service.MerchantService;
 public class QrCodeController {
 	
 	@Resource
-	private MerchantService merchantService;
+	private MerchantBusinessService merchantService;
 	
 	@GetMapping("/{merchantId}/{deskNum}")
 	public void base64(@PathVariable Long merchantId,@PathVariable String deskNum,

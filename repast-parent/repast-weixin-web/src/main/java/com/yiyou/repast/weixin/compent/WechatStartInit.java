@@ -18,7 +18,7 @@ import com.dw.weixin.sdk.openapi.IWeixinBasisAPI;
 import com.dw.weixin.sdk.openapi.factory.WeixinAPIFactory;
 import com.dw.weixin.sdk.openapi.factory.WeixinAPInitObject;
 import com.yiyou.repast.merchant.model.MerchantApply;
-import com.yiyou.repast.weixin.service.MerchantService;
+import com.yiyou.repast.weixin.service.MerchantBusinessService;
 
 /**
  * 微信API启动初始化配置
@@ -29,7 +29,7 @@ public class WechatStartInit implements EnvironmentAware{
 	@Resource
 	private WechatProperties wechatProperties;
 	@Resource
-	private MerchantService merchantService;
+	private MerchantBusinessService merchantService;
     
 	@Override
 	public void setEnvironment(Environment env) {}

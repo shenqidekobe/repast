@@ -76,7 +76,7 @@ public class OrderController {
 		}
 		Order order=orderService.createOrder(cart);
 		RspResult rsp=new RspResult();
-		rsp.setData(order);
+		rsp.setData(order.getId());
 		//清空购物车
 		cartService.clearCart(cid);
 		return rsp;

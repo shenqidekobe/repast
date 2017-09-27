@@ -11,10 +11,10 @@ import com.yiyou.repast.common.service.IZxingQrService;
 import com.yiyou.repast.merchant.model.MerchantApply;
 import com.yiyou.repast.merchant.service.IMerchantApplyService;
 import com.yiyou.repast.weixin.base.ThreadContextHolder;
-import com.yiyou.repast.weixin.service.MerchantService;
+import com.yiyou.repast.weixin.service.MerchantBusinessService;
 
 @org.springframework.stereotype.Service
-public class MerchantServiceImpl implements MerchantService{
+public class MerchantBusinessServiceImpl implements MerchantBusinessService{
 	
 	@Reference
 	private IMerchantApplyService merchantApplyService;
