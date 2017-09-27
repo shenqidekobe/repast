@@ -11,6 +11,8 @@ public interface GoodsRepository extends JpaRepository<Goods, Long> {
 
     List<Goods> findAllByMerchantId(Long maerchanId);
 
+    List<Goods> findAllByMerchantIdAndShelvesTrue(Long maerchanId);
+
     Goods findByMerchantIdAndId(Long maerchanId, Long id);
 
     @Transactional

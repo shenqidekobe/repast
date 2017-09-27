@@ -45,8 +45,9 @@ public class GoodsSpecController {
     }
 
     @GetMapping("/edit")
+    @Deprecated
     public String edit(Long id, Model model) {
-        return "/goodsSpec/add";
+        return "/goodsSpec/list";
     }
 
 

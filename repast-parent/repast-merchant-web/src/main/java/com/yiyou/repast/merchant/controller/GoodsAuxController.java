@@ -21,7 +21,6 @@ public class GoodsAuxController {
     @Reference
     private IGoodsAuxService goodsAuxService;
 
-
     @GetMapping()
     public String goodsSpec(Model model) {
         return "/goodsAux/list";
@@ -51,10 +50,8 @@ public class GoodsAuxController {
             model.addAttribute("obj",goodsAuxService.findById(Constants.MERCHANT_ID,id));
             return "/goodsAux/edit";
         }
-
         return "/goodsAux/add";
     }
-
 
     @GetMapping("/remove")
     public String delete(Long id, Model model) {

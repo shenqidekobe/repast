@@ -48,6 +48,7 @@
                                     <textarea class="form-control" rows="3" name="remark" id="remark"></textarea>
                                 </div>
                                 <input type="reset" style="display:none">
+                                <input type="hidden" name="id" id="specId">
                             </form>
                         </div>
                         <div class="modal-footer">
@@ -72,18 +73,24 @@
 <script src="/static/toastr/toastr.min.js"></script>
 <script src="/static/toastr/toastr.confirm.js"></script>
 <script src="/static/admin/goods/list.js"></script>
+<script src="/static/bootstrap-dialog/js/bootstrap-dialog.min.js"></script>
 <script>
     var dataTable = null;
     $("#addBtn").click(function () {
         $("input[type=reset]").trigger("click");
         $("#myModal").modal("show");
+        $("#specId").val("");
     });
     $("#backBtn").click(function () {
         location.href = '/goods';
     });
     window.operateEvents = {
-        "click #delete": function (e, value, row, index) {
-            location.href = '/goods/spec/remove?id=' + row.id;
+        "click #edit": function (e, value, row, index) {
+            $("#myModalLabel").text("修改规格");
+            $("#name").val(row.name);
+            $("#specId").val(row.id);
+            $("#remark").val(row.remark);
+            $("#myModal").modal("show");
             return false;
         }
     }
@@ -100,10 +107,11 @@
             return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
         }
         },
+        {field: 'remark', title: '说明',},
         {field: 'opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
 
     function operateFormatter(value, row, index) {
-        return "<i class=\"fa fa-trash-o fa-lg\" id='delete'></i>";
+        return "<i class=\"fa fa-edit fa-lg\" id='edit'></i>";
     }
 
     loadTable(url, columns, function (options) {

@@ -12,4 +12,6 @@ public interface IGoodsService  extends IBaseService<Goods>{
     Goods findByGoodsName(Long merchantId, String goodsName);
 
     List<Goods> findByIds(Long merchantId, List<Long> ids);
+
+    List<Goods> findShelves(Long maerchanId);
 }

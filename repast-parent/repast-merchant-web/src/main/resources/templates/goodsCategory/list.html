@@ -69,9 +69,8 @@
                         <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
                         <button type="button" class="btn btn-primary" id="commitBtn">提交</button>
                     </div>
-                </div><!-- /.modal-content -->
-
-            </div><!-- /.modal-dialog -->
+                </div>
+            </div>
         </div>
     </div>
 </div>
@@ -86,6 +85,8 @@
 <script src="/static/toastr/toastr.min.js"></script>
 <script src="/static/toastr/toastr.confirm.js"></script>
 <script src="/static/admin/goodsCategory/list.js"></script>
+<script src="/static/bootstrap-dialog/js/bootstrap-dialog.min.js"></script>
+
 <script>
 
     $(function () {
@@ -115,14 +116,32 @@
                 return false;
             },
             "click #delete": function (e, value, row, index) {
-                if (row.parentName != '') {
-                    toastr.warning('请先删除父级分类');
+                if (row.children.length >0) {
+                    toastr.warning('请先删除子分类');
                     return false;
                 }
-                location.href = 'category/remove?id=' + row.id;
+                BootstrapDialog.confirm({
+                    title : '确认',
+                    message : '是否确认删除?  tips:分类下存在商品时将无法删除',
+                    type : BootstrapDialog.TYPE_INFO, // <-- Default value is
+                    // BootstrapDialog.TYPE_PRIMARY
+                    closable : true, // <-- Default value is false，点击对话框以外的页面内容可关闭
+                    draggable : true, // <-- Default value is false，可拖拽
+                    btnCancelLabel : '取消', // <-- Default value is 'Cancel',
+                    btnOKLabel : '确定', // <-- Default value is 'OK',
+                    btnOKClass : 'btn-info', // <-- If you didn't specify it, dialog type
+                    size : BootstrapDialog.SIZE_SMALL,
+                    // 对话框关闭的时候执行方法
+                    callback : function(result) {
+                        // 点击确定按钮时，result为true
+                        if (result) {
+                            location.href = 'category/remove?id=' + row.id;
+                        }
+                    }
+                });
                 return false;
             }
-        }
+        };
         var url = "/goods/category/listData.do?random=" + Math.random();
         var columns = [
             {

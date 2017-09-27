@@ -67,9 +67,17 @@ public class GoodsController {
         return goodsService.findAll(Constants.MERCHANT_ID);
     }
 
+    @ResponseBody
+    @PostMapping("shelves/list")
+    public List<Goods> shelvesData() {
+        return goodsService.findShelves(Constants.MERCHANT_ID);
+    }
+
     @GetMapping("/remove")
     public String delete(Long id, Model model) {
-        goodsService.remove(Constants.MERCHANT_ID, id);
+        Goods obj = goodsService.findById(Constants.MERCHANT_ID, id);
+        obj.setShelves(false);
+        goodsService.save(Constants.MERCHANT_ID, obj);
         return "redirect:/goods";
     }
 
@@ -82,13 +90,12 @@ public class GoodsController {
             return new RspResult(505, "参数错误");
         }
         Set<GoodsSpec> specs = goodsSpecService.findByIds(specIds);
-        String auxs = auxIds;
         if (obj.getId() == null) {
             //新增
             GoodsCategory category = goodsCategoryService.findById(Constants.MERCHANT_ID, parentId);
             obj.setCategory(category);
             obj.setSpecs(specs);
-            obj.setAuxIds(auxs);
+            obj.setAuxIds(auxIds);
             goodsService.save(Constants.MERCHANT_ID, obj);
         } else {
             //保存
@@ -97,7 +104,7 @@ public class GoodsController {
             GoodsCategory parent = this.goodsCategoryService.findById(Constants.MERCHANT_ID, parentId);
             pojo.setCategory(parent);
             pojo.setSpecs(specs);
-            pojo.setAuxIds(auxs);
+            pojo.setAuxIds(auxIds);
             goodsService.save(Constants.MERCHANT_ID, pojo);
         }
         return new RspResult();
