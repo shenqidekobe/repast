@@ -25,6 +25,7 @@ public class MerchantLogs implements Serializable{
 	private String operUserName;//操作用户名
 	
 	private String ip;
+	private String reqUrl;
 	private String methodName;
 	private String reqParams;
 	private String intro;
@@ -59,6 +60,12 @@ public class MerchantLogs implements Serializable{
 	}
 	public void setIp(String ip) {
 		this.ip = ip;
+	}
+	public String getReqUrl() {
+		return reqUrl;
+	}
+	public void setReqUrl(String reqUrl) {
+		this.reqUrl = reqUrl;
 	}
 	public String getMethodName() {
 		return methodName;
