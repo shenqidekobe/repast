@@ -80,29 +80,7 @@
         "click #edit": function (e, value, row, index) {
             location.href = '/goods/edit?id=' + row.id;
             return false;
-        }, "click #delete": function (e, value, row, index) {
-            BootstrapDialog.confirm({
-                title : '确认',
-                message : '是否确认删除? ',
-                type : BootstrapDialog.TYPE_WARNING, // <-- Default value is
-                // BootstrapDialog.TYPE_PRIMARY
-                closable : true, // <-- Default value is false，点击对话框以外的页面内容可关闭
-                draggable : true, // <-- Default value is false，可拖拽
-                btnCancelLabel : '取消', // <-- Default value is 'Cancel',
-                btnOKLabel : '确定', // <-- Default value is 'OK',
-                btnOKClass : 'btn-warning', // <-- If you didn't specify it, dialog type
-                size : BootstrapDialog.SIZE_SMALL,
-                // 对话框关闭的时候执行方法
-                callback : function(result) {
-                    // 点击确定按钮时，result为true
-                    if (result) {
-                        location.href = 'goods/remove?id=' + row.id;
-                    }
-                }
-            });
-            return false;
-        }
-    }
+        }}
     var url = "/goods/listData.do?random=" + Math.random();
     var columns = [
         {
@@ -122,8 +100,7 @@
         {field: 'opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
 
     function operateFormatter(value, row, index) {
-        return "<i class=\"fa fa-edit fa-lg\" id='edit'></i>" + " | " +
-            "<i class=\"fa fa-trash-o fa-lg\" id='delete'></i>";
+        return "<i class=\"fa fa-edit fa-lg\" id='edit'></i>";
     }
 
     loadTable(url, columns, function (options) {

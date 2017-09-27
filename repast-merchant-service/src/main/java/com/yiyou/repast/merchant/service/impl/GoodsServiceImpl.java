@@ -39,7 +39,7 @@ public class GoodsServiceImpl implements IGoodsService {
     public Goods save(Long merchantId, Goods obj) {
         obj.setCreateTime(new Date());
         obj.setMerchantId(merchantId);
-        obj.setShelves(true);
+
         return goodsRepository.save(obj);
     }
 

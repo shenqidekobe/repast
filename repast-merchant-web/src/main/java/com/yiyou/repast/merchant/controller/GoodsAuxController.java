@@ -45,12 +45,9 @@ public class GoodsAuxController {
     }
 
     @GetMapping("/edit")
+    @Deprecated
     public String edit(Long id, Model model) {
-        if (id != null) {
-            model.addAttribute("obj",goodsAuxService.findById(Constants.MERCHANT_ID,id));
-            return "/goodsAux/edit";
-        }
-        return "/goodsAux/add";
+        return "/goodsAux/list";
     }
 
     @GetMapping("/remove")

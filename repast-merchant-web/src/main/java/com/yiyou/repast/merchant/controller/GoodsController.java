@@ -70,6 +70,7 @@ public class GoodsController {
     @ResponseBody
     @PostMapping("shelves/list")
     public List<Goods> shelvesData() {
+        //所有上架商品
         return goodsService.findShelves(Constants.MERCHANT_ID);
     }
 
@@ -96,6 +97,7 @@ public class GoodsController {
             obj.setCategory(category);
             obj.setSpecs(specs);
             obj.setAuxIds(auxIds);
+            obj.setShelves(true);
             goodsService.save(Constants.MERCHANT_ID, obj);
         } else {
             //保存
