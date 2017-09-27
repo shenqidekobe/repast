@@ -79,8 +79,8 @@ public class Goods implements Serializable {
         this.shelves = shelves;
     }
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
+    public Boolean getShelves() {
+        return shelves;
     }
 
     public Long getId() {
