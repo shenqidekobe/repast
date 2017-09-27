@@ -6,4 +6,5 @@ public interface IPaymentRecordService {
 	
 	PaymentRecord save(PaymentRecord obj);
 
+	PaymentRecord findByOrderId(String orderId);
 }
