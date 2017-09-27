@@ -3,10 +3,12 @@ package com.yiyou.repast.merchant.model;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Lob;
 import javax.persistence.Table;
 
 /**
@@ -19,22 +21,25 @@ public class MerchantLogs implements Serializable{
 	private static final long serialVersionUID = 4435376678780490498L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	private Long merchantId;
 	private Long operUserId;//操作用户ID
 	private String operUserName;//操作用户名
 	
 	private String ip;
+	@Column(length=512)
 	private String reqUrl;
+	@Column(length=512)
 	private String methodName;
+	@Lob
 	private String reqParams;
 	private String intro;
 	private Date createTime;
 	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public Long getMerchantId() {
