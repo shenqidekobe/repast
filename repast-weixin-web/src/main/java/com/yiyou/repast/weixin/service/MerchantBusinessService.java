@@ -7,7 +7,7 @@ import com.yiyou.repast.merchant.model.MerchantApply;
 /**
  * 商户相关服务接口
  * */
-public interface MerchantService {
+public interface MerchantBusinessService {
 	
 	MerchantApply getMerchantApply(String path);
 
