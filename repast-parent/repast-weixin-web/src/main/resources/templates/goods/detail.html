@@ -84,6 +84,9 @@
 					   success:function(rsp){
 						   if(rsp.status==200){
 							   toast("购买成功");
+							   setTimeout(function(){
+									location.href=ctx+'/goods/index';
+							   }, 2000);
 						   }else{
 							   toast("服务器繁忙，请稍后再试！");
 						   }
