@@ -120,7 +120,10 @@
 						   data:{cid:cid},
 						   success:function(rsp){
 							   if(rsp.status==200){
-								   location.href=ctx+'/order';
+								   toast("下单成功！");
+								   setTimeout(function(){
+										location.href=ctx+'/order';
+								   }, 2000);
 							   }else if(rsp.status==402){
 								   toast(rsp.message);
 							   }else{

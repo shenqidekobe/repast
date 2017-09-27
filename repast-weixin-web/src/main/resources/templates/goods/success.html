@@ -16,7 +16,7 @@
 			<!--<div class="line line-2"></div>-->
 			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
 			<div class="list-card list-card-6 p010">
-				<div class="m-bd" th:if="${obj.status=='await'}">
+				<div class="m-bd" th:if="${obj.status.toString()=='await'}">
 					<div class="m-tit"><span class="f-fr ">已付<span class="m-rmb">￥</span>0.00</span>
 					   应付<span class="m-rmb">￥</span><span th:text="${obj.amount}">288.00</span></div>
 					<div class="m-txt">
@@ -25,11 +25,15 @@
 						     <span class=" c-ff4035"><span th:text="${obj.amount}">288.00</span></span>
 					</div>
 				</div>
-				<div class="m-bd" th:if="${obj.status=='settle'}">
-				    <span class="f-fr ">已结算<span class="m-rmb">￥</span><span th:text="${obj.amount}">288.00</span></span>
+				<div class="m-bd" th:if="${obj.status.toString()=='settle'}">
+				    <div class="m-tit">
+					    <span class="f-fr ">已付<span class="m-rmb">￥</span><span th:text="${obj.amount}">288.00</span></span>
+					         应付<span class="m-rmb">￥</span><span th:text="${obj.amount}">288.00</span>
+				    </div>
 				</div>
-				<div class="m-bd" th:if="${obj.status=='cancel'}">
-				    <span class="f-fr ">已取消<span class="m-rmb">￥</span>0</span>
+				<div class="m-bd" th:if="${obj.status.toString()=='cancel'}">
+				    <div class="m-tit"><span class="f-fr ">已取消<span class="m-rmb">￥</span>0</span>
+				    </div>
 				</div>
 			</div>
 		</div>
