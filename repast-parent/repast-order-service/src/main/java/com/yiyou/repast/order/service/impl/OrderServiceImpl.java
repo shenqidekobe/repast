@@ -1,5 +1,6 @@
 package com.yiyou.repast.order.service.impl;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -10,13 +11,16 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.order.dao.OrderItemRepository;
+import com.yiyou.repast.order.dao.OrderProcessRepository;
 import com.yiyou.repast.order.dao.OrderRepository;
 import com.yiyou.repast.order.model.Order;
 import com.yiyou.repast.order.model.OrderItem;
+import com.yiyou.repast.order.model.OrderProcess;
 import com.yiyou.repast.order.service.IOrderService;
 import com.yiyou.repast.order.tools.PageConvertDataGrid;
 
@@ -30,6 +34,8 @@ public class OrderServiceImpl implements IOrderService {
 	private OrderItemRepository orderItemRepository;
 	@Resource
 	private OrderRepository orderRepository;
+	@Resource
+	private OrderProcessRepository orderProcessRepository;
 
 	@Override
 	public Order save(Order obj) {
@@ -98,6 +104,33 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public OrderItem findItemById(Long itemId) {
 		return orderItemRepository.findOne(itemId);
+	}
+
+	@Override
+	public OrderProcess saveOrderProcess(OrderProcess obj) {
+		obj.setCreateTime(new Date());
+		return orderProcessRepository.save(obj);
+	}
+
+	@Override
+	public OrderProcess updateOrderProcess(OrderProcess obj) {
+		obj.setProcessTime(new Date());
+		return orderProcessRepository.save(obj);
+	}
+
+	@Override
+	public OrderProcess findOrderProcessById(Long id) {
+		return orderProcessRepository.findOne(id);
+	}
+
+	@Override
+	public OrderProcess findOrderProcessByOrderId(Long orderId) {
+		OrderProcess obj=new OrderProcess();
+		obj.setOrderId(orderId);
+	    ExampleMatcher matcher = ExampleMatcher.matching();
+	    Example<OrderProcess> example = Example.of(obj, matcher); 
+		List<OrderProcess> list=orderProcessRepository.findAll(example);
+		return CollectionUtils.isEmpty(list)?null:list.get(0);
 	}
 
 
