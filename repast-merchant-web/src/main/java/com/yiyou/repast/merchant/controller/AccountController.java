@@ -19,6 +19,7 @@ import com.yiyou.repast.merchant.service.IMerchantRoleService;
 
 import repast.yiyou.common.base.EnumDefinition.AccountStaus;
 import repast.yiyou.common.util.DataGrid;
+import repast.yiyou.common.util.Md5;
 
 /**
  * 商户管理员控制器
@@ -62,15 +63,20 @@ public class AccountController {
 		if(roleId!=null) {
 			obj.setRole(this.merchantRoleService.find(roleId));
 		}
+		String password=Md5.getMD5(obj.getPassword());
 		obj.setStatus(AccountStaus.normal);
 		if(obj.getId()==null) {
 			if(merchantAccountService.findByLoginName(Constants.MERCHANT_ID,obj.getLoginName())!=null){
 				return new RspResult(400,"该用户名已存在");
 			}
+			obj.setPassword(password);
 			obj.setMerchantId((Constants.MERCHANT_ID));
 			merchantAccountService.save(obj);
 		}else {
 			MerchantAccount pojo=merchantAccountService.find(obj.getId());
+            if(!pojo.getPassword().equals(obj.getPassword())) {
+				obj.setPassword(password);
+			}
 			RBeanUtils.copyProperties(obj, pojo);
 			merchantAccountService.update(pojo);
 		}
