@@ -1,9 +1,13 @@
 package com.yiyou.repast.order.service.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import javax.annotation.Resource;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.springframework.data.domain.Example;
 import org.springframework.data.domain.ExampleMatcher;
@@ -11,6 +15,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.CollectionUtils;
 import org.springframework.util.StringUtils;
 
@@ -85,15 +90,41 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public DataGrid<Order> findOrderList(Long merchantId, String orderId, String deskNum, OrderStaus status,
 			String startTime, String endTime, int page, int pageSize) {
-		Order obj=new Order();
+	/*	Order obj=new Order();
 		if(merchantId!=null)obj.setMerchantId(merchantId);
 		if(!StringUtils.isEmpty(orderId))obj.setOrderId(orderId);
 		if(!StringUtils.isEmpty(deskNum))obj.setDeskNum(deskNum);
 		if(status!=null)obj.setStatus(status);
+		
 	    ExampleMatcher matcher = ExampleMatcher.matching();
 	    Example<Order> example = Example.of(obj, matcher); 
-	    Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.ASC, "id");  
-		Page<Order> pages=orderRepository.findAll(example, pageable);
+	    
+	    
+		Page<Order> pages=orderRepository.findAll(example, pageable);*/
+		Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.ASC, "id");  
+		Specification<Order> querySpecifi = new Specification<Order>() {  
+            @Override  
+            public Predicate toPredicate(Root<Order> root, javax.persistence.criteria.CriteriaQuery<?> criteriaQuery, CriteriaBuilder cb) {  
+                List<Predicate> predicates = new ArrayList<>();  
+                if(merchantId!=null) {
+                	predicates.add(cb.lessThanOrEqualTo(root.get("merchantId").as(Long.class),merchantId)); 
+                }
+                if (!StringUtils.isEmpty(startTime)) {  
+                    predicates.add(cb.greaterThanOrEqualTo(root.get("createTime").as(String.class), startTime));  
+                }  
+                if (!StringUtils.isEmpty(endTime)) {  
+                    predicates.add(cb.lessThanOrEqualTo(root.get("createTime").as(String.class), endTime));  
+                }  
+                if (!StringUtils.isEmpty(orderId)) {  
+                	predicates.add(cb.lessThanOrEqualTo(root.get("orderId").as(String.class), orderId)); 
+                }  
+                if (!StringUtils.isEmpty(deskNum)) {  
+                	predicates.add(cb.lessThanOrEqualTo(root.get("deskNum").as(String.class), deskNum)); 
+                }  
+                return cb.and(predicates.toArray(new Predicate[predicates.size()]));  
+            }  
+        };  
+        Page<Order> pages=orderRepository.findAll(querySpecifi, pageable);
 		return new PageConvertDataGrid.Bulid<Order>().page(pages).build().getData();
 	}
 
