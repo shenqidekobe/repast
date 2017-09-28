@@ -48,8 +48,8 @@ public class OrderController {
 	@PostMapping("/get/{id}")
 	@ApiOperation(value="订单详情",notes="查询订单的详细信息，包括订单的每个项目items")
 	@ApiImplicitParam(name = "id", value = "订单ID", required = true, dataType = "Long")
-	@ApiResponses(value= {@ApiResponse(code=4444,message="签名失败"),
-			@ApiResponse(code=4000,message="服务器异常")})
+	@ApiResponses({@ApiResponse(code=4444,message="签名失败"),
+			       @ApiResponse(code=4000,message="服务器异常")})
 	public AppResult get(@PathVariable Long id) throws Exception{
 		Order order=orderService.findById(id);
 		return new AppResult(objectMapper.writeValueAsString(order));
