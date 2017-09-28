@@ -18,7 +18,7 @@ import repast.yiyou.common.base.EnumDefinition.AccountStaus;
 import repast.yiyou.common.base.EnumDefinition.AccountType;
 
 /**
- *商家后端账户表
+ *  商家的管理员用户表
  * */
 @Entity
 @Table(name = "t_merchant_account")

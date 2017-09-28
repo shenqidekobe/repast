@@ -15,6 +15,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import repast.yiyou.common.base.EnumDefinition.MerchantStaus;
+import repast.yiyou.common.base.EnumDefinition.MerchantType;
 import repast.yiyou.common.base.EnumDefinition.SettleWay;
 
 /**
@@ -30,8 +31,15 @@ public class Merchant implements Serializable {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	private String name;//商户名
-	private String type;//商户类型
+	@Enumerated(EnumType.STRING)
+	private MerchantType type;//商户类型
 	private String address;//商户地址
+	private String longitude;//经度
+	private String latitude;//纬度
+	private String corporation;//法人代表
+	private String idcard;//法人身份证号码
+	private String wechatId;//微信管理员ID
+	private String alipayId;//支付宝管理员ID
 	
 	@ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "industry_id")
@@ -63,11 +71,47 @@ public class Merchant implements Serializable {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getType() {
+	public MerchantType getType() {
 		return type;
 	}
-	public void setType(String type) {
+	public void setType(MerchantType type) {
 		this.type = type;
+	}
+	public String getLongitude() {
+		return longitude;
+	}
+	public void setLongitude(String longitude) {
+		this.longitude = longitude;
+	}
+	public String getLatitude() {
+		return latitude;
+	}
+	public void setLatitude(String latitude) {
+		this.latitude = latitude;
+	}
+	public String getCorporation() {
+		return corporation;
+	}
+	public void setCorporation(String corporation) {
+		this.corporation = corporation;
+	}
+	public String getIdcard() {
+		return idcard;
+	}
+	public void setIdcard(String idcard) {
+		this.idcard = idcard;
+	}
+	public String getWechatId() {
+		return wechatId;
+	}
+	public void setWechatId(String wechatId) {
+		this.wechatId = wechatId;
+	}
+	public String getAlipayId() {
+		return alipayId;
+	}
+	public void setAlipayId(String alipayId) {
+		this.alipayId = alipayId;
 	}
 	public Industry getIndustry() {
 		return industry;
