@@ -37,6 +37,8 @@ public interface IOrderService {
 	
 	OrderProcess findOrderProcessByOrderId(Long orderId);
 	
+	List<OrderProcess> findOrderProcessAwaitList();
+	
 	DataGrid<Order> findOrderList(Long merchantId,String orderId,String deskNum,OrderStaus status,
 			String startTime,String endTime,int page,int pageSize);
 	
