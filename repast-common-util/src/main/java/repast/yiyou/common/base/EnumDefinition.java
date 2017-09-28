@@ -5,6 +5,20 @@ package repast.yiyou.common.base;
  * */
 public class EnumDefinition {
 	
+	
+	//商户类型
+	public static enum MerchantType {
+		common("普通商户"),
+	    vip("高级商户");
+	    private String name;
+	    private MerchantType(String name){
+	        this.name = name;
+	    }
+	    public String getName(){
+	        return this.name;
+	    }
+	}
+	
     //商户状态
 	public static enum MerchantStaus {
 		normal("正常"),
