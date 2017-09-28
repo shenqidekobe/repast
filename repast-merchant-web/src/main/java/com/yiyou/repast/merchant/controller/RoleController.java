@@ -43,7 +43,7 @@ public class RoleController {
 	@PostMapping("/listData.do")
 	public List<MerchantRole> listData(Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
-		pageSize=pageSize==null?pageSize=10:pageSize;
+		pageSize=Integer.MAX_VALUE;//客户端分页，服务端查询所有数据
 		List<MerchantRole> data=merchantRoleService.findAll(Constants.MERCHANT_ID);
 		return data;
 	}
