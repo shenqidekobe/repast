@@ -24,6 +24,7 @@ import com.yiyou.repast.order.model.OrderProcess;
 import com.yiyou.repast.order.service.IOrderService;
 import com.yiyou.repast.order.tools.PageConvertDataGrid;
 
+import repast.yiyou.common.base.EnumDefinition.OrderProcessStatus;
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
 import repast.yiyou.common.util.DataGrid;
 
@@ -109,12 +110,14 @@ public class OrderServiceImpl implements IOrderService {
 	@Override
 	public OrderProcess saveOrderProcess(OrderProcess obj) {
 		obj.setCreateTime(new Date());
+		obj.setStatus(OrderProcessStatus.await);
 		return orderProcessRepository.save(obj);
 	}
 
 	@Override
 	public OrderProcess updateOrderProcess(OrderProcess obj) {
 		obj.setProcessTime(new Date());
+		obj.setStatus(OrderProcessStatus.process);
 		return orderProcessRepository.save(obj);
 	}
 
@@ -131,6 +134,16 @@ public class OrderServiceImpl implements IOrderService {
 	    Example<OrderProcess> example = Example.of(obj, matcher); 
 		List<OrderProcess> list=orderProcessRepository.findAll(example);
 		return CollectionUtils.isEmpty(list)?null:list.get(0);
+	}
+
+	@Override
+	public List<OrderProcess> findOrderProcessAwaitList() {
+		OrderProcess obj=new OrderProcess();
+		obj.setStatus(OrderProcessStatus.await);;
+	    ExampleMatcher matcher = ExampleMatcher.matching();
+	    Example<OrderProcess> example = Example.of(obj, matcher); 
+		List<OrderProcess> list=orderProcessRepository.findAll(example);
+		return list;
 	}
 
 
