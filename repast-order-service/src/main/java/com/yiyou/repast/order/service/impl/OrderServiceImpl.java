@@ -116,8 +116,6 @@ public class OrderServiceImpl implements IOrderService {
 
 	@Override
 	public OrderProcess updateOrderProcess(OrderProcess obj) {
-		obj.setProcessTime(new Date());
-		obj.setStatus(OrderProcessStatus.process);
 		return orderProcessRepository.save(obj);
 	}
 
