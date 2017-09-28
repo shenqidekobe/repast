@@ -22,6 +22,7 @@ public class MerchantDesk implements Serializable{
 	private Long id;
 	private Long merchantId;
 	private String deskNum;//桌子号
+	private Integer seatCount;//座位数量
 	private String remark;//说明
 	private Date createTime;
 	
@@ -43,6 +44,12 @@ public class MerchantDesk implements Serializable{
 	}
 	public void setDeskNum(String deskNum) {
 		this.deskNum = deskNum;
+	}
+	public Integer getSeatCount() {
+		return seatCount;
+	}
+	public void setSeatCount(Integer seatCount) {
+		this.seatCount = seatCount;
 	}
 	public String getRemark() {
 		return remark;
