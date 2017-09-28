@@ -90,5 +90,15 @@ public class OrderServiceImpl implements IOrderService {
 		return new PageConvertDataGrid.Bulid<Order>().page(pages).build().getData();
 	}
 
+	@Override
+	public OrderItem updateOrderItem(OrderItem obj) {
+		return orderItemRepository.save(obj);
+	}
+
+	@Override
+	public OrderItem findItemById(Long itemId) {
+		return orderItemRepository.findOne(itemId);
+	}
+
 
 }
