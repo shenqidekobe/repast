@@ -2,14 +2,14 @@ $(function () {
 	 var dataTable=null;
 	 window.operateEvents={
 	    "click #edit":function(e,value, row, index){
-	    	location.href='/merchant/edit;
+	    	location.href=ctx+'/merchant/edit';
 		    return false;
 	    },"click #dwonload":function(e,value, row, index){
 	    	
 		    return false;
 	    }
      } 
-	 var url = "/account/listData.do?random="+Math.random();
+	 var url = "/merchant/listData.do?random="+Math.random();
 	 var columns= [
 	        { field: '',title: '序号', formatter: function (value, row, index) { return index+1; }  },
 	        { field : 'id',title : '编号',visible:false}, 
