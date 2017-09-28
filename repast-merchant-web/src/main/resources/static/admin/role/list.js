@@ -15,7 +15,7 @@ $(function () {
 	 var url = "/role/listData.do?random="+Math.random();
 	 var columns= [
 	        { field: '',title: '序号', formatter: function (value, row, index) { return index+1; }  },
-	        { field : 'id',title : '编号',}, 
+	        { field : 'id',title : '编号',visible:false}, 
 	        { field : 'name', title : '名称',},
 	        { field : 'createTime',title : '创建时间',formatter : function (value, row, index){return new Date(value).Format('yyyy-MM-dd hh:mm:ss');} },
 	        { field : 'opers',title: '操作',events:operateEvents, formatter : operateFormatter }]
