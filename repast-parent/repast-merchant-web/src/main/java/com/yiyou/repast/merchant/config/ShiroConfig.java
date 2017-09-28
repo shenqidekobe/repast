@@ -11,7 +11,6 @@ import org.springframework.context.annotation.Configuration;
 import com.yiyou.repast.merchant.compent.MerchantShiroRealm;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
-import repast.yiyou.common.util.LoggerUtil;
 
 /**
  * shiro config core
@@ -49,8 +48,6 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/**", "authc");
 
         shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-        
-        LoggerUtil.info("&&&&&&&&&&&&&&&&&&&&&&&&shiro filter succcess.......................");
         return shiroFilterFactoryBean;
     }
 
