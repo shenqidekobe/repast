@@ -19,17 +19,17 @@ public class MerchantDesk implements Serializable{
 	private static final long serialVersionUID = 4435376678780490498L;
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	private Long merchantId;
 	private String deskNum;//桌子号
 	private String remark;//说明
 	private Date createTime;
 	
 	
-	public Integer getId() {
+	public Long getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 	public Long getMerchantId() {
