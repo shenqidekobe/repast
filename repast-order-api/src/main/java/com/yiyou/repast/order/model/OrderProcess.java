@@ -30,6 +30,7 @@ public class OrderProcess implements Serializable {
 	@Enumerated(EnumType.STRING)
 	private OrderProcessStatus status;//处理状态
 	private Date createTime;//创建时间
+	private Date pushTime;//推送时间
 	private Date processTime;//处理时间
 	
 	
@@ -75,6 +76,11 @@ public class OrderProcess implements Serializable {
 	public void setProcessTime(Date processTime) {
 		this.processTime = processTime;
 	}
-	
+	public Date getPushTime() {
+		return pushTime;
+	}
+	public void setPushTime(Date pushTime) {
+		this.pushTime = pushTime;
+	}
 	
 }
