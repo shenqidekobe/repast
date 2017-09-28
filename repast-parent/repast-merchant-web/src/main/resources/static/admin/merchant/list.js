@@ -5,7 +5,7 @@ $(function () {
 	    	location.href=ctx+'/merchant/edit';
 		    return false;
 	    },"click #dwonload":function(e,value, row, index){
-	    	
+	    	location.href=ctx+'/merchant/m/';
 		    return false;
 	    }
      } 
