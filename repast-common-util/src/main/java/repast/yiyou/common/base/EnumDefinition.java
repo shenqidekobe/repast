@@ -134,6 +134,7 @@ public class EnumDefinition {
 	//订单处理状态
 	public enum OrderProcessStatus {
 		await("待处理"),
+		jpush("已推送"),
 		process("已处理");
 		private String name;
 		private OrderProcessStatus(String name){
