@@ -19,7 +19,7 @@
 					<div class="col-lg-6">
 					    <form class="" role="form"  method="post" id="editForm" th:object="${obj}">
 						    <input type="hidden" name="roleId" th:field="*{id}">
-							<div class="form-group" th:each="m:${menus}">
+							<div class="form-group" th:each="m,stat:${menus}">
 						    	<label></label>
 						    	<div class="checkbox">
                                      <label> 

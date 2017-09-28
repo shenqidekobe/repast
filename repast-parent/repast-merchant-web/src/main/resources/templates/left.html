@@ -4,60 +4,60 @@
             <li>
                 <a href="/index"><i class="fa fa-dashboard fa-fw"></i> 系统首页</a>
             </li>
-            <li>
+            <li th:if="${#lists.contains(session.sessionToken.permissions,'user:manager')}">
                 <a href="#"><i class="fa fa-sitemap fa-fw"></i> 客户管理<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li>
+                    <li th:if="${#lists.contains(session.sessionToken.permissions,'user:white')}">
                         <a href="/user/white">用户白名单</a>
                     </li>
-                    <li>
+                    <li th:if="${#lists.contains(session.sessionToken.permissions,'user:auth')}">
                         <a href="/user/auth">授权申请</a>
                     </li>
                 </ul>
             </li>
-            <li>
+            <li th:if="${#lists.contains(session.sessionToken.permissions,'qrcode:manager')}">
                 <a href="#"><i class="fa fa-qrcode fa-fw"></i> 二维码管理<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li>
+                    <li th:if="${#lists.contains(session.sessionToken.permissions,'qrcode:merchant')}">
                         <a href="/qr/merchant">商家二维码</a>
                     </li>
-                    <li>
+                    <li th:if="${#lists.contains(session.sessionToken.permissions,'qrcode:desk')}">
                         <a href="/qr/deskNum">桌号二维码</a>
                     </li>
                 </ul>
             </li>
-            <li>
+            <li th:if="${#lists.contains(session.sessionToken.permissions,'goods:manager')}">
                 <a href="#"><i class="fa fa-reorder fa-fw "></i> 菜品中心<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li>
+                    <li th:if="${#lists.contains(session.sessionToken.permissions,'goods:goods')}">
                         <a href="/goods">菜品管理</a>
                     </li>
-                    <li>
+                    <li th:if="${#lists.contains(session.sessionToken.permissions,'goods:daily')}">
                         <a href="/daily">每日菜单</a>
                     </li>
-                    <li>
+                    <li th:if="${#lists.contains(session.sessionToken.permissions,'goods:recommend')}">
                         <a href="/recommend">商家推荐</a>
                     </li>
                 </ul>
             </li>
-            <li>
+            <li th:if="${#lists.contains(session.sessionToken.permissions,'order:manager')}">
                 <a href="#"><i class="fa fa-sticky-note-o fa-fw"></i> 订单管理<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li>
+                    <li th:if="${#lists.contains(session.sessionToken.permissions,'order:order')}">
                         <a href="/order">商家订单</a>
                     </li>
                 </ul>
             </li>
-            <li>
+            <li th:if="${#lists.contains(session.sessionToken.permissions,'system:manager')}">
                 <a href="#"><i class="fa fa-wrench fa-fw"></i> 系统管理<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
-                    <li>
+                    <li th:if="${#lists.contains(session.sessionToken.permissions,'system:account')}">
                         <a href="/account">员工管理</a>
                     </li>
-                    <li>
+                    <li th:if="${#lists.contains(session.sessionToken.permissions,'system:role')}">
                         <a href="/role">角色管理</a>
                     </li>
-                    <li>
+                    <li th:if="${#lists.contains(session.sessionToken.permissions,'system:logs')}">
                         <a href="/logs">操作日志</a>
                     </li>
                 </ul>
