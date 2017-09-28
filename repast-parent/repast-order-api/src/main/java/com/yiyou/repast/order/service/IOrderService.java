@@ -18,6 +18,10 @@ public interface IOrderService {
 	
 	OrderItem saveOrderItem(OrderItem obj);
 	
+	OrderItem updateOrderItem(OrderItem obj);
+	
+	OrderItem findItemById(Long itemId);
+	
 	Order findById(Long id);
 	
 	List<Order> findByUserId(Long userId);
