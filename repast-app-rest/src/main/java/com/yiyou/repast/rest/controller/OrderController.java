@@ -1,5 +1,8 @@
 package com.yiyou.repast.rest.controller;
 
+import java.util.Date;
+
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -42,7 +45,9 @@ public class OrderController {
 		@ApiImplicitParam(name = "pageSize", value = "每页数量", required = true, dataType = "Integer") })
 	public AppResult list(Long merchantId,String deskNum,String status,int page,int pageSize)throws Exception {
 		OrderStaus orderStatus=OrderStaus.valueOf(OrderStaus.class, status);
-		DataGrid<Order> data=orderService.findOrderList(merchantId, null, deskNum, orderStatus, null, null, page, pageSize);
+		String startTime=DateFormatUtils.format(new Date(), "yyyy-MM-dd");
+		String endTime=DateFormatUtils.format(new Date(), "yyyy-MM-dd");
+		DataGrid<Order> data=orderService.findOrderList(merchantId, null, deskNum, orderStatus, startTime, endTime, page, pageSize);
 		return new AppResult(objectMapper.writeValueAsString(data));
 	}
 	
