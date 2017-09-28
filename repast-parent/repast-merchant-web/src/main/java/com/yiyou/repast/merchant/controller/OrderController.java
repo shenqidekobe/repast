@@ -39,7 +39,7 @@ public class OrderController {
 	public List<Order> listData(String orderId,String deskNum,OrderStaus status,
 			String startTime,String endTime,Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
-		pageSize=pageSize==null?pageSize=10:pageSize;
+		pageSize=Integer.MAX_VALUE;//客户端分页，服务端查询所有数据
 		DataGrid<Order> data=orderService.findOrderList(Constants.MERCHANT_ID,
 				orderId, deskNum, status, startTime, endTime, page, pageSize);
 		return data.getRecords();

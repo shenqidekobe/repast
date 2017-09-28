@@ -42,7 +42,7 @@ public class AccountController {
 	@PostMapping("/listData.do")
 	public List<MerchantAccount> listData(String loginName,String status,String type,Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
-		pageSize=pageSize==null?pageSize=10:pageSize;
+		pageSize=Integer.MAX_VALUE;//客户端分页，服务端查询所有数据
 		DataGrid<MerchantAccount> data=merchantAccountService.findList(Constants.MERCHANT_ID,loginName, status, type, page, pageSize);
 		return data.getRecords();
 	}

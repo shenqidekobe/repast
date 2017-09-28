@@ -47,7 +47,7 @@ public class UserController {
 	@PostMapping("/listData.do")
 	public List<User> listData(Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
-		pageSize=pageSize==null?pageSize=10:pageSize;
+		pageSize=Integer.MAX_VALUE;//客户端分页，服务端查询所有数据
 		List<User> data=userService.findAll(Constants.MERCHANT_ID);
 		return data;
 	}
@@ -87,7 +87,7 @@ public class UserController {
 	@PostMapping("/white/listData.do")
 	public List<UserWhite> whiteListData(Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
-		pageSize=pageSize==null?pageSize=10:pageSize;
+		pageSize=Integer.MAX_VALUE;//客户端分页，服务端查询所有数据
 		List<UserWhite> data=userWhiteService.findAll(Constants.MERCHANT_ID);
 		return data;
 	}
@@ -139,7 +139,7 @@ public class UserController {
 	@PostMapping("/auth/listData.do")
 	public List<UserAuthorizeApply> authListData(Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
-		pageSize=pageSize==null?pageSize=10:pageSize;
+		pageSize=Integer.MAX_VALUE;//客户端分页，服务端查询所有数据
 		List<UserAuthorizeApply> data=authorizeApplyService.findAll(Constants.MERCHANT_ID);
 		return data;
 	}
