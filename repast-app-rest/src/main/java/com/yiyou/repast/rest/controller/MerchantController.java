@@ -9,6 +9,7 @@ import com.google.gson.Gson;
 import com.yiyou.repast.merchant.model.MerchantAccount;
 import com.yiyou.repast.merchant.service.IMerchantAccountService;
 import com.yiyou.repast.rest.base.AppResult;
+import com.yiyou.repast.rest.base.OnlineAccount;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
@@ -35,11 +36,12 @@ public class MerchantController {
 		@ApiImplicitParam(name = "merchantId", value = "商户ID", required = true, dataType = "Long")})
 	public AppResult list(String account,String password,Long merchantId) {
 		MerchantAccount obj=merchantAccountService.login(merchantId, account, password);
-		
+		//验证登录用户的帐号密码是否正确
 		if(obj==null)return new AppResult(AppResult.OBJECT_NULL,"帐号密码错误");
-		
+		//验证登录用户是否是终端的接单用户
 		if(!AccountType.terminal.equals(obj.getType()))return new AppResult(AppResult.VALID_FIAL,"此帐号不允许登录");
-		
+		//注册到在线用户池
+		OnlineAccount.register(obj.getId(), merchantId, account);
 		return new AppResult(new Gson().toJson(obj));
 	}
 

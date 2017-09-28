@@ -35,6 +35,7 @@ public class OrderController {
 	@ApiOperation(value="订单列表",notes="待处理的订单列表查询接口，只查询今日订单")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "merchantId", value = "商户ID", required = true, dataType = "Long"),
+		@ApiImplicitParam(name = "accountId", value = "登录帐号ID", required = true, dataType = "Long"),
 		@ApiImplicitParam(name = "deskNum", value = "桌号", required = false, dataType = "String"),
 		@ApiImplicitParam(name = "status", value = "状态", required = false, dataType = "String"),
 		@ApiImplicitParam(name = "page", value = "页码，从0开始", required = true, dataType = "Integer"), 
@@ -47,7 +48,9 @@ public class OrderController {
 	
 	@PostMapping("/get/{id}")
 	@ApiOperation(value="订单详情",notes="查询订单的详细信息，包括订单的每个项目items")
-	@ApiImplicitParam(name = "id", value = "订单ID", required = true, dataType = "Long")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "id", value = "订单ID", required = true, dataType = "Long"),
+		@ApiImplicitParam(name = "accountId", value = "登录帐号ID", required = true, dataType = "Long")})
 	@ApiResponses({@ApiResponse(code=4444,message="签名失败"),
 			       @ApiResponse(code=4000,message="服务器异常")})
 	public AppResult get(@PathVariable Long id) throws Exception{
