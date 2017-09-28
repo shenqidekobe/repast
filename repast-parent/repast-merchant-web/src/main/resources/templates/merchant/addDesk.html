@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:include="link">
+<body>
+    <div id="wrapper">
+        <nav class="navbar navbar-default navbar-static-top" role="navigation" style="margin-bottom: 0">
+           <div th:include="top"></div>
+           <div th:include="left"></div>
+        </nav>
+        <div id="page-wrapper">
+            <div class="row">
+                <div class="col-lg-12">
+                    <h1 class="page-header">新建桌子</h1>
+                </div>
+            </div>
+            <div class="panel-body">
+                  <div class="row">
+					<div class="col-lg-6">
+					    <form class="" role="form"  method="post" id="editForm">
+							<div class="form-group">
+						    	<label>桌号</label>
+								<input type="text" class="form-control" name="deskNum" id="deskNum" placeholder="桌桌号" maxlength="20">
+							</div>
+							<div class="form-group">
+						    	<label>位子数量</label>
+								<input type="number" class="form-control" name="seatCount" id="seatCount" placeholder="座位数量" maxlength="16">
+							</div>
+							<div class="form-group">
+						    	<label>备注</label>
+								<textarea class="form-control" rows="3" name="remark" id="remark"></textarea>
+							</div>
+				            <button type="button" class="btn btn-primary" id="saveBtn">保存</button>
+			            </form>
+                    </div>
+                 </div>
+            </div>
+        </div>
+    </div>
+    
+    <script src="/static/jquery/jquery.min.js"></script>
+    <script src="/static/bootstrap/js/bootstrap.min.js"></script>
+    <script src="/static/metisMenu/metisMenu.min.js"></script>
+    <script src="/static/dist/js/sb-admin-2.js"></script>
+    <script src="/static/toastr/toastr.min.js"></script>
+    <script>
+       $(function(){
+    	   $("#saveBtn").click(function(){
+    		   var deskNum=$.trim($("#deskNum").val());
+    		   var seatCount=$.trim($("#seatCount").val());
+    		   if(deskNum==""){
+    			   toastr.warning('请填写桌号');
+    			   return false;
+    		   }else if(seatCount==""){
+    			   toastr.warning('请填写桌子位子数量');
+    			   return false;
+    		   }
+    		   $.ajax({
+    			   url:'/merchant/desk/save.do',
+    			   type:'POST',
+    			   data:$("#editForm").serialize(),
+    			   success:function(rsp){
+    				   if(rsp.status==200){
+    					   toastr.success('保存成功');
+    					   location.href='/merchant/desk';
+    				   }else{
+    					   toastr.warning('服务器繁忙，请稍后再试');
+    				   }
+    			   }
+    		   });
+    	   });
+       })
+    </script>
+
+</body>
+</html>
