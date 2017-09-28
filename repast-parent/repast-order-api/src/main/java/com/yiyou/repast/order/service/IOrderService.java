@@ -4,6 +4,7 @@ import java.util.List;
 
 import com.yiyou.repast.order.model.Order;
 import com.yiyou.repast.order.model.OrderItem;
+import com.yiyou.repast.order.model.OrderProcess;
 
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
 import repast.yiyou.common.util.DataGrid;
@@ -27,6 +28,14 @@ public interface IOrderService {
 	List<Order> findByUserId(Long userId);
 	
 	List<Order> findByDeskNum(String deskNum);
+	
+    OrderProcess saveOrderProcess(OrderProcess obj);
+	
+	OrderProcess updateOrderProcess(OrderProcess obj);
+	
+	OrderProcess findOrderProcessById(Long id);
+	
+	OrderProcess findOrderProcessByOrderId(Long orderId);
 	
 	DataGrid<Order> findOrderList(Long merchantId,String orderId,String deskNum,OrderStaus status,
 			String startTime,String endTime,int page,int pageSize);
