@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.google.gson.Gson;
 import com.yiyou.repast.rest.base.AppResult;
 import com.yiyou.repast.rest.base.LogHelper;
+import com.yiyou.repast.rest.base.OnlineAccount;
 
 import repast.yiyou.common.util.EncryptUtil;
 import repast.yiyou.common.util.LoggerUtil;
@@ -104,6 +105,11 @@ public class AppSafetyInterceptor implements HandlerInterceptor{
 	        	result.setMsg("签名失败");
 	        	rsp.getWriter().write(gson.toJson(result));
 	        	return false;
+	        }
+	        //刷新在线用户池
+	        String accountId=req.getParameter("accountId");
+	        if(org.apache.commons.lang3.StringUtils.isNotEmpty(accountId)) {
+	        	OnlineAccount.refersh(Long.valueOf(accountId));
 	        }
 	        semap.acquire();//获取一个连接
 	        return true;
