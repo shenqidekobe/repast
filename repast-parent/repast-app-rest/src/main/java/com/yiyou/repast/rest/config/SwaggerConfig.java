@@ -29,7 +29,7 @@ public class SwaggerConfig {
 	private ApiInfo apiInfo() {
 		return new ApiInfoBuilder().title("爱扫码Restful API接口文档")
 				.description("简单优雅高效的接口文档，您值得拥有。")
-				.termsOfServiceUrl("http://www.jianshu.com").version("1.0").build();
+				.termsOfServiceUrl("http://www.read.com").version("1.0").build();
 	}
 
 }

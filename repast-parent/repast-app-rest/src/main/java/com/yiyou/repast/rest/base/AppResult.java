@@ -9,12 +9,12 @@ import io.swagger.annotations.ApiModelProperty;
 @ApiModel(description = "返回接口对象")
 public class AppResult {
 	
-	public final static String SUCCESS="0000";//成功
-	public final static String ERROR="4000";//异常
-	public final static String PARAM_NULL="4001";//参数为空
-	public final static String OBJECT_NULL="4002";//对象为空
-	public final static String VALID_FIAL="4004";//验证失败
-	public final static String SIGN_FIAL="4444";//签名失败
+	public final static String SUCCESS="200";//成功
+	public final static String ERROR="500";//异常
+	public final static String PARAM_NULL="400";//参数为空
+	public final static String OBJECT_NULL="404";//对象为空
+	public final static String VALID_FIAL="403";//验证失败
+	public final static String SIGN_FIAL="444";//签名失败
 
 	@ApiModelProperty(value = "返回代码")
 	private String code=SUCCESS;
