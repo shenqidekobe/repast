@@ -14,6 +14,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiImplicitParams;
 import io.swagger.annotations.ApiOperation;
+import repast.yiyou.common.base.EnumDefinition.AccountType;
 
 @Api(value = "商户接口", tags = "商户模块")
 @RestController
@@ -27,7 +28,7 @@ public class MerchantController {
 	 * 终端用户登录
 	 * */
 	@PostMapping("/login")
-	@ApiOperation(value = "用户登录", notes = "商家终端用户登录对订单进行处理")
+	@ApiOperation(value = "终端用户登录", notes = "商家终端用户登录对订单进行处理")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "account", value = "帐号", required = true, dataType = "String"), 
 		@ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
@@ -36,6 +37,8 @@ public class MerchantController {
 		MerchantAccount obj=merchantAccountService.login(merchantId, account, password);
 		
 		if(obj==null)return new AppResult(AppResult.OBJECT_NULL,"帐号密码错误");
+		
+		if(!AccountType.terminal.equals(obj.getType()))return new AppResult(AppResult.VALID_FIAL,"此帐号不允许登录");
 		
 		return new AppResult(new Gson().toJson(obj));
 	}
