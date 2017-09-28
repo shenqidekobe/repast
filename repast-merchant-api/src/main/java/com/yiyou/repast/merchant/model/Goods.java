@@ -44,6 +44,9 @@ public class Goods implements Serializable {
     private String operUser;//操作人
 
     private Boolean shelves ;//是否上架
+    
+    @Transient
+    private List<GoodsAux> auxs = new ArrayList<>();
 
 
     public List<Long> getSpecsId() {
@@ -186,6 +189,14 @@ public class Goods implements Serializable {
     public void setOperUser(String operUser) {
         this.operUser = operUser;
     }
+
+	public List<GoodsAux> getAuxs() {
+		return auxs;
+	}
+
+	public void setAuxs(List<GoodsAux> auxs) {
+		this.auxs = auxs;
+	}
 
 
 }
