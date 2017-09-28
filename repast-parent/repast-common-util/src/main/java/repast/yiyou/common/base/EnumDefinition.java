@@ -123,14 +123,26 @@ public class EnumDefinition {
 		inside("内部人员结算"),
 		outside("外部人员结算");
 		private String name;
-
 		private SettleWay(String name){
-		        this.name = name;
-		    }
-
+	        this.name = name;
+	    }
 		public String getName() {
 			return this.name;
 		}
 	}
+	
+	//订单处理状态
+	public enum OrderProcessStatus {
+		await("待处理"),
+		process("已处理");
+		private String name;
+		private OrderProcessStatus(String name){
+	        this.name = name;
+	    }
+		public String getName() {
+			return this.name;
+		}
+	}
+	
 
 }
