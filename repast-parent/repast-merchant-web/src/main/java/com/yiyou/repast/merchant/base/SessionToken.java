@@ -1,7 +1,9 @@
 package com.yiyou.repast.merchant.base;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * session
@@ -16,6 +18,7 @@ public class SessionToken implements Serializable{
 	private String roleName;
 	private String token;
 	private Date createTime;
+	private List<String> permissions=new ArrayList<>();
 	
 	public Long getAccountId() {
 		return accountId;
@@ -59,4 +62,17 @@ public class SessionToken implements Serializable{
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
 	}
+	public List<String> getPermissions() {
+		return permissions;
+	}
+	public void setPermissions(List<String> permissions) {
+		this.permissions = permissions;
+	}
+	@Override
+	public String toString() {
+		return "SessionToken [accountId=" + accountId + ", merchantId=" + merchantId + ", loginName=" + loginName
+				+ ", roleId=" + roleId + ", roleName=" + roleName + ", token=" + token + ", createTime=" + createTime
+				+ ", permissions=" + permissions + "]";
+	}
+	
 }

@@ -2,7 +2,6 @@ package com.yiyou.repast.merchant.controller;
 
 import java.util.List;
 
-import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +32,6 @@ public class AccountController {
 	@Reference
 	private IMerchantRoleService merchantRoleService;
 
-	@RequiresPermissions(value = { "sss" })
 	@GetMapping()
 	public String list(Model model) {
 		return "/account/list";
