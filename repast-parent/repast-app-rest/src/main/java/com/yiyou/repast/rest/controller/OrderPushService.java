@@ -1,10 +1,12 @@
 package com.yiyou.repast.rest.controller;
 
+import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
@@ -29,8 +31,39 @@ public class OrderPushService {
 	/**
 	 * 实时推送订单,每隔30秒查询一次是否有新订单，每天规定时间段内推送
 	 * */
-	@Scheduled(cron = "0/30 * 11-14 * * ?")
+	@Scheduled(cron = "*/30 * * * * ? ")
 	public void push() {
+		String sourceTime = "10:30-14:30";
+		String curTime = DateFormatUtils.format(new Date(), "HH:mm");
+		String[] args = sourceTime.split("-");
+		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
+		try {
+			long now = sdf.parse(curTime).getTime();
+			long start = sdf.parse(args[0]).getTime();
+			long end = sdf.parse(args[1]).getTime();
+			if (args[1].equals("00:00")) {
+				args[1] = "24:00";
+			}
+			boolean isSend = false;
+
+			if (end < start) {
+				if (now >= end && now < start) {
+					isSend = false;
+				} else {
+					isSend = true;
+				}
+			} else {
+				if (now >= start && now < end) {
+					isSend = true;
+				} else {
+					isSend = false;
+				}
+			}
+			if (!isSend) {return;
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 		List<OrderProcess> list=orderService.findOrderProcessAwaitList();
 		if(CollectionUtils.isEmpty(list))return;
 		OnlineAccount.refershAll();
@@ -49,5 +82,6 @@ public class OrderPushService {
 			}
 		}
 	}
+	
 	
 }
