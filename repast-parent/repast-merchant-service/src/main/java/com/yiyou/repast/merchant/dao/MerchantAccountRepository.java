@@ -6,6 +6,6 @@ import com.yiyou.repast.merchant.model.MerchantAccount;
 
 public interface MerchantAccountRepository extends JpaRepository<MerchantAccount, Long> {
 	
-	MerchantAccount findByLoginNameAndPassword(String loginName,String password);
+	MerchantAccount findByMerchantIdAndLoginNameAndPassword(Long merchantId,String loginName,String password);
 
 }

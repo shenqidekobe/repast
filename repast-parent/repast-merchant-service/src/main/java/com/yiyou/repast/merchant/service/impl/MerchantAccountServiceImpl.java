@@ -20,6 +20,7 @@ import com.yiyou.repast.merchant.service.IMerchantAccountService;
 import com.yiyou.repast.merchant.tools.PageConvertDataGrid;
 
 import repast.yiyou.common.util.DataGrid;
+import repast.yiyou.common.util.Md5;
 
 @Service
 public class MerchantAccountServiceImpl implements IMerchantAccountService{
@@ -40,7 +41,8 @@ public class MerchantAccountServiceImpl implements IMerchantAccountService{
 
 	@Override
 	public MerchantAccount login(Long merchantId,String loginName, String password) {
-		return merchantAccountRepository.findByLoginNameAndPassword(loginName, password);
+		password=Md5.getMD5(password);
+		return merchantAccountRepository.findByMerchantIdAndLoginNameAndPassword(merchantId,loginName, password);
 	}
 
 	@Override
