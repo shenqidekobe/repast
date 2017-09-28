@@ -78,6 +78,7 @@ public class Md5 {
 	}
 
 	public static void main(String[] args) throws Exception{
+		System.out.println(getMD5("123456"));
 	}
 
 }
