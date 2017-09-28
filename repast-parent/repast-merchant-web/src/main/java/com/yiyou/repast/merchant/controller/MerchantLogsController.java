@@ -36,7 +36,7 @@ public class MerchantLogsController {
 	@PostMapping("/listData.do")
 	public List<MerchantLogs> listData(String ip,Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
-		pageSize=pageSize==null?pageSize=10:pageSize;
+		pageSize=Integer.MAX_VALUE;//客户端分页，服务端查询所有数据
 		DataGrid<MerchantLogs> data=merchantLogsService.findList(Constants.MERCHANT_ID, page, pageSize);
 		return data.getRecords();
 	}

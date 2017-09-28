@@ -51,7 +51,7 @@ public class RoleController {
 	@GetMapping("/edit")
 	public String edit(Long id,Model model) {
 		if(id==null) {
-			return "/account/add";
+			return "/role/add";
 		}
 		model.addAttribute("obj",this.merchantRoleService.find(id));
 		return "/role/edit";
