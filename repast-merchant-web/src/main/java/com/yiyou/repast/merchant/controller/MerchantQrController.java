@@ -48,7 +48,7 @@ public class MerchantQrController {
 	/**
 	 * 商家中心
 	 */
-	@GetMapping("/")
+	@GetMapping("")
 	public String list(Model model) {
 		return "/merchant/list";
 	}
