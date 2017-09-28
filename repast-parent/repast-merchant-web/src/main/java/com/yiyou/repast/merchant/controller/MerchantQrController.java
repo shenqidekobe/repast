@@ -9,8 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -126,13 +126,16 @@ public class MerchantQrController {
 	/**
 	 * 下载二维码
 	 */
-	@GetMapping("/m/{deskNum}")
-	public void bytes( @PathVariable String deskNum, HttpServletResponse response)
+	@GetMapping("/qr")
+	public void bytes(String deskNum, HttpServletResponse response)
 			throws Exception {
 		Long merchantId=Constants.MERCHANT_ID;
 		MerchantApply apply = merchantApplyService.findMerchantApplyByMerchantId(merchantId);
 		String url = apply.getApplyUrl();
-		url = url.concat("?param=" + merchantId + "_" + deskNum);
+		url = url.concat("?param=" + merchantId);
+		if(!StringUtils.isEmpty(deskNum)){
+			url = url.concat("_" + deskNum);
+		}
 		Map<String, Object> params = new HashMap<>();
 		params.put("data", url);
 		
