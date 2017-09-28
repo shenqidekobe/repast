@@ -126,9 +126,10 @@ public class MerchantQrController {
 	/**
 	 * 下载二维码
 	 */
-	@GetMapping("/m/{merchantId}/{deskNum}")
-	public void bytes(@PathVariable Long merchantId, @PathVariable String deskNum, HttpServletResponse response)
+	@GetMapping("/m/{deskNum}")
+	public void bytes( @PathVariable String deskNum, HttpServletResponse response)
 			throws Exception {
+		Long merchantId=Constants.MERCHANT_ID;
 		MerchantApply apply = merchantApplyService.findMerchantApplyByMerchantId(merchantId);
 		String url = apply.getApplyUrl();
 		url = url.concat("?param=" + merchantId + "_" + deskNum);
