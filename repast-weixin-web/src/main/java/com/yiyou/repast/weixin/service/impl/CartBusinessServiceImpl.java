@@ -32,7 +32,7 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 
 	@Override
 	public void addCart(Long userId,String userName,String deskNum, Long goodsId, String auxIds, 
-			Integer count, String amount,Integer peopleCount,String predictDate,String goodsType,String goodsName) {
+			Integer count, String amount,Integer peopleCount,String predictDate,String goodsType,String goodsName)throws BusinessException {
 	    //首先验证桌号，桌号存在就添加到当前桌的购物车
 		//验证此用户是否存在购物车，存在则累加，不存在则新建购物车,：存在的商品项则累加，否则新建购物车项
 		Cart cart=this.cartService.findCartByDeskNum(deskNum);
@@ -106,7 +106,7 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 	}
 
 	@Override
-	public void updateCartItem(Long cartId, Long cartItemId, Integer count) {
+	public void updateCartItem(Long cartId, Long cartItemId, Integer count) throws BusinessException{
 		Cart cart=cartService.findCartById(cartId);
 		if(cart==null)throw new BusinessException(4000, "cart is not be null");
 		CartItem item=cartService.findCartItemById(cartItemId);
@@ -120,21 +120,21 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 	}
 
 	@Override
-	public void removeCartItem(Long cartId, Long cartItemId) {
+	public void removeCartItem(Long cartId, Long cartItemId) throws BusinessException{
 	    cartService.removeCartItem(cartItemId);
 	}
 
 	@Override
-	public Cart getCart(Long userId) {
+	public Cart getCart(Long userId) throws BusinessException{
 		return cartService.findCart(userId);
 	}
 	
 	@Override
-	public Cart getCart(String deskNum) {
+	public Cart getCart(String deskNum) throws BusinessException{
 		return cartService.findCartByDeskNum(deskNum);
 	}
 	
-	public Cart getCartById(Long id) {
+	public Cart getCartById(Long id) throws BusinessException{
 		if(id==null)throw new BusinessException(4000, "id is not must be null");
 		Cart cart=cartService.findCartById(id);
 		if(cart==null)throw new BusinessException(4000, "cart query result is null");
@@ -142,12 +142,12 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 	}
 
 	@Override
-	public void clearCart(Long id) {
+	public void clearCart(Long id)throws BusinessException {
 		cartService.clearCart(id);
 	}
 	
 	@Override
-	public CartItemMap cartToMap(Cart cart){
+	public CartItemMap cartToMap(Cart cart)throws BusinessException{
 		CartItemMap result=new CartItemMap();
 		
 		Map<String,Integer> typeMap=new HashMap<>();//分类map

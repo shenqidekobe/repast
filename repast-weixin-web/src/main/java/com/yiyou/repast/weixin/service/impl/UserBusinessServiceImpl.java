@@ -34,7 +34,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	private IUserWhiteService userWhiteService;
 
 	@Override
-	public User registerUser(User user) {
+	public User registerUser(User user) throws BusinessException{
 		if(user==null) {
 			throw new BusinessException(4444, "user must not be null");
 		}
@@ -54,7 +54,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	}
 
 	@Override
-	public SessionToken getSessionUser() {
+	public SessionToken getSessionUser() throws BusinessException{
 		if(SecurityUtils.getSubject()==null)return null;
 		
 		SessionToken session=(SessionToken) SecurityUtils.getSubject().getPrincipal();
@@ -67,7 +67,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	}
 	
 	@Override
-	public User findById(Long id) {
+	public User findById(Long id) throws BusinessException{
 		User obj=userService.findById(null, id);
 		if(obj==null) {
 			throw new BusinessException(4444, "object User must not be null");
@@ -76,7 +76,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	}
 	
 	@Override
-	public User update(User obj) {
+	public User update(User obj) throws BusinessException{
 		if(obj==null||obj.getId()==null) {
 			throw new BusinessException(4444, "object User must not be null");
 		}
@@ -84,7 +84,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	}
 
 	@Override
-	public UserAuthorizeApply createUserAuthorizeApply(UserAuthorizeApply obj) {
+	public UserAuthorizeApply createUserAuthorizeApply(UserAuthorizeApply obj) throws BusinessException{
 		if(obj==null) {
 			throw new BusinessException(4444, "object userAuthorizeApply must not be null");
 		}
@@ -94,7 +94,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	}
 
 	@Override
-	public void auditUserAuthorizeApply(Long userId,Long id, boolean flag) {
+	public void auditUserAuthorizeApply(Long userId,Long id, boolean flag)throws BusinessException {
 		if(id==null) {
 			throw new BusinessException(4444, "id must not be null");
 		}
@@ -110,7 +110,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	}
 
 	@Override
-	public UserAuthorizeApply getUserAuthorizeApply(Long userId) {
+	public UserAuthorizeApply getUserAuthorizeApply(Long userId)throws BusinessException {
 		if(userId==null) {
 			throw new BusinessException(4444, "userId must not be null");
 		}
@@ -118,7 +118,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	}
 	
 	@Override
-	public UserAuthorizeApply getUserAuthorizeApplyByID(Long id) {
+	public UserAuthorizeApply getUserAuthorizeApplyByID(Long id)throws BusinessException {
 		if(id==null) {
 			throw new BusinessException(4444, "id must not be null");
 		}
@@ -126,7 +126,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	}
 	
 	@Override
-	public void updateUserAuthorizeApply(UserAuthorizeApply obj) {
+	public void updateUserAuthorizeApply(UserAuthorizeApply obj)throws BusinessException {
 		if(obj==null||obj.getId()==null) {
 			throw new BusinessException(4444, "UserAuthorizeApply must not be null");
 		}
@@ -134,7 +134,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	}
 
 	@Override
-	public void sendSms(String phone, String content) {
+	public void sendSms(String phone, String content)throws BusinessException {
 		if(org.apache.commons.lang3.StringUtils.isEmpty(phone)) {
 			throw new BusinessException(4444, "phone must not be null");
 		}
@@ -142,18 +142,18 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 	}
 
 	@Override
-	public boolean validateSms(String phone, String content) {
+	public boolean validateSms(String phone, String content)throws BusinessException {
 		return smsService.verifyCode(phone, content);
 	}
 	
 	@Override
-	public UserWhite getUserWhite(String phone) {
+	public UserWhite getUserWhite(String phone)throws BusinessException {
 		if(org.apache.commons.lang3.StringUtils.isEmpty(phone))return null;
 		return this.userWhiteService.findUserWhiteByPhone(phone);
 	}
 
 	@Override
-	public void updateUserWhite(UserWhite obj) {
+	public void updateUserWhite(UserWhite obj) throws BusinessException{
 		if(obj==null||obj.getId()==null) {
 			throw new BusinessException(4444, "UserWhite must not be null");
 		}

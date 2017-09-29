@@ -13,6 +13,8 @@ import com.yiyou.repast.merchant.service.IMerchantApplyService;
 import com.yiyou.repast.weixin.base.ThreadContextHolder;
 import com.yiyou.repast.weixin.service.MerchantBusinessService;
 
+import repast.yiyou.common.exception.BusinessException;
+
 @org.springframework.stereotype.Service
 public class MerchantBusinessServiceImpl implements MerchantBusinessService{
 	
@@ -22,7 +24,7 @@ public class MerchantBusinessServiceImpl implements MerchantBusinessService{
 	private IZxingQrService zxingQrService;
 
 	@Override
-	public MerchantApply getMerchantApply(String path) {
+	public MerchantApply getMerchantApply(String path)throws BusinessException {
 		if(StringUtils.isEmpty(path)) return new MerchantApply(ThreadContextHolder.getCurrentMerchantId(),null);
 		MerchantApply obj=merchantApplyService.findMerchantApplyByPath(path);
 		if(obj==null) return new MerchantApply(ThreadContextHolder.getCurrentMerchantId(),path);
@@ -30,12 +32,12 @@ public class MerchantBusinessServiceImpl implements MerchantBusinessService{
 	}
 
 	@Override
-	public List<MerchantApply> getAll() {
+	public List<MerchantApply> getAll()throws BusinessException {
 		return merchantApplyService.findAll();
 	}
 
 	@Override
-	public String qrcode(Long merchantId, String deskNum) {
+	public String qrcode(Long merchantId, String deskNum)throws BusinessException {
 		MerchantApply apply= merchantApplyService.findMerchantApplyByMerchantId(merchantId);
 		String url=apply.getApplyUrl();
 		url=url.concat("?param="+merchantId+"_"+deskNum);
@@ -45,7 +47,7 @@ public class MerchantBusinessServiceImpl implements MerchantBusinessService{
 	}
 	
 	@Override
-	public byte[] qrcodeImg(Long merchantId, String deskNum) {
+	public byte[] qrcodeImg(Long merchantId, String deskNum) throws BusinessException{
 		MerchantApply apply= merchantApplyService.findMerchantApplyByMerchantId(merchantId);
 		String url=apply.getApplyUrl();
 		url=url.concat("?param="+merchantId+"_"+deskNum);
