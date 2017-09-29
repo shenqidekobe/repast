@@ -53,11 +53,17 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 			cart=this.cartService.save(cart);
 		}else {
 			Set<CartItem> items=cart.getItems();
+			int allSize=items.size();
 			for(CartItem item:items) {
 				if(item.getGoodsId().equals(goodsId)) {
 					int initCount=item.getCount();//原始数量
 					if(count==0) {
-						this.cartService.removeCartItem(item.getId());
+						if(allSize==1) {
+							//只有当前一条记录则删除购物车数据
+							this.cartService.clearCart(cart.getId());
+						}else{
+							this.cartService.removeCartItem(item.getId());
+						}
 					}else {
 						item.setCount(count);
 						item.setAmount(new BigDecimal(amount).multiply(new BigDecimal(count)));

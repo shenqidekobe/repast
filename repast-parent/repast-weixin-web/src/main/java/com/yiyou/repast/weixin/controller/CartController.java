@@ -1,5 +1,8 @@
 package com.yiyou.repast.weixin.controller;
 
+import java.util.List;
+import java.util.stream.Collectors;
+
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,11 +14,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.yiyou.repast.merchant.model.Goods;
 import com.yiyou.repast.order.model.Cart;
 import com.yiyou.repast.weixin.base.CartItemMap;
 import com.yiyou.repast.weixin.base.RspResult;
 import com.yiyou.repast.weixin.base.SessionToken;
 import com.yiyou.repast.weixin.service.CartBusinessService;
+import com.yiyou.repast.weixin.service.GoodsBusinessService;
 import com.yiyou.repast.weixin.service.UserBusinessService;
 
 /**
@@ -29,6 +34,8 @@ public class CartController {
 	private UserBusinessService userService;
 	@Resource
 	private CartBusinessService cartService;
+	@Resource
+	private GoodsBusinessService goodsBusinessService;
 	
 	/**
 	 * 选择人数
@@ -50,6 +57,9 @@ public class CartController {
 			cart=cartService.getCart(session.getUserId());
 		}
 		if(cart==null) {
+			List<Goods> map=goodsBusinessService.findHotGoodsList(9L).values().stream()
+					.flatMap(gr->gr.stream()).collect(Collectors.toList());//热销榜，9条
+			model.addAttribute("hotList", map);
 			return "goods/cart_empty";
 		}
 		CartItemMap cmap=cartService.cartToMap(cart);
