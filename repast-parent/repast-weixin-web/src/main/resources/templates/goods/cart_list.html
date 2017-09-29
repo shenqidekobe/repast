@@ -92,18 +92,20 @@
 				mui('body').on('click','#confirmBtn',function(e) {
 					var cid=$(this).attr("cid");
 					mui.confirm(' ','确定要清空所有菜品吗？', btn, function(e) {
-						$.ajax({
-						   url:ctx+'/cart/clear.do',
-						   type:'POST',
-						   data:{id:cid},
-						   success:function(rsp){
-							   if(rsp.status==200){
-								   location.href=location.href;
-							   }else{
-								   mui.toast("服务器繁忙，请稍后再试！");
-							   }
-						   }
-					   });
+						if(e.index==1){
+							$.ajax({
+								   url:ctx+'/cart/clear.do',
+								   type:'POST',
+								   data:{id:cid},
+								   success:function(rsp){
+									   if(rsp.status==200){
+										   location.href=location.href;
+									   }else{
+										   mui.toast("服务器繁忙，请稍后再试！");
+									   }
+								   }
+							   });
+						}
 					})
 				})
 				$(".img-back1").click(function(){
