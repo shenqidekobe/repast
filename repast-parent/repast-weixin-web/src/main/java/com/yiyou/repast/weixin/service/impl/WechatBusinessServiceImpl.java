@@ -9,6 +9,8 @@ import com.yiyou.repast.pay.model.PaymentRecord;
 import com.yiyou.repast.pay.service.IPaymentRecordService;
 import com.yiyou.repast.weixin.service.WechatBusinessService;
 
+import repast.yiyou.common.exception.BusinessException;
+
 @Service
 public class WechatBusinessServiceImpl implements WechatBusinessService{
 	
@@ -16,12 +18,12 @@ public class WechatBusinessServiceImpl implements WechatBusinessService{
 	private IPaymentRecordService paymentRecordService;
 
 	@Override
-	public PaymentRecord findByOrderId(Long orderId) {
+	public PaymentRecord findByOrderId(Long orderId) throws BusinessException{
 		return paymentRecordService.findByOrderId(orderId);
 	}
 
 	@Override
-	public void savePaymentRecord(PaymentRecord obj) {
+	public void savePaymentRecord(PaymentRecord obj) throws BusinessException{
 		obj.setPayTime(new Date());
 		paymentRecordService.save(obj);
 	}

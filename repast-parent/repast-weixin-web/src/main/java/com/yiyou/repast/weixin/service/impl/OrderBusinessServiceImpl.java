@@ -34,7 +34,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 	private IGoodsService goodsService;
 
 	@Override
-	public Order createOrder(Cart cart) {
+	public Order createOrder(Cart cart)throws BusinessException {
 		if(cart==null)throw new BusinessException(4444, "cart not must be null");
 		if(cart.getItems()==null||cart.getItems().size()==0) {
 			throw new BusinessException(4444, "cartItem not must be null");
@@ -86,31 +86,31 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 	}
 
 	@Override
-	public Order getOrder(Long userId) {
+	public Order getOrder(Long userId)throws BusinessException {
 		List<Order> list=getOrderList(userId);
 		return list.isEmpty()?null:list.get(list.size()-1);
 	}
 	
 	@Override
-	public Order getOrderById(Long id) {
+	public Order getOrderById(Long id) throws BusinessException{
 		return orderService.findById(id);
 	}
 	
 	@Override
-	public Order getOrderByDeskNum(String deskNum) {
+	public Order getOrderByDeskNum(String deskNum) throws BusinessException{
 		List<Order> list=orderService.findByDeskNum(deskNum);
 		return CollectionUtils.isEmpty(list)?null:list.get(list.size()-1);
 	}
 
 	@Override
-	public List<Order> getOrderList(Long userId) {
+	public List<Order> getOrderList(Long userId)throws BusinessException {
 		if(userId==null)throw new BusinessException(4444, "userId not be null");
 		
 		return orderService.findByUserId(userId);
 	}
 
 	@Override
-	public Order settleOrder(Order obj) {
+	public Order settleOrder(Order obj) throws BusinessException{
 		if(obj==null||obj.getId()==0) {
 			throw new BusinessException(4444, "Order not must be null");
 		}

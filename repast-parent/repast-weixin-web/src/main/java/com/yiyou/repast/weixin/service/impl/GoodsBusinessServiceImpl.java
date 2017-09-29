@@ -30,6 +30,8 @@ import com.yiyou.repast.order.service.IOrderService;
 import com.yiyou.repast.weixin.base.ThreadContextHolder;
 import com.yiyou.repast.weixin.service.GoodsBusinessService;
 
+import repast.yiyou.common.exception.BusinessException;
+
 @Service
 public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 	
@@ -45,7 +47,7 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 	private IOrderService orderService;
 
 	@Override
-	public Map<String, List<Goods>> findGoodsList() {
+	public Map<String, List<Goods>> findGoodsList() throws BusinessException{
 		Map<String, List<Goods>> result=new HashMap<>();
 		List<Goods> list=goodsService.findAll(ThreadContextHolder.getCurrentMerchantId());
 		if(CollectionUtils.isEmpty(list))return result;
@@ -54,7 +56,7 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 	}
 
 	@Override
-	public Goods findGoodsById(Long id) {
+	public Goods findGoodsById(Long id) throws BusinessException{
 		Goods obj= goodsService.findById(ThreadContextHolder.getCurrentMerchantId(), id);
 		if(StringUtils.isNotEmpty(obj.getAuxIds())) {
 			List<String> ids=Arrays.asList(obj.getAuxIds().split(","));
@@ -71,7 +73,7 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 	}
 
 	@Override
-	public Map<String, List<Goods>> findDailyGoodsList() {
+	public Map<String, List<Goods>> findDailyGoodsList()throws BusinessException {
 		Map<String, List<Goods>> result=new HashMap<>();
 		List<DailyGoods> dailtList=dailyGoodsService.findByDate(ThreadContextHolder.getCurrentMerchantId(),
 			DateFormatUtils.format(new Date(), "yyyy-MM-dd"));
@@ -85,7 +87,7 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 	}
 
 	@Override
-	public Map<String, List<Goods>> findRecommedGoodsList() {
+	public Map<String, List<Goods>> findRecommedGoodsList()throws BusinessException {
 		Map<String, List<Goods>> result=new HashMap<>();
 		List<RecommendGoods> remList=recommendService.findAll(ThreadContextHolder.getCurrentMerchantId());
 		if(CollectionUtils.isEmpty(remList))return result;
@@ -98,7 +100,7 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 	}
 
 	@Override
-	public Map<String, List<Goods>> findHotGoodsList(Long maxSize) {
+	public Map<String, List<Goods>> findHotGoodsList(Long maxSize)throws BusinessException {
 		//热销榜，查询购买数量最多的商品
 		Map<String, List<Goods>> result=new HashMap<>();
 		List<Goods> list=goodsService.findAll(ThreadContextHolder.getCurrentMerchantId());
@@ -110,7 +112,7 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 	}
 
 	@Override
-	public Map<String, List<Goods>> findOldGoodsList(Long userId) {
+	public Map<String, List<Goods>> findOldGoodsList(Long userId)throws BusinessException {
 		Map<String, List<Goods>> result=new HashMap<>();
 		List<Order> orderList=orderService.findByUserId(userId);
 		if(CollectionUtils.isEmpty(orderList))return result;
