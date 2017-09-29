@@ -133,13 +133,20 @@ public class MerchantQrController {
 		MerchantApply apply = merchantApplyService.findMerchantApplyByMerchantId(merchantId);
 		String url = apply.getApplyUrl();
 		url = url.concat("?param=" + merchantId);
+		String fileName="商家二维码.png";
 		if(!StringUtils.isEmpty(deskNum)){
 			url = url.concat("_" + deskNum);
+			fileName="桌号"+deskNum+"二维码.png";
 		}
 		Map<String, Object> params = new HashMap<>();
 		params.put("data", url);
 		
+		
 		byte[] out = zxingQrService.qrAsByte(params);
+		response.setCharacterEncoding("utf-8");
+		response.setHeader("Content-Disposition", "attachment;filename="
+				+ new String(fileName.getBytes("utf-8"),
+						"iso8859-1"));
 		response.setContentType("image/png");
 		response.getOutputStream().write(out);
 	}
