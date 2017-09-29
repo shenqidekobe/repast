@@ -75,5 +75,10 @@ public class MerchantRoleMenu implements Serializable {
 	public void setMenuId(Long menuId) {
 		this.menuId = menuId;
 	}
+
+	@Override
+	public String toString() {
+		return " [权限点=" + menu.getName() + "]";
+	}
 	
 }
