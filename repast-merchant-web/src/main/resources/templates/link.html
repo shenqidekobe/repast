@@ -17,6 +17,41 @@
 <script th:src="@{/static/bootstrap/js/bootstrap.min.js}"></script>
 <script th:src="@{/static/metisMenu/metisMenu.min.js}"></script>
 <script th:src="@{/static/dist/js/sb-admin-2.js}"></script>
+<script th:src="@{/static/toastr/toastr.min.js}"></script>
 <script th:inline="javascript">
 var ctx=[[${_PATH}]];
 </script>
+<div class="modal fade" id="settingModal" tabindex="-1" role="dialog" aria-labelledby="settingModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="settingModalLabel">设置密码</h4>
+            </div>
+            <div class="modal-body">
+                <form class="" role="form"  method="post" id="settingForm">
+					<div class="form-group">
+				    	<label>帐号</label>
+						<input type="text" class="form-control" th:value="${session.sessionToken.loginName}" disabled>
+					</div>
+					<div class="form-group">
+				    	<label>原始密码</label>
+						<input type="password" class="form-control" name="password" id="password" maxlength="16">
+					</div>
+					<div class="form-group">
+				    	<label>新密码</label>
+						<input type="password" class="form-control" name="password1" id="password1" maxlength="16">
+					</div>
+					<div class="form-group">
+				    	<label>确认密码</label>
+						<input type="password" class="form-control" name="password2" id="password2" maxlength="16">
+					</div>
+	            </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary" id="saveSettingBtn">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
