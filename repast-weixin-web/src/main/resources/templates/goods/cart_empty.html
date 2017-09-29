@@ -21,7 +21,38 @@
 			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
 			<div class="list-card list-card-5 p010 pt10 bb-ras5">
 				<div class="swiper-container swiper-container-1 cont-keting">
-				  <div class="swiper-wrapper m-bd"></div>
+				  <div class="swiper-wrapper m-bd">
+					  <div class="swiper-slide" >
+				    	   <ul class="li-c3 f-cb">
+								<li class="list" th:each="ht,stat: ${hotList}" th:if="${stat.index} lt 3">
+									<a th:href="@{'/goods/detail?id='+${ht.id}}">
+										<img th:src="@{/static/img/bg-login.jpg}" class="a-img"/>
+										<div class="m-tit" th:text="${ht.name}">红烧麻辣鱼</div>
+									</a>
+								</li>
+							</ul>
+					   </div>
+					   <div class="swiper-slide" >
+				    	   <ul class="li-c3 f-cb">
+								<li class="list" th:each="ht,stat: ${hotList}" th:if="${stat.index} lt 6 and ${stat.index} gt 2">
+									<a th:href="@{'/goods/detail?id='+${ht.id}}">
+										<img th:src="@{/static/img/bg-login.jpg}" class="a-img"/>
+										<div class="m-tit" th:text="${ht.name}">红烧麻辣鱼</div>
+									</a>
+								</li>
+							</ul>
+					   </div>
+					   <div class="swiper-slide" >
+				    	   <ul class="li-c3 f-cb">
+								<li class="list" th:each="ht,stat: ${hotList}" th:if="${stat.index} lt 9 and ${stat.index} gt 5">
+									<a th:href="@{'/goods/detail?id='+${ht.id}}">
+										<img th:src="@{/static/img/bg-login.jpg}" class="a-img"/>
+										<div class="m-tit" th:text="${ht.name}">红烧麻辣鱼</div>
+									</a>
+								</li>
+							</ul>
+					   </div>
+				  </div>
 				  <div class="swiper-pagination"></div>
 				</div>
 			</div>
@@ -44,8 +75,13 @@
 		<script type="text/javascript" th:src="@{/static/js/swiper.min.js}"></script>
 		<script type="text/javascript">
 		   $(function(){
+			   var mySwiper1 = new Swiper('.swiper-container-1', {
+					autoplay: 5000,
+					pagination : '.swiper-pagination',
+					paginationClickable :true
+				})
 			    $(".imgdiancai").click(function() {
-			    	location.href=ctx+'/goods/list';
+			    	location.href=ctx+'/goods/index';
 				});
 				$(".img-back1").click(function() {
 					location.href=history.go(-1);

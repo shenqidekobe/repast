@@ -149,7 +149,6 @@
 			    		amount=_this.parent().attr("gam"),
 			    		allAmount=$("#allAmount"),
 			    		num=$(this).siblings('.f-click-num').find('input');
-			    		console.info(at);
 			    		switch (did){
 			    			case "del":
 			    				if(parseInt(num.val())>=1){
@@ -167,7 +166,9 @@
 				    					var all=parseFloat(allAmount.text())-parseFloat(amount);
 				    					allAmount.text(all.toFixed(2));
 				    					//处理全部清除的时候
-				    					if(ct==0){
+				    					if(parseInt(all)==0){
+				    						location.href=location.href;
+				    					}if(ct==0){
 				    						_this.parent().parent().parent().parent().remove();
 				    					}
 			    					})
