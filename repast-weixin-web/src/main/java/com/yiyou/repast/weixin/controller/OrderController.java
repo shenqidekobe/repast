@@ -8,6 +8,7 @@ import javax.annotation.Resource;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -73,6 +74,8 @@ public class OrderController {
 		Cart cart=cartService.getCartById(cid);
 		if(cart==null) {
 			return new RspResult(402,"请勿重复下单");
+		}else if(CollectionUtils.isEmpty(cart.getItems())){
+			return new RspResult(402,"购物车没有任何商品不能下单");
 		}
 		Order order=orderService.createOrder(cart);
 		RspResult rsp=new RspResult();
