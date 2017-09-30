@@ -1,16 +1,5 @@
 package com.yiyou.repast.merchant.controller;
 
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RBeanUtils;
@@ -22,6 +11,12 @@ import com.yiyou.repast.merchant.service.IGoodsAuxService;
 import com.yiyou.repast.merchant.service.IGoodsCategoryService;
 import com.yiyou.repast.merchant.service.IGoodsService;
 import com.yiyou.repast.merchant.service.IGoodsSpecService;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+import java.util.Set;
 
 /**
  * 菜品控制器
@@ -47,7 +42,6 @@ public class GoodsController {
         return "/goods/list";
     }
 
-
     @GetMapping("/edit")
     public String edit(Long id, Model model) {
         model.addAttribute("parentList", goodsCategoryService.findAll(Constants.MERCHANT_ID));
@@ -59,7 +53,6 @@ public class GoodsController {
         model.addAttribute("obj", goodsService.findById(Constants.MERCHANT_ID, id));
         return "/goods/edit";
     }
-
 
     @ResponseBody
     @PostMapping("/listData.do")

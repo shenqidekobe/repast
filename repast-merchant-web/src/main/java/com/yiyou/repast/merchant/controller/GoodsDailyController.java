@@ -24,8 +24,10 @@ public class GoodsDailyController {
 
     @Reference
     private IGoodsService goodsService;
+
     @Reference
     private IGoodsCategoryService goodsCategoryService;
+
     @Reference
     private IDailyGoodsService dailyGoodsService;
 

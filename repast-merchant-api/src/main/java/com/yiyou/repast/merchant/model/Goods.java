@@ -48,7 +48,6 @@ public class Goods implements Serializable {
     @Transient
     private List<GoodsAux> auxs = new ArrayList<>();
 
-
     public List<Long> getSpecsId() {
         List<Long> ids = new ArrayList<>();
         for (GoodsSpec spec : specs) {
@@ -78,6 +77,7 @@ public class Goods implements Serializable {
             return category.getName();
         }
     }
+
     public void setShelves(Boolean shelves) {
         this.shelves = shelves;
     }

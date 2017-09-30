@@ -1,24 +1,20 @@
 package com.yiyou.repast.merchant.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.merchant.dao.GoodsAuxRepository;
 import com.yiyou.repast.merchant.model.GoodsAux;
 import com.yiyou.repast.merchant.service.IGoodsAuxService;
-
 import repast.yiyou.common.util.DataGrid;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class GoodsAuxServiceImpl implements IGoodsAuxService {
 
-
     @Resource
     GoodsAuxRepository goodsAuxRepository;
-
 
     @Override
     public GoodsAux findById(Long mearchant, Long id) {
