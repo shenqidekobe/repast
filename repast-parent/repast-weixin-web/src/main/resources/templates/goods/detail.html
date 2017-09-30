@@ -32,7 +32,9 @@
 						<input type="hidden" id="goodsType" th:value="${obj.category.name}"/>
 						<div class="m-bd">
 							<div class="m-txt">
-								<span class="m-cailiao" th:each="sp:${obj.specs}" th:text="${sp.name}"></span>
+								<div class="m-txt tags f-click-par">
+									<span class="m-tags f-click-radio1" th:each="spe,stat:${obj.specs}" th:text="${spe.name}" th:attr="data-num=${stat.index},data=${spe.id}" data-num="0"></span>
+								</div>
 							</div>
 						</div>
 					</div>
@@ -42,7 +44,7 @@
 						</div>
 						<div class="m-bd">
 							<div class="m-txt tags f-click-par">
-								<span class="m-tags on f-click-radio" th:each="aux,stat:${obj.auxs}" th:text="${aux.name}" th:attr="data-num=${stat.index},data=${aux.id}" data-num="0"></span>
+								<span class="m-tags f-click-radio" th:each="aux,stat:${obj.auxs}" th:text="${aux.name}" th:attr="data-num=${stat.index},data=${aux.id}" data-num="0"></span>
 							</div>
 						</div>
 					</div>
@@ -67,11 +69,26 @@
 			   });
 			   $(".btn-cart").click(function(){
 				   var auxId="";
+				   var specId="";
+				   var specName=""
 				   $(".f-click-radio").each(function(){
 					   if($(this).hasClass("on")){
 						   auxId=auxId==""?$(this).attr("data"):(auxId+","+$(this).attr("data"));
 					   }
 				   });
+				   $(".f-click-radio1").each(function(){
+					   if($(this).hasClass("on")){
+						   specId=$(this).attr("data");
+						   specName=$(this).text();
+					   }
+				   });
+				   if(specId==""){
+					   toast("请选择规格");
+					   return false;
+				   }else  if(auxId==""){
+					   toast("请选择辅料");
+					   return false;
+				   } 
 				   var number=$("#number").val();
 				   var id=$("#objId").val();
 				   var amount=$("#jiage").text();
@@ -80,13 +97,14 @@
 				   $.ajax({
 					   url:ctx+'/cart/save.do',
 					   type:'POST',
-					   data:{id:id,number:number,amount:amount,goodsType:goodsType,goodsName:goodsName,auxIds:auxId},
+					   data:{id:id,number:number,amount:amount,goodsType:goodsType,goodsName:goodsName,
+						     auxIds:auxId,specId:specId,specName:specName},
 					   success:function(rsp){
 						   if(rsp.status==200){
 							   toast("购买成功");
 							   setTimeout(function(){
 									location.href=ctx+'/goods/index';
-							   }, 2000);
+							   }, 1000);
 						   }else{
 							   toast("服务器繁忙，请稍后再试！");
 						   }
@@ -115,8 +133,15 @@
 			    				break;
 			    		}
 			    }); 
+			    $(document).on('click','.f-click-radio1',function(){
+			    	$(this).parents('.f-click-par').find('.f-click-radio1').removeClass('on').end().end().addClass('on');
+			    });
 			    $(document).on('click','.f-click-radio',function(){
-			    	$(this).parents('.f-click-par').find('.f-click-radio').removeClass('on').end().end().addClass('on');
+			    	 if($(this).hasClass("on")){
+			    		 $(this).removeClass('on');
+			    	 }else{
+			    	     $(this).addClass('on');
+			    	 }
 			    });
 		   });
 		</script>
