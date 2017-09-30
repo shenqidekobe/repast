@@ -56,26 +56,28 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 			int allSize=items.size();
 			for(CartItem item:items) {
 				if(item.getGoodsId().equals(goodsId)) {
-					int initCount=item.getCount();//原始数量
-					if(count==0) {
-						if(allSize==1) {
-							//只有当前一条记录则删除购物车数据
-							this.cartService.clearCart(cart.getId());
-						}else{
-							this.cartService.removeCartItem(item.getId());
-						}
-					}else {
-						item.setCount(count);
-						item.setAmount(new BigDecimal(amount).multiply(new BigDecimal(count)));
-						this.cartService.updateCartItem(item);
-					}
 					itemFlag=false;//只更新购物车项数量和价格
-					
+					int initCount=item.getCount();//原始数量
 					if(initCount>count) {
 						addFlag=false;
 						all=new BigDecimal(amount).multiply(new BigDecimal(initCount-count));
 					}else {
 						all=new BigDecimal(amount).multiply(new BigDecimal(count-initCount));
+					}
+					if(count==0) {
+						if(allSize==1) {
+							//只有当前一条记录则删除购物车数据
+							this.cartService.clearCart(cart.getId());
+							return;
+						}else{
+							this.cartService.removeCartItem(item.getId());
+							cart.getItems().remove(item);
+							break;
+						}
+					}else {
+						item.setCount(count);
+						item.setAmount(new BigDecimal(amount).multiply(new BigDecimal(count)));
+						this.cartService.updateCartItem(item);
 					}
 				}
 			}
