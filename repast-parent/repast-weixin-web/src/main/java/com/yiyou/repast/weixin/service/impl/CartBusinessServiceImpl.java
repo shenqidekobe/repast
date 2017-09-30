@@ -32,7 +32,7 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 
 	@Override
 	public void addCart(Long userId,String userName,String deskNum, Long goodsId, String auxIds, 
-			Integer count, String amount,Integer peopleCount,String predictDate,String goodsType,String goodsName)throws BusinessException {
+			Integer count, String amount,Integer peopleCount,String predictDate,String goodsType,String goodsName,Long specId,String specName)throws BusinessException {
 	    //首先验证桌号，桌号存在就添加到当前桌的购物车
 		//验证此用户是否存在购物车，存在则累加，不存在则新建购物车,：存在的商品项则累加，否则新建购物车项
 		Cart cart=this.cartService.findCartByDeskNum(deskNum);
@@ -94,6 +94,8 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 			item.setCart(cart);
 			item.setGoodsType(goodsType);
 			item.setGoodsName(goodsName);
+			item.setSpecId(specId);
+			item.setSpecName(specName);
 			cartService.saveCartItem(item);
 		}
 		BigDecimal pre=cart.getAmount()==null?new BigDecimal(0):cart.getAmount();
