@@ -15,10 +15,8 @@ import java.util.Set;
 @Service
 public class GoodsSpecServiceImpl implements IGoodsSpecService {
 
-
     @Resource
     GoodsSpecRepository goodsSpecRepository;
-
 
     @Override
     public GoodsSpec findById(Long mearchant, Long id) {
@@ -29,7 +27,6 @@ public class GoodsSpecServiceImpl implements IGoodsSpecService {
     public List<GoodsSpec> findAll(Long merchantId) {
         return goodsSpecRepository.findAllByMerchantId(merchantId);
     }
-
 
     @Override
     public GoodsSpec save(Long merchantId, GoodsSpec obj) {
@@ -52,7 +49,6 @@ public class GoodsSpecServiceImpl implements IGoodsSpecService {
     public void remove(Long merchantId, Long GoodsSpecId) {
         goodsSpecRepository.delete(GoodsSpecId);
     }
-
 
     @Override
     public Set<GoodsSpec> findByIds(List<Long> ids) {

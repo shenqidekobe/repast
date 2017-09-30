@@ -1,26 +1,18 @@
 package com.yiyou.repast.merchant.service.impl;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.util.StringUtils;
-
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.merchant.dao.MerchantAccountRepository;
 import com.yiyou.repast.merchant.model.MerchantAccount;
 import com.yiyou.repast.merchant.service.IMerchantAccountService;
 import com.yiyou.repast.merchant.tools.PageConvertDataGrid;
-
+import org.springframework.data.domain.*;
+import org.springframework.util.StringUtils;
 import repast.yiyou.common.util.DataGrid;
 import repast.yiyou.common.util.Md5;
+
+import javax.annotation.Resource;
+import java.util.Date;
+import java.util.List;
 
 @Service
 public class MerchantAccountServiceImpl implements IMerchantAccountService{
@@ -80,6 +72,5 @@ public class MerchantAccountServiceImpl implements IMerchantAccountService{
 		List<MerchantAccount> list=merchantAccountRepository.findAll(example);
 		return list.isEmpty()?null:list.get(0);
 	}
-
 
 }

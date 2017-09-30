@@ -21,7 +21,6 @@ public class RecommendServiceImpl implements IRecommendService {
     @Resource
     GoodsRepository goodsRepository;
 
-
     @Override
     public RecommendGoods findById(Long merchantId, Long recommendId) {
         return recommendRepository.findByMerchantIdAndId(merchantId,recommendId);

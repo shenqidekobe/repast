@@ -20,6 +20,7 @@ public class GoodsServiceImpl implements IGoodsService {
     public Goods findById(Long merchantId, Long goodsId) {
         return goodsRepository.findByMerchantIdAndId(merchantId, goodsId);
     }
+
     @Override
     public List<Goods>  findShelves(Long maerchanId) {
         return goodsRepository.findAllByMerchantIdAndShelvesTrue(maerchanId);
@@ -39,7 +40,6 @@ public class GoodsServiceImpl implements IGoodsService {
     public Goods save(Long merchantId, Goods obj) {
         obj.setCreateTime(new Date());
         obj.setMerchantId(merchantId);
-
         return goodsRepository.save(obj);
     }
 

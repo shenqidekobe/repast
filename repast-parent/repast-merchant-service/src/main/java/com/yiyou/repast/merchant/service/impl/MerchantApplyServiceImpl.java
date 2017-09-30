@@ -1,16 +1,14 @@
 package com.yiyou.repast.merchant.service.impl;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.springframework.data.domain.Example;
-import org.springframework.data.domain.ExampleMatcher;
-
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.merchant.dao.MerchantApplyRepository;
 import com.yiyou.repast.merchant.model.MerchantApply;
 import com.yiyou.repast.merchant.service.IMerchantApplyService;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 @Service
 public class MerchantApplyServiceImpl implements IMerchantApplyService {
@@ -64,3 +62,4 @@ public class MerchantApplyServiceImpl implements IMerchantApplyService {
 	}
 
 }
+
