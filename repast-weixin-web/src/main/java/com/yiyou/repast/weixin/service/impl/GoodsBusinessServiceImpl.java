@@ -126,8 +126,8 @@ public class GoodsBusinessServiceImpl implements GoodsBusinessService {
 				.collect(Collectors.toList());
 		if(CollectionUtils.isEmpty(list))return result;
 		
-		//将Goods集合按分类分组
-		result=list.stream().collect(Collectors.groupingBy(Goods::getCategoryName));
+		//将Goods集合按分类分组，过滤为空的数据
+		result=list.stream().filter(obj->obj!=null).collect(Collectors.groupingBy(Goods::getCategoryName));
 		return result;
 	}
 
