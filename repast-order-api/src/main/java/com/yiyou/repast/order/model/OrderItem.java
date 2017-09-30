@@ -29,6 +29,8 @@ public class OrderItem implements Serializable{
 	private String goodsType;
 	private String goodsName;//runyu数据
 	private String auxIds;//商品辅料ID字符串
+	private Long specId;//规格ID
+	private String specName;//规定名
 	private Integer count;//数量
 	private BigDecimal amount;//订单金额
 	private BigDecimal discountAmount;//优惠金额
@@ -91,6 +93,18 @@ public class OrderItem implements Serializable{
 	}
 	public void setCount(Integer count) {
 		this.count = count;
+	}
+	public Long getSpecId() {
+		return specId;
+	}
+	public void setSpecId(Long specId) {
+		this.specId = specId;
+	}
+	public String getSpecName() {
+		return specName;
+	}
+	public void setSpecName(String specName) {
+		this.specName = specName;
 	}
 	public OrderStaus getStatus() {
 		return status;
