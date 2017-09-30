@@ -70,6 +70,8 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 			oitem.setGoodsId(item.getGoodsId());
 			oitem.setGoodsType(item.getGoodsType());
 			oitem.setGoodsName(item.getGoodsName());
+			oitem.setSpecId(item.getSpecId());
+			oitem.setSpecName(item.getSpecName());
 			oitem.setCount(item.getCount());
 			oitem.setAmount(item.getAmount());
 			oitem.setAuxIds(item.getAuxIds());

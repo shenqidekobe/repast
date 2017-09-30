@@ -12,7 +12,7 @@ public interface CartBusinessService {
 	 * */
 	void addCart(Long userId,String userName,String deskNum,Long goodsId,
 			String auxIds,Integer count,String amount,Integer peopleCount,
-			String predictDate,String goodsType,String goodsName)throws BusinessException;
+			String predictDate,String goodsType,String goodsName,Long specId,String specName)throws BusinessException;
 	
 	/**
 	 * 修改购物车商品数量
