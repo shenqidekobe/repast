@@ -36,6 +36,8 @@ public class CartItem implements Serializable{
 	private BigDecimal goodsAmount;//商品价格金额
 	private String goodsType;//商品类型{用于分类统计}
 	private String auxIds;//商品辅料ID字符串
+	private Long specId;//规格ID
+	private String specName;//规定名
 	private Integer count;//数量
 	private BigDecimal amount;//总金额
 	private Date createTime;
@@ -93,6 +95,18 @@ public class CartItem implements Serializable{
 	}
 	public void setAuxIds(String auxIds) {
 		this.auxIds = auxIds;
+	}
+	public Long getSpecId() {
+		return specId;
+	}
+	public void setSpecId(Long specId) {
+		this.specId = specId;
+	}
+	public String getSpecName() {
+		return specName;
+	}
+	public void setSpecName(String specName) {
+		this.specName = specName;
 	}
 	public Integer getCount() {
 		return count;
