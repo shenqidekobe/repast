@@ -116,10 +116,10 @@ public class OrderServiceImpl implements IOrderService {
                     predicates.add(cb.lessThanOrEqualTo(root.get("createTime").as(String.class), endTime));  
                 }  
                 if (!StringUtils.isEmpty(orderId)) {  
-                	predicates.add(cb.lessThanOrEqualTo(root.get("orderId").as(String.class), orderId)); 
+                	predicates.add(cb.equal(root.get("orderId").as(String.class), orderId)); 
                 }  
                 if (!StringUtils.isEmpty(deskNum)) {  
-                	predicates.add(cb.lessThanOrEqualTo(root.get("deskNum").as(String.class), deskNum)); 
+                	predicates.add(cb.equal(root.get("deskNum").as(String.class), deskNum)); 
                 }  
                 return cb.and(predicates.toArray(new Predicate[predicates.size()]));  
             }  
