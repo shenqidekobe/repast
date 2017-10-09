@@ -1,18 +1,30 @@
 package com.yiyou.repast.order.model;
 
-import repast.yiyou.common.base.EnumDefinition.OrderStaus;
-
-import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+
+import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
+import repast.yiyou.common.base.EnumDefinition.OrderStaus;
 
 /**
  * 订单明细
  */
 @Entity
 @Table(name = "t_order_item")
-//@JsonIgnoreProperties(value= {"order"})
+@JsonIgnoreProperties(value= {"order"})
 public class OrderItem implements Serializable{
 
 	private static final long serialVersionUID = 4704542642694999182L;
