@@ -27,13 +27,36 @@ public class OrderPushService {
 
 	@Reference
 	private IOrderService orderService;
+	
+	private static final String sourceTime = "10:30-14:30";//每天推送的时间区间
 
 	/**
 	 * 实时推送订单,每隔30秒查询一次是否有新订单，每天规定时间段内推送
 	 * */
 	@Scheduled(cron = "*/30 * * * * ? ")
 	public void push() {
-		String sourceTime = "10:30-14:30";
+		if(!timeSection())return;
+		
+		List<OrderProcess> list=orderService.findOrderProcessAwaitList();
+		if(CollectionUtils.isEmpty(list))return;
+		OnlineAccount.refershAll();
+		
+		String title="您有新的订单，点击查看";
+		for(OrderProcess op:list) {
+			op.setPushTime(new Date());
+			op.setStatus(OrderProcessStatus.jpush);
+			orderService.updateOrderProcess(op);
+			//推送给所有的在线用户
+			for(OnlineAccount account:OnlineAccount.getList()) {
+				//推送终端用户接单
+				Map<String, String> vMap= new HashMap<String, String>();
+				vMap.put("orderId", op.getOrderId().toString());
+				JpushService.pushMsg(account.getAccount(), title, vMap);
+			}
+		}
+	}
+	
+	private boolean timeSection() {
 		String curTime = DateFormatUtils.format(new Date(), "HH:mm");
 		String[] args = sourceTime.split("-");
 		SimpleDateFormat sdf = new SimpleDateFormat("HH:mm");
@@ -59,28 +82,11 @@ public class OrderPushService {
 					isSend = false;
 				}
 			}
-			if (!isSend) {return;
-			}
+			return isSend;
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		List<OrderProcess> list=orderService.findOrderProcessAwaitList();
-		if(CollectionUtils.isEmpty(list))return;
-		OnlineAccount.refershAll();
-		
-		String title="您有新的订单，点击查看";
-		for(OrderProcess op:list) {
-			op.setPushTime(new Date());
-			op.setStatus(OrderProcessStatus.jpush);
-			orderService.updateOrderProcess(op);
-			//推送给所有的在线用户
-			for(OnlineAccount account:OnlineAccount.getList()) {
-				//推送终端用户接单
-				Map<String, String> vMap= new HashMap<String, String>();
-				vMap.put("orderId", op.getOrderId().toString());
-				JpushService.pushMsg(account.getAccount(), title, vMap);
-			}
-		}
+		return false;
 	}
 	
 	
