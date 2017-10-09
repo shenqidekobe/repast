@@ -20,6 +20,8 @@ import com.dw.weixin.sdk.openapi.factory.WeixinAPInitObject;
 import com.yiyou.repast.merchant.model.MerchantApply;
 import com.yiyou.repast.weixin.service.MerchantBusinessService;
 
+import repast.yiyou.common.util.LoggerUtil;
+
 /**
  * 微信API启动初始化配置
  * */
@@ -52,7 +54,7 @@ public class WechatStartInit implements EnvironmentAware{
 		List<MerchantApply> list=merchantService.getAll();
 		if(CollectionUtils.isEmpty(list))return applyMap;
 		applyMap=list.stream().collect(Collectors.toMap(MerchantApply::getApplyPath, MerchantApply::getMerchantId));
-		System.out.println("applyMap  =  "+applyMap.toString());
+		LoggerUtil.info("system init applyMap  : "+applyMap.toString());
 		return applyMap;
 	}
 
