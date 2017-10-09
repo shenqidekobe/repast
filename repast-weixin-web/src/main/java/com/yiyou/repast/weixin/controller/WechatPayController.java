@@ -32,6 +32,8 @@ import com.yiyou.repast.weixin.service.OrderBusinessService;
 import com.yiyou.repast.weixin.service.UserBusinessService;
 import com.yiyou.repast.weixin.service.WechatBusinessService;
 
+import repast.yiyou.common.base.EnumDefinition.OrderStaus;
+import repast.yiyou.common.base.EnumDefinition.PayWay;
 import repast.yiyou.common.util.LoggerUtil;
 
 /**
@@ -139,6 +141,11 @@ public class WechatPayController {
 			pr.setOrderId(orderId);
 			pr.setMerchantId(merchantId);
 			wechatBusinessService.savePaymentRecord(pr);
+			
+			Order order=this.orderBusinessService.getOrderById(orderId);
+			order.setStatus(OrderStaus.settle);
+			order.setPayWay(PayWay.payment);
+			this.orderBusinessService.settleOrder(order);
 		}
 		data.put("return_code", "SUCCESS");
 		data.put("return_msg", "OK");
