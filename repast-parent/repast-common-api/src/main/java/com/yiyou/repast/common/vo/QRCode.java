@@ -6,12 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * QRコード.
- * <br/>■使い方
- * <br/>(1) 誤り訂正レベル、データ等、諸パラメータを設定します。
- * <br/>(2) make() を呼び出してQRコードを作成します。
- * <br/>(3) getModuleCount() と isDark() で、QRコードのデータを取得します。
- * <br/>
  */
 public class QRCode {
 
