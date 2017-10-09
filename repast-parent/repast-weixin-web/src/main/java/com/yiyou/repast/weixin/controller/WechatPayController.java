@@ -142,6 +142,7 @@ public class WechatPayController {
 			pr.setMerchantId(merchantId);
 			wechatBusinessService.savePaymentRecord(pr);
 			
+			//更新订单状态
 			Order order=this.orderBusinessService.getOrderById(orderId);
 			order.setStatus(OrderStaus.settle);
 			order.setPayWay(PayWay.payment);
