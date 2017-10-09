@@ -122,7 +122,8 @@ public class EnumDefinition {
 	public enum PayWay {
 		senior("高管点餐"),
 	    card("充值卡消费"),
-	    authorize("授权消费");
+	    authorize("授权消费"),
+	    payment("付钱消费");
 	    private String name;
 	    private PayWay(String name){
 	        this.name = name;
