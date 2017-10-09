@@ -107,7 +107,7 @@ public class OrderServiceImpl implements IOrderService {
             public Predicate toPredicate(Root<Order> root, javax.persistence.criteria.CriteriaQuery<?> criteriaQuery, CriteriaBuilder cb) {  
                 List<Predicate> predicates = new ArrayList<>();  
                 if(merchantId!=null) {
-                	predicates.add(cb.lessThanOrEqualTo(root.get("merchantId").as(Long.class),merchantId)); 
+                	predicates.add(cb.equal(root.get("merchantId").as(Long.class),merchantId)); 
                 }
                 if (!StringUtils.isEmpty(startTime)) {  
                     predicates.add(cb.greaterThanOrEqualTo(root.get("createTime").as(String.class), startTime));  
