@@ -63,6 +63,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 		session.setMerchantId(1l);
 		session.setDeskNum("008");
 		session.setPhone("15000658445");
+		session.setOpenId("oRB9pwZZvSy08gx2fEFxZ-xTPAfc");
 		return session;
 	}
 	

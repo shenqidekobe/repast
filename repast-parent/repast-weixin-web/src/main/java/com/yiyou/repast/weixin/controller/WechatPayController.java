@@ -13,8 +13,10 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang.RandomStringUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
@@ -52,16 +54,17 @@ public class WechatPayController {
 	/**
 	 * 微信VIP付费咨询支付请求
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String pay(Model model, Long orderId, HttpServletRequest req) throws Exception {
+	@RequestMapping(value = "/{orderId}", method = RequestMethod.GET)
+	public String pay(Model model, @PathVariable
+			Long orderId, HttpServletRequest req) throws Exception {
 		SessionToken session = userBusinessService.getSessionUser();
 		Order order = orderBusinessService.getOrderById(orderId);
 		WXPayConfig config = WXPayConfigImpl.getInstance();
 		WXPay wxPay = new WXPay(config, true, false);
 
-		String outTradeNo = session.getMerchantId()+"_"+orderId;// 订单号
+		String outTradeNo = session.getMerchantId()+"_"+orderId+"_"+RandomStringUtils.random(6, true, true);// 订单号
 		String body = "爱扫码消费订单";
-		String totalFee = order.getAmount().toString();
+		String totalFee = order.getAmount().multiply(new BigDecimal(100)).intValue()+"";
 
 		Map<String, String> reqData = new HashMap<String, String>();
 		reqData.put("openid", session.getOpenId());
@@ -125,8 +128,8 @@ public class WechatPayController {
 		LoggerUtil.info("...微信通知  订单号：" + outTradeNo + "  交易状态：" + params.get("return_code") + " 金额：" + totalFee
 				+ " 验证成功，处理订单 ");
 		String[] tradeArr=outTradeNo.split("_");
-		Long orderId = Long.valueOf(tradeArr[1]);
 		Long merchantId= Long.valueOf(tradeArr[0]);
+		Long orderId = Long.valueOf(tradeArr[1]);
 		PaymentRecord payRecord = wechatBusinessService.findByOrderId(orderId);
 		if (payRecord == null) {
 			PaymentRecord pr = new PaymentRecord();
