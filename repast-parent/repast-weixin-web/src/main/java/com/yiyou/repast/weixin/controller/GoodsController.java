@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.yiyou.repast.merchant.model.Goods;
 import com.yiyou.repast.order.model.Cart;
 import com.yiyou.repast.weixin.base.SessionToken;
+import com.yiyou.repast.weixin.compent.WechatProperties;
 import com.yiyou.repast.weixin.service.CartBusinessService;
 import com.yiyou.repast.weixin.service.GoodsBusinessService;
 import com.yiyou.repast.weixin.service.UserBusinessService;
@@ -33,6 +34,8 @@ public class GoodsController {
 	private CartBusinessService cartService;
 	@Resource
 	private UserBusinessService userService;
+	@Resource
+	private WechatProperties wechatProperties;
 
 	
 	@GetMapping("/index")
@@ -68,6 +71,7 @@ public class GoodsController {
 			break;
 		}
 		model.addAttribute("dataMap", map);
+		model.addAttribute("imgDomain", wechatProperties.getImgDomain());
 		return "goods/list_frag";
 	}
 	
@@ -75,6 +79,7 @@ public class GoodsController {
 	public String detail(Long id,Model model) {
 		Goods obj=goodsBusinessService.findGoodsById(id);
 		model.addAttribute("obj", obj);
+		model.addAttribute("imgDomain", wechatProperties.getImgDomain());
 		return "goods/detail";
 	}
 

@@ -19,6 +19,7 @@ import com.yiyou.repast.order.model.Cart;
 import com.yiyou.repast.weixin.base.CartItemMap;
 import com.yiyou.repast.weixin.base.RspResult;
 import com.yiyou.repast.weixin.base.SessionToken;
+import com.yiyou.repast.weixin.compent.WechatProperties;
 import com.yiyou.repast.weixin.service.CartBusinessService;
 import com.yiyou.repast.weixin.service.GoodsBusinessService;
 import com.yiyou.repast.weixin.service.UserBusinessService;
@@ -36,6 +37,8 @@ public class CartController {
 	private CartBusinessService cartService;
 	@Resource
 	private GoodsBusinessService goodsBusinessService;
+	@Resource
+	private WechatProperties wechatProperties;
 	
 	/**
 	 * 选择人数
@@ -56,6 +59,7 @@ public class CartController {
 		if(cart==null&&StringUtils.isEmpty(session.getDeskNum())) {
 			cart=cartService.getCart(session.getUserId());
 		}
+		model.addAttribute("imgDomain", wechatProperties.getImgDomain());
 		if(cart==null) {
 			List<Goods> map=goodsBusinessService.findHotGoodsList(9L).values().stream()
 					.flatMap(gr->gr.stream()).collect(Collectors.toList());//热销榜，9条
@@ -82,7 +86,7 @@ public class CartController {
 		Integer peopleCount=(Integer) request.getSession().getAttribute("peopleCount");
 		String predictDate=(String) request.getSession().getAttribute("predictDate");
 		cartService.addCart(session.getUserId(),session.getUserName(),session.getDeskNum(),
-				id, auxIds, number, amount,peopleCount,predictDate,goodsType,goodsName,specId,specName);
+				id, auxIds, number,peopleCount,predictDate,goodsName,specId,specName);
 		return new RspResult();
 	}
 	
