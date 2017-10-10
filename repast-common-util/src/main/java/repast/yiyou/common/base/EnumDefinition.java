@@ -5,6 +5,20 @@ package repast.yiyou.common.base;
  * */
 public class EnumDefinition {
 	
+	//行业类型
+	public static enum IndustryType {
+		catering("餐饮"),
+	    ticket("票务"),
+		mall("电商");
+	    private String name;
+	    private IndustryType(String name){
+	        this.name = name;
+	    }
+	    public String getName(){
+	        return this.name;
+	    }
+	}
+	
 	
 	//商户类型
 	public static enum MerchantType {
