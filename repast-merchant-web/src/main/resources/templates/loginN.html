@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>        
+    <title>商家后台管理系统</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link rel="icon" type="image/ico" th:href="@{/static/login/favicon.ico}"/>
+    <link th:href="@{/static/login/stylesheets.css}" rel="stylesheet" type="text/css" />        
+    <link th:href="@{/static/font-awesome/css/font-awesome.min1.css}" rel="stylesheet" type="text/css" />
+    <link th:href="@{/static/toastr/toastr.min.css}" rel="stylesheet" type="text/css">        
+</head>
+<body class="bg-img-num1"> 
+    
+    <div class="container">        
+        <div class="login-block">
+            <div class="block block-transparent">
+                <div class="head">
+                    <div class="user">
+                        <div class="info user-change">                                                                                
+                            <img th:src="@{/static/login/dmitry_b.jpg}" class="img-circle img-thumbnail"/>
+                            <div class="user-change-button">
+                                <span class="icon-off"></span>
+                            </div>
+                        </div>                            
+                    </div>
+                </div>
+                <div class="content controls npt">
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <span class="icon-user"></span>
+                                </div>
+                                 <input class="form-control" placeholder="请输入您的输入帐号" name="loginName" id="loginName" type="text" autofocus>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="col-md-12">
+                            <div class="input-group">
+                                <div class="input-group-addon">
+                                    <span class="icon-key"></span>
+                                </div>
+                                <input class="form-control" placeholder="请输入您的帐号密码" name="password" id="password" type="password">
+                            </div>
+                        </div>
+                    </div>  
+                              
+                    <div class="form-row">
+                        <div class="col-md-12" id="loginBtn">
+                            <a href="javascript:void(0);" class="btn btn-default btn-block btn-clean">登录</a>                                
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    
+    <script th:src="@{/static/jquery/jquery.min.js}"></script>
+    <script th:src="@{/static/bootstrap/js/bootstrap.min.js}"></script>
+    <script th:src="@{/static/toastr/toastr.min.js}"></script>
+    <script th:inline="javascript">
+	    $(function() {
+	    	var ctx=[[${_PATH}]];
+	    	$('body').keydown(function(event) {
+				if (event.keyCode == 13){
+					$("#loginBtn").click();
+				}
+			});
+	    	$("#loginBtn").click(function(){
+	    		var loginName=$.trim($("#loginName").val());
+	    		var password=$.trim($("#password").val());
+	    		if(loginName==""){
+	    			toastr.warning("请输入您的帐号");
+	    			return false;
+	    		}else if(password==""){
+	    			toastr.warning("请输入您的帐号密码");
+	    			return false;
+	    		}
+	    		var remember=true;
+	    		$.ajax({
+	    			url:ctx+'/ajaxLogin.do',
+	    			type:'POST',
+	    			data:{loginName:loginName,password:password,rememberMe:remember},
+	    			dataType:'json',
+	    			success:function(rsp){
+	    				if(rsp.status==200){
+	    					location.href=ctx+'/index';
+	    				}else{
+	    					toastr.error(rsp.message);
+	    				}
+	    			}
+	    		});
+	    	});
+	    });
+    </script>
+    
+    
+
+</body>
+</html>
