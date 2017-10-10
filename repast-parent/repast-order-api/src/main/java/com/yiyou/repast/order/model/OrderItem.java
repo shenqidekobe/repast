@@ -48,7 +48,9 @@ public class OrderItem implements Serializable{
 	private BigDecimal discountAmount;//优惠金额
 	@Enumerated(EnumType.STRING)
 	private OrderStaus status;//状态
+	
 	private Date createTime;//下单时间
+	private Date serveTime;//上菜时间
 	private Date cancelTime;//取消时间
 	
 	
@@ -136,5 +138,12 @@ public class OrderItem implements Serializable{
 	public void setCancelTime(Date cancelTime) {
 		this.cancelTime = cancelTime;
 	}
+	public Date getServeTime() {
+		return serveTime;
+	}
+	public void setServeTime(Date serveTime) {
+		this.serveTime = serveTime;
+	}
+	
 	
 }
