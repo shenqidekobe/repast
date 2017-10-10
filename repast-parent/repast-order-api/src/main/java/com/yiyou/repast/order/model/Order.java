@@ -163,7 +163,7 @@ public class Order implements Serializable{
 	public String getPredictDateStr() {
 		if(predictDate==null||predictDate.equals(""))return "今天中午12点";
 		if(predictDate.equals("today"))return "今天中午12点";
-		if(predictDate.equals("tomorrow"))return "名天中午12点";
+		if(predictDate.equals("tomorrow"))return "明天中午12点";
 		return "今天中午12点";
 	}
 	public String getStatusName(){
