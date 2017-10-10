@@ -9,7 +9,7 @@
 			<ul class="li-c3 f-cb">
 				<li class="list" th:each="obj:${dmap.value}">
 					<a th:href="@{'/goods/detail?id='+${obj.id}}">
-						<img th:src="@{/static/img/bg-login.jpg}" class="a-img"/>
+						<img th:src="@{'http://127.0.0.1:8011/common/img/'+${obj.pic}+'/0'}" class="a-img"/>
 						<div class="m-tit" th:text="${obj.name}">红烧麻辣鱼</div>
 						<span class="m-pri">
 						   <span>￥</span>
