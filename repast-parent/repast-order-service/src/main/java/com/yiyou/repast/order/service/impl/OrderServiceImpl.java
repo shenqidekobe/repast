@@ -17,8 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.util.CollectionUtils;
-import org.springframework.util.StringUtils;
 
+import com.alibaba.dubbo.common.utils.StringUtils;
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.order.dao.OrderItemRepository;
 import com.yiyou.repast.order.dao.OrderProcessRepository;
