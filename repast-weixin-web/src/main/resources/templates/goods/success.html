@@ -51,7 +51,7 @@
 				<ul class=" p010">
 					<li class="list-card list-card-4 m-c2 f-bb-e5e5e5 f-pt-5" th:each="ot,otStat:${obj.items}">
 						<div class="m-hd">
-							<a href="" class="" target="_blank"><img th:src="@{/static/img/bg-login.jpg}" class="a-img"/></a>
+							<a href="" class="" target="_blank"><img th:src="${imgDomain}+'/common/img/'+${ot.goodsPic}+'/0'" class="a-img"/></a>
 						</div>
 						<div class="m-bd">
 							<div class="m-tit" th:text="${ot.goodsName}">糖醋小黄鱼</div>
