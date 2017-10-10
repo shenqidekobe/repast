@@ -34,6 +34,7 @@ public class CartItem implements Serializable{
 	private Long goodsId;//商品ID
 	private String goodsName;//runyu数据
 	private BigDecimal goodsAmount;//商品价格金额
+	private String goodsPic;//商品图片
 	private String goodsType;//商品类型{用于分类统计}
 	private String auxIds;//商品辅料ID字符串
 	private Long specId;//规格ID
@@ -125,5 +126,11 @@ public class CartItem implements Serializable{
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	public String getGoodsPic() {
+		return goodsPic;
+	}
+	public void setGoodsPic(String goodsPic) {
+		this.goodsPic = goodsPic;
 	}
 }
