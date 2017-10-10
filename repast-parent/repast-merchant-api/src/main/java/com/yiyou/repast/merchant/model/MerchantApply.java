@@ -27,6 +27,7 @@ public class MerchantApply implements Serializable{
 	private String applyLogo;//应用logo
 	private String applyDesc;//应用描述信息
 	private String applyDomain;//应用域名地址
+	private String whiteIp;//白名单IP
 	private Integer status;// 0无效1有效
 	private Date createTime;
 	
@@ -84,6 +85,12 @@ public class MerchantApply implements Serializable{
 	}
 	public void setApplyDomain(String applyDomain) {
 		this.applyDomain = applyDomain;
+	}
+	public String getWhiteIp() {
+		return whiteIp;
+	}
+	public void setWhiteIp(String whiteIp) {
+		this.whiteIp = whiteIp;
 	}
 	public Integer getStatus() {
 		return status;
