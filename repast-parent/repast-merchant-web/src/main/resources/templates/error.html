@@ -1,6 +1,5 @@
-
 <!doctype html>
-<html lang="zh-CN">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="utf-8">
     <title>请求错误</title>
@@ -125,12 +124,12 @@
 <body>
     <div class="box">
         <div class="clearfix">
-                <figure class="figure"><img src="https://static.segmentfault.com/v-59c9ba49/global/img/404.svg" alt="杯具啊"></figure>
-    <h1>杯具啊！</h1>
-
-    <div class="p">请求错误……<br/>可能这是一个非法的请求</div>
-
-    <div class="p"><button type="button" onclick="window.location.href='/index'">回首页</button></div>
+	        <figure class="figure"><img th:src="@{/static/images/404.svg}" alt="杯具啊"></figure>
+		    <h1>杯具啊！</h1>
+		
+		    <div class="p">请求错误……<br/>可能这是一个非法的请求</div>
+		
+		    <div class="p"><button type="button" onclick="window.location.href='/index'">回首页</button></div>
         </div>
     </div>
     <div class="footer text-center">
