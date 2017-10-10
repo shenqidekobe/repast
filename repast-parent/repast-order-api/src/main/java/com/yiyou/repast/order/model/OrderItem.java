@@ -146,6 +146,7 @@ public class OrderItem implements Serializable{
 		this.serveTime = serveTime;
 	}
 	public String getGoodsPic() {
+		if(goodsPic==null||goodsPic.length()==0) return "default.png";
 		return goodsPic;
 	}
 	public void setGoodsPic(String goodsPic) {

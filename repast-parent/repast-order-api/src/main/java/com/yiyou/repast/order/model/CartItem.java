@@ -128,6 +128,7 @@ public class CartItem implements Serializable{
 		this.createTime = createTime;
 	}
 	public String getGoodsPic() {
+		if(goodsPic==null||goodsPic.length()==0) return "default.png";
 		return goodsPic;
 	}
 	public void setGoodsPic(String goodsPic) {
