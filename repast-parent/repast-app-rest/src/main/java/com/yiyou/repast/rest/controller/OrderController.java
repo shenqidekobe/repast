@@ -88,6 +88,9 @@ public class OrderController {
 	public AppResult updateItem(Long id,Long itemId,String status,Long accountId) throws Exception{
 		OrderStaus orderStatus=OrderStaus.valueOf(OrderStaus.class, status);
 		OrderItem item=this.orderService.findItemById(itemId);
+		if(OrderStaus.already.equals(orderStatus)) {
+			item.setServeTime(new Date());
+		}
 		item.setStatus(orderStatus);
 		item=orderService.updateOrderItem(item);
 		return new AppResult(objectMapper.writeValueAsString(item));
