@@ -1,4 +1,16 @@
 $(function () {
+	 $('#startTime,#endTime').datetimepicker({
+        language: 'zh-CN',
+        startDate: "2017-09-09",
+        endDate:new Date(),
+        autoclose:true,
+        todayBtn:true,
+        todayHighlight:true,
+        startView: 2,
+        minView: 2,
+        maxView: 3,
+        format: 'yyyy-mm-dd'
+     })
 	 var dataTable=null;
 	 $("#addBtn").click(function(){
 		location.href='/order/edit'; 
@@ -8,8 +20,8 @@ $(function () {
 	    	location.href='/order/view/'+row.id; 
 		    return false;
 	    },"click #toggle":function(e,value, row, index){
-	    	var toggleTips=row.status=="cancel"?"取消":"结束";
-	    	var status=row.status=="cancel"?"cancel":"settle";
+	    	var toggleTips=$(this).text();
+	    	var status=toggleTips=="取消"?"cancel":"settle";
 	    	toastrC.confirm({ message: "确认要"+toggleTips+"该订单嘛？" }).on(function (e) {
 	    		if (!e) { return; }
 	    		$.ajax({
@@ -41,9 +53,14 @@ $(function () {
 	        { field : 'createTime',title : '下单时间', formatter : function (value, row, index){ return new Date(value).Format('yyyy-MM-dd hh:mm:ss');}}, 
 	        { field : 'opers',title: '操作',events:operateEvents, formatter : operateFormatter }]
 	  function operateFormatter(value, row, index) {
-		  var toggle=row.status=="cancel"?"取消":"结束";
+		  var toggle="";
+		  if(row.status=="await"||row.status=="ing"||row.status=="already"){
+			  toggle="取消";
+		  }else if(row.status=="awaitPay"){
+			  toggle="结算";
+		  }
 	      return ['<button type="button" class="btn btn-primary btn-circle" id="edit">查看</button>&nbsp;&nbsp;'+
-	               '<button type="button" class="btn btn-warning btn-circle"  id="toggle">'+toggle+'</button>'].join("");
+	    	  (toggle==""?'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;':'<button type="button" class="btn btn-warning btn-circle"  id="toggle">'+toggle+'</button>')].join("");
 	  }
 	  loadTable(url,columns,function(options){
 		 options.rowStyle= function (row, index) {
