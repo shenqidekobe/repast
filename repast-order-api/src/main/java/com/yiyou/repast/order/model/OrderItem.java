@@ -40,6 +40,7 @@ public class OrderItem implements Serializable{
 	private Long goodsId;//商品ID
 	private String goodsType;
 	private String goodsName;//runyu数据
+	private String goodsPic;//商品图片
 	private String auxIds;//商品辅料ID字符串
 	private Long specId;//规格ID
 	private String specName;//规定名
@@ -144,6 +145,11 @@ public class OrderItem implements Serializable{
 	public void setServeTime(Date serveTime) {
 		this.serveTime = serveTime;
 	}
-	
+	public String getGoodsPic() {
+		return goodsPic;
+	}
+	public void setGoodsPic(String goodsPic) {
+		this.goodsPic = goodsPic;
+	}
 	
 }

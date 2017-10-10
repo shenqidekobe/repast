@@ -50,6 +50,7 @@ public class Order implements Serializable{
 	
 	private Date createTime;//下单时间
 	private Date settleTime;//结算时间
+	private Date cancelTime;//取消时间
 	private Long createUser;//下单用户
 	private String predictDate;//预计就餐日期
 	private String predictTime;//预计就餐时间
@@ -147,6 +148,12 @@ public class Order implements Serializable{
 	}
 	public void setSettleTime(Date settleTime) {
 		this.settleTime = settleTime;
+	}
+	public Date getCancelTime() {
+		return cancelTime;
+	}
+	public void setCancelTime(Date cancelTime) {
+		this.cancelTime = cancelTime;
 	}
 	public BigDecimal getAmount() {
 		return amount;
