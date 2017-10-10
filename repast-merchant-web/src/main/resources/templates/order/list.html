@@ -25,6 +25,21 @@
 								<input type="text" class="form-control" name="orderId" id="orderId"
 									placeholder="订单号" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
 							</div>
+							<div class="form-group" style="margin-left:20px">
+								<input size="4" type="text" class="form-control" name="deskNum" id="deskNum"
+									placeholder="桌号" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
+							</div>
+							<div class="form-group" style="margin-left:20px">
+								<input size="8" type="text" class="form-control" name="startTime" id="startTime" readonly
+									placeholder="开始时间" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
+							</div>
+							<div class="form-group" style="margin-left:20px">
+								<input size="8" type="text" class="form-control" name="endTime" id="endTime" readonly
+									placeholder="截止时间" onkeydown="if(event.keyCode==13){event.keyCode=0;event.returnValue=false;}">
+							</div>
+							<div class="form-group">
+				                <button type="button" id="resetBtn" onclick="javascript:document.getElementById('searchForm').reset();" class="btn">重置</button>
+				            </div>
 							<div class="form-group">
 				                <button type="button" id="queryBtn" onclick="doQuery();" class="btn btn-primary">查询</button>
 				            </div>
@@ -42,8 +57,11 @@
     <script th:src="@{/static/bootstrap-table/bootstrap-table-zh-CN.min.js}"></script>
     <script th:src="@{/static/admin/bootstrptableSetting.js}"></script>
     
+    <script th:src="@{/static/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js}"></script>
+    <script th:src="@{/static/bootstrap-datetimepicker/js/bootstrap-datetimepicker.zh-CN.js}"></script>
     <script th:src="@{/static/toastr/toastr.confirm.js}"></script>
     <script th:src="@{/static/admin/order/list.js?v=1.4}"></script>
+     
 
 </body>
 </html>

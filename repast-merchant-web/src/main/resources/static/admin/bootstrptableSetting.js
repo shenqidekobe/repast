@@ -42,7 +42,8 @@ function queryParams(params) {
 		pageSize : params.limit
 	}
     for (var item in search) {
-    	param[search[item].name] = search[item].value;
+    	var val=search[item].value;
+    	param[search[item].name] = val==""?null:val;
     }
 	return param;
 }
