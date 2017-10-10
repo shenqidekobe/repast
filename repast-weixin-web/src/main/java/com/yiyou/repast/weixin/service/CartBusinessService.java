@@ -11,8 +11,8 @@ public interface CartBusinessService {
 	 * 添加商品到购物车
 	 * */
 	void addCart(Long userId,String userName,String deskNum,Long goodsId,
-			String auxIds,Integer count,String amount,Integer peopleCount,
-			String predictDate,String goodsType,String goodsName,Long specId,String specName)throws BusinessException;
+			String auxIds,Integer count,Integer peopleCount,
+			String predictDate,String goodsType,Long specId,String specName)throws BusinessException;
 	
 	/**
 	 * 修改购物车商品数量

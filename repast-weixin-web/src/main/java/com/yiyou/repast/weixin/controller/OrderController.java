@@ -21,6 +21,7 @@ import com.yiyou.repast.order.model.Order;
 import com.yiyou.repast.order.model.OrderItem;
 import com.yiyou.repast.weixin.base.RspResult;
 import com.yiyou.repast.weixin.base.SessionToken;
+import com.yiyou.repast.weixin.compent.WechatProperties;
 import com.yiyou.repast.weixin.service.CartBusinessService;
 import com.yiyou.repast.weixin.service.OrderBusinessService;
 import com.yiyou.repast.weixin.service.UserBusinessService;
@@ -42,6 +43,8 @@ public class OrderController {
 	private OrderBusinessService orderService;
 	@Resource
 	private CartBusinessService cartService;
+	@Resource
+	private WechatProperties wechatProperties;
 	
 	/**
 	 * 我的当前订单
@@ -62,6 +65,7 @@ public class OrderController {
 		model.addAttribute("count", order.getItems().size());
 		model.addAttribute("typeMap",typeMap);
 		model.addAttribute("obj", order);
+		model.addAttribute("imgDomain", wechatProperties.getImgDomain());
 		return "goods/success";
 	}
 	
