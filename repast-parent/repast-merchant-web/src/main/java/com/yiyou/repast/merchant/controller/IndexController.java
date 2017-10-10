@@ -61,7 +61,7 @@ public class IndexController {
 	@GetMapping("/login")
 	public String login(HttpServletRequest request) {
 		Cookie cookie=WebUtils.getCookie(request, APPLY_PATH_COOKIE);
-		if(cookie==null||cookie.getValue()==null)return "404";
+		if(cookie==null||cookie.getValue()==null)return "redirect:/"+Constants.MERCHANT_APPLY+"/login";
 		String path=cookie.getValue();
 		return "redirect:/"+path+"/login";
 	}
