@@ -6,14 +6,12 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import repast.yiyou.common.base.EnumDefinition.IndustryType;
 import repast.yiyou.common.base.EnumDefinition.MerchantStaus;
 import repast.yiyou.common.base.EnumDefinition.MerchantType;
 import repast.yiyou.common.base.EnumDefinition.SettleWay;
@@ -41,9 +39,8 @@ public class Merchant implements Serializable {
 	private String wechatId;//微信管理员ID
 	private String alipayId;//支付宝管理员ID
 	
-	@ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "industry_id")
-	private Industry industry;//所属行业
+	@Enumerated(EnumType.STRING)
+	private IndustryType industry;//所属行业
 	
 	@Enumerated(EnumType.STRING)
 	private SettleWay settleWay;//结算方式
@@ -113,10 +110,10 @@ public class Merchant implements Serializable {
 	public void setAlipayId(String alipayId) {
 		this.alipayId = alipayId;
 	}
-	public Industry getIndustry() {
+	public IndustryType getIndustry() {
 		return industry;
 	}
-	public void setIndustry(Industry industry) {
+	public void setIndustry(IndustryType industry) {
 		this.industry = industry;
 	}
 	public String getAddress() {
