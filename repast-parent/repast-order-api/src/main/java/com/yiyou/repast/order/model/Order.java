@@ -167,6 +167,7 @@ public class Order implements Serializable{
 		return "今天中午12点";
 	}
 	public String getStatusName(){
+		if(status==null)return "";
 		return status.getName();
 	}
 }
