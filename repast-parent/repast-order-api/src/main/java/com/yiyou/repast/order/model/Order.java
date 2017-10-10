@@ -34,11 +34,17 @@ public class Order implements Serializable{
 	private Long id;
 	private Long merchantId;//商户ID
 	private Long userId;//用户ID
-	private String userName;//用户名
+	private String userName;//用户名，
 	
 	private String orderId;//订单号
 	private String deskNum;//桌号
 	private Integer peopleCount;//用餐人数
+	private String predictDate;//预计就餐日期
+	private String predictTime;//预计就餐时间
+	
+	private String address;//收货地址
+	private String phone;//收货人电话
+	private String realName;//收货人姓名
 	
 	@Enumerated(EnumType.STRING)
 	private PayWay payWay;//支付方式
@@ -52,8 +58,6 @@ public class Order implements Serializable{
 	private Date settleTime;//结算时间
 	private Date cancelTime;//取消时间
 	private Long createUser;//下单用户
-	private String predictDate;//预计就餐日期
-	private String predictTime;//预计就餐时间
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
 	@OrderBy("id asc")
@@ -118,6 +122,24 @@ public class Order implements Serializable{
 	}
 	public void setStatus(OrderStaus status) {
 		this.status = status;
+	}
+	public String getAddress() {
+		return address;
+	}
+	public void setAddress(String address) {
+		this.address = address;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getRealName() {
+		return realName;
+	}
+	public void setRealName(String realName) {
+		this.realName = realName;
 	}
 	public Date getCreateTime() {
 		return createTime;
