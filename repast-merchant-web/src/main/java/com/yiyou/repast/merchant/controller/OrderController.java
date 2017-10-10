@@ -1,5 +1,6 @@
 package com.yiyou.repast.merchant.controller;
 
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.stereotype.Controller;
@@ -58,6 +59,11 @@ public class OrderController {
 	public RspResult toggle(Long id,String status) {
 		Order obj= orderService.findById(id);
 		OrderStaus as=OrderStaus.valueOf(OrderStaus.class, status);
+		if(as.equals(OrderStaus.cancel)) {
+			obj.setCancelTime(new Date());
+		}else {
+			obj.setSettleTime(new Date());
+		}
 		obj.setStatus(as);
 		orderService.update(obj);
 		return new RspResult();
