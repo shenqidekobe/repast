@@ -8,6 +8,7 @@ public class Constants {
 	
 	public static final String SESSION_ACCOUNT_KEY="sessionToken";
 	public static final String SESSION_MERCHANTID_KEY="merchantID";
+	public static final String SESSION_MERCHANTAPPLY_KEY="merchantApplyPath";
 	
 	public static Long MERCHANT_ID=1l;
 	

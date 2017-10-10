@@ -1,6 +1,8 @@
 package com.yiyou.repast.merchant.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.UsernamePasswordToken;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.util.WebUtils;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.base.Constants;
@@ -33,6 +36,7 @@ public class IndexController {
 	@Reference
 	private IMerchantApplyService merchantApplyService;
 	
+	private static final String APPLY_PATH_COOKIE="COOKIE_APPLYPATH";
 
 	/**
 	 * 商户登陆
@@ -42,20 +46,24 @@ public class IndexController {
 		MerchantApply apply=merchantApplyService.findMerchantApplyByPath(applyPath);
 		if(apply==null)return "unauth";//未注册商户
 		request.getSession().setAttribute(Constants.SESSION_MERCHANTID_KEY, apply.getMerchantId());
-		return "loginN";
+		request.getSession().setAttribute(Constants.SESSION_MERCHANTAPPLY_KEY, applyPath);
+		return "loginN";//新版的登录页面，旧版本的登录页为login
 	}
 	
 	/**
 	 * 系统首页
 	 * */
 	@GetMapping("/index")
-	public String index() {
+	public String index(HttpServletRequest request) {
 		return "index";
 	}
 	
 	@GetMapping("/login")
-	public String login() {
-		return "loginN";
+	public String login(HttpServletRequest request) {
+		Cookie cookie=WebUtils.getCookie(request, APPLY_PATH_COOKIE);
+		if(cookie==null||cookie.getValue()==null)return "404";
+		String path=cookie.getValue();
+		return "redirect:/"+path+"/login";
 	}
 
 	/**
@@ -63,10 +71,15 @@ public class IndexController {
 	 * */
 	@ResponseBody
 	@PostMapping("/ajaxLogin.do")
-	public RspResult ajaxLogin(String loginName,String password) {
+	public RspResult ajaxLogin(String loginName,String password,HttpServletRequest req,HttpServletResponse rsp) {
 	    try {
 	    	UsernamePasswordToken token = new UsernamePasswordToken(loginName, password);
 	        SecurityUtils.getSubject().login(token);
+	        //登录成功，保存当前商户的应用域名
+	        String path=(String) req.getSession().getAttribute(APPLY_PATH_COOKIE);
+	        Cookie cookie = new Cookie(APPLY_PATH_COOKIE,path);
+		    cookie.setPath("/");
+		    rsp.addCookie(cookie);
 	        return new RspResult();
 	    } catch (Exception e) {
 	    	return new RspResult(500,e.getMessage());

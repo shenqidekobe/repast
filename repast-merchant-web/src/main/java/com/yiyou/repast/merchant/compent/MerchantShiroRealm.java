@@ -1,12 +1,18 @@
 package com.yiyou.repast.merchant.compent;
 
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.yiyou.repast.merchant.base.Constants;
-import com.yiyou.repast.merchant.base.SessionToken;
-import com.yiyou.repast.merchant.model.MerchantAccount;
-import com.yiyou.repast.merchant.model.MerchantRoleMenu;
-import com.yiyou.repast.merchant.service.IMerchantAccountService;
-import org.apache.shiro.authc.*;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.apache.shiro.authc.AccountException;
+import org.apache.shiro.authc.AuthenticationException;
+import org.apache.shiro.authc.AuthenticationInfo;
+import org.apache.shiro.authc.AuthenticationToken;
+import org.apache.shiro.authc.DisabledAccountException;
+import org.apache.shiro.authc.SimpleAuthenticationInfo;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
@@ -14,13 +20,14 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.yiyou.repast.merchant.base.Constants;
+import com.yiyou.repast.merchant.base.SessionToken;
+import com.yiyou.repast.merchant.model.MerchantAccount;
+import com.yiyou.repast.merchant.model.MerchantRoleMenu;
+import com.yiyou.repast.merchant.service.IMerchantAccountService;
+
 import repast.yiyou.common.base.EnumDefinition.AccountStaus;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 
 public class MerchantShiroRealm extends AuthorizingRealm {
 
