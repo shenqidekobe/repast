@@ -69,7 +69,7 @@ public class MerchantShiroRealm extends AuthorizingRealm {
 		session.setPermissions(permissions);
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
-		request.getSession().setAttribute("sessionToken", session);
+		request.getSession().setAttribute(Constants.SESSION_ACCOUNT_KEY, session);
 		return new SimpleAuthenticationInfo(session, password, getName());
 	}
 
