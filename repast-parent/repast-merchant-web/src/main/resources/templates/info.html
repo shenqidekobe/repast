@@ -35,7 +35,9 @@
                             <div class="tab-content">
                                 <div class="tab-pane fade in active" id="home">
                                     <h4></h4>
-                                    <p th:text="${obj.loginName}"></p>
+                                    <p>账号：<span  th:text="${obj.loginName}"></span></p>
+                                    <p>名字：<span  th:text="${obj.userName}"></span></p>
+                                    <p>注册时间：<span  th:text="${#dates.format(obj.createTime,'yyyy年MM月dd日  HH:mm:ss')}"></span></p>
                                 </div>
                                 <div class="tab-pane fade" id="profile">
                                     <h4></h4>
