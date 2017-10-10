@@ -42,7 +42,7 @@ public class IndexController {
 		MerchantApply apply=merchantApplyService.findMerchantApplyByPath(applyPath);
 		if(apply==null)return "unauth";//未注册商户
 		request.getSession().setAttribute(Constants.SESSION_MERCHANTID_KEY, apply.getMerchantId());
-		return "login";
+		return "loginN";
 	}
 	
 	/**
@@ -55,7 +55,7 @@ public class IndexController {
 	
 	@GetMapping("/login")
 	public String login() {
-		return "login";
+		return "loginN";
 	}
 
 	/**
