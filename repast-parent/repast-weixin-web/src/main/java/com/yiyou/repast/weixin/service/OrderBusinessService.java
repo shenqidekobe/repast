@@ -12,7 +12,7 @@ public interface OrderBusinessService {
 	/**
 	 * 创建新订单
 	 * */
-	Order createOrder(Cart cart)throws BusinessException;
+	Order createOrder(Cart cart,String realName,String phone,String address)throws BusinessException;
 	
 	/**
 	 * 订单结算

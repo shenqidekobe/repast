@@ -13,7 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.model.Goods;
+import com.yiyou.repast.merchant.model.UserAddress;
 import com.yiyou.repast.merchant.service.IGoodsService;
+import com.yiyou.repast.merchant.service.IUserAddressService;
 import com.yiyou.repast.order.model.Cart;
 import com.yiyou.repast.order.model.CartItem;
 import com.yiyou.repast.order.model.Order;
@@ -32,9 +34,11 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 	private IOrderService orderService;
 	@Reference
 	private IGoodsService goodsService;
+	@Reference
+	private IUserAddressService userAddressService;
 
 	@Override
-	public Order createOrder(Cart cart)throws BusinessException {
+	public Order createOrder(Cart cart,String realName,String phone,String address)throws BusinessException {
 		if(cart==null)throw new BusinessException(4444, "cart not must be null");
 		if(cart.getItems()==null||cart.getItems().size()==0) {
 			throw new BusinessException(4444, "cartItem not must be null");
@@ -60,7 +64,18 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 			order.setAmount(new BigDecimal(0));
 			order.setCreateTime(new Date());
 			order.setStatus(OrderStaus.await);
+			order.setRealName(realName);
+			order.setPhone(phone);
+			order.setAddress(address);
 			order=this.orderService.save(order);
+			if(StringUtils.isNotEmpty(address)||StringUtils.isNotEmpty(phone)) {
+				UserAddress ua=new UserAddress();
+				ua.setRealName(realName);
+				ua.setPhone(phone);
+				ua.setAddress(address);
+				ua.setUserId(cart.getUserId());
+				userAddressService.save(ua);
+			}
 		}
 		OrderItem oitem=null;
 		BigDecimal total=order.getAmount();

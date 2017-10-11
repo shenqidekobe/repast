@@ -24,6 +24,8 @@ import com.yiyou.repast.weixin.service.CartBusinessService;
 import com.yiyou.repast.weixin.service.GoodsBusinessService;
 import com.yiyou.repast.weixin.service.UserBusinessService;
 
+import repast.yiyou.common.base.EnumDefinition.IndustryType;
+
 /**
  * 我的购物车处理中心
  * */
@@ -41,11 +43,15 @@ public class CartController {
 	private WechatProperties wechatProperties;
 	
 	/**
-	 * 选择人数
+	 * 选择人数，验证行业类型，非点餐的直接跳过该步骤
 	 * */
 	@GetMapping("/people")
 	public String people() {
-		return "people";
+		SessionToken session=userService.getSessionUser();
+		if(IndustryType.catering.name().equals(session.getIndustry())) {
+			return "people";
+		}
+		return "redirect:/goods/index";
 	}
 	
 	/**

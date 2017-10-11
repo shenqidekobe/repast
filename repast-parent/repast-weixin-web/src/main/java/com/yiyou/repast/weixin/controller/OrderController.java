@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -74,14 +75,14 @@ public class OrderController {
 	 * */
 	@ResponseBody
 	@PostMapping("/produce.do")
-	public RspResult produceOrder(Long cid) {
+	public RspResult produceOrder(Long cid,String realName,String phone,String address,HttpServletRequest req) {
 		Cart cart=cartService.getCartById(cid);
 		if(cart==null) {
 			return new RspResult(402,"请勿重复下单");
 		}else if(CollectionUtils.isEmpty(cart.getItems())){
 			return new RspResult(402,"购物车没有任何商品不能下单");
 		}
-		Order order=orderService.createOrder(cart);
+		Order order=orderService.createOrder(cart,realName,phone,address);
 		RspResult rsp=new RspResult();
 		rsp.setData(order.getId());
 		//清空购物车
