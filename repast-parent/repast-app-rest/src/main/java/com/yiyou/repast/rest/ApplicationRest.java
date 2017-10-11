@@ -8,11 +8,11 @@ import repast.yiyou.common.util.LoggerUtil;
 
 @EnableScheduling
 @SpringBootApplication
-public class Application {
+public class ApplicationRest {
 	
 	public static void main(String[] args) {
 		LoggerUtil.info("********************APP repast rest app starting run*********************");
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(ApplicationRest.class, args);
 		LoggerUtil.info("********************APP repast rest app run end*********************");
 	}
 }

@@ -28,7 +28,7 @@ public class OrderPushService {
 	@Reference
 	private IOrderService orderService;
 	
-	private static final String sourceTime = "10:30-14:30";//每天推送的时间区间
+	private static final String sourceTime = "10:30-19:30";//每天推送的时间区间
 
 	/**
 	 * 实时推送订单,每隔30秒查询一次是否有新订单，每天规定时间段内推送
