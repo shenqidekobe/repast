@@ -6,11 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import repast.yiyou.common.util.LoggerUtil;
 
 @SpringBootApplication
-public class Application {
+public class ApplicationOrder {
 	
 	public static void main(String[] args) {
 		LoggerUtil.info("********************ORDER repast order service starting run*********************");
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(ApplicationOrder.class, args);
 		LoggerUtil.info("********************ORDER repast order service run end**************************");
 	}
 }
