@@ -24,7 +24,7 @@ import com.google.zxing.qrcode.decoder.ErrorCorrectionLevel;
  */
 public class ZXingQRCode {
 
-	private static final String LOGO_PATH="/data/upload/fjj/logo.png";
+	private static File logoFile=null;
 	private static final int QRCOLOR = 0xFF000000; // 默认是黑色
 	private static final int BGWHITE = 0xFFFFFFFF; // 背景颜色
 
@@ -36,6 +36,11 @@ public class ZXingQRCode {
 		}
 	}
 	
+	 private ZXingQRCode() throws Exception{
+    	String logoPath=ZXingQRCode.class.getResource("logo").getPath()+"/logo.png";
+    	logoFile = new File(logoPath);
+     }
+	
 	/**
 	 * 生成带logo的二维码图片
 	 *
@@ -43,13 +48,12 @@ public class ZXingQRCode {
 	 * @param logoPic
 	 */
 	public static String getLogoQRCode(String qrUrl, String productName,int size,HttpServletResponse resp) {
-		String filePath = LOGO_PATH; 
 		String content = qrUrl;
 		try {
 			ZXingQRCode zp = new ZXingQRCode();
 			BufferedImage bim = zp.getQR_CODEBufferedImage(content, BarcodeFormat.QR_CODE, 400, 400,
 					zp.getDecodeHintType());
-			return zp.addLogo_QRCode(bim, new File(filePath), new LogoConfig(), productName,resp);
+			return zp.addLogo_QRCode(bim, logoFile, new LogoConfig(), productName,resp);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
