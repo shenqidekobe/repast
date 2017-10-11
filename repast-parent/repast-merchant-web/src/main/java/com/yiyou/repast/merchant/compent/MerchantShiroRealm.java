@@ -57,7 +57,7 @@ public class MerchantShiroRealm extends AuthorizingRealm {
 		} else if (null == account.getRole()) {
 			throw new AccountException("此帐号暂不允许登录！");
 		} else if (account.getStatus().equals(AccountStaus.disable)) {
-			throw new DisabledAccountException("帐号已经禁止登录！");
+			throw new DisabledAccountException("帐号已被禁止登录！");
 		} else {
 			account.setLoginTime(new Date());
 			merchantAccountService.update(account);
