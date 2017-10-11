@@ -6,11 +6,11 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import repast.yiyou.common.util.LoggerUtil;
 
 @SpringBootApplication
-public class Application {
+public class ApplicationManager {
 
 	public static void main(String[] args) {
 		LoggerUtil.info("********************MERCHANT repast merchant web starting run*********************");
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(ApplicationManager.class, args);
 		LoggerUtil.info("********************MERCHANT repast merchant web run end**************************");
 	}
 
