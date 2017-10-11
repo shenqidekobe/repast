@@ -13,6 +13,8 @@ public interface IUserAddressService {
     
     UserAddress save(UserAddress obj);
     
+    UserAddress update(UserAddress obj);
+    
     UserAddress getById(Long id);
     
     void remove(Long id);
