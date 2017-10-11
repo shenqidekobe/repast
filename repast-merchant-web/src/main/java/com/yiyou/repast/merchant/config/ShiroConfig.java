@@ -41,6 +41,7 @@ public class ShiroConfig {
         filterChainDefinitionMap.put("/static/**", "anon");//不拦截的配置
         filterChainDefinitionMap.put("/ajaxLogin.do", "anon");
         filterChainDefinitionMap.put("/common/img/**", "anon");
+        filterChainDefinitionMap.put("/*/login", "anon");
         filterChainDefinitionMap.put("/logout", "logout");
 
         //filterChainDefinitionMap.put("/add", "perms[权限添加]");
