@@ -51,6 +51,7 @@ public class MerchantAccountServiceImpl implements IMerchantAccountService{
 	public DataGrid<MerchantAccount> findList(Long merchantId,String loginName, String status, String type, int page, int pageSize) {
 		MerchantAccount account=new MerchantAccount();
 		if(!StringUtils.isEmpty(loginName))account.setLoginName(loginName);
+		account.setMerchantId(merchantId);
 	    ExampleMatcher matcher = ExampleMatcher.matching();
 	    Example<MerchantAccount> example = Example.of(account, matcher); 
 	    Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.ASC, "id");  
@@ -67,6 +68,7 @@ public class MerchantAccountServiceImpl implements IMerchantAccountService{
 	public MerchantAccount findByLoginName(Long merchantId,String loginName) {
 		MerchantAccount account=new MerchantAccount();
 		account.setLoginName(loginName);
+		account.setMerchantId(merchantId);
 	    ExampleMatcher matcher = ExampleMatcher.matching();
 	    Example<MerchantAccount> example = Example.of(account, matcher); 
 		List<MerchantAccount> list=merchantAccountRepository.findAll(example);
