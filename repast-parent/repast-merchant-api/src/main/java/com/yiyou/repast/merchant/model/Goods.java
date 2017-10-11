@@ -47,6 +47,8 @@ public class Goods implements Serializable {
     
     @Transient
     private List<GoodsAux> auxs = new ArrayList<>();
+    @Transient
+    private String picUrl;//图片访问地址
 
     public List<Long> getSpecsId() {
         List<Long> ids = new ArrayList<>();
@@ -193,10 +195,14 @@ public class Goods implements Serializable {
 	public List<GoodsAux> getAuxs() {
 		return auxs;
 	}
-
 	public void setAuxs(List<GoodsAux> auxs) {
 		this.auxs = auxs;
 	}
-
+	public String getPicUrl() {
+		return picUrl;
+	}
+	public void setPicUrl(String picUrl) {
+		this.picUrl = picUrl;
+	}
 
 }
