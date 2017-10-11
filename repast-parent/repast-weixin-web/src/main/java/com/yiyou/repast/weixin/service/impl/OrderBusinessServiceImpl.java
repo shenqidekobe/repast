@@ -62,6 +62,7 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 			order.setPeopleCount(cart.getPeopleCount());
 			order.setPredictDate(cart.getPredictDate());
 			order.setAmount(new BigDecimal(0));
+			order.setDiscountAmount(new BigDecimal(0));
 			order.setCreateTime(new Date());
 			order.setStatus(OrderStaus.await);
 			order.setRealName(realName);
