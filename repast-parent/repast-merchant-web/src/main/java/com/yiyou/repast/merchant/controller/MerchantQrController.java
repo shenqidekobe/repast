@@ -17,9 +17,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.common.service.IZxingQrService;
-import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RBeanUtils;
 import com.yiyou.repast.merchant.base.RspResult;
+import com.yiyou.repast.merchant.base.ThreadContextHolder;
 import com.yiyou.repast.merchant.model.Merchant;
 import com.yiyou.repast.merchant.model.MerchantApply;
 import com.yiyou.repast.merchant.model.MerchantDesk;
@@ -57,20 +57,20 @@ public class MerchantQrController {
 	@PostMapping("/listData.do")
 	public List<Merchant> listData() {
 		List<Merchant> list = new ArrayList<>();
-		list.add(this.merchantService.find(Constants.MERCHANT_ID));
+		list.add(this.merchantService.find(ThreadContextHolder.getCurrentMerchantId()));
 		return list;
 	}
 
 	@GetMapping("/edit")
 	public String edit(Model model) {
-		model.addAttribute("obj", this.merchantService.find(Constants.MERCHANT_ID));
+		model.addAttribute("obj", this.merchantService.find(ThreadContextHolder.getCurrentMerchantId()));
 		return "/merchant/edit";
 	}
 
 	@ResponseBody
 	@PostMapping("/save.do")
 	public RspResult save(Merchant obj) {
-		Merchant pojo = this.merchantService.find(Constants.MERCHANT_ID);
+		Merchant pojo = this.merchantService.find(ThreadContextHolder.getCurrentMerchantId());
 		RBeanUtils.copyProperties(obj, pojo);
 		merchantService.save(pojo);
 		return new RspResult();
@@ -90,7 +90,7 @@ public class MerchantQrController {
 			Integer pageSize) {
 		page = page == null ? page = 0 : page;
 		pageSize = Integer.MAX_VALUE;// 客户端分页，服务端查询所有数据
-		DataGrid<MerchantDesk> data = merchantDeskService.findList(Constants.MERCHANT_ID, page, pageSize);
+		DataGrid<MerchantDesk> data = merchantDeskService.findList(ThreadContextHolder.getCurrentMerchantId(), page, pageSize);
 		return data.getRecords();
 	}
 
@@ -107,11 +107,11 @@ public class MerchantQrController {
 	@PostMapping("/desk/save.do")
 	public RspResult deskSave(MerchantDesk obj) {
 		if (obj.getId() == null) {
-			merchantDeskService.save(Constants.MERCHANT_ID, obj);
+			merchantDeskService.save(ThreadContextHolder.getCurrentMerchantId(), obj);
 		} else {
 			MerchantDesk pojo = merchantDeskService.findById(null, obj.getId());
 			RBeanUtils.copyProperties(obj, pojo);
-			merchantDeskService.update(Constants.MERCHANT_ID, pojo);
+			merchantDeskService.update(ThreadContextHolder.getCurrentMerchantId(), pojo);
 		}
 		return new RspResult();
 	}
@@ -129,7 +129,7 @@ public class MerchantQrController {
 	@GetMapping("/qr")
 	public void bytes(String deskNum, HttpServletResponse response)
 			throws Exception {
-		Long merchantId=Constants.MERCHANT_ID;
+		Long merchantId=ThreadContextHolder.getCurrentMerchantId();
 		MerchantApply apply = merchantApplyService.findMerchantApplyByMerchantId(merchantId);
 		String url = apply.getApplyUrl();
 		url = url.concat("?param=" + merchantId);

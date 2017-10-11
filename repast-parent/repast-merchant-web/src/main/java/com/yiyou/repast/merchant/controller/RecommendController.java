@@ -1,17 +1,22 @@
 package com.yiyou.repast.merchant.controller;
 
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RspResult;
+import com.yiyou.repast.merchant.base.ThreadContextHolder;
 import com.yiyou.repast.merchant.model.RecommendGoods;
 import com.yiyou.repast.merchant.service.IGoodsCategoryService;
 import com.yiyou.repast.merchant.service.IGoodsService;
 import com.yiyou.repast.merchant.service.IRecommendService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
 
 @Controller
 @RequestMapping("/recommend")
@@ -26,7 +31,7 @@ public class RecommendController {
 
     @GetMapping()
     public String recommendManager(Model model) {
-        model.addAttribute("categoryList", goodsCategoryService.findAll(Constants.MERCHANT_ID));
+        model.addAttribute("categoryList", goodsCategoryService.findAll(ThreadContextHolder.getCurrentMerchantId()));
         return "/goodsRecommend/list";
     }
 
@@ -35,7 +40,7 @@ public class RecommendController {
     public List<RecommendGoods> listData(Integer page, Integer pageSize, String date) {
         page = page == null ? page = 0 : page;
         pageSize = pageSize == null ? pageSize = 10 : pageSize;
-        return recommendService.findAll(Constants.MERCHANT_ID);
+        return recommendService.findAll(ThreadContextHolder.getCurrentMerchantId());
     }
 
 
@@ -43,13 +48,13 @@ public class RecommendController {
     @ResponseBody
     public RspResult edit(Long id, @RequestParam(value = "goodsIds[]", required = false) List<Long> goodsIds, Model model) {
         if (id != null) { //编辑
-            RecommendGoods recommend = recommendService.findById(Constants.MERCHANT_ID, id);
+            RecommendGoods recommend = recommendService.findById(ThreadContextHolder.getCurrentMerchantId(), id);
             RspResult result = new RspResult();
             result.setData(recommend);
             return result;
         } else {
             try {
-                recommendService.upDate(Constants.MERCHANT_ID, goodsIds);
+                recommendService.upDate(ThreadContextHolder.getCurrentMerchantId(), goodsIds);
             } catch (Exception e) {
                 e.printStackTrace();
                 return new RspResult(505, "");
@@ -61,7 +66,7 @@ public class RecommendController {
     @PostMapping("/remark")
     @ResponseBody
     public RspResult remark(Model model, Long recommendId, String remark) {
-        recommendService.editRemark(Constants.MERCHANT_ID, recommendId, remark);
+        recommendService.editRemark(ThreadContextHolder.getCurrentMerchantId(), recommendId, remark);
         return new RspResult();
     }
 }

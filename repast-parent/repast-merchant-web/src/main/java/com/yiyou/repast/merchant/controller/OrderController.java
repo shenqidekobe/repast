@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RspResult;
+import com.yiyou.repast.merchant.base.ThreadContextHolder;
 import com.yiyou.repast.order.model.Order;
 import com.yiyou.repast.order.service.IOrderService;
 
@@ -41,7 +41,7 @@ public class OrderController {
 			String startTime,String endTime,Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
 		pageSize=Integer.MAX_VALUE;//客户端分页，服务端查询所有数据
-		DataGrid<Order> data=orderService.findOrderList(Constants.MERCHANT_ID,
+		DataGrid<Order> data=orderService.findOrderList(ThreadContextHolder.getCurrentMerchantId(),
 				orderId, deskNum, status, startTime, endTime, page, pageSize);
 		return data.getRecords();
 	}

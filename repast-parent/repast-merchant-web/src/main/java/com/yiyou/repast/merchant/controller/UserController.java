@@ -1,25 +1,27 @@
 package com.yiyou.repast.merchant.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.yiyou.repast.merchant.base.Constants;
-import com.yiyou.repast.merchant.base.RBeanUtils;
-import com.yiyou.repast.merchant.base.RspResult;
-import com.yiyou.repast.merchant.model.User;
-import com.yiyou.repast.merchant.model.UserAuthorizeApply;
-import com.yiyou.repast.merchant.model.UserWhite;
-import com.yiyou.repast.merchant.service.IUserAuthorizeApplyService;
-import com.yiyou.repast.merchant.service.IUserService;
-import com.yiyou.repast.merchant.service.IUserWhiteService;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.yiyou.repast.merchant.base.RBeanUtils;
+import com.yiyou.repast.merchant.base.RspResult;
+import com.yiyou.repast.merchant.base.ThreadContextHolder;
+import com.yiyou.repast.merchant.model.User;
+import com.yiyou.repast.merchant.model.UserAuthorizeApply;
+import com.yiyou.repast.merchant.model.UserWhite;
+import com.yiyou.repast.merchant.service.IUserAuthorizeApplyService;
+import com.yiyou.repast.merchant.service.IUserService;
+import com.yiyou.repast.merchant.service.IUserWhiteService;
+
 import repast.yiyou.common.base.EnumDefinition.AuthorizeAuditStaus;
 import repast.yiyou.common.base.EnumDefinition.UserWhiteStaus;
-
-import java.util.List;
 
 /**
  * 前端用户数据处理
@@ -48,7 +50,7 @@ public class UserController {
 	public List<User> listData(Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
 		pageSize=Integer.MAX_VALUE;//客户端分页，服务端查询所有数据
-		List<User> data=userService.findAll(Constants.MERCHANT_ID);
+		List<User> data=userService.findAll(ThreadContextHolder.getCurrentMerchantId());
 		return data;
 	}
 
@@ -57,7 +59,7 @@ public class UserController {
 		if(id==null) {
 			return "/user/add";
 		}
-		model.addAttribute("obj",this.userService.findById(Constants.MERCHANT_ID, id));
+		model.addAttribute("obj",this.userService.findById(ThreadContextHolder.getCurrentMerchantId(), id));
 		return "/user/edit";
 	}
 	
@@ -65,10 +67,10 @@ public class UserController {
 	@PostMapping("/save.do")
 	public RspResult save(User obj,Long roleId) {
 		if(obj.getId()==null) {
-			//obj.setMerchantId((Constants.MERCHANT_ID));
+			//obj.setMerchantId((ThreadContextHolder.getCurrentMerchantId()));
 			userService.save(obj);
 		}else {
-			User pojo=userService.findById(Constants.MERCHANT_ID,obj.getId());
+			User pojo=userService.findById(ThreadContextHolder.getCurrentMerchantId(),obj.getId());
 			RBeanUtils.copyProperties(obj, pojo);
 			userService.update(pojo);
 		}
@@ -88,7 +90,7 @@ public class UserController {
 	public List<UserWhite> whiteListData(Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
 		pageSize=Integer.MAX_VALUE;//客户端分页，服务端查询所有数据
-		List<UserWhite> data=userWhiteService.findAll(Constants.MERCHANT_ID);
+		List<UserWhite> data=userWhiteService.findAll(ThreadContextHolder.getCurrentMerchantId());
 		return data;
 	}
 
@@ -97,7 +99,7 @@ public class UserController {
 		if(id==null) {
 			return "/white/add";
 		}
-		model.addAttribute("obj",this.userWhiteService.findById(Constants.MERCHANT_ID, id));
+		model.addAttribute("obj",this.userWhiteService.findById(ThreadContextHolder.getCurrentMerchantId(), id));
 		return "/white/edit";
 	}
 	
@@ -105,13 +107,13 @@ public class UserController {
 	@PostMapping("/white/save.do")
 	public RspResult saveWhite(UserWhite obj) {
 		if(obj.getId()==null) {
-			obj.setMerchantId((Constants.MERCHANT_ID));
+			obj.setMerchantId((ThreadContextHolder.getCurrentMerchantId()));
 			obj.setStatus(UserWhiteStaus.normal);
-			userWhiteService.save(Constants.MERCHANT_ID, obj);
+			userWhiteService.save(ThreadContextHolder.getCurrentMerchantId(), obj);
 		}else {
 			UserWhite pojo=userWhiteService.findById(null,obj.getId());
 			RBeanUtils.copyProperties(obj, pojo);
-			userWhiteService.update(Constants.MERCHANT_ID,pojo);
+			userWhiteService.update(ThreadContextHolder.getCurrentMerchantId(),pojo);
 		}
 		return new RspResult();
 	}
@@ -140,7 +142,7 @@ public class UserController {
 	public List<UserAuthorizeApply> authListData(Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
 		pageSize=Integer.MAX_VALUE;//客户端分页，服务端查询所有数据
-		List<UserAuthorizeApply> data=authorizeApplyService.findAll(Constants.MERCHANT_ID);
+		List<UserAuthorizeApply> data=authorizeApplyService.findAll(ThreadContextHolder.getCurrentMerchantId());
 		return data;
 	}
 
@@ -149,7 +151,7 @@ public class UserController {
 		if(id==null) {
 			return "/auth/add";
 		}
-		model.addAttribute("obj",this.authorizeApplyService.findById(Constants.MERCHANT_ID, id));
+		model.addAttribute("obj",this.authorizeApplyService.findById(ThreadContextHolder.getCurrentMerchantId(), id));
 		return "/auth/edit";
 	}
 	
@@ -157,13 +159,13 @@ public class UserController {
 	@PostMapping("/auth/save.do")
 	public RspResult saveAuth(UserAuthorizeApply obj,Long roleId) {
 		if(obj.getId()==null) {
-			obj.setMerchantId((Constants.MERCHANT_ID));
+			obj.setMerchantId((ThreadContextHolder.getCurrentMerchantId()));
 			obj.setAuditStatus(AuthorizeAuditStaus.await);
-			authorizeApplyService.save(Constants.MERCHANT_ID, obj);
+			authorizeApplyService.save(ThreadContextHolder.getCurrentMerchantId(), obj);
 		}else {
 			UserAuthorizeApply pojo=authorizeApplyService.findById(null,obj.getId());
 			RBeanUtils.copyProperties(obj, pojo);
-			authorizeApplyService.update(Constants.MERCHANT_ID,pojo);
+			authorizeApplyService.update(ThreadContextHolder.getCurrentMerchantId(),pojo);
 		}
 		return new RspResult();
 	}

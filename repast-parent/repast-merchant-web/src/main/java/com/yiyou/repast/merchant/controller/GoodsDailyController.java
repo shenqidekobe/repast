@@ -1,19 +1,24 @@
 package com.yiyou.repast.merchant.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RspResult;
+import com.yiyou.repast.merchant.base.ThreadContextHolder;
 import com.yiyou.repast.merchant.model.DailyGoods;
 import com.yiyou.repast.merchant.service.IDailyGoodsService;
 import com.yiyou.repast.merchant.service.IGoodsCategoryService;
 import com.yiyou.repast.merchant.service.IGoodsService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
 
 /**
  * 每日商品控制器
@@ -33,7 +38,7 @@ public class GoodsDailyController {
 
     @GetMapping()
     public String dailyManager(Model model) {
-        model.addAttribute("categoryList", goodsCategoryService.findAll(Constants.MERCHANT_ID));
+        model.addAttribute("categoryList", goodsCategoryService.findAll(ThreadContextHolder.getCurrentMerchantId()));
         return "/goodsDaily/list";
     }
 
@@ -43,7 +48,7 @@ public class GoodsDailyController {
         page = page == null ? page = 0 : page;
         pageSize = pageSize == null ? pageSize = 10 : pageSize;
         SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-        return dailyGoodsService.findByDate(Constants.MERCHANT_ID, sdf.format(new Date(date)));
+        return dailyGoodsService.findByDate(ThreadContextHolder.getCurrentMerchantId(), sdf.format(new Date(date)));
     }
 
     @PostMapping("/edit")
@@ -51,7 +56,7 @@ public class GoodsDailyController {
     public RspResult edit(Long today, @RequestParam(value = "goodsIds[]", required = false) List<Long> goodsIds, Model model) {
         try {
             SimpleDateFormat sdf =new SimpleDateFormat("yyyy-MM-dd");
-            dailyGoodsService.editByDate(Constants.MERCHANT_ID,sdf.format( new Date(today)),goodsIds);
+            dailyGoodsService.editByDate(ThreadContextHolder.getCurrentMerchantId(),sdf.format( new Date(today)),goodsIds);
         } catch (Exception e) {
             e.printStackTrace();
             return new RspResult(505, "");
