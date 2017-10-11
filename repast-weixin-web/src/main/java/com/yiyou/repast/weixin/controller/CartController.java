@@ -65,7 +65,6 @@ public class CartController {
 		if(cart==null&&StringUtils.isEmpty(session.getDeskNum())) {
 			cart=cartService.getCart(session.getUserId());
 		}
-		model.addAttribute("imgDomain", wechatProperties.getImgDomain());
 		if(cart==null) {
 			List<Goods> map=goodsBusinessService.findHotGoodsList(9L).values().stream()
 					.flatMap(gr->gr.stream()).collect(Collectors.toList());//热销榜，9条
