@@ -10,5 +10,9 @@ import com.yiyou.repast.merchant.model.UserAddress;
 public interface IUserAddressService {
 
     List<UserAddress> findByUserId(Long userId);
+    
+    UserAddress save(UserAddress obj);
+    
+    UserAddress getById(Long id);
 
 }
