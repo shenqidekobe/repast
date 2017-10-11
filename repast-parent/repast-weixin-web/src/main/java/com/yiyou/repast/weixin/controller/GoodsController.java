@@ -72,7 +72,6 @@ public class GoodsController {
 			break;
 		}
 		model.addAttribute("dataMap", map);
-		model.addAttribute("imgDomain", wechatProperties.getImgDomain());
 		return "goods/list_frag";
 	}
 	
@@ -80,7 +79,6 @@ public class GoodsController {
 	public String detail(Long id,Model model) {
 		Goods obj=goodsBusinessService.findGoodsById(id);
 		model.addAttribute("obj", obj);
-		model.addAttribute("imgDomain", wechatProperties.getImgDomain());
 		return "goods/detail";
 	}
 

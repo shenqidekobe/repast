@@ -12,7 +12,6 @@ public class WechatProperties {
 	private String token;
 	private String encodingAESKey;
 	private String domain; //与微信服务器通信的服务器域名
-	private String imgDomain;//存储菜单图片域名地址
 	private Boolean validateFlag;//是否需要验证微信服务器
 	private String noticeTemplateId;//模版通知的消息ID
 	public String getAppId() {
@@ -44,12 +43,6 @@ public class WechatProperties {
 	}
 	public void setDomain(String domain) {
 		this.domain = domain;
-	}
-	public String getImgDomain() {
-		return imgDomain;
-	}
-	public void setImgDomain(String imgDomain) {
-		this.imgDomain = imgDomain;
 	}
 	public Boolean getValidateFlag() {
 		return validateFlag;

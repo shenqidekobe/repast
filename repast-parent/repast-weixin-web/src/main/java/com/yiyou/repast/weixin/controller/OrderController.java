@@ -66,7 +66,6 @@ public class OrderController {
 		model.addAttribute("count", order.getItems().size());
 		model.addAttribute("typeMap",typeMap);
 		model.addAttribute("obj", order);
-		model.addAttribute("imgDomain", wechatProperties.getImgDomain());
 		return "goods/success";
 	}
 	
