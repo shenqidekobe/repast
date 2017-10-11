@@ -17,6 +17,8 @@ import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
 import repast.yiyou.common.base.EnumDefinition.PayWay;
 
@@ -54,9 +56,13 @@ public class Order implements Serializable{
 	private BigDecimal amount;//订单金额
 	private BigDecimal discountAmount;//优惠金额
 	
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date createTime;//下单时间
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date settleTime;//结算时间
+	@JsonFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date cancelTime;//取消时间
+	
 	private Long createUser;//下单用户
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
