@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head th:include="link" th:with="title='结账'"/>
+    <head th:include="link" th:with="title='结算'"/>
 	<body class="m-login">
 		<div class="p011 pt15">
 			<div class="m-jiezhang">
@@ -8,7 +8,7 @@
 			</div>
 			<div class="list-card list-card-7 p010 f-mt15 ">
 				<div class="m-hd f-tac">
-					<div class="m-tit">桌号<span th:text="${obj.deskNum}"></span></div>
+					<div class="m-tit" th:if="${session.wechatUser.industry=='catering'}">桌号<span th:text="${obj.deskNum}"></span></div>
 					<div class="m-pri c-ff4035" th:text="${obj.amount}">288.00元</div>
 				</div>
 				<ul class="m-bd m-bd-1">
@@ -21,7 +21,8 @@
 			<div class="bb-ras5 f-bgc-fff p010">
 				<div class="m-bd-2"><span class="f-fr c-ff4035 m-tit"><span class="m-rmb">￥</span><span th:text="${obj.amount}">270.00</span></span></span><div class="m-tit">应付金额</div></div>
 				<div class="box-btn" id="jixu">
-					<a class="m-btn m-btn-feda00" >继续点菜</a>
+					<a class="m-btn m-btn-feda00" th:if="${session.wechatUser.industry=='catering'}">继续点菜</a>
+					<a class="m-btn m-btn-feda00" th:if="${session.wechatUser.industry!='catering'}">继续购物</a>
 				</div>
 			</div>
 		</div>

@@ -5,7 +5,7 @@
 		<div class="p011 pt15">
 			<div class="list-card list-card-0 m-c2-lr">
 				<div class="m-bd">
-					<div class="m-tit">用餐人数　<span th:text="${cart.peopleCount}">3</span>人</div>
+					<div class="m-tit" th:if="${session.wechatUser.industry=='catering'}">用餐人数　<span th:text="${cart.peopleCount}">3</span>人</div>
 					<div class="m-txt">合计<span class="c-ff4035" th:text="${count}">6</span>个：
 					   <span th:each="tp,tpStat:${typeMap}" th:text="${tp.key+tp.value}+'个、'"></span>
 					</div>
@@ -22,6 +22,21 @@
 					<span class="m-num c-ff4035" th:text="${cart.amount}" id="allAmount">270.00</span>
 					<span class="c-ff4035">元</span>
 					</div>
+				</div>
+			</div>
+		</div>
+		<div class="p011 pt15" th:if="${session.wechatUser.industry!='catering'}">
+			<div class="list-card list-card-0 m-c2-lr">
+				<div class="m-bd">
+					<div class="m-tit">收货人信息：</div>
+				</div>
+			</div>
+			<div class="line line-3 f-cb"><img th:src="@{/static/img/bg-line.png}" class="a-img "/></div>
+			<div class="list-card list-card-1 m-c2-lr">
+				<div class="m-bd">
+					<div class="m-txt">姓名：<input type="text" id="realName" style="width:40%" placeholder="请输入您的收货人姓名" maxlength="20"></div>
+					<div class="m-txt">电话：<input type="tel" id="phone" style="width:40%" th:value="${session.wechatUser.phone}" placeholder="请输入您的收货人联系电话"></div>
+					<div class="m-txt">地址：<input type="text" id="address" style="width:80%" placeholder="请输入您的详细收货地址" maxlength="200"></div>
 				</div>
 			</div>
 		</div>
@@ -86,25 +101,26 @@
 			.mui-popup-button{color: #333;}
 			.mui-popup-button-bold{font-weight: normal !important;color: #ff4035;}
 		</style>
-		<script type="text/javascript">
+		<script th:inline="javascript">
+            var industry=[[${session.wechatUser.industry}]];
 			(function() {
 				var btn = ['取消', '删除'];
 				mui('body').on('click','#confirmBtn',function(e) {
 					var cid=$(this).attr("cid");
-					mui.confirm(' ','确定要清空所有菜品吗？', btn, function(e) {
+					mui.confirm(' ','确定要清空购物车吗？', btn, function(e) {
 						if(e.index==1){
 							$.ajax({
-								   url:ctx+'/cart/clear.do',
-								   type:'POST',
-								   data:{id:cid},
-								   success:function(rsp){
-									   if(rsp.status==200){
-										   location.href=location.href;
-									   }else{
-										   mui.toast("服务器繁忙，请稍后再试！");
-									   }
+							   url:ctx+'/cart/clear.do',
+							   type:'POST',
+							   data:{id:cid},
+							   success:function(rsp){
+								   if(rsp.status==200){
+									   location.href=location.href;
+								   }else{
+									   mui.toast("服务器繁忙，请稍后再试！");
 								   }
-							   });
+							   }
+						   });
 						}
 					})
 				})
@@ -116,10 +132,25 @@
 			    });
 			    $(".img-xiadan").click(function(){
 			    	 var cid=$(this).attr("cid");
+			    	 var realName=$.trim($("#realName").val());
+			    	 var phone=$.trim($("#phone").val());
+			    	 var address=$.trim($("#address").val());
+			    	 if(industry=='ticket'||industry=='mall'){
+			    		 if(realName==''){
+			    			 toast("请填写您的收货人姓名！");
+			    			 return false;
+			    		 }else if(phone==''){
+			    			 toast("请填写您的收货人电话！");
+			    			 return false;
+			    		 }else if(address==''){
+			    			 toast("请填写您的收货人地址！");
+			    			 return false;
+			    		 }
+			    	 }
 			    	 $.ajax({
 						   url:ctx+'/order/produce.do',
 						   type:'POST',
-						   data:{cid:cid},
+						   data:{cid:cid,realName:realName,phone:phone,address:address},
 						   success:function(rsp){
 							   if(rsp.status==200){
 								   toast("下单成功！");
@@ -180,7 +211,7 @@
 			    			case "add":
 			    				var ct=parseInt(num.val())+1;
 			    				if(ct>5){
-			    					mui.toast("每样菜品最多只能点五份");
+			    					mui.toast("每样商品最多只能点五份");
 			    					return false;
 			    				}
 		    					saveCart(_this.parent().attr("gid"),ct,amount,_this.parent().attr("gtp"),function(rsp){
