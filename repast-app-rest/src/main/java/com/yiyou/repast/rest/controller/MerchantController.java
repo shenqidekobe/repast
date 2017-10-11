@@ -5,7 +5,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yiyou.repast.merchant.model.MerchantAccount;
 import com.yiyou.repast.merchant.service.IMerchantAccountService;
 import com.yiyou.repast.rest.base.AppResult;
@@ -22,6 +22,8 @@ import repast.yiyou.common.base.EnumDefinition.AccountType;
 @RequestMapping("/api/merchant")
 public class MerchantController {
 	
+	private static ObjectMapper objectMapper=new ObjectMapper();
+	
 	@Reference
 	private IMerchantAccountService merchantAccountService;
 
@@ -34,7 +36,7 @@ public class MerchantController {
 		@ApiImplicitParam(name = "account", value = "帐号", required = true, dataType = "String"), 
 		@ApiImplicitParam(name = "password", value = "密码", required = true, dataType = "String"),
 		@ApiImplicitParam(name = "merchantId", value = "商户ID", required = true, dataType = "Long")})
-	public AppResult list(String account,String password,Long merchantId) {
+	public AppResult list(String account,String password,Long merchantId) throws Exception{
 		MerchantAccount obj=merchantAccountService.login(merchantId, account, password);
 		//验证登录用户的帐号密码是否正确
 		if(obj==null)return new AppResult(AppResult.OBJECT_NULL,"帐号密码错误");
@@ -42,7 +44,7 @@ public class MerchantController {
 		if(!AccountType.terminal.equals(obj.getType()))return new AppResult(AppResult.VALID_FIAL,"此帐号不允许登录");
 		//注册到在线用户池
 		OnlineAccount.register(obj.getId(), merchantId, account);
-		return new AppResult(new Gson().toJson(obj));
+		return new AppResult(objectMapper.writeValueAsString(obj));
 	}
-
+	
 }
