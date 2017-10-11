@@ -17,7 +17,7 @@ import repast.yiyou.common.base.EnumDefinition.OrderProcessStatus;
  * 订单处理记录
  * */
 @Entity
-@Table(name = "t_order")
+@Table(name = "t_order_process")
 public class OrderProcess implements Serializable {
 
 	private static final long serialVersionUID = 5008323647517114435L;
