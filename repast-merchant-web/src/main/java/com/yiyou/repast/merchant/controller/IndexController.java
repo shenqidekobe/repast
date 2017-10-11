@@ -61,7 +61,7 @@ public class IndexController {
 	@GetMapping("/login")
 	public String login(HttpServletRequest request) {
 		Cookie cookie=WebUtils.getCookie(request, APPLY_PATH_COOKIE);
-		if(cookie==null||cookie.getValue()==null)return "redirect:/"+Constants.MERCHANT_APPLY+"/login";
+		if(cookie==null||cookie.getValue()==null||cookie.getValue().length()==0)return "redirect:/"+Constants.MERCHANT_APPLY+"/login";
 		String path=cookie.getValue();
 		return "redirect:/"+path+"/login";
 	}
@@ -76,7 +76,7 @@ public class IndexController {
 	    	UsernamePasswordToken token = new UsernamePasswordToken(loginName, password);
 	        SecurityUtils.getSubject().login(token);
 	        //登录成功，保存当前商户的应用域名
-	        String path=(String) req.getSession().getAttribute(APPLY_PATH_COOKIE);
+	        String path=(String) req.getSession().getAttribute(Constants.SESSION_MERCHANTAPPLY_KEY);
 	        Cookie cookie = new Cookie(APPLY_PATH_COOKIE,path);
 		    cookie.setPath("/");
 		    rsp.addCookie(cookie);
