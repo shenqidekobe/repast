@@ -42,6 +42,7 @@ public class GoodsController {
 	public String index(Integer pc,String pt,Model model,HttpServletRequest request) {
 		request.getSession().setAttribute("peopleCount", pc);
 		request.getSession().setAttribute("predictDate", pt);
+		
 		SessionToken session=userService.getSessionUser();
 		Cart cart=cartService.getCart(session.getDeskNum());
 		if(cart==null&&StringUtils.isEmpty(session.getDeskNum())) {

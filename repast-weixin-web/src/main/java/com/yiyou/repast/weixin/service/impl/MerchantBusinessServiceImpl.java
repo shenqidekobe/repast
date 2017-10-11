@@ -8,8 +8,10 @@ import org.apache.commons.lang3.StringUtils;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.common.service.IZxingQrService;
+import com.yiyou.repast.merchant.model.Merchant;
 import com.yiyou.repast.merchant.model.MerchantApply;
 import com.yiyou.repast.merchant.service.IMerchantApplyService;
+import com.yiyou.repast.merchant.service.IMerchantService;
 import com.yiyou.repast.weixin.base.ThreadContextHolder;
 import com.yiyou.repast.weixin.service.MerchantBusinessService;
 
@@ -18,6 +20,8 @@ import repast.yiyou.common.exception.BusinessException;
 @org.springframework.stereotype.Service
 public class MerchantBusinessServiceImpl implements MerchantBusinessService{
 	
+	@Reference
+	private IMerchantService merchantService;
 	@Reference
 	private IMerchantApplyService merchantApplyService;
 	@Reference
@@ -54,6 +58,11 @@ public class MerchantBusinessServiceImpl implements MerchantBusinessService{
 		Map<String,Object> params=new HashMap<>();
 		params.put("data", url);
 		return zxingQrService.qrAsByte(params);
+	}
+
+	@Override
+	public Merchant getById(Long id) {
+		return merchantService.find(id);
 	}
 
 

@@ -12,7 +12,9 @@ public class SessionToken implements Serializable{
 	private Long userId;
 	private String userName;
 	private String phone;
-	private Long merchantId;
+	private Long merchantId;//商户ID
+	private String merchantName;//商户名称
+	private String industry;//商户行业
 	private String openId;
 	private String token;
 	private String deskNum;
@@ -65,6 +67,18 @@ public class SessionToken implements Serializable{
 	}
 	public void setCreateTime(Date createTime) {
 		this.createTime = createTime;
+	}
+	public String getMerchantName() {
+		return merchantName;
+	}
+	public void setMerchantName(String merchantName) {
+		this.merchantName = merchantName;
+	}
+	public String getIndustry() {
+		return industry;
+	}
+	public void setIndustry(String industry) {
+		this.industry = industry;
 	}
 
 }
