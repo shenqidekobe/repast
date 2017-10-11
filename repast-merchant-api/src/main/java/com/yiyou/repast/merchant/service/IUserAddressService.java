@@ -14,5 +14,7 @@ public interface IUserAddressService {
     UserAddress save(UserAddress obj);
     
     UserAddress getById(Long id);
+    
+    void remove(Long id);
 
 }
