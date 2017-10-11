@@ -8,16 +8,16 @@ import org.springframework.boot.web.support.SpringBootServletInitializer;
 import repast.yiyou.common.util.LoggerUtil;
 
 @SpringBootApplication
-public class Application extends SpringBootServletInitializer {
+public class ApplicationWebsite extends SpringBootServletInitializer {
 
 	@Override
 	protected SpringApplicationBuilder configure(SpringApplicationBuilder builder) {
-		return builder.sources(Application.class);
+		return builder.sources(ApplicationWebsite.class);
 	}
 
 	public static void main(String[] args) {
 		LoggerUtil.info("********************WEIXIN repast weixin web starting run*********************");
-		SpringApplication.run(Application.class, args);
+		SpringApplication.run(ApplicationWebsite.class, args);
 		LoggerUtil.info("********************WEIXIN repast weixin web run end*********************");
 	}
 }
