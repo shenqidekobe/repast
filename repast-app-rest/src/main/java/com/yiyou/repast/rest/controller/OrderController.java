@@ -2,6 +2,7 @@ package com.yiyou.repast.rest.controller;
 
 import java.util.Date;
 
+import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -40,10 +41,11 @@ public class OrderController {
 		@ApiImplicitParam(name = "merchantId", value = "商户ID", required = true, dataType = "Long"),
 		@ApiImplicitParam(name = "accountId", value = "登录帐号ID", required = true, dataType = "Long"),
 		@ApiImplicitParam(name = "deskNum", value = "桌号", required = false, dataType = "String"),
-		@ApiImplicitParam(name = "status", value = "状态,例如await:待处理,awaitPay:待付款,settle:已结算,cancel:已取消", required = false, dataType = "String",example=""),
+		@ApiImplicitParam(name = "status", value = "状态,例如await:待处理,awaitPay:待付款,settle:已结算,cancel:已取消", required = false, dataType = "String",defaultValue="await"),
 		@ApiImplicitParam(name = "page", value = "页码，从0开始", required = true, dataType = "Integer"), 
 		@ApiImplicitParam(name = "pageSize", value = "每页数量", required = true, dataType = "Integer") })
 	public AppResult list(Long merchantId,String deskNum,String status,int page,int pageSize)throws Exception {
+		if(StringUtils.isEmpty(status)) status=OrderStaus.await.name();
 		OrderStaus orderStatus=OrderStaus.valueOf(OrderStaus.class, status);
 		String startTime=DateFormatUtils.format(new Date(), "yyyy-MM-dd");
 		String endTime=DateFormatUtils.format(new Date(), "yyyy-MM-dd");
