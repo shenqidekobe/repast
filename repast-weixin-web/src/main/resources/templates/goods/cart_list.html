@@ -57,7 +57,7 @@
 				<ul class=" p010">
 					<li class="list-card list-card-4 m-c2 f-bb-e5e5e5 f-pt-5" th:each="gts,gtsTat:${item.itemList}">
 						<div class="m-hd">
-							<a href="" class=""><img th:src="${imgDomain}+'/common/img/'+${gts.goodsPic}+'/0'" class="a-img"/></a>
+							<a href="" class=""><img th:src="${gts.goodsPic}" class="a-img"/></a>
 						</div>
 						<div class="m-bd">
 							<div class="m-tit" th:text="${gts.goodsName}">糖醋小黄鱼</div>

@@ -26,7 +26,7 @@
 				    	   <ul class="li-c3 f-cb">
 								<li class="list" th:each="ht,stat: ${hotList}" th:if="${stat.index} lt 3">
 									<a th:href="@{'/goods/detail?id='+${ht.id}}">
-									    <img th:src="${imgDomain}+'/common/img/'+${ht.pic}+'/0'" class="a-img"/>
+									    <img th:src="${ht.picUrl}" class="a-img"/>
 										<div class="m-tit" th:text="${ht.name}">红烧麻辣鱼</div>
 									</a>
 								</li>
@@ -36,7 +36,7 @@
 				    	   <ul class="li-c3 f-cb">
 								<li class="list" th:each="ht,stat: ${hotList}" th:if="${stat.index} lt 6 and ${stat.index} gt 2">
 									<a th:href="@{'/goods/detail?id='+${ht.id}}">
-										<img th:src="${imgDomain}+'/common/img/'+${ht.pic}+'/0'" class="a-img"/>
+										<img th:src="${ht.picUrl}" class="a-img"/>
 										<div class="m-tit" th:text="${ht.name}">红烧麻辣鱼</div>
 									</a>
 								</li>
@@ -46,7 +46,7 @@
 				    	   <ul class="li-c3 f-cb">
 								<li class="list" th:each="ht,stat: ${hotList}" th:if="${stat.index} lt 9 and ${stat.index} gt 5">
 									<a th:href="@{'/goods/detail?id='+${ht.id}}">
-										<img th:src="${imgDomain}+'/common/img/'+${ht.pic}+'/0'" class="a-img"/>
+										<img th:src="${ht.picUrl}" class="a-img"/>
 										<div class="m-tit" th:text="${ht.name}">红烧麻辣鱼</div>
 									</a>
 								</li>
