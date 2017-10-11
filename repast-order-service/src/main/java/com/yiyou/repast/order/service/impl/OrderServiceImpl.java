@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.annotation.Resource;
 import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
 
@@ -31,6 +32,7 @@ import com.yiyou.repast.order.tools.PageConvertDataGrid;
 
 import repast.yiyou.common.base.EnumDefinition.OrderProcessStatus;
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
+import repast.yiyou.common.util.CommonUtils;
 import repast.yiyou.common.util.DataGrid;
 
 @Service
@@ -109,11 +111,12 @@ public class OrderServiceImpl implements IOrderService {
                 if(merchantId!=null) {
                 	predicates.add(cb.equal(root.get("merchantId").as(Long.class),merchantId)); 
                 }
+                Path<Date> createDate = root.get("createTime");
                 if (!StringUtils.isEmpty(startTime)) {  
-                    predicates.add(cb.greaterThanOrEqualTo(root.get("createTime").as(String.class), startTime));  
+                    predicates.add(cb.greaterThanOrEqualTo(createDate,CommonUtils.parseDate(startTime+" 00:00:00", "yyyy-MM-dd HH:mm:ss")));  
                 }  
                 if (!StringUtils.isEmpty(endTime)) {  
-                    predicates.add(cb.lessThanOrEqualTo(root.get("createTime").as(String.class), endTime));  
+                    predicates.add(cb.lessThanOrEqualTo(createDate, CommonUtils.parseDate(endTime+" 23:59:59", "yyyy-MM-dd HH:mm:ss")));  
                 }  
                 if (!StringUtils.isEmpty(orderId)) {  
                 	predicates.add(cb.equal(root.get("orderId").as(String.class), orderId)); 
