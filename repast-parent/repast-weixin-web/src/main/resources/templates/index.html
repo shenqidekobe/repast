@@ -1,14 +1,16 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-	<head th:include="link" th:with="title='开始点餐'"/>
+	<head th:include="link" th:with="title='欢迎光临'"/>
 	<body class="m-login">
 		<div class="m-box-logo f-tac">
 			<img th:src="@{/static/img/bg-login.jpg}" class="m-img m-logo"/>
 			<div class="m-tit">均瑶国际会客厅</div>
-			<div class="m-txt">欢迎光临~~BonVoyage</div>
+			<div class="m-txt">欢迎光临~~</div>
 		</div>
 		<div class="foot fix fix-bot foot-login f-tac">
-			<a class="m-btn m-btn-feda00" id="startBtn">开始点餐</a>
+			<a class="m-btn m-btn-feda00" id="startBtn" th:if="${session.wechatUser.industry=='catering'}">开始点餐</a>
+			<a class="m-btn m-btn-feda00" id="startBtn" th:if="${session.wechatUser.industry=='ticket'}">开始购票</a>
+			<a class="m-btn m-btn-feda00" id="startBtn" th:if="${session.wechatUser.industry=='mall'}">进入商城</a>
 			<div class="m-txt">爱扫码技术支持：400-000-000</div>		
 		</div>
 		

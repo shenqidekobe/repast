@@ -4,12 +4,13 @@
 	<body class="m-login">
 		<div class="p011 pt15">
 			<div class="list-card list-card-5 p010">
-				<div class="m-tit-1">已下单的菜</div>
+				<div class="m-tit-1" th:if="${session.wechatUser.industry=='catering'}">已下单的菜</div>
+				<div class="m-tit-1" th:if="${session.wechatUser.industry!='catering'}">已下单的商品</div>
 				<div class="m-bd">
 					<div class="m-tit">
-					<span class="f-fr m-txt">下单时间： 
-					<span th:text="${#dates.format(obj.createTime, 'HH:mm')}"></span></span>
-                                                                       桌号<span th:text="${obj.deskNum}"></span></div>
+						<span class="f-fr m-txt">下单时间： <span th:text="${#dates.format(obj.createTime, 'HH:mm')}"></span></span>
+	                    <span><div class="m-tit-1" th:if="${session.wechatUser.industry=='catering'}">已下单的菜</div>桌号<span th:text="${obj.deskNum}"></span></span>
+                    </div>
 					<div class="m-txt">用餐时间：<span th:text="${obj.predictDateStr}"></span></div>
 				</div>
 			</div>

@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-    <head th:include="link" th:with="title='均瑶国际会客厅'"/>
+    <head th:include="link" th:with="title='商品详情'"/>
 	<body class="f-bgc-fff">
 		<div class="cont-keting-show f-bgc-fff f-cb">
 			<div class="m-hd">
@@ -38,7 +38,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="list-kt list-kt-2 m-c2 ">
+					<div class="list-kt list-kt-2 m-c2 " th:if="${session.wechatUser.industry=='catering'}">
 						<div class="m-hd">
 							<div class="m-tit">辅料：</div>
 						</div>
@@ -62,8 +62,9 @@
 		</div>
 		
 		<script type="text/javascript" th:src="@{/static/js/jquery-1.8.3.min.js}"></script>
-		<script type="text/javascript">
+		<script th:inline="javascript">
 		   $(function(){
+               var industry=[[${session.wechatUser.industry}]];
 			   $(".img-back").click(function(){
 				   location.href=history.go(-1);
 			   });
@@ -85,7 +86,7 @@
 				   if(specId==""){
 					   toast("请选择规格");
 					   return false;
-				   }else  if(auxId==""){
+				   }else if(auxId==""&&industry=='catering'){
 					   toast("请选择辅料");
 					   return false;
 				   } 
