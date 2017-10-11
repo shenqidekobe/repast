@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.yiyou.repast.merchant.base.Constants;
+import com.yiyou.repast.merchant.base.ThreadContextHolder;
 import com.yiyou.repast.merchant.model.MerchantLogs;
 import com.yiyou.repast.merchant.service.IMerchantLogsService;
 
@@ -37,13 +37,13 @@ public class MerchantLogsController {
 	public List<MerchantLogs> listData(String ip,Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
 		pageSize=Integer.MAX_VALUE;//客户端分页，服务端查询所有数据
-		DataGrid<MerchantLogs> data=merchantLogsService.findList(Constants.MERCHANT_ID, page, pageSize);
+		DataGrid<MerchantLogs> data=merchantLogsService.findList(ThreadContextHolder.getCurrentMerchantId(), page, pageSize);
 		return data.getRecords();
 	}
 
 	@GetMapping("/view/{id}")
 	public String view(@PathVariable Long id,Model model) {
-		MerchantLogs logs=this.merchantLogsService.findById(Constants.MERCHANT_ID,id);
+		MerchantLogs logs=this.merchantLogsService.findById(ThreadContextHolder.getCurrentMerchantId(),id);
 		if(logs==null)return "error";
 		model.addAttribute("obj",logs);
 		return "/logs/view";

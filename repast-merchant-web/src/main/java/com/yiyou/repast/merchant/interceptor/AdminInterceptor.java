@@ -9,6 +9,8 @@ import org.springframework.web.servlet.ModelAndView;
 import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.ThreadContextHolder;
 
+import repast.yiyou.common.util.LoggerUtil;
+
 public class AdminInterceptor implements HandlerInterceptor {
 
 	@Override
@@ -18,7 +20,7 @@ public class AdminInterceptor implements HandlerInterceptor {
 
 	@Override
 	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, ModelAndView arg3) throws Exception {
-
+		LoggerUtil.info("当前商户ID  === "+ThreadContextHolder.getCurrentMerchantId());
 	}
 
 	@Override

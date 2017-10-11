@@ -1,9 +1,20 @@
 package com.yiyou.repast.merchant.controller;
 
+import java.util.List;
+import java.util.Set;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RBeanUtils;
 import com.yiyou.repast.merchant.base.RspResult;
+import com.yiyou.repast.merchant.base.ThreadContextHolder;
 import com.yiyou.repast.merchant.model.Goods;
 import com.yiyou.repast.merchant.model.GoodsCategory;
 import com.yiyou.repast.merchant.model.GoodsSpec;
@@ -11,12 +22,6 @@ import com.yiyou.repast.merchant.service.IGoodsAuxService;
 import com.yiyou.repast.merchant.service.IGoodsCategoryService;
 import com.yiyou.repast.merchant.service.IGoodsService;
 import com.yiyou.repast.merchant.service.IGoodsSpecService;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.List;
-import java.util.Set;
 
 /**
  * 菜品控制器
@@ -44,13 +49,13 @@ public class GoodsController {
 
     @GetMapping("/edit")
     public String edit(Long id, Model model) {
-        model.addAttribute("parentList", goodsCategoryService.findAll(Constants.MERCHANT_ID));
-        model.addAttribute("specList", goodsSpecService.findAll(Constants.MERCHANT_ID));
-        model.addAttribute("auxList", goodsAuxService.findAll(Constants.MERCHANT_ID));
+        model.addAttribute("parentList", goodsCategoryService.findAll(ThreadContextHolder.getCurrentMerchantId()));
+        model.addAttribute("specList", goodsSpecService.findAll(ThreadContextHolder.getCurrentMerchantId()));
+        model.addAttribute("auxList", goodsAuxService.findAll(ThreadContextHolder.getCurrentMerchantId()));
         if (id == null) {
             return "/goods/add";
         }
-        model.addAttribute("obj", goodsService.findById(Constants.MERCHANT_ID, id));
+        model.addAttribute("obj", goodsService.findById(ThreadContextHolder.getCurrentMerchantId(), id));
         return "/goods/edit";
     }
 
@@ -59,21 +64,21 @@ public class GoodsController {
     public List<Goods> listData(Integer page, Integer pageSize) {
         page = page == null ? page = 0 : page;
         pageSize = pageSize == null ? pageSize = 10 : pageSize;
-        return goodsService.findAll(Constants.MERCHANT_ID);
+        return goodsService.findAll(ThreadContextHolder.getCurrentMerchantId());
     }
 
     @ResponseBody
     @PostMapping("shelves/list")
     public List<Goods> shelvesData() {
         //所有上架商品
-        return goodsService.findShelves(Constants.MERCHANT_ID);
+        return goodsService.findShelves(ThreadContextHolder.getCurrentMerchantId());
     }
 
     @GetMapping("/remove")
     public String delete(Long id, Model model) {
-        Goods obj = goodsService.findById(Constants.MERCHANT_ID, id);
+        Goods obj = goodsService.findById(ThreadContextHolder.getCurrentMerchantId(), id);
         obj.setShelves(false);
-        goodsService.save(Constants.MERCHANT_ID, obj);
+        goodsService.save(ThreadContextHolder.getCurrentMerchantId(), obj);
         return "redirect:/goods";
     }
 
@@ -88,21 +93,21 @@ public class GoodsController {
         Set<GoodsSpec> specs = goodsSpecService.findByIds(specIds);
         if (obj.getId() == null) {
             //新增
-            GoodsCategory category = goodsCategoryService.findById(Constants.MERCHANT_ID, parentId);
+            GoodsCategory category = goodsCategoryService.findById(ThreadContextHolder.getCurrentMerchantId(), parentId);
             obj.setCategory(category);
             obj.setSpecs(specs);
             obj.setAuxIds(auxIds);
             obj.setShelves(true);
-            goodsService.save(Constants.MERCHANT_ID, obj);
+            goodsService.save(ThreadContextHolder.getCurrentMerchantId(), obj);
         } else {
             //保存
-            Goods pojo = this.goodsService.findById(Constants.MERCHANT_ID, id);
+            Goods pojo = this.goodsService.findById(ThreadContextHolder.getCurrentMerchantId(), id);
             RBeanUtils.copyProperties(obj, pojo);
-            GoodsCategory parent = this.goodsCategoryService.findById(Constants.MERCHANT_ID, parentId);
+            GoodsCategory parent = this.goodsCategoryService.findById(ThreadContextHolder.getCurrentMerchantId(), parentId);
             pojo.setCategory(parent);
             pojo.setSpecs(specs);
             pojo.setAuxIds(auxIds);
-            goodsService.save(Constants.MERCHANT_ID, pojo);
+            goodsService.save(ThreadContextHolder.getCurrentMerchantId(), pojo);
         }
         return new RspResult();
     }

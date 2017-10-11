@@ -1,10 +1,7 @@
 package com.yiyou.repast.merchant.controller;
 
-import com.alibaba.dubbo.config.annotation.Reference;
-import com.yiyou.repast.merchant.base.Constants;
-import com.yiyou.repast.merchant.base.RspResult;
-import com.yiyou.repast.merchant.model.GoodsAux;
-import com.yiyou.repast.merchant.service.IGoodsAuxService;
+import java.util.List;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +9,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import com.alibaba.dubbo.config.annotation.Reference;
+import com.yiyou.repast.merchant.base.RspResult;
+import com.yiyou.repast.merchant.base.ThreadContextHolder;
+import com.yiyou.repast.merchant.model.GoodsAux;
+import com.yiyou.repast.merchant.service.IGoodsAuxService;
 
 @Controller
 @RequestMapping("/goods/aux")
@@ -31,7 +32,7 @@ public class GoodsAuxController {
     public List<GoodsAux> listData(Integer page, Integer pageSize) {
         page = page == null ? page = 0 : page;
         pageSize = pageSize == null ? pageSize = 10 : pageSize;
-        return goodsAuxService.findAll(Constants.MERCHANT_ID);
+        return goodsAuxService.findAll(ThreadContextHolder.getCurrentMerchantId());
     }
 
     @ResponseBody
@@ -40,7 +41,7 @@ public class GoodsAuxController {
         if (obj == null) {
             return new RspResult(505, "参数错误");
         }
-        goodsAuxService.save(Constants.MERCHANT_ID, obj);
+        goodsAuxService.save(ThreadContextHolder.getCurrentMerchantId(), obj);
         return new RspResult();
     }
 
@@ -52,7 +53,7 @@ public class GoodsAuxController {
 
     @GetMapping("/remove")
     public String delete(Long id, Model model) {
-        this.goodsAuxService.remove(Constants.MERCHANT_ID, id);
+        this.goodsAuxService.remove(ThreadContextHolder.getCurrentMerchantId(), id);
         return "redirect:/goods/aux";
     }
 

@@ -23,6 +23,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.SessionToken;
+import com.yiyou.repast.merchant.base.ThreadContextHolder;
 import com.yiyou.repast.merchant.model.MerchantAccount;
 import com.yiyou.repast.merchant.model.MerchantRoleMenu;
 import com.yiyou.repast.merchant.service.IMerchantAccountService;
@@ -51,7 +52,7 @@ public class MerchantShiroRealm extends AuthorizingRealm {
 			throws AuthenticationException {
 		UsernamePasswordToken user = (UsernamePasswordToken) authcToken;
 		String password = String.valueOf(user.getPassword());
-		MerchantAccount account = merchantAccountService.login(Constants.MERCHANT_ID, user.getUsername(), password);
+		MerchantAccount account = merchantAccountService.login(ThreadContextHolder.getCurrentMerchantId(), user.getUsername(), password);
 		if (null == account) {
 			throw new AccountException("帐号或密码不正确！");
 		} else if (null == account.getRole()) {

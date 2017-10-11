@@ -14,9 +14,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.yiyou.repast.merchant.base.Constants;
 import com.yiyou.repast.merchant.base.RBeanUtils;
 import com.yiyou.repast.merchant.base.RspResult;
+import com.yiyou.repast.merchant.base.ThreadContextHolder;
 import com.yiyou.repast.merchant.model.MerchantRole;
 import com.yiyou.repast.merchant.model.MerchantRoleMenu;
 import com.yiyou.repast.merchant.service.IMerchantMenuService;
@@ -44,7 +44,7 @@ public class RoleController {
 	public List<MerchantRole> listData(Integer page,Integer pageSize) {
 		page=page==null?page=0:page;
 		pageSize=Integer.MAX_VALUE;//客户端分页，服务端查询所有数据
-		List<MerchantRole> data=merchantRoleService.findAll(Constants.MERCHANT_ID);
+		List<MerchantRole> data=merchantRoleService.findAll(ThreadContextHolder.getCurrentMerchantId());
 		return data;
 	}
 
@@ -66,7 +66,7 @@ public class RoleController {
 		}
 		model.addAttribute("obj",role);
 		model.addAttribute("menuIds",menuIds);
-		model.addAttribute("menus", merchantMenuService.findAll(Constants.MERCHANT_ID));
+		model.addAttribute("menus", merchantMenuService.findAll(ThreadContextHolder.getCurrentMerchantId()));
 		return "/role/permission";
 	}
 	
@@ -74,7 +74,7 @@ public class RoleController {
 	@PostMapping("/save.do")
 	public RspResult save(MerchantRole obj,Long roleId) {
 		if(obj.getId()==null) {
-			obj.setMerchantId((Constants.MERCHANT_ID));
+			obj.setMerchantId((ThreadContextHolder.getCurrentMerchantId()));
 			merchantRoleService.save(obj);
 		}else {
 			MerchantRole pojo=merchantRoleService.find(obj.getId());
@@ -96,7 +96,7 @@ public class RoleController {
 	@PostMapping("/validate.do")
 	public RspResult validate(String name) {
 		RspResult rsp=new RspResult();
-		rsp.setData(this.merchantRoleService.findByName(Constants.MERCHANT_ID,name));
+		rsp.setData(this.merchantRoleService.findByName(ThreadContextHolder.getCurrentMerchantId(),name));
 		return rsp;
 	}
 }
