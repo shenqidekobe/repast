@@ -40,7 +40,12 @@ public class MerchantRoleServiceImpl implements IMerchantRoleService{
 
 	@Override
 	public List<MerchantRole> findAll(Long merchantId) {
-		return merchantRoleRepository.findAll();
+		MerchantRole role=new MerchantRole();
+		role.setMerchantId(merchantId);
+	    ExampleMatcher matcher = ExampleMatcher.matching();
+	    Example<MerchantRole> example = Example.of(role, matcher); 
+		List<MerchantRole> list=merchantRoleRepository.findAll(example);
+		return list;
 	}
 
 	@Override
@@ -76,6 +81,7 @@ public class MerchantRoleServiceImpl implements IMerchantRoleService{
 	@Override
 	public DataGrid<MerchantRole> findList(Long merchantId, String name, int page, int pageSize) {
 		MerchantRole role=new MerchantRole();
+		role.setMerchantId(merchantId);
 		if(!StringUtils.isEmpty(name))role.setName(name);
 	    ExampleMatcher matcher = ExampleMatcher.matching();
 	    Example<MerchantRole> example = Example.of(role, matcher); 
@@ -88,6 +94,7 @@ public class MerchantRoleServiceImpl implements IMerchantRoleService{
 	public MerchantRole findByName(Long merchantId, String name) {
 		MerchantRole role=new MerchantRole();
 		role.setName(name);
+		role.setMerchantId(merchantId);
 	    ExampleMatcher matcher = ExampleMatcher.matching();
 	    Example<MerchantRole> example = Example.of(role, matcher); 
 		List<MerchantRole> list=merchantRoleRepository.findAll(example);
