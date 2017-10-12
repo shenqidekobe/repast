@@ -202,12 +202,12 @@ public class Order implements Serializable{
 		return status.getName();
 	}
 	public String getCreateTimeStr() {
-		return CommonUtils.format(createTime, "yyyy-MM-dd HH:mm:ss");
+		return CommonUtils.format(createTime, "MM-dd HH:mm");
 	}
 	public String getCancelTimeStr() {
-		return CommonUtils.format(cancelTime, "yyyy-MM-dd HH:mm:ss");
+		return CommonUtils.format(cancelTime, "MM-dd HH:mm");
 	}
 	public String getSettleTimeStr() {
-		return CommonUtils.format(settleTime, "yyyy-MM-dd HH:mm:ss");
+		return CommonUtils.format(settleTime, "MM-dd HH:mm");
 	}
 }
