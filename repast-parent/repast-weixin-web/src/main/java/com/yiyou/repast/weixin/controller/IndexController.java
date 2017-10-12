@@ -6,6 +6,8 @@ import java.util.Random;
 import javax.annotation.Resource;
 
 import org.apache.commons.lang3.StringUtils;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authc.UsernamePasswordToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -20,6 +22,7 @@ import com.yiyou.repast.weixin.base.SessionToken;
 import com.yiyou.repast.weixin.service.UserBusinessService;
 
 import repast.yiyou.common.base.EnumDefinition.AuthorizeAuditStaus;
+import repast.yiyou.common.base.EnumDefinition.IndustryType;
 
 /**
  * 进入首页管理
@@ -99,7 +102,28 @@ public class IndexController {
 		return new RspResult();
 	}
 	
-	
+	@GetMapping("/login")
+	public String login() {
+		return "login";
+	}
+	@GetMapping("/simulate/login")
+	public String simulateLogin(String industry) {
+		Long merchantId=1l;//点餐行业、默认
+		Long userId=222L;
+		String deskNum="008";
+		if(IndustryType.ticket.name().equals(industry)) {
+			merchantId=2l;//票务行业
+			userId=223L;
+			deskNum="K0218";
+		}else if(IndustryType.mall.name().equals(industry)) {
+			merchantId=3l;//电商行业
+			userId=224L;
+			deskNum="99033";
+		}
+		UsernamePasswordToken token = new UsernamePasswordToken(userId.toString(),merchantId+"_"+deskNum);
+        SecurityUtils.getSubject().login(token);
+		return "login";
+	}
 	@GetMapping("/access")
 	public String access() {
 		return "access";
