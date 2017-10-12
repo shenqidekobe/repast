@@ -70,7 +70,7 @@ public class OrderController {
 	@ApiOperation(value="更新订单",notes="更新订单的状态信息")
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "id", value = "订单ID", required = true, dataType = "Long"),
-		@ApiImplicitParam(name = "status", value = "状态", required = true, dataType = "Integer"),
+		@ApiImplicitParam(name = "status", value = "状态,awaitPay:待付款,cancel:已取消", required = true, dataType = "Integer"),
 		@ApiImplicitParam(name = "accountId", value = "登录帐号ID", required = true, dataType = "Long")})
 	public AppResult update(Long id,String status,Long accountId) throws Exception{
 		OrderStaus orderStatus=OrderStaus.valueOf(OrderStaus.class, status);
@@ -85,7 +85,7 @@ public class OrderController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "id", value = "订单ID", required = true, dataType = "Long"),
 		@ApiImplicitParam(name = "itemId", value = "订单项ID", required = true, dataType = "Long"),
-		@ApiImplicitParam(name = "status", value = "状态", required = true, dataType = "Integer"),
+		@ApiImplicitParam(name = "status,ing:出菜中,already:已出菜,cancel:已取消", value = "状态", required = true, dataType = "Integer"),
 		@ApiImplicitParam(name = "accountId", value = "登录帐号ID", required = true, dataType = "Long")})
 	public AppResult updateItem(Long id,Long itemId,String status,Long accountId) throws Exception{
 		OrderStaus orderStatus=OrderStaus.valueOf(OrderStaus.class, status);
