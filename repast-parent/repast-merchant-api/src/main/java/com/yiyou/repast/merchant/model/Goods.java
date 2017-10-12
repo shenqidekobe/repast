@@ -3,6 +3,8 @@ package com.yiyou.repast.merchant.model;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
+import repast.yiyou.common.base.CommonConstants;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -202,7 +204,7 @@ public class Goods implements Serializable {
 		return picUrl;
 	}
 	public void setPicUrl(String picUrl) {
-		this.picUrl = picUrl;
+		this.picUrl = CommonConstants.IMG_DOMAIN+"/common/img/"+getPic()+"/0";
 	}
 
 }
