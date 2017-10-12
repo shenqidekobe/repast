@@ -1,6 +1,10 @@
 package com.yiyou.repast.rest.controller;
 
+import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.time.DateFormatUtils;
@@ -11,6 +15,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yiyou.repast.merchant.model.Goods;
+import com.yiyou.repast.merchant.model.GoodsAux;
+import com.yiyou.repast.merchant.service.IGoodsAuxService;
+import com.yiyou.repast.merchant.service.IGoodsService;
 import com.yiyou.repast.order.model.Order;
 import com.yiyou.repast.order.model.OrderItem;
 import com.yiyou.repast.order.service.IOrderService;
@@ -34,6 +42,10 @@ public class OrderController {
 	
 	@Reference
 	private IOrderService orderService;
+	@Reference
+	private IGoodsService goodsService;
+	@Reference
+	private IGoodsAuxService goodsAuxService;
 	
 	@PostMapping("/list")
 	@ApiOperation(value="订单列表",notes="待处理的订单列表查询接口，只查询今日订单")
@@ -80,6 +92,49 @@ public class OrderController {
 		return new AppResult(objectMapper.writeValueAsString(order));
 	}
 	
+	@PostMapping("/add/item")
+	@ApiOperation(value="添加订单项",notes="给某个订单新增一个子项")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "id", value = "订单ID", required = true, dataType = "Long"),
+		@ApiImplicitParam(name = "goodsId", value = "商品ID", required = true, dataType = "Long"),
+		@ApiImplicitParam(name = "count", value = "商品数量", required = true, dataType = "Integer"),
+		@ApiImplicitParam(name = "specId", value = "规格ID", required = true, dataType = "Long"),
+		@ApiImplicitParam(name = "specName", value = "规格名称", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "auxIds", value = "辅料ID字符串，逗号分隔", required = true, dataType = "String"),
+		@ApiImplicitParam(name = "accountId", value = "登录帐号ID", required = true, dataType = "Long")})
+	public AppResult addItem(Long id,Long goodsId,Integer count,Long specId,String specName,String auxIds,Long accountId) throws Exception{
+		Order order=this.orderService.findById(id);
+		if(order==null) {return new AppResult(AppResult.OBJECT_NULL,"订单不存在");}
+		Goods goods=goodsService.findById(null, goodsId);
+		if(goods==null) {return new AppResult(AppResult.OBJECT_NULL,"商品不存在");}
+		OrderItem item=new OrderItem();
+		BigDecimal amount=goods.getAmount().multiply(new BigDecimal(count));
+		item.setOrder(order);
+		item.setGoodsId(goodsId);
+		item.setGoodsName(goods.getName());
+		item.setGoodsType(goods.getCategoryName());
+		item.setCount(count);
+		item.setAmount(amount);
+		item.setSpecId(specId);
+		item.setSpecName(specName);
+		if(StringUtils.isNotEmpty(auxIds)) {
+			item.setAuxIds(auxIds);
+			List<Long> auIds=Arrays.asList(item.getAuxIds().split(",")).stream().map(Long::valueOf).collect(Collectors.toList());
+			List<GoodsAux> auxList=goodsAuxService.findByIds(auIds);
+			if(!org.springframework.util.CollectionUtils.isEmpty(auxList)) {
+				List<String> names=auxList.stream().map(GoodsAux::getName).collect(Collectors.toList());
+				item.setAuxNames(names.isEmpty()?null:StringUtils.join(names.toArray(),","));
+			}
+		}
+		item.setStatus(OrderStaus.await);
+		item.setCreateTime(new Date());
+		item=orderService.saveOrderItem(item);
+		//更新订单总数据
+		order.setAmount(order.getAmount().add(amount));
+		this.orderService.update(order);
+		return new AppResult(objectMapper.writeValueAsString(item));
+	}
+	
 	@PostMapping("/update/item")
 	@ApiOperation(value="更新订单项的状态",notes="更新订单每个子项的状态信息")
 	@ApiImplicitParams({
@@ -96,6 +151,18 @@ public class OrderController {
 		item.setStatus(orderStatus);
 		item=orderService.updateOrderItem(item);
 		return new AppResult(objectMapper.writeValueAsString(item));
+	}
+	
+	@PostMapping("/remove/item")
+	@ApiOperation(value="删除订单项",notes="删除某个订单的某一个子项")
+	@ApiImplicitParams({
+		@ApiImplicitParam(name = "id", value = "订单ID", required = true, dataType = "Long"),
+		@ApiImplicitParam(name = "itemId", value = "订单项ID", required = true, dataType = "Long"),
+		@ApiImplicitParam(name = "accountId", value = "登录帐号ID", required = true, dataType = "Long")})
+	public AppResult removeItem(Long id,Long itemId,Long accountId) throws Exception{
+		OrderItem item=this.orderService.findItemById(itemId);
+		orderService.removeOrderItem(item);
+		return new AppResult();
 	}
 	
 
