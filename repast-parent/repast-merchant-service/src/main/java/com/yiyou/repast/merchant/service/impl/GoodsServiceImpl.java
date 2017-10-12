@@ -1,14 +1,16 @@
 package com.yiyou.repast.merchant.service.impl;
 
+import java.util.Date;
+import java.util.List;
+
+import javax.annotation.Resource;
+
 import com.alibaba.dubbo.config.annotation.Service;
 import com.yiyou.repast.merchant.dao.GoodsRepository;
 import com.yiyou.repast.merchant.model.Goods;
 import com.yiyou.repast.merchant.service.IGoodsService;
-import repast.yiyou.common.util.DataGrid;
 
-import javax.annotation.Resource;
-import java.util.Date;
-import java.util.List;
+import repast.yiyou.common.util.DataGrid;
 
 @Service
 public class GoodsServiceImpl implements IGoodsService {
@@ -18,11 +20,12 @@ public class GoodsServiceImpl implements IGoodsService {
 
     @Override
     public Goods findById(Long merchantId, Long goodsId) {
-        return goodsRepository.findOne(goodsId);
+    	Goods obj=goodsRepository.findOne(goodsId);
+    	return obj;
     }
 
     @Override
-    public List<Goods>  findShelves(Long maerchanId) {
+    public List<Goods> findShelves(Long maerchanId) {
         return goodsRepository.findAllByMerchantIdAndShelvesTrue(maerchanId);
     }
 
