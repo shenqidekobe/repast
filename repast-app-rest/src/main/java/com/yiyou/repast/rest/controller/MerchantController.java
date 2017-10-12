@@ -62,6 +62,7 @@ public class MerchantController {
 		session.setMerchantId(obj.getMerchantId());
 		session.setMerchantName(merchant.getName());
 		session.setIndustry(merchant.getIndustry().name());
+		
 		Map<String , Object> map = new HashMap<String, Object>(){
 			private static final long serialVersionUID = 7206738988337455302L;
 		{  
@@ -70,6 +71,7 @@ public class MerchantController {
 			put(account,account);  
 		}};  
 		String token=TokenProcessor.produceToken(map);
+		
 		session.setToken(token);
 		session.setLoginTime(new Date());
 		return new AppResult(objectMapper.writeValueAsString(session));

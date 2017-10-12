@@ -85,7 +85,7 @@ public class OrderController {
 	@ApiImplicitParams({
 		@ApiImplicitParam(name = "id", value = "订单ID", required = true, dataType = "Long"),
 		@ApiImplicitParam(name = "itemId", value = "订单项ID", required = true, dataType = "Long"),
-		@ApiImplicitParam(name = "status,ing:出菜中,already:已出菜,cancel:已取消", value = "状态", required = true, dataType = "Integer"),
+		@ApiImplicitParam(name = "status", value = "状态,ing:出菜中,already:已出菜,cancel:已取消\"", required = true, dataType = "Integer"),
 		@ApiImplicitParam(name = "accountId", value = "登录帐号ID", required = true, dataType = "Long")})
 	public AppResult updateItem(Long id,Long itemId,String status,Long accountId) throws Exception{
 		OrderStaus orderStatus=OrderStaus.valueOf(OrderStaus.class, status);
