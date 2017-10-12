@@ -211,7 +211,7 @@
 			    			case "add":
 			    				var ct=parseInt(num.val())+1;
 			    				if(ct>5){
-			    					mui.toast("每样商品最多只能点五份");
+			    					toast("每样商品最多只能点五份");
 			    					return false;
 			    				}
 		    					saveCart(_this.parent().attr("gid"),ct,amount,_this.parent().attr("gtp"),function(rsp){

@@ -125,19 +125,26 @@
 			   $(document).on('click','.f-click',function(){
 			    	var _this=$(this),
 			    		did=$(this).attr('data-id'),
-			    		at=$("#amount");
+			    		at=$("#amount"),
+			    		jiage=$("#jiage").text(),
 			    		num=$(this).siblings('.f-click-num').find('input');
+			    		
 			    		switch (did){
 			    			case "del":
 			    				if(parseInt(num.val())>1){
 			    					num.val(parseInt(num.val())-1);
-			    					var am=parseFloat(at.text())/2;
+			    					var am=parseFloat(at.text())-parseFloat(jiage);
 			    					at.text(am.toFixed(2));
 			    				}
 			    				break;
 			    			case "add":
-			    				num.val(parseInt(num.val())+1);
-			    				var am=parseFloat(at.text())*2;
+			    				var ct=parseInt(num.val())+1;
+			    				if(ct>5){
+			    					toast("每样商品最多只能点五份");
+			    					return false;
+			    				}
+			    				num.val(ct);
+			    				var am=parseFloat(at.text())+parseFloat(jiage);
 		    					at.text(am.toFixed(2));
 			    				break;
 			    			default:
