@@ -43,6 +43,7 @@ public class OrderItem implements Serializable{
 	private String goodsName;//runyu数据
 	private String goodsPic;//商品图片
 	private String auxIds;//商品辅料ID字符串
+	private String auxNames;//商品辅料字符串
 	private Long specId;//规格ID
 	private String specName;//规定名
 	private Integer count;//数量
@@ -91,6 +92,12 @@ public class OrderItem implements Serializable{
 	}
 	public void setAuxIds(String auxIds) {
 		this.auxIds = auxIds;
+	}
+	public String getAuxNames() {
+		return auxNames;
+	}
+	public void setAuxNames(String auxNames) {
+		this.auxNames = auxNames;
 	}
 	public BigDecimal getAmount() {
 		return amount;
