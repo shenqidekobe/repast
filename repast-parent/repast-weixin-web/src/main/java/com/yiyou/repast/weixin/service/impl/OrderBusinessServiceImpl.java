@@ -1,6 +1,7 @@
 package com.yiyou.repast.weixin.service.impl;
 
 import java.math.BigDecimal;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -13,7 +14,9 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.model.Goods;
+import com.yiyou.repast.merchant.model.GoodsAux;
 import com.yiyou.repast.merchant.model.UserAddress;
+import com.yiyou.repast.merchant.service.IGoodsAuxService;
 import com.yiyou.repast.merchant.service.IGoodsService;
 import com.yiyou.repast.merchant.service.IUserAddressService;
 import com.yiyou.repast.order.model.Cart;
@@ -34,6 +37,8 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 	private IOrderService orderService;
 	@Reference
 	private IGoodsService goodsService;
+	@Reference
+	private IGoodsAuxService goodsAuxService;
 	@Reference
 	private IUserAddressService userAddressService;
 
@@ -91,7 +96,15 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 			oitem.setSpecName(item.getSpecName());
 			oitem.setCount(item.getCount());
 			oitem.setAmount(item.getAmount());
-			oitem.setAuxIds(item.getAuxIds());
+			if(StringUtils.isNotEmpty(item.getAuxIds())) {
+				oitem.setAuxIds(item.getAuxIds());
+				List<Long> auIds=Arrays.asList(item.getAuxIds().split(",")).stream().map(Long::valueOf).collect(Collectors.toList());
+				List<GoodsAux> auxList=goodsAuxService.findByIds(auIds);
+				if(!CollectionUtils.isEmpty(auxList)) {
+					List<String> names=auxList.stream().map(GoodsAux::getName).collect(Collectors.toList());
+					oitem.setAuxNames(names.isEmpty()?null:StringUtils.join(names.toArray(),","));
+				}
+			}
 			oitem.setStatus(OrderStaus.await);
 			oitem.setCreateTime(new Date());
 			this.orderService.saveOrderItem(oitem);
