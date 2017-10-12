@@ -162,13 +162,13 @@ public class OrderItem implements Serializable{
 	}
 	
 	public String getCreateTimeStr() {
-		return CommonUtils.format(createTime, "yyyy-MM-dd HH:mm:ss");
+		return CommonUtils.format(createTime, "MM-dd HH:mm");
 	}
 	public String getCancelTimeStr() {
-		return CommonUtils.format(cancelTime, "yyyy-MM-dd HH:mm:ss");
+		return CommonUtils.format(cancelTime, "MM-dd HH:mm");
 	}
 	public String getServeTimeStr() {
-		return CommonUtils.format(serveTime, "yyyy-MM-dd HH:mm:ss");
+		return CommonUtils.format(serveTime, "MM-dd HH:mm");
 	}
 	
 	
