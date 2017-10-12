@@ -140,6 +140,11 @@ public class OrderServiceImpl implements IOrderService {
 	public OrderItem findItemById(Long itemId) {
 		return orderItemRepository.findOne(itemId);
 	}
+	
+	@Override
+	public void removeOrderItem(OrderItem obj) {
+		orderItemRepository.delete(obj);
+	}
 
 	@Override
 	public OrderProcess saveOrderProcess(OrderProcess obj) {
