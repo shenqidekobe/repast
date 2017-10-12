@@ -23,6 +23,8 @@ public interface IOrderService {
 	
 	OrderItem findItemById(Long itemId);
 	
+	void removeOrderItem(OrderItem obj);
+	
 	Order findById(Long id);
 	
 	List<Order> findByUserId(Long userId);
