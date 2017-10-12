@@ -2,14 +2,9 @@ package com.yiyou.repast.weixin.service.impl;
 
 import java.util.Date;
 
-import javax.servlet.http.HttpServletRequest;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.util.WebUtils;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.model.User;
@@ -19,7 +14,6 @@ import com.yiyou.repast.merchant.service.ISmsService;
 import com.yiyou.repast.merchant.service.IUserAuthorizeApplyService;
 import com.yiyou.repast.merchant.service.IUserService;
 import com.yiyou.repast.merchant.service.IUserWhiteService;
-import com.yiyou.repast.weixin.base.Constants;
 import com.yiyou.repast.weixin.base.RBeanUtils;
 import com.yiyou.repast.weixin.base.SessionToken;
 import com.yiyou.repast.weixin.service.UserBusinessService;
@@ -64,7 +58,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 		if(SecurityUtils.getSubject()==null)return null;
 		
 		SessionToken session=(SessionToken) SecurityUtils.getSubject().getPrincipal();
-		session=new SessionToken();
+	/*	session=new SessionToken();
 		session.setUserId(100l);
 		session.setMerchantId(1l);
 		session.setDeskNum("008");
@@ -73,7 +67,7 @@ public class UserBusinessServiceImpl implements UserBusinessService{
 		session.setOpenId("oRB9pwZZvSy08gx2fEFxZ-xTPAfc");
 		ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
 		HttpServletRequest request = attributes.getRequest();
-		WebUtils.setSessionAttribute(request, Constants.SESSION_ACCOUNT, session);
+		WebUtils.setSessionAttribute(request, Constants.SESSION_ACCOUNT, session);*/
 		return session;
 	}
 	
