@@ -48,6 +48,16 @@
 							</div>
 						</div>
 					</div>
+					<div class="list-kt list-kt-2 m-c2 " th:if="${session.wechatUser.industry!='catering'}">
+						<div class="m-hd">
+							<div class="m-tit">详细说明：</div>
+						</div>
+						<div class="m-bd">
+							<div class="m-txt" style="margin-top:5px;">
+								<span th:text="${obj.remark}"></span>
+							</div>
+						</div>
+					</div>
 				</div>
 				<a href="javascript:void(0);" class="img-back"><img th:src="@{/static/img/icon-back.png}" class="a-img"/></a>
 			</div>
