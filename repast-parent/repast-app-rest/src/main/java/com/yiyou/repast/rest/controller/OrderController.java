@@ -160,8 +160,19 @@ public class OrderController {
 		@ApiImplicitParam(name = "itemId", value = "订单项ID", required = true, dataType = "Long"),
 		@ApiImplicitParam(name = "accountId", value = "登录帐号ID", required = true, dataType = "Long")})
 	public AppResult removeItem(Long id,Long itemId,Long accountId) throws Exception{
+		Order order=this.orderService.findById(id);
+		if(order==null) {return new AppResult(AppResult.OBJECT_NULL,"订单不存在");}
+		int size=order.getItems().size();
 		OrderItem item=this.orderService.findItemById(itemId);
 		orderService.removeOrderItem(item);
+		
+		if(size==1) {
+			this.orderService.remove(id);
+			return new AppResult();
+		}
+		//更新订单的总价
+		order.setAmount(order.getAmount().subtract(item.getAmount()));
+		this.orderService.update(order);
 		return new AppResult();
 	}
 	
