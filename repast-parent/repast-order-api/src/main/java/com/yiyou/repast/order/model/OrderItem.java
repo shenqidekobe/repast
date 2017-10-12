@@ -18,6 +18,7 @@ import javax.persistence.Table;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
+import repast.yiyou.common.util.CommonUtils;
 
 /**
  * 订单明细
@@ -152,5 +153,16 @@ public class OrderItem implements Serializable{
 	public void setGoodsPic(String goodsPic) {
 		this.goodsPic = goodsPic;
 	}
+	
+	public String getCreateTimeStr() {
+		return CommonUtils.format(createTime, "yyyy-MM-dd HH:mm:ss");
+	}
+	public String getCancelTimeStr() {
+		return CommonUtils.format(cancelTime, "yyyy-MM-dd HH:mm:ss");
+	}
+	public String getServeTimeStr() {
+		return CommonUtils.format(serveTime, "yyyy-MM-dd HH:mm:ss");
+	}
+	
 	
 }
