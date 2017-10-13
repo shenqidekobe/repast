@@ -72,7 +72,7 @@ public class MerchantShiroRealm extends AuthorizingRealm{
 		HttpServletRequest request = attributes.getRequest();
 		WebUtils.setSessionAttribute(request, Constants.SESSION_ACCOUNT, session);
 		
-		return new SimpleAuthenticationInfo(session,userInfo.getOpenId(), getName());
+		return new SimpleAuthenticationInfo(session,cipher, getName());
 	}
 
 

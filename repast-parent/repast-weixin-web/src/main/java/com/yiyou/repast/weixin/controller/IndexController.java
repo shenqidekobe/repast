@@ -46,7 +46,7 @@ public class IndexController {
 			return "redirect:/bind/phone";//去绑定手机
 		}
 		UserWhite white=userService.getUserWhite(phone);
-		if(white==null) {
+		if(white==null&&IndustryType.catering.name().equals(session.getIndustry())) {
 			UserAuthorizeApply apply=userService.getUserAuthorizeApply(session.getUserId());
 			long nd=1000 * 60 * 60;//验证是否是当天24小时内
 			if(apply==null||AuthorizeAuditStaus.use.equals(apply.getAuditStatus())
@@ -122,7 +122,7 @@ public class IndexController {
 		}
 		UsernamePasswordToken token = new UsernamePasswordToken(userId.toString(),merchantId+"_"+deskNum);
         SecurityUtils.getSubject().login(token);
-		return "login";
+		return "redirect:/index";
 	}
 	@GetMapping("/access")
 	public String access() {
