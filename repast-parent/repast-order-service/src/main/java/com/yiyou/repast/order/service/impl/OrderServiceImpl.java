@@ -103,7 +103,7 @@ public class OrderServiceImpl implements IOrderService {
 	    
 	    
 		Page<Order> pages=orderRepository.findAll(example, pageable);*/
-		Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.ASC, "id");  
+		Pageable pageable = new PageRequest(page, pageSize, Sort.Direction.DESC, "id");  
 		Specification<Order> querySpecifi = new Specification<Order>() {  
             @Override  
             public Predicate toPredicate(Root<Order> root, javax.persistence.criteria.CriteriaQuery<?> criteriaQuery, CriteriaBuilder cb) {  
