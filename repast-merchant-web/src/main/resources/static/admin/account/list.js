@@ -1,11 +1,11 @@
 $(function () {
 	 var dataTable=null;
 	 $("#addBtn").click(function(){
-		location.href='/account/edit'; 
+		location.href=ctx+'/account/edit'; 
 	 });
 	 window.operateEvents={
 	    "click #edit":function(e,value, row, index){
-	    	location.href='/account/edit?id='+row.id; 
+	    	location.href=ctx+'/account/edit?id='+row.id; 
 		    return false;
 	    },"click #toggle":function(e,value, row, index){
 	    	var toggleTips=row.status=="normal"?"禁用":"启用";
@@ -13,7 +13,7 @@ $(function () {
 	    	toastrC.confirm({ message: "确认要"+toggleTips+"该用户嘛？" }).on(function (e) {
 	    		if (!e) { return; }
 	    		$.ajax({
-		    		url:'/account/toggle.do',
+		    		url:ctx+'/account/toggle.do',
 		    		type:'POST',
 		    		data:{id:row.id,status:status},
 		    		success:function(rsp){
@@ -29,7 +29,7 @@ $(function () {
 		    return false;
 	    }
      } 
-	 var url = "/account/listData.do?random="+Math.random();
+	 var url = ctx+"/account/listData.do?random="+Math.random();
 	 var columns= [
 	        { field: '',title: '序号', formatter: function (value, row, index) { return index+1; }  },
 	        { field : 'id',title : '编号',visible:false}, 

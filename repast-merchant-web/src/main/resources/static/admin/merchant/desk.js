@@ -1,17 +1,17 @@
 $(function () {
 	 var dataTable=null;
 	 $("#addBtn").click(function(){
-		location.href='/merchant/desk/edit'; 
+		location.href=ctx+'/merchant/desk/edit'; 
 	 });
 	 window.operateEvents={
 	    "click #edit":function(e,value, row, index){
-	    	location.href='/merchant/desk/edit?id='+row.id; 
+	    	location.href=ctx+'/merchant/desk/edit?id='+row.id; 
 		    return false;
 	    },"click #remove":function(e,value, row, index){
 	    	toastrC.confirm({ message: "确认要删除该桌子嘛？" }).on(function (e) {
 	    		if (!e) { return; }
 	    		$.ajax({
-		    		url:'/merchant/desk/remove.do',
+		    		url:ctx+'/merchant/desk/remove.do',
 		    		type:'POST',
 		    		data:{id:row.id},
 		    		success:function(rsp){
@@ -26,11 +26,11 @@ $(function () {
 	    	});
 		    return false;
 	    },"click #dwonload":function(e,value, row, index){
-	    	location.href='/merchant/qr?deskNum='+row.deskNum; 
+	    	location.href=ctx+'/merchant/qr?deskNum='+row.deskNum; 
 		    return false;
 	    }
      } 
-	 var url = "/merchant/desk/listData.do?random="+Math.random();
+	 var url = ctx+"/merchant/desk/listData.do?random="+Math.random();
 	 var columns= [
 	        { field: '',title: '序号', formatter: function (value, row, index) { return index+1; }  },
 	        { field : 'id',title : '编号',visible:false}, 

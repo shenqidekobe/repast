@@ -13,11 +13,11 @@ $(function () {
      })
 	 var dataTable=null;
 	 $("#addBtn").click(function(){
-		location.href='/order/edit'; 
+		location.href=ctx+'/order/edit'; 
 	 });
 	 window.operateEvents={
 	    "click #edit":function(e,value, row, index){
-	    	location.href='/order/view/'+row.id; 
+	    	location.href=ctx+'/order/view/'+row.id; 
 		    return false;
 	    },"click #toggle":function(e,value, row, index){
 	    	var toggleTips=$(this).text();
@@ -25,7 +25,7 @@ $(function () {
 	    	toastrC.confirm({ message: "确认要"+toggleTips+"该订单嘛？" }).on(function (e) {
 	    		if (!e) { return; }
 	    		$.ajax({
-		    		url:'/order/toggle.do',
+		    		url:ctx+'/order/toggle.do',
 		    		type:'POST',
 		    		data:{id:row.id,status:status},
 		    		success:function(rsp){
@@ -41,7 +41,7 @@ $(function () {
 		    return false;
 	    }
      } 
-	 var url = "/order/listData.do?random="+Math.random();
+	 var url = ctx+"/order/listData.do?random="+Math.random();
 	 var columns= [
 	        { field: '',title: '序号', formatter: function (value, row, index) { return index+1; }  },
 	        { field : 'id',title : '编号',visible:false}, 

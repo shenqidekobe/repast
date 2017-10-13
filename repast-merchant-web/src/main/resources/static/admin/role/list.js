@@ -1,18 +1,18 @@
 $(function () {
 	 var dataTable=null;
 	 $("#addBtn").click(function(){
-		location.href='/role/edit'; 
+		location.href=ctx+'/role/edit'; 
 	 });
 	 window.operateEvents={
 	    "click #edit":function(e,value, row, index){
-	    	location.href='/role/edit?id='+row.id; 
+	    	location.href=ctx+'/role/edit?id='+row.id; 
 		    return false;
 	    },"click #pers":function(e,value, row, index){
-	    	location.href='/role/pers?id='+row.id; 
+	    	location.href=ctx+'/role/pers?id='+row.id; 
 		    return false;
 	    }
      } 
-	 var url = "/role/listData.do?random="+Math.random();
+	 var url = ctx+"/role/listData.do?random="+Math.random();
 	 var columns= [
 	        { field: '',title: '序号', formatter: function (value, row, index) { return index+1; }  },
 	        { field : 'id',title : '编号',visible:false}, 

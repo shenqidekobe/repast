@@ -80,14 +80,14 @@
  <script th:src="@{/static/admin/bootstrptableSetting.js}"></script>
  <script th:src="@{/static/toastr/toastr.confirm.js}"></script>
  <script th:src="@{/static/bootstrap-dialog/js/bootstrap-dialog.min.js}"></script>
-<script th:src="@{/static/admin/goodsCategory/list.js}"></script>
+ <script th:src="@{/static/admin/goodsCategory/list.js}"></script>
 
 <script>
 
     $(function () {
         var dataTable = null;
         $("#backBtn").click(function () {
-            location.href = '/goods';
+            location.href = ctx+'/goods';
         });
         $("#addBtn").click(function () {
             $("input[type=reset]").trigger("click");
@@ -130,14 +130,14 @@
                     callback : function(result) {
                         // 点击确定按钮时，result为true
                         if (result) {
-                            location.href = 'category/remove?id=' + row.id;
+                            location.href = ctx+'category/remove?id=' + row.id;
                         }
                     }
                 });
                 return false;
             }
         };
-        var url = "/goods/category/listData.do?random=" + Math.random();
+        var url = ctx+"/goods/category/listData.do?random=" + Math.random();
         var columns = [
             {
                 field: '', title: '序号', formatter: function (value, row, index) {
@@ -176,7 +176,7 @@
             return false;
         }
         $.ajax({
-            url: '/goods/category/save.do',
+            url: ctx+'/goods/category/save.do',
             type: 'POST',
             data: $("#editForm").serialize(),
             success: function (rsp) {

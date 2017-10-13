@@ -78,7 +78,7 @@
         $("#specId").val("");
     });
     $("#backBtn").click(function () {
-        location.href = '/goods';
+        location.href = ctx+'/goods';
     });
     window.operateEvents = {
         "click #edit": function (e, value, row, index) {
@@ -90,18 +90,18 @@
             return false;
         }
     }
-    var url = "/goods/spec/listData.do?random=" + Math.random();
+    var url = ctx+"/goods/spec/listData.do?random=" + Math.random();
     var columns = [
         {
             field: '', title: '序号', formatter: function (value, row, index) {
-            return index + 1;
-        }
+	            return index + 1;
+	        }
         },
         {field: 'name', title: '规格名',},
         {
             field: 'createTime', title: '创建时间', formatter: function (value, row, index) {
-            return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
-        }
+	            return new Date(value).Format('yyyy-MM-dd hh:mm:ss');
+	        }
         },
         {field: 'remark', title: '说明',},
         {field: 'opers', title: '操作', events: operateEvents, formatter: operateFormatter}]
@@ -120,7 +120,7 @@
             return false;
         }
         $.ajax({
-            url: '/goods/spec/save.do',
+            url: ctx+'/goods/spec/save.do',
             type: 'POST',
             data: $("#editForm").serialize(),
             success: function (rsp) {

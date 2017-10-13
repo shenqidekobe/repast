@@ -1,17 +1,17 @@
 $(function () {
 	 var dataTable=null;
 	 $("#addBtn").click(function(){
-		location.href='/user/auth/edit'; 
+		location.href=ctx+'/user/auth/edit'; 
 	 });
 	 window.operateEvents={
 	    "click #edit":function(e,value, row, index){
-	    	location.href='/user/auth/edit?id='+row.id; 
+	    	location.href=ctx+'/user/auth/edit?id='+row.id; 
 		    return false;
 	    },"click #toggle":function(e,value, row, index){
 	    	toastrC.confirm({ message: "确认要删除此申请记录嘛？" }).on(function (e) {
 	    		if (!e) { return; }
 	    		$.ajax({
-		    		url:'/user/auth/remove.do',
+		    		url:ctx+'/user/auth/remove.do',
 		    		type:'POST',
 		    		data:{id:row.id},
 		    		success:function(rsp){
@@ -27,7 +27,7 @@ $(function () {
 		    return false;
 	    }
      } 
-	 var url = "/user/auth/listData.do?random="+Math.random();
+	 var url = ctx+"/user/auth/listData.do?random="+Math.random();
 	 var columns= [
 	        { field: '',title: '序号', formatter: function (value, row, index) { return index+1; }  },
 	        { field : 'userName', title : '申请人',},

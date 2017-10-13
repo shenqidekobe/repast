@@ -9,7 +9,7 @@ $(function () {
 		    return false;
 	    }
      } 
-	 var url = "/merchant/listData.do?random="+Math.random();
+	 var url = ctx+"/merchant/listData.do?random="+Math.random();
 	 var columns= [
 	        { field: '',title: '序号', formatter: function (value, row, index) { return index+1; }  },
 	        { field : 'id',title : '编号',visible:false}, 

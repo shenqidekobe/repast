@@ -77,7 +77,6 @@
 
 <script th:src="@{/static/jquery/ajaxfileupload.js}"></script>
 
-
 <script>
     $("#uploadImgBtn").click(function () {
         var filepath = $("#goodsImg").val();
@@ -100,18 +99,18 @@
             return;
         }
         $.ajaxFileUpload({
-            url: '/common/img/upload.do', //用于文件上传的服务器端请求地址
+            url: ctx+'/common/img/upload.do', //用于文件上传的服务器端请求地址
             secureuri: false, //是否需要安全协议，一般设置为false
             fileElementId: 'goodsImg', //文件上传域的ID
             dataType: 'json', //返回值类型 一般设置为json
             success: function (data, status) {//服务器成功响应处理函数
-                $("#imgShow").attr("src", "/common/img/" + data.data.fileName + "/0/");
+                $("#imgShow").attr("src", ctx+"/common/img/" + data.data.fileName + "/0/");
                 $("#hidImgName").val(data.data.fileName);
             }
         })
     });
     $("#deleteImgBtn").click(function () {
-        $("#imgShow").attr("src", "/static/images/noimg.png");
+        $("#imgShow").attr("src", ctx+"/static/images/noimg.png");
         $("#hidImgName").val("");
         $("#goodsImg").val("");
     });
@@ -136,13 +135,13 @@
             return false;
         }
         $.ajax({
-            url: '/goods/save.do',
+            url: ctx+'/goods/save.do',
             type: 'POST',
             data: $("#editForm").serialize(),
             success: function (rsp) {
                 if (rsp.status == 200) {
                     toastr.success('保存成功');
-                    location.href = '/goods';
+                    location.href = ctx+'/goods';
                 } else {
                     toastr.warning('服务器繁忙，请稍后再试');
                 }
@@ -150,7 +149,7 @@
         });
     });
     $("#backBtn").click(function () {
-        location.href = '/goods';
+        location.href = ctx+'/goods';
     });
 </script>
 

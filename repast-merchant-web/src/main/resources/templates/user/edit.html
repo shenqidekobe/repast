@@ -52,13 +52,13 @@
     			   return false;
     		   }
     		   $.ajax({
-    			   url:'/user/save.do',
+    			   url:ctx+'/user/save.do',
     			   type:'POST',
     			   data:$("#editForm").serialize(),
     			   success:function(rsp){
     				   if(rsp.status==200){
     					   toastr.success('保存成功');
-    					   location.href='/user/list';
+    					   location.href=ctx+'/user/list';
     				   }else{
     					   toastr.warning('服务器繁忙，请稍后再试');
     				   }
