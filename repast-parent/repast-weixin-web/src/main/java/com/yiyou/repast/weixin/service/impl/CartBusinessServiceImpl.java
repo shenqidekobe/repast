@@ -45,7 +45,7 @@ public class CartBusinessServiceImpl implements CartBusinessService {
 		}
 		BigDecimal amount=goods.getAmount();
 		String goodsName=goods.getName();
-		String goodsPic=goods.getPic();
+		String goodsPic=goods.getPicUrl();
 		Cart cart=this.cartService.findCartByDeskNum(deskNum);
 		if(cart==null) {
 			cart=getCart(userId);
