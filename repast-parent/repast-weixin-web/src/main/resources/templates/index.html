@@ -3,8 +3,8 @@
 	<head th:include="link" th:with="title='欢迎光临'"/>
 	<body class="m-login">
 		<div class="m-box-logo f-tac">
-			<img th:src="@{/static/img/bg-login.jpg}" class="m-img m-logo"/>
-			<div class="m-tit">均瑶国际会客厅</div>
+			<img th:src="@{/static/img/logo.png}" class="m-img m-logo"/>
+			<div class="m-tit" th:text="${session.wechatUser.merchantName}"></div>
 			<div class="m-txt">欢迎光临~~</div>
 		</div>
 		<div class="foot fix fix-bot foot-login f-tac">
