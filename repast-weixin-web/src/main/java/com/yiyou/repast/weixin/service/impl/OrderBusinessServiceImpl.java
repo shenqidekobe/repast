@@ -2,6 +2,7 @@ package com.yiyou.repast.weixin.service.impl;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
@@ -23,10 +24,12 @@ import com.yiyou.repast.order.model.Cart;
 import com.yiyou.repast.order.model.CartItem;
 import com.yiyou.repast.order.model.Order;
 import com.yiyou.repast.order.model.OrderItem;
+import com.yiyou.repast.order.model.OrderProcess;
 import com.yiyou.repast.order.service.IOrderService;
 import com.yiyou.repast.weixin.base.ThreadContextHolder;
 import com.yiyou.repast.weixin.service.OrderBusinessService;
 
+import repast.yiyou.common.base.EnumDefinition.OrderProcessStatus;
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
 import repast.yiyou.common.exception.BusinessException;
 
@@ -48,20 +51,29 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 		if(cart.getItems()==null||cart.getItems().size()==0) {
 			throw new BusinessException(4444, "cartItem not must be null");
 		}
+		boolean isNewOrder=false;
 		//判断当前用户或者当前桌是否存在订单，不存在才添加，存在则追加
 		Order order=this.getOrderByDeskNum(cart.getDeskNum());
 		if(order==null&&StringUtils.isEmpty(cart.getDeskNum())) {
 			order=this.getOrder(cart.getUserId());
 		}
 		if(order!=null) {
+			Calendar c = Calendar.getInstance();  
+		    c.add(Calendar.DAY_OF_MONTH, -1);  
+		    c.set(Calendar.HOUR_OF_DAY, 23);
+		    c.set(Calendar.MINUTE, 59);
+		    c.set(Calendar.SECOND, 59);
 			if(OrderStaus.settle.equals(order.getStatus())
-					||OrderStaus.cancel.equals(order.getStatus())){
+					||OrderStaus.cancel.equals(order.getStatus())
+					||order.getCreateTime().before(c.getTime())){
 				order=null;//订单状态已结算或者已取消的，则创建新订单
 			}
 		}
 		if(order==null) {
+			isNewOrder=true;
 			order=new Order();
 			order.setUserId(cart.getUserId());
+			order.setMerchantId(cart.getMerchantId());
 			order.setDeskNum(cart.getDeskNum());
 			order.setUserId(cart.getUserId());
 			order.setPeopleCount(cart.getPeopleCount());
@@ -110,10 +122,20 @@ public class OrderBusinessServiceImpl implements OrderBusinessService {
 			this.orderService.saveOrderItem(oitem);
 			total=total.add(item.getAmount());
 		}
-		String orderId="T"+DateFormatUtils.format(new Date(), "yyyyMMddHHmmss")+order.getId();
 		order.setAmount(total);
-		order.setOrderId(orderId);
+		if(isNewOrder) {
+			String orderId="T"+DateFormatUtils.format(new Date(), "yyyyMMddHHmmss")+order.getId();
+			order.setOrderId(orderId);
+			//创建订单处理消息
+			OrderProcess process=new OrderProcess();
+			process.setOrderId(order.getId());
+			process.setCreateTime(new Date());
+			process.setMerchantId(order.getMerchantId());
+			process.setStatus(OrderProcessStatus.await);
+			this.orderService.saveOrderProcess(process);
+		}
 		this.orderService.update(order);
+	
 		return order;
 	}
 

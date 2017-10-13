@@ -55,6 +55,7 @@ public class OrderController {
 		SessionToken session=userService.getSessionUser();
 		Order order=orderService.getOrder(session.getUserId());
 		if(order==null)return "redirect:/cart/list";
+		
 		Map<String,Integer> typeMap=new HashMap<>();//分类map
 		for(OrderItem item:order.getItems()) {
 			if(typeMap.containsKey(item.getGoodsType())) {
