@@ -5,6 +5,6 @@ package repast.yiyou.common.base;
  * */
 public class CommonConstants {
 	
-	public  static String IMG_DOMAIN="http:127.0.0.1:8011";
+	public  static String IMG_DOMAIN="http://127.0.0.1:8011";
 
 }
