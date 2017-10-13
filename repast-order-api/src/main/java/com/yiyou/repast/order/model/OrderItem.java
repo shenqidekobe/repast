@@ -165,7 +165,10 @@ public class OrderItem implements Serializable{
 	public String getPicUrl() {
 		return CommonConstants.IMG_DOMAIN+"/common/img/"+getGoodsPic()+"/0/";
 	}
-	
+	public String getStatusName(){
+		if(status==null)return "";
+		return status.getName();
+	}
 	public String getCreateTimeStr() {
 		return CommonUtils.format(createTime, "MM-dd HH:mm");
 	}
