@@ -11,22 +11,20 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">每日菜品管理中心</h1>
+                <h1 class="page-header">每日商品管理中心</h1>
             </div>
-        </div>
-        <div class="row">
-            <div id="datetimepicker" class="col-md-offset-4"></div>
         </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <ol class="breadcrumb">
-                        <li><strong><span style="color: #27a0d7" id="selectDate">所选日期菜单</span></strong></li>
+                        <li><strong><span style="color: #27a0d7" id="selectDate">所选日期商品</span></strong></li>
                     </ol>
                     <div class="container" style="width: 100%">
                         <div id="toolbar" class="btn-group">
+                            <input type="text" class="btn btn-default btn-sm rightSize" id="datetimepicker" readonly placeholder="选择日期">
                             <button type="button" class="btn btn-info btn-sm rightSize" id="editBtn">
-                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 编辑菜单
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 编辑商品
                             </button>
                         </div>
                         <table id="dataTable"></table>
@@ -41,7 +39,7 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                        <h4 class="modal-title" id="myModalLabel">编辑今日菜品</h4>
+                        <h4 class="modal-title" id="myModalLabel">编辑今日商品</h4>
                     </div>
                     <div class="modal-body">
                         <form role="form" method="post" id="modalForm">
@@ -78,7 +76,7 @@
     var selectDate = new Date();
     var dailIds = new Array();
     var url = "/daily/listData.do?date=" + selectDate.getTime();
-    $("#selectDate").text(formDate(selectDate) + "菜单");
+    $("#selectDate").text(formDate(selectDate) + "商品");
     $("#editBtn").click(function () {
         $.ajax({
             url: '/goods/shelves/list',
@@ -123,12 +121,12 @@
     }
     var columns = [
         {
-            field: '', title: '菜品', formatter: function (value, row, index) {
+            field: '', title: '商品图标', formatter: function (value, row, index) {
             dailIds.push(row.goods.id);
             return '<img src="/common/img/' + row.goods.pic + '/0/" width=80px height=80px>';
         }
         },
-        {field: 'goods.name', title: '',},
+        {field: 'goods.name', title: '商品名称',},
         {field: 'goods.amount', title: '价格',}]
     $(function () {
         loadTable(url, columns, function (options) {
@@ -152,7 +150,7 @@
         selectDate = ev.date;
         dailIds.splice(0, dailIds.length);
         $("#dataTable").children().remove();
-        $("#selectDate").text(formDate(selectDate) + "菜单");
+        $("#selectDate").text(formDate(selectDate) + "商品");
         url = "/daily/listData.do?date=" + selectDate.getTime();
         $("#dataTable").bootstrapTable('refresh', {url: url});
     });

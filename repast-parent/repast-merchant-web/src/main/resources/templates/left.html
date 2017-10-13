@@ -27,13 +27,13 @@
                 </ul>
             </li>
             <li th:if="${#lists.contains(session.sessionToken.permissions,'goods:manager')}">
-                <a href="#"><i class="fa fa-reorder fa-fw "></i> 菜品中心<span class="fa arrow"></span></a>
+                <a href="#"><i class="fa fa-reorder fa-fw "></i> 商品中心<span class="fa arrow"></span></a>
                 <ul class="nav nav-second-level">
                     <li th:if="${#lists.contains(session.sessionToken.permissions,'goods:goods')}">
-                        <a href="/goods">菜品管理</a>
+                        <a href="/goods">商品管理</a>
                     </li>
                     <li th:if="${#lists.contains(session.sessionToken.permissions,'goods:daily')}">
-                        <a href="/daily">每日菜单</a>
+                        <a href="/daily">每日商品</a>
                     </li>
                     <li th:if="${#lists.contains(session.sessionToken.permissions,'goods:recommend')}">
                         <a href="/recommend">商家推荐</a>
