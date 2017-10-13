@@ -77,13 +77,13 @@
     			   return false;
     		   }
     		   $.ajax({
-    			   url:'/user/auth/save.do',
+    			   url:ctx+'/user/auth/save.do',
     			   type:'POST',
     			   data:$("#editForm").serialize(),
     			   success:function(rsp){
     				   if(rsp.status==200){
     					   toastr.success('保存成功');
-    					   location.href='/user/auth';
+    					   location.href=ctx+'/user/auth';
     				   }else{
     					   toastr.warning('服务器繁忙，请稍后再试');
     				   }

@@ -64,14 +64,14 @@
     </div>
 </div>
 
-<script src="/static/jquery/jquery.min.js"></script>
+ <script th:src="@{/static/jquery/jquery.min.js}"></script>
  <script th:src="@{/static/bootstrap-table/bootstrap-table.min.js}"></script>
  <script th:src="@{/static/bootstrap-table/bootstrap-table-zh-CN.min.js}"></script>
  <script th:src="@{/static/admin/bootstrptableSetting.js}"></script>
  <script th:src="@{/static/toastr/toastr.confirm.js}"></script>
  <script th:src="@{/static/admin/goods/list.js}"></script>
  <script th:src="@{/static/bootstrap-dialog/js/bootstrap-dialog.min.js}"></script>
-<script src="/static/toastr/toastr.min.js"></script>
+ <script th:src="@{/static/toastr/toastr.min.js}"></script>
 <script>
     var dataTable = null;
     $("#addBtn").click(function () {
@@ -81,7 +81,7 @@
         $("#myModal").modal("show");
     });
     $("#backBtn").click(function () {
-        location.href = '/goods';
+        location.href = ctx+'/goods';
     });
     window.operateEvents = {
         "click #edit": function (e, value, row, index) {
@@ -109,14 +109,14 @@
                 callback : function(result) {
                     // 点击确定按钮时，result为true
                     if (result) {
-                        location.href = '/goods/aux/remove?id=' + row.id;
+                        location.href = ctx+'/goods/aux/remove?id=' + row.id;
                     }
                 }
             });
             return false;
         }
     }
-    var url = "/goods/aux/listData.do?random=" + Math.random();
+    var url = ctx+"/goods/aux/listData.do?random=" + Math.random();
     var columns = [
         {
             field: '', title: '序号', formatter: function (value, row, index) {
@@ -154,7 +154,7 @@
             return false;
         }
         $.ajax({
-            url: '/goods/aux/save.do',
+            url: ctx+'/goods/aux/save.do',
             type: 'POST',
             data: $("#editForm").serialize(),
             success: function (rsp) {

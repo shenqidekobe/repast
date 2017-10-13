@@ -75,11 +75,11 @@
     var dataTable = null;
     var selectDate = new Date();
     var dailIds = new Array();
-    var url = "/daily/listData.do?date=" + selectDate.getTime();
+    var url = ctx+"/daily/listData.do?date=" + selectDate.getTime();
     $("#selectDate").text(formDate(selectDate) + "商品");
     $("#editBtn").click(function () {
         $.ajax({
-            url: '/goods/shelves/list',
+            url: ctx+'/goods/shelves/list',
             type: 'POST',
             success: function (list) {
                 $(".context").children().remove();
@@ -99,13 +99,13 @@
     $("#commitBtn").click(function () {
         $("#today").val(selectDate.getTime());
         $.ajax({
-            url: '/daily/edit',
+            url: ctx+'/daily/edit',
             type: 'POST',
             data: $("#modalForm").serialize(),
             success: function (rsp) {
                 if (rsp.status == 200) {
                     toastr.success('保存成功');
-                    location.href = '/daily';
+                    location.href = ctx+'/daily';
                 } else {
                     toastr.warning('服务器繁忙，请稍后再试');
                 }
@@ -123,7 +123,7 @@
         {
             field: '', title: '商品图标', formatter: function (value, row, index) {
             dailIds.push(row.goods.id);
-            return '<img src="/common/img/' + row.goods.pic + '/0/" width=80px height=80px>';
+            return '<img src='+ctx++'"/common/img/' + row.goods.pic + '/0/" width=80px height=80px>';
         }
         },
         {field: 'goods.name', title: '商品名称',},
@@ -151,7 +151,7 @@
         dailIds.splice(0, dailIds.length);
         $("#dataTable").children().remove();
         $("#selectDate").text(formDate(selectDate) + "商品");
-        url = "/daily/listData.do?date=" + selectDate.getTime();
+        url = ctx+"/daily/listData.do?date=" + selectDate.getTime();
         $("#dataTable").bootstrapTable('refresh', {url: url});
     });
 </script>

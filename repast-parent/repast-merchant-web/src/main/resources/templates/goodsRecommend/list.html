@@ -92,13 +92,13 @@
  
 <script>
     var dataTable = null;
-    var url = "/recommend/listData.do?random=" + Math.random();
+    var url = ctx+"/recommend/listData.do?random=" + Math.random();
     var dailIds = new Array();
 
     window.operateEvents = {
         "click #edit": function (e, value, row, index) {
             $.ajax({
-                url: '/recommend/edit?id=' + row.id,
+                url: ctx+'/recommend/edit?id=' + row.id,
                 type: 'POST',
                 success: function (rsp) {
                     $("#recommendId").val(row.id);
@@ -113,7 +113,7 @@
         {
             field: '', title: '商品', formatter: function (value, row, index) {
             dailIds.push(row.goods.id);
-            return '<img src="/common/img/' + row.goods.pic + '/0/" width=80px height=80px>';
+            return '<img src='+ctx++'"/common/img/' + row.goods.pic + '/0/" width=80px height=80px>';
         }
         },
         {field: 'goods.name', title: '',},
@@ -131,13 +131,13 @@
     });
     $("#remarkBtn").click(function () {
         $.ajax({
-            url: '/recommend/remark',
+            url: ctx+'/recommend/remark',
             type: 'POST',
             data: $("#remarkForm").serialize(),
             success: function (rsp) {
                 if (rsp.status == 200) {
                     toastr.success('保存成功');
-                    location.href = '/recommend';
+                    location.href = ctx+'/recommend';
                 } else {
                     toastr.warning('服务器繁忙，请稍后再试');
                 }
@@ -146,7 +146,7 @@
     });
     $("#editBtn").click(function () {
         $.ajax({
-            url: '/goods/shelves/list',
+            url: ctx+'/goods/shelves/list',
             type: 'POST',
             data: $("#editForm").serialize(),
             success: function (list) {
@@ -166,13 +166,13 @@
     });
     $("#commitBtn").click(function () {
         $.ajax({
-            url: '/recommend/edit',
+            url: ctx+'/recommend/edit',
             type: 'POST',
             data: $("#modalForm").serialize(),
             success: function (rsp) {
                 if (rsp.status == 200) {
                     toastr.success('保存成功');
-                    location.href = '/recommend';
+                    location.href = ctx+'/recommend';
                 } else {
                     toastr.warning('服务器繁忙，请稍后再试');
                 }

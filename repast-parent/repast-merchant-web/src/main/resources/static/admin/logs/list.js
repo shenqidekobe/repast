@@ -2,11 +2,11 @@ $(function () {
 	 var dataTable=null;
 	 window.operateEvents={
 	    "click #edit":function(e,value, row, index){
-	    	location.href='/logs/view/'+row.id; 
+	    	location.href=ctx+'/logs/view/'+row.id; 
 		    return false;
 	    }
      } 
-	 var url = "/logs/listData.do?random="+Math.random();
+	 var url = ctx+"/logs/listData.do?random="+Math.random();
 	 var columns= [
 	        { field: '',title: '序号', formatter: function (value, row, index) { return index+1; }  },
 	        { field : 'operUserName', title : '操作用户', }, 

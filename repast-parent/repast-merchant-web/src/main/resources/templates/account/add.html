@@ -56,7 +56,6 @@
         </div>
     </div>
     
-    
     <script>
        $(function(){
     	   function validatePhone(phone) {
@@ -82,13 +81,13 @@
     			   return false;
     		   }
     		   $.ajax({
-    			   url:'/account/save.do',
+    			   url:ctx+'/account/save.do',
     			   type:'POST',
     			   data:$("#editForm").serialize(),
     			   success:function(rsp){
     				   if(rsp.status==200){
     					   toastr.success('保存成功');
-    					   location.href='/account';
+    					   location.href=ctx+'/account';
     				   }else if(rsp.status==400){
     					   toastr.error(rsp.message);
     				   }else{

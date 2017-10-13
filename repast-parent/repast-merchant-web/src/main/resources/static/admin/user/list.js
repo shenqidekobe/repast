@@ -1,15 +1,15 @@
 $(function () {
 	 var dataTable=null;
 	 $("#addBtn").click(function(){
-		location.href='/user/edit'; 
+		location.href=ctx+'/user/edit'; 
 	 });
 	 window.operateEvents={
 	    "click #edit":function(e,value, row, index){
-	    	location.href='/user/edit?id='+row.id; 
+	    	location.href=ctx+'/user/edit?id='+row.id; 
 		    return false;
 	    }
      } 
-	 var url = "/user/listData.do?random="+Math.random();
+	 var url = ctx+"/user/listData.do?random="+Math.random();
 	 var columns= [
 	        { field: '',title: '序号', formatter: function (value, row, index) { return index+1; }  },
 	        { field : 'nickName', title : '帐号',},

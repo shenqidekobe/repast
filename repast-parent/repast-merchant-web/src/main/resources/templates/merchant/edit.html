@@ -48,13 +48,13 @@
     			   return false;
     		   }
     		   $.ajax({
-    			   url:'/merchant/save.do',
+    			   url:ctx+'/merchant/save.do',
     			   type:'POST',
     			   data:$("#editForm").serialize(),
     			   success:function(rsp){
     				   if(rsp.status==200){
     					   toastr.success('更新成功');
-    					   location.href='/merchant';
+    					   location.href=ctx+'/merchant';
     				   }else{
     					   toastr.warning('服务器繁忙，请稍后再试');
     				   }
