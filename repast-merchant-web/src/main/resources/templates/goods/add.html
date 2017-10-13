@@ -53,7 +53,7 @@
                 <div class="col-lg-6">
                     <label>商品图片</label>
                     <div class="form-group">
-                        <img id="imgShow" src="/static/images/noimg.png" style="width:80px;height:80px;"/>
+                        <img id="imgShow" th:src="@{/static/images/noimg.png}" style="width:200px;height:200px;"/>
                     </div>
                     <input type="file" id="goodsImg" name="goods">
                     <input class="btn btn-primary" style="margin-top: 10px" type="button" id="uploadImgBtn"
@@ -63,9 +63,9 @@
                 </div>
             </div>
             <div class="row">
-                <div class="btn-group col-md-offset-3 col-lg-6">
-                    <button class="btn btn-primary col-lg-6" id="backBtn">返回</button>
-                    <button type="button" class="btn btn-primary col-lg-6" id="saveBtn">保存</button>
+                <div class="btn-group col-lg-8">
+                    <button type="button" class="btn btn-primary col-lg-4" id="saveBtn">保存</button>
+                    <button class="btn col-lg-4" id="backBtn">返回</button>
                 </div>
             </div>
         </div>
