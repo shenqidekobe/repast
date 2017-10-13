@@ -24,7 +24,7 @@ import com.yiyou.repast.merchant.service.IGoodsService;
 import com.yiyou.repast.merchant.service.IGoodsSpecService;
 
 /**
- * 菜品控制器
+ * 商品控制器
  */
 @Controller
 @RequestMapping("/goods")

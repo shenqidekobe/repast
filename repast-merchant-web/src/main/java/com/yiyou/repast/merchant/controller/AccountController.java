@@ -18,6 +18,7 @@ import com.yiyou.repast.merchant.service.IMerchantAccountService;
 import com.yiyou.repast.merchant.service.IMerchantRoleService;
 
 import repast.yiyou.common.base.EnumDefinition.AccountStaus;
+import repast.yiyou.common.base.EnumDefinition.AccountType;
 import repast.yiyou.common.util.DataGrid;
 import repast.yiyou.common.util.Md5;
 
@@ -66,8 +67,15 @@ public class AccountController {
 		String password=Md5.getMD5(obj.getPassword());
 		obj.setStatus(AccountStaus.normal);
 		if(obj.getId()==null) {
-			if(merchantAccountService.findByLoginName(ThreadContextHolder.getCurrentMerchantId(),obj.getLoginName())!=null){
-				return new RspResult(400,"该用户名已存在");
+			if(AccountType.manager.equals(obj.getType())) {
+				if(merchantAccountService.findByLoginName(ThreadContextHolder.getCurrentMerchantId(),obj.getLoginName())!=null){
+					return new RspResult(400,"该用户名已存在");
+				}
+			}else if(AccountType.terminal.equals(obj.getType())) {
+				//终端用户全库唯一
+				if(merchantAccountService.findByLoginName(null,obj.getLoginName())!=null){
+					return new RspResult(400,"该账户已存在");
+				}
 			}
 			obj.setPassword(password);
 			obj.setMerchantId((ThreadContextHolder.getCurrentMerchantId()));
@@ -77,6 +85,18 @@ public class AccountController {
             if(!pojo.getPassword().equals(obj.getPassword())) {
 				obj.setPassword(password);
 			}
+            if(!pojo.getLoginName().equals(obj.getLoginName())) {
+            	if(AccountType.manager.equals(obj.getType())) {
+    				if(merchantAccountService.findByLoginName(ThreadContextHolder.getCurrentMerchantId(),obj.getLoginName())!=null){
+    					return new RspResult(400,"该用户名已存在");
+    				}
+    			}else if(AccountType.terminal.equals(obj.getType())) {
+    				//终端用户全库唯一
+    				if(merchantAccountService.findByLoginName(null,obj.getLoginName())!=null){
+    					return new RspResult(400,"该账户已存在");
+    				}
+    			}
+            }
 			RBeanUtils.copyProperties(obj, pojo);
 			merchantAccountService.update(pojo);
 		}
