@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -54,6 +55,7 @@ public class Order implements Serializable{
 	
 	private BigDecimal amount;//订单金额
 	private BigDecimal discountAmount;//优惠金额
+	private BigDecimal cancelAmount;//取消的金额
 	
 	private Date createTime;//下单时间
 	private Date settleTime;//结算时间
@@ -61,7 +63,7 @@ public class Order implements Serializable{
 	
 	private Long createUser;//下单用户
 	
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order")
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order",cascade=CascadeType.REMOVE)
 	@OrderBy("id asc")
 	private Set<OrderItem> items = new HashSet<>();
 	
@@ -190,6 +192,12 @@ public class Order implements Serializable{
 	}
 	public void setDiscountAmount(BigDecimal discountAmount) {
 		this.discountAmount = discountAmount;
+	}
+	public BigDecimal getCancelAmount() {
+		return cancelAmount;
+	}
+	public void setCancelAmount(BigDecimal cancelAmount) {
+		this.cancelAmount = cancelAmount;
 	}
 	public String getPredictDateStr() {
 		if(predictDate==null||predictDate.equals(""))return "今天中午12点";
