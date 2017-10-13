@@ -64,7 +64,7 @@ public class Order implements Serializable{
 	private Long createUser;//下单用户
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order",cascade=CascadeType.REMOVE)
-	@OrderBy("id asc")
+	@OrderBy("id desc")
 	private Set<OrderItem> items = new HashSet<>();
 	
 	public Long getId() {

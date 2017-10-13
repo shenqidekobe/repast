@@ -13,6 +13,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import repast.yiyou.common.base.CommonConstants;
+
 /**
  * 购物车列表项
  */
@@ -133,5 +135,9 @@ public class CartItem implements Serializable{
 	}
 	public void setGoodsPic(String goodsPic) {
 		this.goodsPic = goodsPic;
+	}
+	
+	public String getPicUrl() {
+		return CommonConstants.IMG_DOMAIN+"/common/img/"+getGoodsPic()+"/0/";
 	}
 }

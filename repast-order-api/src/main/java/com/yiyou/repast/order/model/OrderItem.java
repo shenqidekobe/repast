@@ -17,6 +17,7 @@ import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+import repast.yiyou.common.base.CommonConstants;
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
 import repast.yiyou.common.util.CommonUtils;
 
@@ -159,6 +160,10 @@ public class OrderItem implements Serializable{
 	}
 	public void setGoodsPic(String goodsPic) {
 		this.goodsPic = goodsPic;
+	}
+	
+	public String getPicUrl() {
+		return CommonConstants.IMG_DOMAIN+"/common/img/"+getGoodsPic()+"/0/";
 	}
 	
 	public String getCreateTimeStr() {
