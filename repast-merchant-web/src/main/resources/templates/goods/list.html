@@ -11,34 +11,34 @@
     <div id="page-wrapper">
         <div class="row">
             <div class="col-lg-12">
-                <h1 class="page-header">菜品管理中心</h1>
+                <h1 class="page-header">商品管理中心</h1>
             </div>
         </div>
         <div class="row">
             <div class="col-lg-12">
                 <div class="panel panel-default">
                     <ol class="breadcrumb">
-                        <li><strong><span style="color: #27a0d7">菜品列表</span></strong></li>
+                        <li><strong><span style="color: #27a0d7">商品列表</span></strong></li>
                     </ol>
                     <div class="container" style="width: 100%">
                         <div id="toolbar" class="btn-group">
                             <button type="button" class="btn btn-info btn-sm rightSize" id="addBtn">
-                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 新增菜品
+                                <i class="glyphicon glyphicon-plus" aria-hidden="true"></i> 新增商品
                             </button>
 
                             <button style="margin-left: 10px" type="button" class="btn btn-info btn-sm rightSize"
                                     id="categoryBtn">
-                                <i class="glyphicon glyphicon-tags" aria-hidden="true"></i> 菜品分类
+                                <i class="glyphicon glyphicon-tags" aria-hidden="true"></i> 商品分类
                             </button>
 
                             <button style="margin-left: 10px" type="button" class="btn btn-info btn-sm rightSize"
                                     id="specBtn">
-                                <i class="glyphicon glyphicon-stats" aria-hidden="true"></i> 菜品规格
+                                <i class="glyphicon glyphicon-stats" aria-hidden="true"></i> 商品规格
                             </button>
 
                             <button style="margin-left: 10px" type="button" class="btn btn-info btn-sm rightSize"
                                     id="auxBtn">
-                                <i class="glyphicon glyphicon-cutlery" aria-hidden="true"></i> 菜品辅料
+                                <i class="glyphicon glyphicon-cutlery" aria-hidden="true"></i> 商品辅料
                             </button>
                         </div>
                         <table id="dataTable"></table>
@@ -77,7 +77,7 @@
     var url = "/goods/listData.do?random=" + Math.random();
     var columns = [
         {
-            field: '', title: '菜品', formatter: function (value, row, index) {
+            field: '', title: '商品', formatter: function (value, row, index) {
             return '<img src='+ctx+'"/common/img/' + row.pic + '/0/" width=80px height=80px>';
         }
         },

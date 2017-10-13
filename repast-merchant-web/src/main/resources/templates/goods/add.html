@@ -13,8 +13,8 @@
                 <div class="col-lg-6">
                     <form class="" role="form" method="post" id="editForm">
                         <div class="form-group">
-                            <label>菜品名</label>
-                            <input type="text" class="form-control" name="name" id="name" placeholder="菜品名"
+                            <label>商品名</label>
+                            <input type="text" class="form-control" name="name" id="name" placeholder="商品名"
                                    maxlength="16">
                         </div>
                         <div class="form-group">
@@ -51,7 +51,7 @@
                     </form>
                 </div>
                 <div class="col-lg-6">
-                    <label>菜品图片</label>
+                    <label>商品图片</label>
                     <div class="form-group">
                         <img id="imgShow" src="/static/images/noimg.png" style="width:80px;height:80px;"/>
                     </div>
@@ -70,7 +70,7 @@
             </div>
         </div>
         <div th:unless="${parentList.size()>0}">
-            <h2>请先添加菜品分类</h2>
+            <h2>请先添加商品分类</h2>
         </div>
     </div>
 </div>
