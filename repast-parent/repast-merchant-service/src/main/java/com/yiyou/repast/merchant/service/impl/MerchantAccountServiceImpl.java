@@ -68,7 +68,9 @@ public class MerchantAccountServiceImpl implements IMerchantAccountService{
 	public MerchantAccount findByLoginName(Long merchantId,String loginName) {
 		MerchantAccount account=new MerchantAccount();
 		account.setLoginName(loginName);
-		account.setMerchantId(merchantId);
+		if(merchantId!=null) {
+			account.setMerchantId(merchantId);
+		}
 	    ExampleMatcher matcher = ExampleMatcher.matching();
 	    Example<MerchantAccount> example = Example.of(account, matcher); 
 		List<MerchantAccount> list=merchantAccountRepository.findAll(example);
