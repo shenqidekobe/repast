@@ -72,7 +72,7 @@ public class OrderController {
 		@ApiImplicitParam(name = "accountId", value = "登录帐号ID", required = true, dataType = "Long")})
 	@ApiResponses({@ApiResponse(code=4444,message="签名失败"),
 			       @ApiResponse(code=4000,message="服务器异常")})
-	public AppResult get(@PathVariable Long id) throws Exception{
+	public AppResult get(@PathVariable Long id,Long accountId) throws Exception{
 		Order order=orderService.findById(id);
 		return new AppResult(objectMapper.writeValueAsString(order));
 	}

@@ -51,7 +51,8 @@ public class OrderPushService {
 				//推送终端用户接单
 				Map<String, String> vMap= new HashMap<String, String>();
 				vMap.put("orderId", op.getOrderId().toString());
-				JpushService.pushMsg(account.getAccount(), title, vMap);
+				String pushID=account.getAccount()+"_"+account.getMerchantId();
+				JpushService.pushMsg(pushID, title, vMap);
 			}
 		}
 	}
