@@ -11,6 +11,7 @@ public class SessionToken implements Serializable{
 	private static final long serialVersionUID = 348051708546226611L;
 	private Long accountId;
 	private String account;
+	private String realName;
 	private Long merchantId;//商户ID
 	private String merchantName;//商户名称
 	private String industry;//商户行业
@@ -29,6 +30,12 @@ public class SessionToken implements Serializable{
 	}
 	public void setAccount(String account) {
 		this.account = account;
+	}
+	public String getRealName() {
+		return realName;
+	}
+	public void setRealName(String realName) {
+		this.realName = realName;
 	}
 	public Long getMerchantId() {
 		return merchantId;

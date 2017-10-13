@@ -59,6 +59,7 @@ public class MerchantController {
 		SessionToken session=new SessionToken();
 		session.setAccountId(obj.getId());
 		session.setAccount(account);
+		session.setRealName(obj.getUserName());
 		session.setMerchantId(obj.getMerchantId());
 		session.setMerchantName(merchant.getName());
 		session.setIndustry(merchant.getIndustry().name());
