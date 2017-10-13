@@ -20,9 +20,9 @@ import repast.yiyou.common.util.LoggerUtil;
  * */
 public class JpushService {
 
-	public static String APP_KEY = "5bb89873e081d982641636ad";
+	public static String APP_KEY = "cd72f6147cfa955f34b927d9";
 
-	public static String MASTER_SECRET = "b1bb050d5bb824781fa423bd";
+	public static String MASTER_SECRET = "2d226e8e804110c8a4b0ffa3";
 
 	public static Boolean pushMsg(String alias, String title,Map<String,String> params) {
 		Boolean sendRes = false;
@@ -68,7 +68,7 @@ public class JpushService {
 		// 文章
 		HashMap<String, String> vMap=new HashMap<String, String>();
 		vMap.put("caseId", 4+"");
-		JpushService.pushMsg(null, "写给魔都的新年情书",vMap);
+		JpushService.pushMsg("admin_1", "写给魔都的新年情书",vMap);
 
 	}
 
