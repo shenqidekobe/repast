@@ -8,6 +8,6 @@ import com.yiyou.repast.merchant.model.MerchantMenu;
 
 public interface MerchantMenuRepository extends JpaRepository<MerchantMenu, Long> {
 	
-	List<MerchantMenu> findOrderBySortAsc(Long merchantId);
+	List<MerchantMenu> findByMerchantIdOrderBySortAsc(Long merchantId);
 
 }
