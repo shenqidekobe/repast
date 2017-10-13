@@ -45,6 +45,7 @@ public class OrderPushService {
 		String title="您有新的订单，点击查看";
 		for(OrderProcess op:list) {
 			boolean flag=false;
+			Long accountId=null;
 			//推送给所有的在线用户
 			for(OnlineAccount account:OnlineAccount.getList()) {
 				//推送终端用户接单
@@ -54,8 +55,10 @@ public class OrderPushService {
 				LoggerUtil.info("给终端用户："+pushID+"推送消息:"+title+" 的消息内容："+vMap.toString());
 				JpushService.pushMsg(pushID, title, vMap);
 				flag=true;
+				accountId=account.getAccountId();
 			}
 			if(flag) {
+				op.setAccountId(accountId);
 				op.setPushTime(new Date());
 				op.setStatus(OrderProcessStatus.jpush);
 				orderService.updateOrderProcess(op);
