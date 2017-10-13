@@ -18,6 +18,7 @@ import com.yiyou.repast.rest.base.JpushService;
 import com.yiyou.repast.rest.base.OnlineAccount;
 
 import repast.yiyou.common.base.EnumDefinition.OrderProcessStatus;
+import repast.yiyou.common.util.LoggerUtil;
 
 /**
  * 订单推送服务
@@ -43,16 +44,21 @@ public class OrderPushService {
 		
 		String title="您有新的订单，点击查看";
 		for(OrderProcess op:list) {
-			op.setPushTime(new Date());
-			op.setStatus(OrderProcessStatus.jpush);
-			orderService.updateOrderProcess(op);
+			boolean flag=false;
 			//推送给所有的在线用户
 			for(OnlineAccount account:OnlineAccount.getList()) {
 				//推送终端用户接单
 				Map<String, String> vMap= new HashMap<String, String>();
 				vMap.put("orderId", op.getOrderId().toString());
 				String pushID=account.getAccount()+"_"+account.getMerchantId();
+				LoggerUtil.info("给终端用户："+pushID+"推送消息:"+title+" 的消息内容："+vMap.toString());
 				JpushService.pushMsg(pushID, title, vMap);
+				flag=true;
+			}
+			if(flag) {
+				op.setPushTime(new Date());
+				op.setStatus(OrderProcessStatus.jpush);
+				orderService.updateOrderProcess(op);
 			}
 		}
 	}
