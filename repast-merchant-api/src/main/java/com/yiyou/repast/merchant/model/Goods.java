@@ -201,7 +201,7 @@ public class Goods implements Serializable {
 		this.auxs = auxs;
 	}
 	public String getPicUrl() {
-		return picUrl;
+		return CommonConstants.IMG_DOMAIN+"/common/img/"+getPic()+"/0";
 	}
 	public void setPicUrl(String picUrl) {
 		this.picUrl = CommonConstants.IMG_DOMAIN+"/common/img/"+getPic()+"/0";
