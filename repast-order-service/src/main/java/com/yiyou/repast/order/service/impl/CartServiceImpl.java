@@ -55,7 +55,8 @@ public class CartServiceImpl implements ICartService{
 		Cart cart=findCartById(id);
 		//Set<CartItem> set=cart.getItems();
 		//if(!set.isEmpty())cartItemRepository.delete(set);
-		cartRepository.delete(cart);//级联同步删除购物车里的项
+		if(cart!=null)
+			cartRepository.delete(cart);//级联同步删除购物车里的项
 	}
 
 	@Override
