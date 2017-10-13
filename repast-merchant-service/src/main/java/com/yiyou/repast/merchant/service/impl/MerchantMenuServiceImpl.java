@@ -1,6 +1,8 @@
 package com.yiyou.repast.merchant.service.impl;
 
+import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 
@@ -17,7 +19,8 @@ public class MerchantMenuServiceImpl implements IMerchantMenuService{
 
 	@Override
 	public List<MerchantMenu> findAll(Long merchantId) {
-		return merchantMenuRepository.findOrderBySortAsc(merchantId);
+		List<MerchantMenu> list=merchantMenuRepository.findAll();
+		return list.stream().sorted(Comparator.comparing(MerchantMenu::getSort)).collect(Collectors.toList());
 	}
 
 
