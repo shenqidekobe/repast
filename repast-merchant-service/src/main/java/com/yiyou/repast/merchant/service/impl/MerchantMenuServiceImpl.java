@@ -17,7 +17,7 @@ public class MerchantMenuServiceImpl implements IMerchantMenuService{
 
 	@Override
 	public List<MerchantMenu> findAll(Long merchantId) {
-		return merchantMenuRepository.findByMerchantIdOrderBySortAsc(merchantId);
+		return merchantMenuRepository.findOrderBySortAsc(merchantId);
 	}
 
 
