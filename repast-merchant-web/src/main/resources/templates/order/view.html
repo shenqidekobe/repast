@@ -13,7 +13,6 @@
                     <h1 class="page-header">订单详情</h1>
                 </div>
             </div>
-            <div class="panel-body">
                   <div class="row">
 					<div class="col-lg-12">
 						<div class="panel panel-default">
@@ -25,64 +24,56 @@
 	                            <div class="tab-content">
 	                                <div class="tab-pane fade in active" id="home">
 	                                  <form class="" role="form"  method="post" id="editForm">
-									        <div class="form-group">
-										    	<label>订单ID</label>
-												<input type="text" class="form-control" name="id" id="id" th:value="${obj.id}" readonly>
+	                                       <div class="form-group input-group" ></div>
+									       <div class="form-group input-group" >
+												<span class="input-group-addon" style="width:100px;">ID</span>
+												<input type="text" class="form-control" th:value="${obj.id}" readonly>
+												
+												<span class="input-group-addon" style="width:100px;">订单号</span>
+												<input type="text" class="form-control" th:value="${obj.orderId}" readonly>
 											</div>
 											<div class="form-group input-group">
-												<span class="input-group-addon">订单号</span>
-												<input type="text" class="form-control" name="orderId" id="orderId" th:value="${obj.orderId}" readonly>
+												<span class="input-group-addon" style="width:100px;">用户ID</span>
+												<input type="text" class="form-control" th:value="${obj.userId}" readonly>
+												
+												<span class="input-group-addon" style="width:100px;">用户昵称</span>
+												<input type="text" class="form-control" th:value="${obj.userName}" readonly>
 											</div>
-											<div class="form-group">
-										    	<label>订单号</label>
-												<input type="text" class="form-control" name="orderId" id="orderId" th:value="${obj.orderId}" readonly>
+											<div class="form-group input-group">
+												<span class="input-group-addon" style="width:100px;">消费金额</span>
+												<input type="text" class="form-control" th:value="${obj.amount}" readonly>
+												
+												<span class="input-group-addon" style="width:100px;">人数</span>
+												<input type="text" class="form-control" th:value="${obj.peopleCount}" readonly>
 											</div>
-											<div class="form-group">
-										    	<label>消费用户ID</label>
-												<input type="text" class="form-control" name="userId" id="userId" th:value="${obj.userId}" readonly>
+											<div class="form-group input-group">
+												<span class="input-group-addon" style="width:100px;">桌号</span>
+												<input type="text" class="form-control" th:value="${obj.deskNum}" readonly>
+												
+												<span class="input-group-addon" style="width:100px;">订单状态</span>
+												<input type="text" class="form-control" th:value="${obj.statusName}" readonly>
 											</div>
-											<div class="form-group">
-										    	<label>消费用户昵称</label>
-												<input type="text" class="form-control" name="userName" id="userName" th:value="${obj.userName}" readonly>
+											<div class="form-group input-group">
+												<span class="input-group-addon" style="width:100px;">收货电话</span>
+												<input type="text" class="form-control" th:value="${obj.phone}" readonly>
+												
+												<span class="input-group-addon" style="width:100px;">收货人</span>
+												<input type="text" class="form-control" th:value="${obj.realName}" readonly>
 											</div>
-											<div class="form-group">
-										    	<label>消费金额</label>
-												<input type="text" class="form-control" name="amount" id="amount" th:value="${obj.amount}" readonly>
+											<div class="form-group input-group" style="width:600px;">
+												<span class="input-group-addon" style="width:100px;">收货地址</span>
+												<input type="text" class="form-control" th:value="${obj.address}" readonly>
 											</div>
-											<div class="form-group">
-										    	<label>人数</label>
-												<input type="text" class="form-control" name="peopleCount" id="peopleCount" th:value="${obj.peopleCount}" maxlength="16">
+											<div class="form-group input-group" style="width:600px;">
+												<span class="input-group-addon" style="width:100px;">下单时间</span>
+												<input type="text" class="form-control" th:value="${#dates.format(obj.createTime,'yyyy-MM-dd HH:mm:ss')}" readonly>
 											</div>
-											<div class="form-group">
-										    	<label>桌号</label>
-												<input type="text" class="form-control" name="deskNum" id="deskNum" th:value="${obj.deskNum}" maxlength="16">
-											</div>
-											<div class="form-group">
-										    	<label>订单状态</label>
-												<input type="text" class="form-control" th:value="${obj.statusName}" maxlength="16" readonly>
-											</div>
-											<div class="form-group">
-										    	<label>收货电话</label>
-												<input type="text" class="form-control" th:value="${obj.phone}" maxlength="16" readonly>
-											</div>
-											<div class="form-group">
-										    	<label>收货人</label>
-												<input type="text" class="form-control" th:value="${obj.realName}" maxlength="16" readonly>
-											</div>
-											<div class="form-group">
-										    	<label>收货地址</label>
-												<input type="text" class="form-control" th:value="${obj.address}" maxlength="16" readonly>
-											</div>
-											<div class="form-group">
-										    	<label>下单时间</label>
-										    	<input type="text" class="form-control" th:value="${#dates.format(obj.createTime,'yyyy-MM-dd HH:mm:ss')}" maxlength="16">
-											</div>
-											<div class="form-group"  th:if="${obj.settleTime!=null}">
-										    	<label>结算时间</label>
+											<div class="form-group input-group"  th:if="${obj.settleTime!=null}" style="width:600px;">
+										    	<span class="input-group-addon" style="width:100px;">结算时间</span>
 										    	<input type="text" class="form-control" th:value="${#dates.format(obj.settleTime,'yyyy-MM-dd HH:mm:ss')}" maxlength="16">
 											</div>
-											<div class="form-group"  th:if="${obj.cancelTime!=null}">
-										    	<label>取消时间</label>
+											<div class="form-group input-group"  th:if="${obj.cancelTime!=null}" style="width:600px;">
+										    	<span class="input-group-addon" style="width:100px;">取消时间</span>
 										    	<input type="text" class="form-control" th:value="${#dates.format(obj.cancelTime,'yyyy-MM-dd HH:mm:ss')}" maxlength="16">
 											</div>
 								            <button type="button" class="btn btn-primary" id="saveBtn">返回</button>
@@ -90,31 +81,32 @@
 	                                </div>
 	                                <div class="tab-pane fade" id="profile">
 	                                   <div class="table-responsive">
-                                <table class="table">
-                                    <thead>
-                                        <tr>
-                                            <th>商品名</th>
-                                            <th>数量</th>
-                                            <th>规格</th>
-                                            <th>状态</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        <tr th:each="it:${obj.items}">
-                                            <td th:text="${it.goodsName}">1</td>
-                                            <td th:text="${it.count}">Mark</td>
-                                            <td th:text="${it.specName}">Otto</td>
-                                            <td th:text="${it.statusName}">@mdo</td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
+			                                <table class="table">
+			                                    <thead>
+			                                        <tr>
+			                                            <th>商品名</th>
+			                                            <th>数量</th>
+			                                            <th>规格</th>
+			                                            <th>金额</th>
+			                                            <th>状态</th>
+			                                        </tr>
+			                                    </thead>
+			                                    <tbody>
+			                                        <tr th:each="it:${obj.items}">
+			                                            <td th:text="${it.goodsName}"></td>
+			                                            <td th:text="${it.count}"></td>
+			                                            <td th:text="${it.specName}"></td>
+			                                            <td th:text="${it.amount}"></td>
+			                                            <td th:text="${it.statusName}"></td>
+			                                        </tr>
+			                                    </tbody>
+			                                </table>
+			                            </div>
 	                                </div>
 	                            </div>
 	                        </div>
 	                    </div>
                     </div>
-                 </div>
             </div>
         </div>
     </div>
