@@ -40,11 +40,9 @@ public class AdminInterceptor implements HandlerInterceptor {
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object arg2) throws Exception {
-		System.out.println("------------------------------------99999999999999999999-----------------------------");
+		System.out.println("------------------------------------99999999999999999999--------------" + request.getRequestURI());
 		request.setAttribute("_PATH", request.getContextPath());
 		String reqURI = request.getRequestURI();
-		if (reqURI.startsWith("/medical_wechat/"))
-			reqURI = reqURI.replace("/medical_wechat/", "/");
 
 		if (reqURI.contains("/admin")) {
 			if (reqURI.endsWith("admin/") || reqURI.endsWith("admin")||reqURI.endsWith("startLogin")) {
@@ -56,8 +54,8 @@ public class AdminInterceptor implements HandlerInterceptor {
 				response.sendRedirect(request.getContextPath()+"/admin");
 				return false;
 			}
+			
 			DataGrid<Catalog> catalogPagination = catalogService.getCatalogList(null, reqURI, null, 1,555);
-
 			// 该请求不在权限控制列表内，则直接忽略
 			if (catalogPagination.getRecords() == null || catalogPagination.getRecords().size() == 0) {
 				return true;
