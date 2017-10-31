@@ -44,7 +44,6 @@
 		</script>
 		<!--锁屏模板 end -->
 	</div>
-	<script type="text/javascript" src="${_PATH}/res/admin/datas/nav.js"></script>
     <script src="${_PATH}/res/admin/js/index.js"></script>
     <script>
 	    layui.use('layer', function() {
