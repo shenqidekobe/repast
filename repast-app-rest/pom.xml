@@ -69,7 +69,6 @@
 			<artifactId>gson</artifactId>
 		</dependency>
 
-
 		<!--spring swagger2 -->
 		<dependency>
 			<groupId>io.springfox</groupId>
@@ -140,7 +139,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 

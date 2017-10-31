@@ -1,21 +1,5 @@
 package com.yiyou.repast.platform.controller;
 
-import java.math.BigDecimal;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.platform.base.GlobalDefine;
 import com.yiyou.repast.platform.base.Navbar;
@@ -27,9 +11,17 @@ import com.yiyou.repast.platform.model.GroupAccess;
 import com.yiyou.repast.platform.service.IAdminService;
 import com.yiyou.repast.platform.service.ICatalogService;
 import com.yiyou.repast.platform.service.IGroupAccessService;
-
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import repast.yiyou.common.util.DataGrid;
 import repast.yiyou.common.util.EncryptUtil;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.math.BigDecimal;
+import java.util.*;
 
 /**
  * 应用首页
@@ -78,8 +70,7 @@ public class IndexController extends BaseController {
 		Map<String,BigDecimal> pieMap=new HashMap<String,BigDecimal>();
 		return pieMap;
 	}
-	
-	
+
 	/**
 	 * 进入登录页面
 	 * */

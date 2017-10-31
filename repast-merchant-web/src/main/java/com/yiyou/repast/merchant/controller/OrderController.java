@@ -1,24 +1,18 @@
 package com.yiyou.repast.merchant.controller;
 
-import java.util.Date;
-import java.util.List;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.base.RspResult;
 import com.yiyou.repast.merchant.base.ThreadContextHolder;
 import com.yiyou.repast.order.model.Order;
 import com.yiyou.repast.order.service.IOrderService;
-
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.*;
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
 import repast.yiyou.common.util.DataGrid;
+
+import java.util.Date;
+import java.util.List;
 
 /**
  * 订单管理控制器
@@ -52,7 +46,6 @@ public class OrderController {
 		model.addAttribute("obj",order);
 		return "/order/view";
 	}
-	
 	
 	@ResponseBody
 	@PostMapping("/toggle.do")

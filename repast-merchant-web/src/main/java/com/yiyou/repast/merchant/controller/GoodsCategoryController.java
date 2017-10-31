@@ -1,22 +1,20 @@
 package com.yiyou.repast.merchant.controller;
 
-import java.util.List;
-
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.base.RBeanUtils;
 import com.yiyou.repast.merchant.base.RspResult;
 import com.yiyou.repast.merchant.base.ThreadContextHolder;
 import com.yiyou.repast.merchant.model.GoodsCategory;
 import com.yiyou.repast.merchant.service.IGoodsCategoryService;
-
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import repast.yiyou.common.util.DataGrid;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/goods/category")
@@ -34,7 +32,6 @@ public class GoodsCategoryController {
     @ResponseBody
     @PostMapping("/listData.do")
     public List<GoodsCategory> catagoryListData(Integer page, Integer pageSize) {
-        // TODO: 2017/9/11  分页没做
         page = page == null ? page = 0 : page;
         pageSize = pageSize == null ? pageSize = 10 : pageSize;
         DataGrid<GoodsCategory> data = this.goodsCategoryService.findList(ThreadContextHolder.getCurrentMerchantId(), page, pageSize);

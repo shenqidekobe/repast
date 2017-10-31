@@ -1,28 +1,19 @@
 package com.yiyou.repast.rest.interceptor;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.concurrent.Semaphore;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
-import org.springframework.util.StringUtils;
-import org.springframework.web.servlet.HandlerInterceptor;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.google.gson.Gson;
 import com.yiyou.repast.rest.base.AppResult;
 import com.yiyou.repast.rest.base.LogHelper;
 import com.yiyou.repast.rest.base.OnlineAccount;
-
+import org.springframework.util.StringUtils;
+import org.springframework.web.servlet.HandlerInterceptor;
+import org.springframework.web.servlet.ModelAndView;
 import repast.yiyou.common.util.EncryptUtil;
 import repast.yiyou.common.util.LoggerUtil;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.*;
+import java.util.concurrent.Semaphore;
 
 /**
  * APP接口安全拦截器
@@ -48,6 +39,7 @@ public class AppSafetyInterceptor implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest arg0, HttpServletResponse arg1, Object arg2, ModelAndView mav)
 			throws Exception {
+
 	}
 
 	@Override
@@ -96,7 +88,8 @@ public class AppSafetyInterceptor implements HandlerInterceptor{
 					String.format("LocalRequestQuery: %s", sb.toString()),
 					String.format("Method: %s", method),
 					String.format("Sign: %s", reqSign+"  equals  "+sign),
-					String.format("Host: %s", host), String.format("RequestParameters: %s", paramMap.toString()));
+					String.format("Host: %s", host),
+					String.format("RequestParameters: %s", paramMap.toString()));
 	        LoggerUtil.info("\n" + logs + "\n");
 	      
 	        if(!sign.equals(reqSign)){

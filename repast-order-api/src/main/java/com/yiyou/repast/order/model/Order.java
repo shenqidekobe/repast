@@ -1,26 +1,15 @@
 package com.yiyou.repast.order.model;
 
-import java.io.Serializable;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-import javax.persistence.OrderBy;
-import javax.persistence.Table;
-
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
 import repast.yiyou.common.base.EnumDefinition.PayWay;
 import repast.yiyou.common.util.CommonUtils;
+
+import javax.persistence.*;
+import java.io.Serializable;
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.Set;
+import java.util.TreeSet;
 
 /**
  * 订单表
@@ -64,8 +53,8 @@ public class Order implements Serializable{
 	private Long createUser;//下单用户
 	
 	@OneToMany(fetch = FetchType.EAGER, mappedBy = "order",cascade=CascadeType.REMOVE)
-	@OrderBy("id desc")
-	private Set<OrderItem> items = new HashSet<>();
+	@OrderBy("id desc ")
+	private Set<OrderItem> items = new TreeSet<>();
 	
 	public Long getId() {
 		return id;
