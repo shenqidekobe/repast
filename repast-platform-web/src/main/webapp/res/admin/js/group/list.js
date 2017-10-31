@@ -128,23 +128,17 @@ layui.use(['icheck', 'laypage','layer','reuse','form'], function() {
 		var id=$(this).parent().attr("id");
 		layer.confirm('确定要删除此角色嘛？', {icon: 3, title:'确认提示'}, function(index){
 			var loading = layer.load();
-			$.ajax({
-				url:ctx+'/admin/group/remove',
-				type:'POST',
-				data:{id:id},
-				dataType:'json',
-				success:function(rsp){
-					if("success"==rsp){
+			$.post(ctx+'/admin/group/remove',{id:id},function(data){
+					if("success"==data){
 						layer.close(loading);
 						layer.msg("删除成功");
 						loadList(currPage,10);
 						layer.close(index);
 					}else{
 						layer.close(loading);
-						layer.msg('角色已被使用，删除失败');
+						layer.msg('角色正在使用，删除失败');
 						layer.close(index)
 					}
-				}
 			});
 		});
 	}
