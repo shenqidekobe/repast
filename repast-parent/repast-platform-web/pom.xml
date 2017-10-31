@@ -8,6 +8,7 @@
 	</parent>
 	<artifactId>repast-platform-web</artifactId>
 	<name>repast platform web manager system</name>
+	<packaging>war</packaging>
 
 	<dependencies>
 		<dependency>

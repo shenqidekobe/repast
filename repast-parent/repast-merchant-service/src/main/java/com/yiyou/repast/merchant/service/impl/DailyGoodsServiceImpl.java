@@ -16,19 +16,19 @@ import java.util.List;
 public class DailyGoodsServiceImpl implements IDailyGoodsService {
 
     @Resource
-    private DailyGoodsRepository dailyGoodsRepository;
+    private DailyGoodsRepository dailyRepository;
 
     @Resource
     private GoodsRepository goodsRepository;
 
     @Override
     public List<DailyGoods> findByDate(Long merchantId, String date) {
-        return dailyGoodsRepository.findByDate(merchantId, date);
+        return dailyRepository.findByDate(merchantId, date);
     }
 
     @Override
     public void editByDate(Long merchantId, String date, List<Long> goodsIds) {
-        dailyGoodsRepository.deleteByDate(merchantId, date);
+        dailyRepository.deleteByDate(merchantId, date);
         List<Goods> byIds = goodsRepository.findByIds(merchantId, goodsIds);
         List<DailyGoods> list = new ArrayList<>();
         for (Goods goods : byIds) {
@@ -39,6 +39,6 @@ public class DailyGoodsServiceImpl implements IDailyGoodsService {
             dailyGoods.setCreateTime(new Date());
             list.add(dailyGoods);
         }
-        dailyGoodsRepository.save(list);
+        dailyRepository.save(list);
     }
 }

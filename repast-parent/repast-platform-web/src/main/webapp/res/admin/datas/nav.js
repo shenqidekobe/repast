@@ -32,6 +32,10 @@ var navs = [{
 		"icon": "&#xe63c;",
 		"href":  ctx+"/admin/group"
 	}, {
+        "title": "商户管理",
+        "icon": "&#xe60a;",
+        "href":  ctx+"/admin/merchant"
+    }, {
 		"title": "菜单管理",
 		"icon": "&#xe628;",
 		"href":  ctx+"/admin/catalog"

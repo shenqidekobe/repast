@@ -125,7 +125,7 @@
 		form.on('submit(save)', function(data) {
 			var loading=layer.load(2);
 			$.ajax({
-				url:ctx+'/admin/catalog/save',
+				url:ctx+'/admin/catalog/admin/catalog/save',
 				type:'POST',
 				data:data.field,
 				success:function(rsp){

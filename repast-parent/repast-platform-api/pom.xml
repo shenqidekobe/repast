@@ -15,6 +15,24 @@
 			<artifactId>repast-common-util</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<!--支付beans-->
+		<dependency>
+			<groupId>com.yiyou.repast</groupId>
+			<artifactId>repast-pay-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!--订单beans-->
+		<dependency>
+			<groupId>com.yiyou.repast</groupId>
+			<artifactId>repast-order-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<!--商户beans-->
+		<dependency>
+			<groupId>com.yiyou.repast</groupId>
+			<artifactId>repast-merchant-api</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.0-api</artifactId>

@@ -1,18 +1,5 @@
 package com.yiyou.repast.rest.controller;
 
-import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import org.apache.commons.lang3.StringUtils;
-import org.apache.commons.lang3.time.DateFormatUtils;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.yiyou.repast.merchant.model.Goods;
@@ -23,15 +10,21 @@ import com.yiyou.repast.order.model.Order;
 import com.yiyou.repast.order.model.OrderItem;
 import com.yiyou.repast.order.service.IOrderService;
 import com.yiyou.repast.rest.base.AppResult;
-
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiImplicitParam;
-import io.swagger.annotations.ApiImplicitParams;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import io.swagger.annotations.*;
+import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang3.time.DateFormatUtils;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import repast.yiyou.common.base.EnumDefinition.OrderStaus;
 import repast.yiyou.common.util.DataGrid;
+
+import java.math.BigDecimal;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Api(value="订单处理",tags="订单中心")
 @RestController
@@ -76,7 +69,6 @@ public class OrderController {
 		Order order=orderService.findById(id);
 		return new AppResult(objectMapper.writeValueAsString(order));
 	}
-	
 
 	@PostMapping("/update")
 	@ApiOperation(value="更新订单",notes="更新订单的状态信息")
