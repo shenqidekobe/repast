@@ -54,7 +54,7 @@ public class IndexController extends BaseController {
 		if (obj == null) {
 			return "redirect:/admin";
 		}
-		return "/admin/index";
+		return "admin/index";
 	}
 	
 	/**
@@ -66,7 +66,7 @@ public class IndexController extends BaseController {
 		SystemInfo system=SystemInfo.getInstance(request);
 		model.addAttribute("system", system);
 		model.addAttribute("allCount",111);
-		return "/admin/main";
+		return "admin/main";
 	}
 	
 	/**
@@ -89,7 +89,7 @@ public class IndexController extends BaseController {
 		if (obj != null) {
 			return "redirect:/admin/index";
 		}
-		return "/admin/login";
+		return "admin/login";
 	}
 	
 	/**
@@ -99,6 +99,7 @@ public class IndexController extends BaseController {
 	@RequestMapping("startLogin")
 	public String startLogin(String loginName,String password, HttpServletRequest request) {
 		Admin obj=this.adminService.find(loginName, password);
+		
 		if(obj==null)return GlobalDefine.JS_DEFINED.JS_RESULT.FAIL;
 		//判断是否有权限登录
 		DataGrid<GroupAccess> data=groupAccessService.findGroupAccessList(Integer.valueOf(obj.getGroupId()),0,555);
@@ -165,7 +166,7 @@ public class IndexController extends BaseController {
 		Integer id=getAdminUserId(req);
 		Admin obj=this.adminService.getById(id);
 		model.addAttribute("obj",obj);
-		return "/admin/setting";
+		return "admin/setting";
 	}
 	
 	/**
