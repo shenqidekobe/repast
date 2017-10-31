@@ -21,7 +21,7 @@
 					<a href="#">
 						<h1>${allCount}</h1>
 					</a>
-					<p>预约总数</p>
+					<p>订单总数</p>
 				</div>
 			</section>
 		</div>
@@ -34,7 +34,7 @@
 					<a href="#">
 						<h1>${dayCount}</h1>
 					</a>
-					<p>今日预约</p>
+					<p>今日订单</p>
 				</div>
 			</section>
 		</div>
@@ -46,9 +46,9 @@
 				</div>
 				<div class="value">
 					<a href="#">
-						<h1>${passCount}</h1>
+						<h1>${unpayCount}</h1>
 					</a>
-					<p>待确认</p>
+					<p>待支付</p>
 				</div>
 			</section>
 		</div>
@@ -59,31 +59,29 @@
 				</div>
 				<div class="value">
 					<a href="#">
-						<h1>${treatmentCount}</h1>
+						<h1>${payedCount}</h1>
 					</a>
-					<p>已就诊</p>
+					<p>已支付</p>
 				</div>
 			</section>
 		</div>
-
-		<div class="col-xs-6 col-sm-4 col-md-2">
-			<section class="panel">
-				<div class="symbol bgcolor-orange">
-					<i class="iconfont"></i>
-				</div>
-				<div class="value">
-					<a href="#">
-						<h1>${renegeCount}</h1>
-					</a>
-					<p>已失约</p>
-				</div>
-			</section>
-		</div>
-
 		<div class="col-xs-6 col-sm-4 col-md-2">
 			<section class="panel">
 				<div class="symbol bgcolor-yellow">
 					<i class="iconfont"></i>
+				</div>
+				<div class="value">
+					<a href="#">
+						<h1>${finishedCount}</h1>
+					</a>
+					<p>已完成</p>
+				</div>
+			</section>
+		</div>
+		<div class="col-xs-6 col-sm-4 col-md-2">
+			<section class="panel">
+				<div class="symbol bgcolor-orange">
+					<i class="iconfont"></i>
 				</div>
 				<div class="value">
 					<a href="#">
@@ -93,9 +91,7 @@
 				</div>
 			</section>
 		</div>
-
 	</div>
-
 	<div class="row">
 		<div class="col-xs-12 col-md-6">
 			<section class="panel">
