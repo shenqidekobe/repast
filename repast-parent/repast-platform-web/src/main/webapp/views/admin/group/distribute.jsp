@@ -42,22 +42,17 @@
 					}
 				});
 				var loading = layer.load();
-				$.ajax({
-					url:ctx+'/admin/group/distribute/save',
-					type:'POST',
-					data:{id:data.field.id,catalogIds:catalogIds},
-					dataType:'json',
-					success:function(rsp){
-						if("success"==rsp){
-							layer.msg('保存成功');
-							setTimeout(function () {
-							   layer.closeAll();
-					        }, 1000);
-						}else{
-							layer.msg('保存失败');
-						}
+				var tmpCatalogIds = catalogIds.join(',');
+				$.post(ctx+'/admin/group/distribute/save',{id:data.field.id,catalogIds:tmpCatalogIds},function(data){
+					if("success"==data){
+						layer.msg('保存成功');
+						setTimeout(function () {
+						   layer.closeAll();
+				        }, 1000);
+					}else{
+						layer.msg('保存失败');
 					}
-				});
+			});
 				return false;
 			});
 	});
