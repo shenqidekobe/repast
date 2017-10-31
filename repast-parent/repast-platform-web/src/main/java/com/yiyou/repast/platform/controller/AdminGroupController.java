@@ -55,7 +55,7 @@ public class AdminGroupController extends BaseController {
 	 */
 	@RequestMapping(value = "")
 	public String index(Model model, HttpServletRequest request) {
-		return "/admin/group/list";
+		return "admin/group/list";
 	}
 
 	/**
@@ -66,7 +66,7 @@ public class AdminGroupController extends BaseController {
 		page=page==null?page=0:page-1;
 		DataGrid<Group> groupPage = groupService.findGroupList(name,page,pageSize);
 		model.addAttribute("dataPage", groupPage);
-		return "/admin/group/list_frag";
+		return "admin/group/list_frag";
 	}
 
 	/**
@@ -82,7 +82,7 @@ public class AdminGroupController extends BaseController {
 			Group group = groupService.getById(id);
 			model.addAttribute("obj", group);
 		}
-		return "/admin/group/edit";
+		return "admin/group/edit";
 	}
 
 	/**
@@ -175,7 +175,7 @@ public class AdminGroupController extends BaseController {
 		}
 		model.addAttribute("obj", group);
 		model.addAttribute("dataPage", catalogPage);
-		return "/admin/group/distribute";
+		return "admin/group/distribute";
 	}
 
 
@@ -191,7 +191,7 @@ public class AdminGroupController extends BaseController {
 	@ResponseBody
 	public String distribute_save(@RequestParam(required = true) Integer id,
 			Model model, HttpServletRequest request) {
-		String[] catalogIds = request.getParameterValues("catalogIds[]");
+		String catalogIds = request.getParameter("catalogIds");
 		// 删掉原来该用户组的权限
 		DataGrid<GroupAccess> groupAccessPage = groupAccessService
 				.findGroupAccessList(id, 0,555);
@@ -199,8 +199,8 @@ public class AdminGroupController extends BaseController {
 			groupAccessService.remove(ga);
 		}
 		// 保存该用户组新的权限
-		if (catalogIds != null && catalogIds.length > 0) {
-			for (String cid : catalogIds) {
+		if (catalogIds != null && !catalogIds.equals(",")) {
+			for (String cid : catalogIds.split(",")) {
 				GroupAccess ga = new GroupAccess();
 				ga.setCatalogId(Integer.valueOf(cid));
 				ga.setGroupId(id);
