@@ -83,10 +83,7 @@ layui.use(['icheck', 'laypage', 'layer', 'reuse', 'form'], function () {
         });
     }
 
-    function edit() {
-        var id = $(this).parent().attr("id");
-        //
-    }
+
 
 
 });
