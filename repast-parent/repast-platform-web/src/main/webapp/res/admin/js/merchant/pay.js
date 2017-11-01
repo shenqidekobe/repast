@@ -13,7 +13,7 @@ layui.use(['icheck', 'laypage', 'layer', 'reuse', 'form'], function () {
     form.render('select');
 
     function loadList(page, pageSize) {
-        // var loading = layer.load();
+        var loading = layer.load();
         $.ajax({
             url: ctx + '/pay/listData',
             type: 'POST',
@@ -43,50 +43,6 @@ layui.use(['icheck', 'laypage', 'layer', 'reuse', 'form'], function () {
             }
         });
     }
-
     loadList(1, 10);
-
-    $('#add').on('click', function () {
-        showForm(null);
-    });
-
-    function showForm(id) {
-        var loading = layer.load();
-        $.get(ctx + '/admin/admin/edit', {id: id}, function (form) {
-            layer.open({
-                type: 1,
-                title: '用户信息表单',
-                content: form,
-                area: ['500px', '450px'],
-                maxmin: true,
-                yes: function (index) {
-                    console.info(index);
-                },
-                success: function (layero, index) {
-                    layer.close(loading);
-                },
-                end: function () {
-                    loadList(currPage, 10);
-                },
-                full: function (elem) {
-                    var win = window.top === window.self ? window : parent.window;
-                    $(win).on('resize', function () {
-                        var $this = $(this);
-                        elem.width($this.width()).height($this.height()).css({
-                            top: 0,
-                            left: 0
-                        });
-                        elem.children('div.layui-layer-content').height($this.height() - 95);
-                    });
-                }
-            });
-        });
-    }
-
-    function edit() {
-        var id = $(this).parent().attr("id");
-        //
-    }
-
 
 });

@@ -6,22 +6,22 @@
         <table class="site-table table-hover">
             <thead>
             <tr>
-                <th>商户名</th>
-                <th>类型</th>
-                <th>地址</th>
-                <th>状态</th>
-                <th>创建时间</th>
+                <th>商户id</th>
+                <th>订单id</th>
+                <th>金额</th>
+                <th>支付渠道</th>
+                <th>支付时间</th>
                 <th>操作</th>
             </tr>
             </thead>
             <tbody>
             <c:forEach items="${dataPage.records}" var="it">
                 <tr>
-                    <td>${it.name}</td>
-                    <td>${it.type.name}</td>
-                    <td>${it.address}</td>
-                    <td>${it.status.name}</td>
-                    <td><fmt:formatDate value="${it.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    <td>${it.merchantId}</td>
+                    <td>${it.orderId}</td>
+                    <td>${it.amount}</td>
+                    <td>${it.channel}</td>
+                    <td><fmt:formatDate value="${it.payTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
                 </tr>
             </c:forEach>
             </tbody>

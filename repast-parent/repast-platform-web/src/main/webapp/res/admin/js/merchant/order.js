@@ -13,11 +13,15 @@ layui.use(['icheck', 'laypage', 'layer', 'reuse', 'form'], function () {
     form.render('select');
 
     function loadList(page, pageSize) {
+        var merchantId=$("#merchantId").val();
+        if (isNaN(merchantId)) {
+            return;
+        }
         var loading = layer.load();
         $.ajax({
             url: ctx + '/order/listData',
             type: 'POST',
-            data: {page: page, pageSize: pageSize},
+            data: {merchantId:merchantId,page: page, pageSize: pageSize},
             success: function (data) {
                 $("#dataList").html(data);
 
@@ -44,4 +48,10 @@ layui.use(['icheck', 'laypage', 'layer', 'reuse', 'form'], function () {
         });
     }
     loadList(1, 10);
+
+    $('#search').on('click', function() {
+        pageFlag=false;
+        loadList(1,10);
+    });
+
 });
