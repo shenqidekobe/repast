@@ -2,7 +2,7 @@ package com.yiyou.repast.platform.controller;
 
 import com.alibaba.dubbo.config.annotation.Reference;
 import com.yiyou.repast.merchant.model.Merchant;
-import com.yiyou.repast.platform.service.IMerchantManageService;
+import com.yiyou.repast.merchant.service.IMerchantService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -17,7 +17,7 @@ import repast.yiyou.common.util.DataGrid;
 public class MerchantController extends BaseController {
 
     @Reference
-    private IMerchantManageService merchantService;
+    private IMerchantService merchantService;
 
     @RequestMapping()
     public String index() {
@@ -25,9 +25,9 @@ public class MerchantController extends BaseController {
     }
 
     /**
-     * 角色列表
+     * 商户列表
      */
-    @RequestMapping(value = "userListData", method = RequestMethod.POST)
+    @RequestMapping(value = "listData", method = RequestMethod.POST)
     public String userList(Model model, Integer page, Integer pageSize) {
         page = page == null ? page = 0 : page - 1;
         pageSize = pageSize == null ? page = 10 : pageSize;
