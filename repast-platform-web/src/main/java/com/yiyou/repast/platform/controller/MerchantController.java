@@ -36,12 +36,20 @@ public class MerchantController extends BaseController {
         return "admin/merchant/list_frag";
     }
 
-    /**
-     * 修改帐户状态
-     */
-    @RequestMapping(value = "edit", method = RequestMethod.POST)
-    public Merchant edit(Merchant obj) {
+
+    @RequestMapping("save")
+    public Merchant save(Merchant obj) {
         return merchantService.save(obj);
     }
+
+    @RequestMapping("edit")
+    public String edit(Model model, Long id) {
+        if (id != null) {
+            Merchant merchant = merchantService.find(id);
+            model.addAttribute("obj", merchant);
+        }
+        return "/admin/merchant/info";
+    }
+
 
 }

@@ -13,9 +13,7 @@ import repast.yiyou.common.util.DataGrid;
 @Controller
 @RequestMapping("order")
 public class OrderController {
-    /**
-     * 由repast-order-service提供
-     */
+
     @Reference
     private IOrderService orderService;
 

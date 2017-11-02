@@ -84,6 +84,4 @@ layui.use(['icheck', 'laypage', 'layer', 'reuse', 'form'], function () {
     }
 
 
-
-
 });

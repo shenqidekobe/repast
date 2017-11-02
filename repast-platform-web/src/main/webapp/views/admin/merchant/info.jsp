@@ -3,22 +3,22 @@
 <div style="margin: 15px;">
     <form class="layui-form layui-form-pane" action="">
         <div class="layui-form-item">
-            <label class="layui-form-label">帐号</label>
+            <label class="layui-form-label">商户名</label>
             <div class="layui-input-inline">
                 <input type="hidden" name="id" id="id" value="${obj.id}">
-                <input type="text" name="loginName" lay-verify="loginName" value="${obj.loginName}" autocomplete="off" class="layui-input">
+                <input type="text" name="name" lay-verify="name" value="${obj.name}" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">昵称</label>
+            <label class="layui-form-label">商户类型</label>
             <div class="layui-input-inline">
                 <input type="text" name="nickName" lay-verify="required" value="${obj.nickName}" autocomplete="off" class="layui-input">
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">帐号密码</label>
+            <label class="layui-form-label">商户地址</label>
             <div class="layui-input-inline">
-                <input type="password" name="password" lay-verify="password" value="${obj.password}" placeholder="请输入密码" autocomplete="off" class="layui-input">
+                <input type="text" name="address" lay-verify="address" value="${obj.address}" placeholder="请输入密码" autocomplete="off" class="layui-input">
             </div>
             <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
         </div>
