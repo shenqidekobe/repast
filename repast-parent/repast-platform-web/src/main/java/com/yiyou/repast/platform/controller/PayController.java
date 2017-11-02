@@ -12,9 +12,7 @@ import repast.yiyou.common.util.DataGrid;
 @Controller
 @RequestMapping("pay")
 public class PayController {
-    /**
-     * 由repast-pay-service提供
-     */
+
     @Reference
     private IPaymentRecordService recordService;
 
