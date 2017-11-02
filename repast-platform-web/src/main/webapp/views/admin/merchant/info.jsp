@@ -20,7 +20,7 @@
             <div class="layui-input-inline">
                 <input type="text" name="address" lay-verify="address" value="${obj.address}" placeholder="请输入密码" autocomplete="off" class="layui-input">
             </div>
-            <div class="layui-form-mid layui-word-aux">请填写6到12位密码</div>
+            <div class="layui-form-mid layui-word-aux">商户地址</div>
         </div>
         <div class="layui-form-item">
             <label class="layui-form-label">联系电话</label>
