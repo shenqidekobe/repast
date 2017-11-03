@@ -22,6 +22,9 @@
                     <td>${it.address}</td>
                     <td>${it.status.name}</td>
                     <td><fmt:formatDate value="${it.createTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+                    <td id="${it.id}">
+                        <a href="javascript:void(0);" class="layui-btn layui-btn-mini" id="edit">编辑</a>
+                    </td>
                 </tr>
             </c:forEach>
             </tbody>
