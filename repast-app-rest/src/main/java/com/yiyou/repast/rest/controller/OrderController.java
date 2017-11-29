@@ -50,8 +50,10 @@ public class OrderController {
 		@ApiImplicitParam(name = "page", value = "页码，从0开始", required = true, dataType = "Integer"), 
 		@ApiImplicitParam(name = "pageSize", value = "每页数量", required = true, dataType = "Integer") })
 	public AppResult list(Long merchantId,String deskNum,String status,int page,int pageSize)throws Exception {
-		if(StringUtils.isEmpty(status)) status=OrderStaus.await.name();
-		OrderStaus orderStatus=OrderStaus.valueOf(OrderStaus.class, status);
+		OrderStaus orderStatus=null;
+		if(!StringUtils.isEmpty(status)) {
+			orderStatus=OrderStaus.valueOf(OrderStaus.class, status);
+		}
 		String startTime=DateFormatUtils.format(new Date(), "yyyy-MM-dd");
 		String endTime=DateFormatUtils.format(new Date(), "yyyy-MM-dd");
 		DataGrid<Order> data=orderService.findOrderList(merchantId, null, deskNum, orderStatus, startTime, endTime, page, pageSize);
@@ -154,16 +156,17 @@ public class OrderController {
 	public AppResult removeItem(Long id,Long itemId,Long accountId) throws Exception{
 		Order order=this.orderService.findById(id);
 		if(order==null) {return new AppResult(AppResult.OBJECT_NULL,"订单不存在");}
-		int size=order.getItems().size();
 		OrderItem item=this.orderService.findItemById(itemId);
-		orderService.removeOrderItem(item);
-		
+		item.setStatus(OrderStaus.cancel);//订单项状态改为取消
+		this.orderService.updateOrderItem(item);
+		int size=order.getItems().size();
 		if(size==1) {
-			this.orderService.remove(id);
-			return new AppResult();
+			order.setStatus(OrderStaus.cancel);//只有一个订单项被取消则整个订单为取消
 		}
 		//更新订单的总价
 		order.setAmount(order.getAmount().subtract(item.getAmount()));
+		BigDecimal ca=order.getCancelAmount()==null?new BigDecimal(0):order.getCancelAmount();
+		order.setCancelAmount(ca.add(item.getAmount()));
 		this.orderService.update(order);
 		return new AppResult();
 	}
